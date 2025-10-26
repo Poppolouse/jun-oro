@@ -1,0 +1,158 @@
+<Window x:Class="NotionCodeAutomator.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Notion Code Automator" Height="600" Width="1000"
+        WindowStartupLocation="CenterScreen"
+        Background="#F7F7F5">
+
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Başlık -->
+        <TextBlock Grid.Row="0" Text="🔧 Notion Code Automator" 
+                   FontSize="24" FontWeight="Bold" 
+                   Foreground="#37352F"
+                   Margin="0,0,0,15"/>
+
+        <!-- Ana İçerik Alanı -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- SOL PANEL: JSON Girişi -->
+            <Border Grid.Column="0" BorderBrush="#E0E0E0" BorderThickness="1" 
+                    CornerRadius="8" Background="White" Padding="10">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Sol Panel Başlık -->
+                    <TextBlock Grid.Row="0" Text="📋 JSON Talimatları" 
+                               FontSize="16" FontWeight="SemiBold"
+                               Foreground="#37352F"
+                               Margin="0,0,0,10"/>
+
+                    <!-- JSON TextBox -->
+                    <TextBox Grid.Row="1" Name="JsonInputTextBox" 
+                             TextWrapping="Wrap" 
+                             AcceptsReturn="True"
+                             VerticalScrollBarVisibility="Auto"
+                             FontFamily="Consolas" FontSize="12"
+                             BorderThickness="0"
+                             Background="#FAFAFA"
+                             Padding="10"/>
+
+                    <!-- Git Checkbox -->
+                    <StackPanel Grid.Row="2" Orientation="Horizontal" 
+                                HorizontalAlignment="Left" Margin="0,10,0,0">
+                        <CheckBox Name="AutoGitCheckBox" Content="🔄 Otomatik Git Push" 
+                                  IsChecked="True" 
+                                  FontSize="12" 
+                                  VerticalAlignment="Center"/>
+                        <TextBlock Name="GitInfoTextBlock" 
+                                   Text="" 
+                                   FontSize="10" 
+                                   Foreground="Gray" 
+                                   Margin="10,0,0,0" 
+                                   VerticalAlignment="Center"/>
+                    </StackPanel>
+
+                    <!-- Sol Panel Butonlar -->
+                    <StackPanel Grid.Row="3" Orientation="Horizontal" 
+                                HorizontalAlignment="Right" Margin="0,10,0,0">
+                        <Button Name="ClearButton" Content="🗑️ Temizle" 
+                                Width="100" Height="35" 
+                                Background="#E0E0E0" 
+                                BorderThickness="0" 
+                                Cursor="Hand" 
+                                Margin="0,0,10,0"
+                                Click="ClearButton_Click"/>
+                        <Button Name="ExecuteButton" Content="▶️ Uygula" 
+                                Width="120" Height="35" 
+                                Background="#2ECC71" 
+                                Foreground="White"
+                                FontWeight="Bold"
+                                BorderThickness="0" 
+                                Cursor="Hand"
+                                Click="ExecuteButton_Click"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- SAĞ PANEL: Log Çıktısı -->
+            <Border Grid.Column="2" BorderBrush="#E0E0E0" BorderThickness="1" 
+                    CornerRadius="8" Background="White" Padding="10">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Sağ Panel Başlık -->
+                    <TextBlock Grid.Row="0" Text="📊 İşlem Logları" 
+                               FontSize="16" FontWeight="SemiBold"
+                               Foreground="#37352F"
+                               Margin="0,0,0,10"/>
+
+                    <!-- Log TextBox -->
+                    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                        <TextBlock Name="LogTextBlock" 
+                                   TextWrapping="Wrap"
+                                   FontFamily="Consolas" FontSize="11"
+                                   Background="#FAFAFA"
+                                   Padding="10"/>
+                    </ScrollViewer>
+
+                    <!-- Sağ Panel Butonlar -->
+                    <StackPanel Grid.Row="2" Orientation="Horizontal" 
+                                HorizontalAlignment="Right" Margin="0,10,0,0">
+                        <Button Name="CopyLogButton" Content="📋 Kopyala" 
+                                Width="100" Height="30" 
+                                Background="#3498DB" 
+                                Foreground="White"
+                                BorderThickness="0" 
+                                Cursor="Hand" 
+                                Margin="0,0,10,0"
+                                Click="CopyLogButton_Click"/>
+                        <Button Name="ClearLogButton" Content="🗑️ Logları Temizle" 
+                                Width="140" Height="30" 
+                                Background="#E0E0E0" 
+                                BorderThickness="0" 
+                                Cursor="Hand"
+                                Click="ClearLogButton_Click"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Grid>
+
+        <!-- Alt Kısım: Status Bar -->
+        <Border Grid.Row="2" Background="#37352F" 
+                CornerRadius="5" Padding="10" Margin="0,10,0,0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0" Text="⚡ Durum:" 
+                           Foreground="White" FontWeight="SemiBold"
+                           Margin="0,0,10,0"/>
+                <TextBlock Grid.Column="1" Name="StatusTextBlock" 
+                           Text="Hazır" 
+                           Foreground="#2ECC71" FontWeight="SemiBold"/>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

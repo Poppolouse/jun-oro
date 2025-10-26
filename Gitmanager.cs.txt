@@ -1,0 +1,146 @@
+using System;
+using System.IO;
+using LibGit2Sharp;
+
+namespace NotionCodeAutomator
+{
+    public class GitManager
+    {
+        private string _repoPath;
+        public event Action<string, bool> OnLog; // message, isError
+
+        public GitManager(string repoPath)
+        {
+            _repoPath = repoPath;
+        }
+
+        // Git repository var mı kontrol et
+        public bool IsGitRepository()
+        {
+            try
+            {
+                string gitPath = Path.Combine(_repoPath, ".git");
+                return Directory.Exists(gitPath);
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        // Değişiklikleri commit ve push yap
+        public bool CommitAndPush(int operationCount)
+        {
+            try
+            {
+                if (!IsGitRepository())
+                {
+                    OnLog?.Invoke("⚠️ Git repository bulunamadı. Önce 'git init' yapın.", true);
+                    return false;
+                }
+
+                using (var repo = new Repository(_repoPath))
+                {
+                    // Değişiklik var mı kontrol et
+                    var status = repo.RetrieveStatus();
+                    if (!status.IsDirty)
+                    {
+                        OnLog?.Invoke("ℹ️ Commit edilecek değişiklik yok.", false);
+                        return true;
+                    }
+
+                    // Stage all changes
+                    Commands.Stage(repo, "*");
+                    OnLog?.Invoke("🔄 Dosyalar staged edildi.", false);
+
+                    // Commit
+                    string message = $"[NotionAutomator] {operationCount} işlem uygulandı - {DateTime.Now:yyyy-MM-dd HH:mm}";
+                    var signature = new Signature("NotionAutomator", "automator@notion.local", DateTimeOffset.Now);
+
+                    try
+                    {
+                        repo.Commit(message, signature, signature);
+                        OnLog?.Invoke($"💾 Commit: {message}", false);
+                    }
+                    catch (EmptyCommitException)
+                    {
+                        OnLog?.Invoke("ℹ️ Boş commit, atlanıyor.", false);
+                        return true;
+                    }
+
+                    // Push
+                    try
+                    {
+                        var remote = repo.Network.Remotes["origin"];
+                        if (remote == null)
+                        {
+                            OnLog?.Invoke("⚠️ Remote 'origin' bulunamadı. Önce remote ekleyin.", true);
+                            return false;
+                        }
+
+                        var currentBranch = repo.Head;
+
+                        // Credential provider ile push
+                        var pushOptions = new PushOptions
+                        {
+                            CredentialsProvider = (url, usernameFromUrl, types) =>
+                            {
+                                // Windows Credential Manager'dan otomatik okumayı dene
+                                return new DefaultCredentials();
+                            }
+                        };
+
+                        try
+                        {
+                            repo.Network.Push(currentBranch, pushOptions);
+                            OnLog?.Invoke($"🚀 Push başarılı! → {currentBranch.FriendlyName}", false);
+                            return true;
+                        }
+                        catch
+                        {
+                            // Fallback: Kullanıcıdan token iste
+                            OnLog?.Invoke("⚠️ Credential hatası. Manuel push gerekli:", true);
+                            OnLog?.Invoke("Terminal'de şunu çalıştır:", false);
+                            OnLog?.Invoke($"cd \"{_repoPath}\"", false);
+                            OnLog?.Invoke("git push", false);
+                            return false;
+                        }
+                    }
+                    catch (Exception pushEx)
+                    {
+                        OnLog?.Invoke($"❌ Push hatası: {pushEx.Message}", true);
+                        OnLog?.Invoke("💡 Çözüm: Terminal'den manuel push yap", false);
+                        OnLog?.Invoke($"cd \"{_repoPath}\" && git push", false);
+                        return false;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                OnLog?.Invoke($"❌ Git hatası: {ex.Message}", true);
+                return false;
+            }
+        }
+
+        // Repository bilgilerini göster
+        public string GetRepositoryInfo()
+        {
+            try
+            {
+                if (!IsGitRepository())
+                    return "Git repository değil";
+
+                using (var repo = new Repository(_repoPath))
+                {
+                    var branch = repo.Head.FriendlyName;
+                    var remote = repo.Network.Remotes["origin"]?.Url ?? "Remote yok";
+                    return $"Branch: {branch} | Remote: {remote}";
+                }
+            }
+            catch (Exception ex)
+            {
+                return $"Hata: {ex.Message}";
+            }
+        }
+    }
+}
