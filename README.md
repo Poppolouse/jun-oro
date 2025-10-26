@@ -1,12 +1,20 @@
-<<<<<<< HEAD
-# My Web Project
+# Personal Hub
 
-Bu proje Notion AI ve Code Automator ile geliştirildi.
+🎮 Günlük hayat uygulamaları platformu
 
-## Özellikler
-- Otomatik dosya oluşturma
-- GitHub entegrasyonu
-- AI destekli geliştirme
-=======
-# jun-oro
->>>>>>> 108d61ca72a4b025e47b46605277d9b595469ae2
+## Uygulamalar
+
+- **Arkade** - Gaming companion app
+
+## Tech Stack
+
+- React 18 + Vite
+- TailwindCSS
+- Zustand
+- React Router
+
+## Tasarım Dili
+
+- Gaming dashboard aesthetic
+- Glassmorphism + Neon colors
+- Dark mode native

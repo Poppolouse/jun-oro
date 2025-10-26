@@ -33,3 +33,28 @@ export default {
   },
   plugins: [],
 }
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: [
+    "./index.html",
+    "./src/**/*.{js,jsx}",
+  ],
+  theme: {
+    extend: {
+      colors: {
+        'deep-purple': '#1a0f2e',
+        'neon-green': '#00ff88',
+        'neon-pink': '#ff3366',
+        'neon-purple': '#a855f7',
+        'neon-cyan': '#00d9ff',
+      },
+      backgroundImage: {
+        'glass': 'linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05))',
+      },
+      backdropBlur: {
+        'xs': '2px',
+      },
+    },
+  },
+  plugins: [],
+}

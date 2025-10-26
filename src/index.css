@@ -1,20 +1,32 @@
-/* Design System Import */
-@import './design-system.css';
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+@layer base {
+  body {
+    @apply antialiased;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  }
 }
 
-body {
-  font-family: var(--font-family);
-  background: var(--bg-page);
-  color: var(--text-primary);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@layer utilities {
+  .glass {
+    @apply bg-white/10 backdrop-blur-md border border-white/20;
+  }
+  
+  .glass-hover {
+    @apply hover:bg-white/15 hover:border-white/30 transition-all duration-300;
+  }
+  
+  .neon-glow-green {
+    box-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
+  }
+  
+  .neon-glow-pink {
+    box-shadow: 0 0 20px rgba(255, 51, 102, 0.5);
+  }
+  
+  .neon-glow-purple {
+    box-shadow: 0 0 20px rgba(168, 85, 247, 0.5);
+  }
 }
