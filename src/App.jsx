@@ -1,3 +1,4 @@
+import Navbar from '@/components/Navbar'
 import WelcomeSection from '@/components/WelcomeSection'
 import AppCard from '@/components/AppCard'
 
@@ -13,6 +14,7 @@ function App() {
 
   return (
     <div className="min-h-screen bg-dark-page text-white">
+      <Navbar />
       <div className="container mx-auto px-4 py-8 max-w-7xl">
         <WelcomeSection userName="Özgü" />
         
