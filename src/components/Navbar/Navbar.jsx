@@ -1,9 +1,16 @@
+import { useNavigate } from 'react-router-dom'
+
 function Navbar() {
+  const navigate = useNavigate()
+
   return (
     <nav className="bg-dark-surface h-16 border-b border-white/10 sticky top-0 z-50">
       <div className="container mx-auto px-6 h-full flex items-center justify-between">
         {/* Logo */}
-        <div className="flex items-center space-x-3 cursor-pointer">
+        <div 
+          className="flex items-center space-x-3 cursor-pointer" 
+          onClick={() => navigate('/')}
+        >
           <div className="text-2xl">⭐</div>
           <h1 className="text-lg font-semibold text-primary-500">Jun-Oro Hub</h1>
         </div>
