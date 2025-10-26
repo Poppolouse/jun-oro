@@ -1,5 +1,5 @@
-import WelcomeSection from './components/WelcomeSection'
-import AppCard from './components/AppCard'
+import WelcomeSection from '@/components/WelcomeSection'
+import AppCard from '@/components/AppCard'
 
 function App() {
   const apps = [

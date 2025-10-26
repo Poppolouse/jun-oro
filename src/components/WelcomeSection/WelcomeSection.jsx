@@ -9,12 +9,12 @@ function WelcomeSection({ userName }) {
       {/* Hoş Geldin Mesajı */}
       <div 
         className="glass p-6 rounded-xl mb-6"
-        style=
-          background: 'rgba(102, 126, 234, 0.1)',
-          borderColor: 'rgba(102, 126, 234, 0.3)'
-        
+        style= borderColor: 'var(--color-primary-500)' 
       >
-        <h2 className="text-3xl font-bold mb-2" style= color: 'var(--text-primary)' >
+        <h2 
+          className="text-3xl font-bold mb-2" 
+          style= color: 'var(--text-primary)' 
+        >
           👋 Hoş geldin, {userName}!
         </h2>
         <p style= color: 'var(--text-secondary)' >
