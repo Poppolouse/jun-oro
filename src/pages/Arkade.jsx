@@ -1,10 +1,14 @@
-function Arkade() {
-  return (
-    <div className="container mx-auto px-4 py-8 max-w-7xl">
-      <h1 className="text-3xl font-bold text-white mb-4">🎮 Arkade</h1>
-      <p className="text-gray-400">Oyun kütüphanesi - Yakında!</p>
-    </div>
-  )
-}
+import ArkadeLayout from '../features/arkade/layout';
 
-export default Arkade
+const Arkade = () => {
+  return (
+    <ArkadeLayout>
+      <div className="p-8">
+        <h1 className="text-4xl font-bold text-text-primary">Arkade Hub</h1>
+        <p className="text-text-secondary mt-2">Hero bölümü ve içerik buraya gelecek...</p>
+      </div>
+    </ArkadeLayout>
+  );
+};
+
+export default Arkade;
