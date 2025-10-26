@@ -1,14 +1,9 @@
-/**
- * AppCard Component
- * Uygulama kartları - Hub ana sayfasında görünür
- */
-
 function AppCard({ icon, title, description, stats, onClick }) {
   return (
     <div 
       className="glass p-6 rounded-xl hover:scale-105 transition-all duration-300 cursor-pointer glow"
       onClick={onClick}
-      style=145
+      style= border: '1px solid rgba(102, 126, 234, 0.3)' 
     >
       <div className="text-4xl mb-3">{icon}</div>
       <h3 
