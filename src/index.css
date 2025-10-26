@@ -30,3 +30,74 @@
     box-shadow: 0 0 20px rgba(168, 85, 247, 0.5);
   }
 }
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply antialiased;
+    font-family: 'Inter', -apple-system, system-ui, sans-serif;
+  }
+}
+
+@layer utilities {
+  .glass {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .glass-strong {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(24px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+  }
+  
+  .glass-hover {
+    transition: all 0.3s ease;
+  }
+  
+  .glass-hover:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(0, 255, 136, 0.5);
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 8px 32px rgba(0, 255, 136, 0.2);
+  }
+  
+  .neon-border-green {
+    border: 1px solid rgba(0, 255, 136, 0.5);
+    box-shadow: 0 0 20px rgba(0, 255, 136, 0.3), inset 0 0 20px rgba(0, 255, 136, 0.1);
+  }
+  
+  .neon-border-pink {
+    border: 1px solid rgba(255, 51, 102, 0.5);
+    box-shadow: 0 0 20px rgba(255, 51, 102, 0.3), inset 0 0 20px rgba(255, 51, 102, 0.1);
+  }
+  
+  .neon-border-purple {
+    border: 1px solid rgba(168, 85, 247, 0.5);
+    box-shadow: 0 0 20px rgba(168, 85, 247, 0.3), inset 0 0 20px rgba(168, 85, 247, 0.1);
+  }
+  
+  .text-glow-green {
+    text-shadow: 0 0 20px rgba(0, 255, 136, 0.6);
+  }
+  
+  .sidebar-item {
+    transition: all 0.2s ease;
+  }
+  
+  .sidebar-item:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-left: 3px solid #00ff88;
+    padding-left: 1.25rem;
+  }
+  
+  .sidebar-item.active {
+    background: rgba(0, 255, 136, 0.15);
+    border-left: 3px solid #00ff88;
+    padding-left: 1.25rem;
+  }
+}
