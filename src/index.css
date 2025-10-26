@@ -1,3 +1,6 @@
+/* Design System Import */
+@import './design-system.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -9,9 +12,9 @@
 }
 
 body {
-  font-family: 'Inter', sans-serif;
-  background: #0A0E27;
-  color: white;
+  font-family: var(--font-family);
+  background: var(--bg-page);
+  color: var(--text-primary);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

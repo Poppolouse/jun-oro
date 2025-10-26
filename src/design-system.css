@@ -1,0 +1,154 @@
+/**
+ * DESIGN SYSTEM - Jun-Oro Hub
+ * Tüm projede kullanılacak CSS variables
+ * 
+ * KURAL: Asla hardcoded renk kullanma!
+ * KURAL: Her renk için RGB değeri zorunlu!
+ */
+
+:root {
+  /* 🌑 DARK MODE COLORS - Ana Tema */
+  
+  /* Background Katmanları (En koyu → Açık) */
+  --bg-page: #0A0E27;                    /* Sayfa arka planı (en koyu) */
+  --bg-page-rgb: 10, 14, 39;
+  
+  --bg-surface: #141B3D;                 /* Kartlar, paneller */
+  --bg-surface-rgb: 20, 27, 61;
+  
+  --bg-elevated: rgba(30, 40, 70, 0.9);  /* Elevated elementler */
+  --bg-elevated-rgb: 30, 40, 70;
+  
+  /* 🔵 PRIMARY - Butonlar, linkler, aktif durumlar */
+  --color-primary-50: #eef2ff;
+  --color-primary-50-rgb: 238, 242, 255;
+  
+  --color-primary-100: #e0e7ff;
+  --color-primary-100-rgb: 224, 231, 255;
+  
+  --color-primary-200: #c7d2fe;
+  --color-primary-200-rgb: 199, 210, 254;
+  
+  --color-primary-300: #a5b4fc;
+  --color-primary-300-rgb: 165, 180, 252;
+  
+  --color-primary-400: #818cf8;
+  --color-primary-400-rgb: 129, 140, 248;
+  
+  --color-primary-500: #667eea;          /* Ana primary */
+  --color-primary-500-rgb: 102, 126, 234;
+  
+  --color-primary-600: #5b68d9;
+  --color-primary-600-rgb: 91, 104, 217;
+  
+  --color-primary-700: #4c51bf;
+  --color-primary-700-rgb: 76, 81, 191;
+  
+  --color-primary-800: #434190;
+  --color-primary-800-rgb: 67, 65, 144;
+  
+  --color-primary-900: #3c366b;
+  --color-primary-900-rgb: 60, 54, 107;
+  
+  /* 🟢 SUCCESS - Başarı durumları */
+  --color-success: #10B981;
+  --color-success-rgb: 16, 185, 129;
+  
+  /* 🟡 WARNING - Uyarılar */
+  --color-warning: #F59E0B;
+  --color-warning-rgb: 245, 158, 11;
+  
+  /* 🔴 ERROR - Hatalar */
+  --color-error: #EF4444;
+  --color-error-rgb: 239, 68, 68;
+  
+  /* 🔵 INFO - Bilgilendirme */
+  --color-info: #3B82F6;
+  --color-info-rgb: 59, 130, 246;
+  
+  /* 📝 TEXT - Metin renkleri */
+  --text-primary: #FFFFFF;               /* Koyu arka planda ana metin */
+  --text-primary-rgb: 255, 255, 255;
+  
+  --text-secondary: #A8B2D1;             /* İkincil metin */
+  --text-secondary-rgb: 168, 178, 209;
+  
+  --text-muted: #64748B;                 /* Soluk metin */
+  --text-muted-rgb: 100, 116, 139;
+  
+  /* 🧱 BORDERS - Kenarlıklar */
+  --border-default: rgba(255, 255, 255, 0.1);
+  --border-hover: rgba(255, 255, 255, 0.2);
+  --border-focus: rgba(102, 126, 234, 0.5);
+  
+  /* 🌫️ GLASS - Glassmorphism */
+  --glass-bg: rgba(20, 27, 61, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-blur: blur(20px);
+  
+  /* 🎭 SHADOWS */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.3);
+  --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.25);
+  
+  --shadow-glow: 0 0 20px rgba(102, 126, 234, 0.3);
+  --shadow-glow-hover: 0 0 30px rgba(102, 126, 234, 0.5);
+  
+  /* 📏 SPACING */
+  --spacing-xs: 0.25rem;   /* 4px */
+  --spacing-sm: 0.5rem;    /* 8px */
+  --spacing-md: 1rem;      /* 16px */
+  --spacing-lg: 1.5rem;    /* 24px */
+  --spacing-xl: 2rem;      /* 32px */
+  --spacing-2xl: 3rem;     /* 48px */
+  --spacing-3xl: 4rem;     /* 64px */
+  
+  /* 🔲 BORDER RADIUS */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-full: 9999px;
+  
+  /* ✏️ TYPOGRAPHY */
+  --font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  
+  --font-size-xs: 0.75rem;    /* 12px */
+  --font-size-sm: 0.875rem;   /* 14px */
+  --font-size-base: 1rem;     /* 16px */
+  --font-size-lg: 1.125rem;   /* 18px */
+  --font-size-xl: 1.25rem;    /* 20px */
+  --font-size-2xl: 1.5rem;    /* 24px */
+  --font-size-3xl: 1.875rem;  /* 30px */
+  --font-size-4xl: 2.25rem;   /* 36px */
+  
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  
+  /* 🎬 TRANSITIONS */
+  --transition-fast: 150ms ease;
+  --transition-base: 200ms ease;
+  --transition-slow: 300ms ease;
+}
+
+/* 🌟 UTILITY CLASSES */
+
+/* Glassmorphism Effect */
+.glass {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: var(--glass-blur) saturate(180%);
+}
+
+/* Glow Effect */
+.glow {
+  box-shadow: var(--shadow-glow);
+  transition: box-shadow var(--transition-base);
+}
+
+.glow:hover {
+  box-shadow: var(--shadow-glow-hover);
+}
