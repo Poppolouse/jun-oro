@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import Header from '../components/Header'
+import LiveClock from '../components/LiveClock'
 
 function HomePage() {
   const navigate = useNavigate()
