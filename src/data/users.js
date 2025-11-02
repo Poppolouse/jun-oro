@@ -57,12 +57,15 @@ export const USER_STATUS = {
   AWAY: 'away'
 }
 
+// API Base URL configuration
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+
 // Kullanıcı işlemleri
 export const userService = {
   // Kullanıcı girişi
   login: async (username, password) => {
     try {
-      const response = await fetch('http://localhost:5000/api/users/login', {
+      const response = await fetch(`${API_BASE_URL}/users/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -86,7 +89,7 @@ export const userService = {
   // Kullanıcı kaydı
   register: async (userData) => {
     try {
-      const response = await fetch('http://localhost:5000/api/users/register', {
+      const response = await fetch(`${API_BASE_URL}/users/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

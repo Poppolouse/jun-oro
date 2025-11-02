@@ -1,6 +1,9 @@
 import { createContext, useContext, useState, useEffect } from 'react'
 import { userService } from '../data/users'
 
+// API Base URL configuration
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+
 const AuthContext = createContext()
 
 export const useAuth = () => {
@@ -25,7 +28,7 @@ export const AuthProvider = ({ children }) => {
         // Backend'den güncel kullanıcı verilerini çek
         setTimeout(async () => {
           try {
-            const response = await fetch(`http://localhost:5000/api/users/${parsedUser.id}`)
+            const response = await fetch(`${API_BASE_URL}/users/${parsedUser.id}`)
             const data = await response.json()
             if (response.ok && data.success) {
               const updatedUser = data.data
@@ -96,7 +99,7 @@ export const AuthProvider = ({ children }) => {
     if (!user?.id) return
 
     try {
-      const response = await fetch(`http://localhost:5000/api/users/${user.id}`)
+      const response = await fetch(`${API_BASE_URL}/users/${user.id}`)
       const data = await response.json()
 
       if (response.ok && data.success) {

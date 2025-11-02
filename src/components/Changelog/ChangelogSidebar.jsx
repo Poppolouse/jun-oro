@@ -1,5 +1,8 @@
 import { useState, useEffect } from 'react';
 
+// API Base URL configuration
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+
 const ChangelogSidebar = () => {
   const [changelogs, setChangelogs] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -12,7 +15,7 @@ const ChangelogSidebar = () => {
   const fetchLatestChangelogs = async () => {
     try {
       setLoading(true);
-      const response = await fetch('http://localhost:5000/api/changelog/latest?limit=10');
+      const response = await fetch(`${API_BASE_URL}/changelog/latest?limit=10`);
       
       if (!response.ok) {
         throw new Error('Failed to fetch changelogs');

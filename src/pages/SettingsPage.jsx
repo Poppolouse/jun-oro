@@ -13,6 +13,9 @@ import UpdatesAdmin from '../components/Updates/UpdatesAdmin'
 import TutorialAdmin from '../components/Tutorial/TutorialAdmin'
 import ImageUpload from '../components/FileUpload/ImageUpload'
 
+// API Base URL configuration
+const API_BASE_URL = import.meta.env.VITE_API_URL || '${API_BASE_URL}';
+
 function SettingsPage() {
   const { user, isAdmin, updateUser } = useAuth()
   const [activeTab, setActiveTab] = useState('profile')
@@ -28,7 +31,7 @@ function SettingsPage() {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/users');
+        const response = await fetch('${API_BASE_URL}/users');
         const data = await response.json();
         if (data.success) {
           // Aktif kullanıcıları ve pending kullanıcıları ayır
@@ -325,7 +328,7 @@ function SettingsPage() {
 
     if (window.confirm('Bu kullanıcıyı silmek istediğinizden emin misiniz?')) {
       try {
-        const response = await fetch(`http://localhost:5000/api/users/${userId}`, {
+        const response = await fetch(`${API_BASE_URL}/users/${userId}`, {
           method: 'DELETE',
         });
 
@@ -333,7 +336,7 @@ function SettingsPage() {
 
         if (result.success) {
           // Kullanıcı listesini yenile
-          const usersResponse = await fetch('http://localhost:5000/api/users');
+          const usersResponse = await fetch('${API_BASE_URL}/users');
           const usersData = await usersResponse.json();
           if (usersData.success) {
             setUsers(usersData.data);
@@ -403,7 +406,7 @@ function SettingsPage() {
   // Pending kullanıcıyı onayla
   const handleApproveUser = async (userId) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/users/${userId}/approve`, {
+      const response = await fetch(`${API_BASE_URL}/users/${userId}/approve`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -437,7 +440,7 @@ function SettingsPage() {
     }
 
     try {
-      const response = await fetch(`http://localhost:5000/api/users/${userId}`, {
+      const response = await fetch(`${API_BASE_URL}/users/${userId}`, {
         method: 'DELETE',
       });
 
@@ -475,7 +478,7 @@ function SettingsPage() {
   // Kullanıcı güvenlik bilgilerini yükle
   const loadUserSecurity = async (userId) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/users/${userId}/security`)
+      const response = await fetch(`${API_BASE_URL}/users/${userId}/security`)
       const data = await response.json()
       
       if (data.success) {
@@ -696,7 +699,7 @@ function SettingsPage() {
   const loadR2Stats = async () => {
     setIsLoadingR2Stats(true)
     try {
-      const response = await fetch('http://localhost:5000/api/r2/stats')
+      const response = await fetch('${API_BASE_URL}/r2/stats')
       const data = await response.json()
       
       if (data.success) {
@@ -714,7 +717,7 @@ function SettingsPage() {
   const testR2Connection = async () => {
     setIsTestingR2Connection(true)
     try {
-      const response = await fetch('http://localhost:5000/api/r2/test')
+      const response = await fetch('${API_BASE_URL}/r2/test')
       const data = await response.json()
       
       if (data.success) {
@@ -923,7 +926,7 @@ function SettingsPage() {
     setIsLoadingChangelogs(true)
     try {
       // Admin panelinde tüm changelog'ları göster (yayınlanmış ve yayınlanmamış)
-      const response = await fetch('http://localhost:5000/api/changelog?published=all&limit=50')
+      const response = await fetch('${API_BASE_URL}/changelog?published=all&limit=50')
       if (!response.ok) {
         throw new Error('Changelog\'lar yüklenemedi')
       }
@@ -941,7 +944,7 @@ function SettingsPage() {
   const loadAuditLogs = async () => {
     setIsLoadingAuditLogs(true)
     try {
-      const response = await fetch(`http://localhost:5000/api/users/admin/audit-logs?page=${auditLogsPage}&limit=20`)
+      const response = await fetch(`${API_BASE_URL}/users/admin/audit-logs?page=${auditLogsPage}&limit=20`)
       if (!response.ok) {
         throw new Error('Denetim günlükleri yüklenemedi')
       }
@@ -982,8 +985,8 @@ function SettingsPage() {
 
     try {
       const url = editingChangelog 
-        ? `http://localhost:5000/api/changelog/${editingChangelog.id}`
-        : 'http://localhost:5000/api/changelog'
+        ? `${API_BASE_URL}/changelog/${editingChangelog.id}`
+        : '${API_BASE_URL}/changelog'
       
       const method = editingChangelog ? 'PUT' : 'POST'
       
@@ -1025,7 +1028,7 @@ function SettingsPage() {
     }
 
     try {
-      const response = await fetch(`http://localhost:5000/api/changelog/${changelogId}`, {
+      const response = await fetch(`${API_BASE_URL}/changelog/${changelogId}`, {
         method: 'DELETE'
       })
 
@@ -4015,7 +4018,7 @@ function SettingsPage() {
                           role: selectedUser.role
                         };
 
-                        const response = await fetch('http://localhost:5000/api/users', {
+                        const response = await fetch('${API_BASE_URL}/users', {
                           method: 'POST',
                           headers: {
                             'Content-Type': 'application/json',
@@ -4027,7 +4030,7 @@ function SettingsPage() {
 
                         if (result.success) {
                           // Kullanıcı listesini yenile
-                          const usersResponse = await fetch('http://localhost:5000/api/users');
+                          const usersResponse = await fetch('${API_BASE_URL}/users');
                           const usersData = await usersResponse.json();
                           if (usersData.success) {
                             setUsers(usersData.data);
@@ -4052,7 +4055,7 @@ function SettingsPage() {
                           userData.password = selectedUser.password;
                         }
 
-                        const response = await fetch(`http://localhost:5000/api/users/${selectedUser.id}`, {
+                        const response = await fetch(`${API_BASE_URL}/users/${selectedUser.id}`, {
                           method: 'PUT',
                           headers: {
                             'Content-Type': 'application/json',
@@ -4064,7 +4067,7 @@ function SettingsPage() {
 
                         if (result.success) {
                           // Kullanıcı listesini yenile
-                          const usersResponse = await fetch('http://localhost:5000/api/users');
+                          const usersResponse = await fetch('${API_BASE_URL}/users');
                           const usersData = await usersResponse.json();
                           if (usersData.success) {
                             setUsers(usersData.data);
