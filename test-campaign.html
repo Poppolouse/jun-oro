@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Campaign Data</title>
+</head>
+<body>
+    <h1>Campaign Data Test</h1>
+    <button onclick="testCampaignData()">Test Campaign Data</button>
+    <div id="output"></div>
+
+    <script type="module">
+        // Import services
+        import { UserLibraryService } from './src/services/userLibrary.js';
+        import { GameCacheService } from './src/services/gameCache.js';
+
+        window.testCampaignData = function() {
+            console.log('🔍 Checking current game data...');
+            const output = document.getElementById('output');
+            
+            try {
+                // Get current user library
+                const userLibraryService = new UserLibraryService();
+                const library = userLibraryService.getUserLibrary();
+                console.log('Current library:', library);
+
+                // Get game cache
+                const gameCacheService = new GameCacheService();
+                const cache = gameCacheService.getCache();
+                console.log('Current cache:', cache);
+
+                // Find Total War: Warhammer III
+                const totalWarGame = Object.values(cache).find(game => 
+                    game.name && game.name.includes('Total War: Warhammer III')
+                );
+
+                if (totalWarGame) {
+                    console.log('Found Total War: Warhammer III:', totalWarGame);
+                    output.innerHTML += '<p>✅ Found Total War: Warhammer III</p>';
+                    
+                    // Add campaign data if not exists
+                    if (!totalWarGame.campaigns || totalWarGame.campaigns.length === 0) {
+                        totalWarGame.campaigns = [
+                            {
+                                id: 'immortal-empires',
+                                name: 'Immortal Empires',
+                                description: 'The ultimate Total War: Warhammer experience combining all three games',
+                                mainStoryTime: 120,
+                                mainExtraTime: 200,
+                                completionistTime: 350,
+                                averageTime: 150,
+                                isMainCampaign: true,
+                                difficulty: 'Hard',
+                                features: ['Massive map', 'All factions', 'Legendary Lords']
+                            },
+                            {
+                                id: 'realm-of-chaos',
+                                name: 'The Realm of Chaos',
+                                description: 'The main campaign featuring the forces of Chaos',
+                                mainStoryTime: 25,
+                                mainExtraTime: 40,
+                                completionistTime: 60,
+                                averageTime: 35,
+                                isMainCampaign: true,
+                                difficulty: 'Medium',
+                                features: ['Story-driven', 'Chaos mechanics', 'Narrative campaign']
+                            }
+                        ];
+                        
+                        // Update the cache
+                        gameCacheService.addGame(totalWarGame.id, totalWarGame);
+                        console.log('✅ Campaign data added to Total War: Warhammer III');
+                        output.innerHTML += '<p>✅ Campaign data added successfully!</p>';
+                        output.innerHTML += '<p>Campaigns: ' + totalWarGame.campaigns.map(c => c.name).join(', ') + '</p>';
+                    } else {
+                        console.log('Campaign data already exists:', totalWarGame.campaigns);
+                        output.innerHTML += '<p>ℹ️ Campaign data already exists</p>';
+                        output.innerHTML += '<p>Campaigns: ' + totalWarGame.campaigns.map(c => c.name).join(', ') + '</p>';
+                    }
+                } else {
+                    console.log('❌ Total War: Warhammer III not found in cache');
+                    output.innerHTML += '<p>❌ Total War: Warhammer III not found in cache</p>';
+                    const gameNames = Object.values(cache).map(g => g.name).filter(Boolean);
+                    output.innerHTML += '<p>Available games: ' + gameNames.join(', ') + '</p>';
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                output.innerHTML += '<p>❌ Error: ' + error.message + '</p>';
+            }
+        };
+    </script>
+</body>
+</html>

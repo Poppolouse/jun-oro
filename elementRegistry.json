@@ -1,0 +1,1912 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2025-11-01",
+  "description": "Element Registry System (ERS) - Unique, persistent, meaningful IDs for all interactive elements",
+  "format": "[Page].[SubPage].[Zone][Element]",
+  "zones": {
+    "H": "Header",
+    "L": "Left Sidebar", 
+    "R": "Right Sidebar",
+    "B": "Body",
+    "F": "Footer"
+  },
+  "elements": [
+    {
+      "selector": "#arkade-header",
+      "registryId": "H",
+      "label": "Arkade Header",
+      "page": 1,
+      "subpage": 0,
+      "zone": "H",
+      "metadata": {
+        "type": "header",
+        "component": "ArkadeHeader",
+        "feature": "navigation",
+        "criticalPath": true
+      }
+    },
+    {
+      "selector": "#header-brand",
+      "registryId": "H1",
+      "label": "Header Brand Section",
+      "page": 1,
+      "subpage": 0,
+      "zone": "H",
+      "metadata": {
+        "type": "section",
+        "component": "ArkadeHeader",
+        "feature": "branding",
+        "criticalPath": true
+      }
+    },
+    {
+      "selector": "#logo-button",
+      "registryId": "H1.1",
+      "label": "Logo Button",
+      "page": 1,
+      "subpage": 0,
+      "zone": "H",
+      "metadata": {
+        "type": "button",
+        "component": "ArkadeHeader",
+        "feature": "navigation",
+        "criticalPath": true
+      }
+    },
+    {
+      "selector": "#logo-icon",
+      "registryId": "H1.1.1",
+      "label": "Logo Icon",
+      "page": 1,
+      "subpage": 0,
+      "zone": "H",
+      "metadata": {
+        "type": "icon",
+        "component": "ArkadeHeader",
+        "feature": "branding",
+        "criticalPath": false
+      }
+    },
+    {
+      "selector": "#logo-text",
+      "registryId": "H1.1.2",
+      "label": "Logo Text",
+      "page": 1,
+      "subpage": 0,
+      "zone": "H",
+      "metadata": {
+        "type": "text",
+        "component": "ArkadeHeader",
+        "feature": "branding",
+        "criticalPath": false
+      }
+    },
+    {
+      "selector": "#breadcrumb",
+      "registryId": "H1.2",
+      "label": "Breadcrumb Navigation",
+      "page": 1,
+      "subpage": 0,
+      "zone": "H",
+      "metadata": {
+        "type": "navigation",
+        "component": "ArkadeHeader",
+        "feature": "navigation",
+        "criticalPath": true
+      }
+    },
+    {
+      "selector": "#breadcrumb-icon",
+      "registryId": "H1.2.1",
+      "label": "Breadcrumb Icon",
+      "page": 1,
+      "subpage": 0,
+      "zone": "H",
+      "metadata": {
+        "type": "icon",
+        "component": "ArkadeHeader",
+        "feature": "navigation",
+        "criticalPath": false
+      }
+    },
+    {
+      "selector": "#breadcrumb-title",
+      "registryId": "H1.2.2",
+      "label": "Breadcrumb Title",
+      "page": 1,
+      "subpage": 0,
+      "zone": "H",
+      "metadata": {
+        "type": "text",
+        "component": "ArkadeHeader",
+        "feature": "navigation",
+        "criticalPath": true
+      }
+    },
+    {
+      "selector": "#search-section",
+      "registryId": "H2",
+      "label": "Search Section",
+      "page": 1,
+      "subpage": 0,
+      "zone": "H",
+      "metadata": {
+        "type": "section",
+        "component": "ArkadeHeader",
+        "feature": "search",
+        "criticalPath": true
+      }
+    },
+    {
+      "selector": "#search-input",
+      "registryId": "H2.1",
+      "label": "Search Input",
+      "page": 1,
+      "subpage": 0,
+      "zone": "H",
+      "metadata": {
+        "type": "input",
+        "component": "ArkadeHeader",
+        "feature": "search",
+        "criticalPath": true
+      }
+    },
+    {
+      "selector": "#search-icon",
+      "registryId": "H2.1.1",
+      "label": "Search Icon",
+      "page": 1,
+      "subpage": 0,
+      "zone": "H",
+      "metadata": {
+        "type": "icon",
+        "component": "ArkadeHeader",
+        "feature": "search",
+        "criticalPath": false
+      }
+    },
+    {
+      "selector": "#search-tooltip",
+      "registryId": "H2.2",
+      "label": "Search Tooltip",
+      "page": 1,
+      "subpage": 0,
+      "zone": "H",
+      "metadata": {
+        "type": "tooltip",
+        "component": "ArkadeHeader",
+        "feature": "search",
+        "criticalPath": false
+      }
+    },
+    {
+      "selector": "#header-actions",
+      "registryId": "H3",
+      "label": "Header Actions Section",
+      "page": 1,
+      "subpage": 0,
+      "zone": "H",
+      "metadata": {
+        "type": "section",
+        "component": "ArkadeHeader",
+        "feature": "actions",
+        "criticalPath": true
+      }
+    },
+    {
+      "selector": "#notifications-section",
+      "registryId": "H3.1",
+      "label": "Notifications Section",
+      "page": 1,
+      "subpage": 0,
+      "zone": "H",
+      "metadata": {
+        "type": "section",
+        "component": "ArkadeHeader",
+        "feature": "notifications",
+        "criticalPath": true
+      }
+    },
+    {
+      "selector": "#notifications-button",
+      "registryId": "H3.1.1",
+      "label": "Notifications Button",
+      "page": 1,
+      "subpage": 0,
+      "zone": "H",
+      "metadata": {
+        "type": "button",
+        "component": "ArkadeHeader",
+        "feature": "notifications",
+        "criticalPath": true
+      }
+    },
+    {
+      "selector": "#notification-badge",
+      "registryId": "H3.1.1.1",
+      "label": "Notification Badge",
+      "page": 1,
+      "subpage": 0,
+      "zone": "H",
+      "metadata": {
+        "type": "badge",
+        "component": "ArkadeHeader",
+        "feature": "notifications",
+        "criticalPath": false
+      }
+    },
+    {
+      "selector": "#notifications-dropdown",
+      "registryId": "H3.1.2",
+      "label": "Notifications Dropdown",
+      "page": 1,
+      "subpage": 0,
+      "zone": "H",
+      "metadata": {
+        "type": "dropdown",
+        "component": "ArkadeHeader",
+        "feature": "notifications",
+        "criticalPath": true
+      }
+    },
+    {
+      "selector": "#notifications-header",
+      "registryId": "H3.1.2.1",
+      "label": "Notifications Header",
+      "page": 1,
+      "subpage": 0,
+      "zone": "H",
+      "metadata": {
+        "type": "header",
+        "component": "ArkadeHeader",
+        "feature": "notifications",
+        "criticalPath": false
+      }
+    },
+    {
+      "selector": "#mark-all-read-btn",
+      "registryId": "H3.1.2.1.1",
+      "label": "Mark All Read Button",
+      "page": 1,
+      "subpage": 0,
+      "zone": "H",
+      "metadata": {
+        "type": "button",
+        "component": "ArkadeHeader",
+        "feature": "notifications",
+        "criticalPath": true
+      }
+    },
+    {
+      "selector": "#notifications-list",
+      "registryId": "H3.1.2.2",
+      "label": "Notifications List",
+      "page": 1,
+      "subpage": 0,
+      "zone": "H",
+      "metadata": {
+        "type": "list",
+        "component": "ArkadeHeader",
+        "feature": "notifications",
+        "criticalPath": true
+      }
+    },
+    {
+      "selector": "#notifications-empty",
+      "registryId": "H3.1.2.2.empty",
+      "label": "Empty Notifications State",
+      "page": 1,
+      "subpage": 0,
+      "zone": "H",
+      "metadata": {
+        "type": "empty-state",
+        "component": "ArkadeHeader",
+        "feature": "notifications",
+        "criticalPath": false
+      }
+    },
+    {
+      "selector": "#profile-section",
+      "registryId": "H3.2",
+      "label": "Profile Section",
+      "page": 1,
+      "subpage": 0,
+      "zone": "H",
+      "metadata": {
+        "type": "section",
+        "component": "ArkadeHeader",
+        "feature": "profile",
+        "criticalPath": true
+      }
+    },
+    {
+      "selector": "#profile-button",
+      "registryId": "H3.2.1",
+      "label": "Profile Button",
+      "page": 1,
+      "subpage": 0,
+      "zone": "H",
+      "metadata": {
+        "type": "button",
+        "component": "ArkadeHeader",
+        "feature": "profile",
+        "criticalPath": true
+      }
+    },
+    {
+      "selector": "#profile-avatar",
+      "registryId": "H3.2.1.1",
+      "label": "Profile Avatar",
+      "page": 1,
+      "subpage": 0,
+      "zone": "H",
+      "metadata": {
+        "type": "avatar",
+        "component": "ArkadeHeader",
+        "feature": "profile",
+        "criticalPath": false
+      }
+    },
+    {
+      "selector": "#profile-info",
+      "registryId": "H3.2.1.2",
+      "label": "Profile Info",
+      "page": 1,
+      "subpage": 0,
+      "zone": "H",
+      "metadata": {
+        "type": "info",
+        "component": "ArkadeHeader",
+        "feature": "profile",
+        "criticalPath": false
+      }
+    },
+    {
+      "selector": "#profile-dropdown-arrow",
+      "registryId": "H3.2.1.3",
+      "label": "Profile Dropdown Arrow",
+      "page": 1,
+      "subpage": 0,
+      "zone": "H",
+      "metadata": {
+        "type": "icon",
+        "component": "ArkadeHeader",
+        "feature": "profile",
+        "criticalPath": false
+      }
+    },
+    {
+      "selector": "#profile-dropdown",
+      "registryId": "H3.2.2",
+      "label": "Profile Dropdown",
+      "page": 1,
+      "subpage": 0,
+      "zone": "H",
+      "metadata": {
+        "type": "dropdown",
+        "component": "ArkadeHeader",
+        "feature": "profile",
+        "criticalPath": true
+      }
+    },
+    {
+      "selector": "#profile-dropdown-header",
+      "registryId": "H3.2.2.1",
+      "label": "Profile Dropdown Header",
+      "page": 1,
+      "subpage": 0,
+      "zone": "H",
+      "metadata": {
+        "type": "header",
+        "component": "ArkadeHeader",
+        "feature": "profile",
+        "criticalPath": false
+      }
+    },
+    {
+      "selector": "#profile-dropdown-menu",
+      "registryId": "H3.2.2.2",
+      "label": "Profile Dropdown Menu",
+      "page": 1,
+      "subpage": 0,
+      "zone": "H",
+      "metadata": {
+        "type": "menu",
+        "component": "ArkadeHeader",
+        "feature": "profile",
+        "criticalPath": true
+      }
+    },
+    {
+      "selector": "#profile-menu-profile",
+      "registryId": "H3.2.2.2.1",
+      "label": "Profile Menu - Profile Option",
+      "page": 1,
+      "subpage": 0,
+      "zone": "H",
+      "metadata": {
+        "type": "menu-item",
+        "component": "ArkadeHeader",
+        "feature": "profile",
+        "criticalPath": true
+      }
+    },
+    {
+      "selector": "#profile-menu-settings",
+      "registryId": "H3.2.2.2.2",
+      "label": "Profile Menu - Settings Option",
+      "page": 1,
+      "subpage": 0,
+      "zone": "H",
+      "metadata": {
+        "type": "menu-item",
+        "component": "ArkadeHeader",
+        "feature": "profile",
+        "criticalPath": true
+      }
+    },
+    {
+      "selector": "#profile-menu-logout",
+      "registryId": "H3.2.2.2.3",
+      "label": "Profile Menu - Logout Option",
+      "page": 1,
+      "subpage": 0,
+      "zone": "H",
+      "metadata": {
+        "type": "menu-item",
+        "component": "ArkadeHeader",
+        "feature": "authentication",
+        "criticalPath": true
+      }
+    },
+    {
+      "selector": "#notification-detail-modal",
+      "registryId": "H4",
+      "label": "Notification Detail Modal",
+      "page": 1,
+      "subpage": 0,
+      "zone": "H",
+      "metadata": {
+        "type": "modal",
+        "component": "ArkadeHeader",
+        "feature": "notifications",
+        "criticalPath": true
+      }
+    },
+    {
+      "selector": "#notification-detail-content",
+      "registryId": "H4.1",
+      "label": "Notification Detail Content",
+      "page": 1,
+      "subpage": 0,
+      "zone": "H",
+      "metadata": {
+        "type": "content",
+        "component": "ArkadeHeader",
+        "feature": "notifications",
+        "criticalPath": true
+      }
+    },
+    {
+      "selector": "#notification-detail-header",
+      "registryId": "H4.1.1",
+      "label": "Notification Detail Header",
+      "page": 1,
+      "subpage": 0,
+      "zone": "H",
+      "metadata": {
+        "type": "header",
+        "component": "ArkadeHeader",
+        "feature": "notifications",
+        "criticalPath": false
+      }
+    },
+    {
+      "selector": "#notification-detail-close",
+      "registryId": "H4.1.1.1",
+      "label": "Notification Detail Close Button",
+      "page": 1,
+      "subpage": 0,
+      "zone": "H",
+      "metadata": {
+        "type": "button",
+        "component": "ArkadeHeader",
+        "feature": "notifications",
+        "criticalPath": true
+      }
+    },
+    {
+      "selector": "#notification-detail-body",
+      "registryId": "H4.1.2",
+      "label": "Notification Detail Body",
+      "page": 1,
+      "subpage": 0,
+      "zone": "H",
+      "metadata": {
+        "type": "content",
+        "component": "ArkadeHeader",
+        "feature": "notifications",
+        "criticalPath": true
+      }
+    },
+    {
+      "selector": "#notification-detail-footer",
+      "registryId": "H4.1.3",
+      "label": "Notification Detail Footer",
+      "page": 1,
+      "subpage": 0,
+      "zone": "H",
+      "metadata": {
+        "type": "footer",
+        "component": "ArkadeHeader",
+        "feature": "notifications",
+        "criticalPath": false
+      }
+    },
+    {
+      "selector": "#notification-delete-btn",
+      "registryId": "H4.1.3.1",
+      "label": "Notification Delete Button",
+      "page": 1,
+      "subpage": 0,
+      "zone": "H",
+      "metadata": {
+        "type": "button",
+        "component": "ArkadeHeader",
+        "feature": "notifications",
+        "criticalPath": true
+      }
+    },
+    {
+      "selector": "#notification-close-btn",
+      "registryId": "H4.1.3.2",
+      "label": "Notification Close Button",
+      "page": 1,
+      "subpage": 0,
+      "zone": "H",
+      "metadata": {
+        "type": "button",
+        "component": "ArkadeHeader",
+        "feature": "notifications",
+        "criticalPath": true
+      }
+    },
+    {
+      "selector": "#back-button",
+      "registryId": "H5",
+      "label": "Back Button",
+      "page": 1,
+      "subpage": 0,
+      "zone": "H",
+      "metadata": {
+        "type": "button",
+        "component": "BackButton",
+        "feature": "navigation",
+        "criticalPath": true
+      }
+    },
+    {
+      "selector": "#back-button-icon",
+      "registryId": "H5.1",
+      "label": "Back Button Icon",
+      "page": 1,
+      "subpage": 0,
+      "zone": "H",
+      "metadata": {
+        "type": "icon",
+        "component": "BackButton",
+        "feature": "navigation",
+        "criticalPath": false
+      }
+    },
+    {
+      "selector": "#back-button-text",
+      "registryId": "H5.2",
+      "label": "Back Button Text",
+      "page": 1,
+      "subpage": 0,
+      "zone": "H",
+      "metadata": {
+        "type": "text",
+        "component": "BackButton",
+        "feature": "navigation",
+        "criticalPath": false
+      }
+    },
+    {
+      "selector": "#arkade-sidebar",
+      "registryId": "L",
+      "label": "Arkade Sidebar",
+      "page": 1,
+      "subpage": 0,
+      "zone": "L",
+      "metadata": {
+        "type": "sidebar",
+        "component": "ArkadeSidebar",
+        "feature": "navigation",
+        "criticalPath": true
+      }
+    },
+    {
+      "selector": "#sidebar-content",
+      "registryId": "L1",
+      "label": "Sidebar Content",
+      "page": 1,
+      "subpage": 0,
+      "zone": "L",
+      "metadata": {
+        "type": "content",
+        "component": "ArkadeSidebar",
+        "feature": "navigation",
+        "criticalPath": true
+      }
+    },
+    {
+      "selector": "#active-session-section",
+      "registryId": "L1.1",
+      "label": "Active Session Section",
+      "page": 1,
+      "subpage": 0,
+      "zone": "L",
+      "metadata": {
+        "type": "section",
+        "component": "ArkadeSidebar",
+        "feature": "gaming-session",
+        "criticalPath": true
+      }
+    },
+    {
+      "selector": "#navigation-section",
+      "registryId": "L1.2",
+      "label": "Navigation Section",
+      "page": 1,
+      "subpage": 0,
+      "zone": "L",
+      "metadata": {
+        "type": "section",
+        "component": "ArkadeSidebar",
+        "feature": "navigation",
+        "criticalPath": true
+      }
+    },
+    {
+      "selector": "#library-summary-section",
+      "registryId": "L1.3",
+      "label": "Library Summary Section",
+      "page": 1,
+      "subpage": 0,
+      "zone": "L",
+      "metadata": {
+        "type": "section",
+        "component": "ArkadeSidebar",
+        "feature": "library-stats",
+        "criticalPath": false
+      }
+    },
+    {
+      "selector": "#weekly-stats-section",
+      "registryId": "L1.4",
+      "label": "Weekly Stats Section",
+      "page": 1,
+      "subpage": 0,
+      "zone": "L",
+      "metadata": {
+        "type": "section",
+        "component": "ArkadeSidebar",
+        "feature": "statistics",
+        "criticalPath": false
+      }
+    },
+    {
+      "selector": "#site-footer",
+      "registryId": "F",
+      "label": "Site Footer",
+      "page": 1,
+      "subpage": 0,
+      "zone": "F",
+      "metadata": {
+        "type": "footer",
+        "component": "SiteFooter",
+        "feature": "navigation",
+        "criticalPath": false
+      }
+    },
+    {
+      "selector": "#footer-container",
+      "registryId": "F1",
+      "label": "Footer Container",
+      "page": 1,
+      "subpage": 0,
+      "zone": "F",
+      "metadata": {
+        "type": "container",
+        "component": "SiteFooter",
+        "feature": "layout",
+        "criticalPath": false
+      }
+    },
+    {
+      "selector": "#footer-content",
+      "registryId": "F1.1",
+      "label": "Footer Content",
+      "page": 1,
+      "subpage": 0,
+      "zone": "F",
+      "metadata": {
+        "type": "content",
+        "component": "SiteFooter",
+        "feature": "navigation",
+        "criticalPath": false
+      }
+    },
+    {
+      "selector": "#footer-brand-section",
+      "registryId": "F1.1.1",
+      "label": "Footer Brand Section",
+      "page": 1,
+      "subpage": 0,
+      "zone": "F",
+      "metadata": {
+        "type": "section",
+        "component": "SiteFooter",
+        "feature": "branding",
+        "criticalPath": false
+      }
+    },
+    {
+      "selector": "#footer-brand",
+      "registryId": "F1.1.1.1",
+      "label": "Footer Brand",
+      "page": 1,
+      "subpage": 0,
+      "zone": "F",
+      "metadata": {
+        "type": "brand",
+        "component": "SiteFooter",
+        "feature": "branding",
+        "criticalPath": false
+      }
+    },
+    {
+      "selector": "#footer-logo",
+      "registryId": "F1.1.1.1.1",
+      "label": "Footer Logo",
+      "page": 1,
+      "subpage": 0,
+      "zone": "F",
+      "metadata": {
+        "type": "logo",
+        "component": "SiteFooter",
+        "feature": "branding",
+        "criticalPath": false
+      }
+    },
+    {
+      "selector": "#footer-logo-icon",
+      "registryId": "F1.1.1.1.1.1",
+      "label": "Footer Logo Icon",
+      "page": 1,
+      "subpage": 0,
+      "zone": "F",
+      "metadata": {
+        "type": "icon",
+        "component": "SiteFooter",
+        "feature": "branding",
+        "criticalPath": false
+      }
+    },
+    {
+      "selector": "#footer-brand-info",
+      "registryId": "F1.1.1.1.2",
+      "label": "Footer Brand Info",
+      "page": 1,
+      "subpage": 0,
+      "zone": "F",
+      "metadata": {
+        "type": "info",
+        "component": "SiteFooter",
+        "feature": "branding",
+        "criticalPath": false
+      }
+    },
+    {
+      "selector": "#footer-brand-title",
+      "registryId": "F1.1.1.1.2.1",
+      "label": "Footer Brand Title",
+      "page": 1,
+      "subpage": 0,
+      "zone": "F",
+      "metadata": {
+        "type": "title",
+        "component": "SiteFooter",
+        "feature": "branding",
+        "criticalPath": false
+      }
+    },
+    {
+      "selector": "#footer-brand-subtitle",
+      "registryId": "F1.1.1.1.2.2",
+      "label": "Footer Brand Subtitle",
+      "page": 1,
+      "subpage": 0,
+      "zone": "F",
+      "metadata": {
+        "type": "subtitle",
+        "component": "SiteFooter",
+        "feature": "branding",
+        "criticalPath": false
+      }
+    },
+    {
+      "selector": "#footer-description",
+      "registryId": "F1.1.1.2",
+      "label": "Footer Description",
+      "page": 1,
+      "subpage": 0,
+      "zone": "F",
+      "metadata": {
+        "type": "description",
+        "component": "SiteFooter",
+        "feature": "information",
+        "criticalPath": false
+      }
+    },
+    {
+      "selector": "#footer-credits",
+      "registryId": "F1.1.1.3",
+      "label": "Footer Credits",
+      "page": 1,
+      "subpage": 0,
+      "zone": "F",
+      "metadata": {
+        "type": "credits",
+        "component": "SiteFooter",
+        "feature": "information",
+        "criticalPath": false
+      }
+    },
+    {
+      "selector": "#footer-heart-icon",
+      "registryId": "F1.1.1.3.1",
+      "label": "Footer Heart Icon",
+      "page": 1,
+      "subpage": 0,
+      "zone": "F",
+      "metadata": {
+        "type": "icon",
+        "component": "SiteFooter",
+        "feature": "decoration",
+        "criticalPath": false
+      }
+    },
+    {
+      "selector": "#footer-coffee-icon",
+      "registryId": "F1.1.1.3.2",
+      "label": "Footer Coffee Icon",
+      "page": 1,
+      "subpage": 0,
+      "zone": "F",
+      "metadata": {
+        "type": "icon",
+        "component": "SiteFooter",
+        "feature": "decoration",
+        "criticalPath": false
+      }
+    },
+    {
+      "selector": "#footer-quick-links-section",
+      "registryId": "F1.1.2",
+      "label": "Footer Quick Links Section",
+      "page": 1,
+      "subpage": 0,
+      "zone": "F",
+      "metadata": {
+        "type": "section",
+        "component": "SiteFooter",
+        "feature": "navigation",
+        "criticalPath": false
+      }
+    },
+    {
+      "selector": "#footer-quick-links-title",
+      "registryId": "F1.1.2.1",
+      "label": "Footer Quick Links Title",
+      "page": 1,
+      "subpage": 0,
+      "zone": "F",
+      "metadata": {
+        "type": "title",
+        "component": "SiteFooter",
+        "feature": "navigation",
+        "criticalPath": false
+      }
+    },
+    {
+      "selector": "#footer-quick-links-icon",
+      "registryId": "F1.1.2.1.1",
+      "label": "Footer Quick Links Icon",
+      "page": 1,
+      "subpage": 0,
+      "zone": "F",
+      "metadata": {
+        "type": "icon",
+        "component": "SiteFooter",
+        "feature": "navigation",
+        "criticalPath": false
+      }
+    },
+    {
+      "selector": "#footer-quick-links-list",
+      "registryId": "F1.1.2.2",
+      "label": "Footer Quick Links List",
+      "page": 1,
+      "subpage": 0,
+      "zone": "F",
+      "metadata": {
+        "type": "list",
+        "component": "SiteFooter",
+        "feature": "navigation",
+        "criticalPath": false
+      }
+    },
+    {
+      "selector": "#footer-quick-link-library",
+      "registryId": "F1.1.2.2.1",
+      "label": "Footer Quick Link - Library",
+      "page": 1,
+      "subpage": 0,
+      "zone": "F",
+      "metadata": {
+        "type": "link",
+        "component": "SiteFooter",
+        "feature": "navigation",
+        "criticalPath": false
+      }
+    },
+    {
+      "selector": "#footer-quick-link-dashboard",
+      "registryId": "F1.1.2.2.2",
+      "label": "Footer Quick Link - Dashboard",
+      "page": 1,
+      "subpage": 0,
+      "zone": "F",
+      "metadata": {
+        "type": "link",
+        "component": "SiteFooter",
+        "feature": "navigation",
+        "criticalPath": false
+      }
+    },
+    {
+      "selector": "#footer-quick-link-stats",
+      "registryId": "F1.1.2.2.3",
+      "label": "Footer Quick Link - Statistics",
+      "page": 1,
+      "subpage": 0,
+      "zone": "F",
+      "metadata": {
+        "type": "link",
+        "component": "SiteFooter",
+        "feature": "navigation",
+        "criticalPath": false
+      }
+    },
+    {
+      "selector": "#footer-quick-link-settings",
+      "registryId": "F1.1.2.2.4",
+      "label": "Footer Quick Link - Settings",
+      "page": 1,
+      "subpage": 0,
+      "zone": "F",
+      "metadata": {
+        "type": "link",
+        "component": "SiteFooter",
+        "feature": "navigation",
+        "criticalPath": false
+      }
+    },
+    {
+      "selector": "#footer-help-section",
+      "registryId": "F1.1.3",
+      "label": "Footer Help Section",
+      "page": 1,
+      "subpage": 0,
+      "zone": "F",
+      "metadata": {
+        "type": "section",
+        "component": "SiteFooter",
+        "feature": "help",
+        "criticalPath": false
+      }
+    },
+    {
+      "selector": "#footer-help-title",
+      "registryId": "F1.1.3.1",
+      "label": "Footer Help Title",
+      "page": 1,
+      "subpage": 0,
+      "zone": "F",
+      "metadata": {
+        "type": "title",
+        "component": "SiteFooter",
+        "feature": "help",
+        "criticalPath": false
+      }
+    },
+    {
+      "selector": "#footer-help-icon",
+      "registryId": "F1.1.3.1.1",
+      "label": "Footer Help Icon",
+      "page": 1,
+      "subpage": 0,
+      "zone": "F",
+      "metadata": {
+        "type": "icon",
+        "component": "SiteFooter",
+        "feature": "help",
+        "criticalPath": false
+      }
+    },
+    {
+      "selector": "#footer-help-list",
+      "registryId": "F1.1.3.2",
+      "label": "Footer Help List",
+      "page": 1,
+      "subpage": 0,
+      "zone": "F",
+      "metadata": {
+        "type": "list",
+        "component": "SiteFooter",
+        "feature": "help",
+        "criticalPath": false
+      }
+    },
+    {
+      "selector": "#footer-help-docs",
+      "registryId": "F1.1.3.2.1",
+      "label": "Footer Help - Documentation",
+      "page": 1,
+      "subpage": 0,
+      "zone": "F",
+      "metadata": {
+        "type": "link",
+        "component": "SiteFooter",
+        "feature": "help",
+        "criticalPath": false
+      }
+    },
+    {
+      "selector": "#footer-help-faq",
+      "registryId": "F1.1.3.2.2",
+      "label": "Footer Help - FAQ",
+      "page": 1,
+      "subpage": 0,
+      "zone": "F",
+      "metadata": {
+        "type": "link",
+        "component": "SiteFooter",
+        "feature": "help",
+        "criticalPath": true
+      }
+    },
+    {
+      "selector": "#footer-help-contact",
+      "registryId": "F1.1.3.2.3",
+      "label": "Footer Help - Contact",
+      "page": 1,
+      "subpage": 0,
+      "zone": "F",
+      "metadata": {
+        "type": "link",
+        "component": "SiteFooter",
+        "feature": "help",
+        "criticalPath": false
+      }
+    },
+    {
+      "selector": "#footer-help-feedback",
+      "registryId": "F1.1.3.2.4",
+      "label": "Footer Help - Feedback",
+      "page": 1,
+      "subpage": 0,
+      "zone": "F",
+      "metadata": {
+        "type": "link",
+        "component": "SiteFooter",
+        "feature": "help",
+        "criticalPath": false
+      }
+    },
+    {
+      "selector": "#footer-bottom",
+      "registryId": "F1.2",
+      "label": "Footer Bottom Section",
+      "page": 1,
+      "subpage": 0,
+      "zone": "F",
+      "metadata": {
+        "type": "section",
+        "component": "SiteFooter",
+        "feature": "information",
+        "criticalPath": false
+      }
+    },
+    {
+      "selector": "#footer-bottom-content",
+      "registryId": "F1.2.1",
+      "label": "Footer Bottom Content",
+      "page": 1,
+      "subpage": 0,
+      "zone": "F",
+      "metadata": {
+        "type": "content",
+        "component": "SiteFooter",
+        "feature": "information",
+        "criticalPath": false
+      }
+    },
+    {
+      "selector": "#footer-copyright",
+      "registryId": "F1.2.1.1",
+      "label": "Footer Copyright",
+      "page": 1,
+      "subpage": 0,
+      "zone": "F",
+      "metadata": {
+        "type": "copyright",
+        "component": "SiteFooter",
+        "feature": "information",
+        "criticalPath": false
+      }
+    },
+    {
+      "selector": "#footer-version",
+      "registryId": "F1.2.1.1.1",
+      "label": "Footer Version",
+      "page": 1,
+      "subpage": 0,
+      "zone": "F",
+      "metadata": {
+        "type": "version",
+        "component": "SiteFooter",
+        "feature": "information",
+        "criticalPath": false
+      }
+    },
+    {
+      "selector": "#footer-version-icon",
+      "registryId": "F1.2.1.1.1.1",
+      "label": "Footer Version Icon",
+      "page": 1,
+      "subpage": 0,
+      "zone": "F",
+      "metadata": {
+        "type": "icon",
+        "component": "SiteFooter",
+        "feature": "information",
+        "criticalPath": false
+      }
+    },
+    {
+      "selector": "#footer-tech-stack",
+      "registryId": "F1.2.1.2",
+      "label": "Footer Tech Stack",
+      "page": 1,
+      "subpage": 0,
+      "zone": "F",
+      "metadata": {
+        "type": "tech-stack",
+        "component": "SiteFooter",
+        "feature": "information",
+        "criticalPath": false
+      }
+    },
+    {
+      "selector": "#footer-tech-react",
+      "registryId": "F1.2.1.2.1",
+      "label": "Footer Tech - React",
+      "page": 1,
+      "subpage": 0,
+      "zone": "F",
+      "metadata": {
+        "type": "tech-item",
+        "component": "SiteFooter",
+        "feature": "information",
+        "criticalPath": false
+      }
+    },
+    {
+      "selector": "#footer-tech-tailwind",
+      "registryId": "F1.2.1.2.2",
+      "label": "Footer Tech - Tailwind",
+      "page": 1,
+      "subpage": 0,
+      "zone": "F",
+      "metadata": {
+        "type": "tech-item",
+        "component": "SiteFooter",
+        "feature": "information",
+        "criticalPath": false
+      }
+    },
+    {
+      "selector": "#footer-tech-vite",
+      "registryId": "F1.2.1.2.3",
+      "label": "Footer Tech - Vite",
+      "page": 1,
+      "subpage": 0,
+      "zone": "F",
+      "metadata": {
+        "type": "tech-item",
+        "component": "SiteFooter",
+        "feature": "information",
+        "criticalPath": false
+      }
+    },
+    {
+      "selector": "#footer-debug-section",
+      "registryId": "F1.3",
+      "label": "Footer Debug Section",
+      "page": 1,
+      "subpage": 0,
+      "zone": "F",
+      "metadata": {
+        "type": "section",
+        "component": "SiteFooter",
+        "feature": "debug",
+        "criticalPath": false
+      }
+    },
+    {
+      "selector": "#footer-debug-controls",
+      "registryId": "F1.3.1",
+      "label": "Footer Debug Controls",
+      "page": 1,
+      "subpage": 0,
+      "zone": "F",
+      "metadata": {
+        "type": "controls",
+        "component": "SiteFooter",
+        "feature": "debug",
+        "criticalPath": false
+      }
+    },
+    {
+      "selector": "#footer-debug-tools",
+      "registryId": "F1.3.1.1",
+      "label": "Footer Debug Tools",
+      "page": 1,
+      "subpage": 0,
+      "zone": "F",
+      "metadata": {
+        "type": "tools",
+        "component": "SiteFooter",
+        "feature": "debug",
+        "criticalPath": false
+      }
+    },
+    {
+      "selector": "#footer-debug-measure-btn",
+      "registryId": "F1.3.1.1.1",
+      "label": "Footer Debug Measure Button",
+      "page": 1,
+      "subpage": 0,
+      "zone": "F",
+      "metadata": {
+        "type": "button",
+        "component": "SiteFooter",
+        "feature": "debug",
+        "criticalPath": false
+      }
+    },
+    {
+      "selector": "#footer-debug-resize-btn",
+      "registryId": "F1.3.1.1.2",
+      "label": "Footer Debug Resize Button",
+      "page": 1,
+      "subpage": 0,
+      "zone": "F",
+      "metadata": {
+        "type": "button",
+        "component": "SiteFooter",
+        "feature": "debug",
+        "criticalPath": false
+      }
+    },
+    {
+      "selector": "#tutorial-import-txt",
+      "registryId": "ADMIN.TUTORIALS.B.IMPORT_TXT",
+      "label": "Tutorial Import TXT Button",
+      "page": 99,
+      "subpage": 0,
+      "zone": "B",
+      "metadata": {
+        "type": "button",
+        "component": "TutorialAdmin",
+        "feature": "tutorial_admin",
+        "criticalPath": true
+      }
+    },
+    {
+      "selector": "#footer-debug-info",
+      "registryId": "F1.3.1.2",
+      "label": "Footer Debug Info",
+      "page": 1,
+      "subpage": 0,
+      "zone": "F",
+      "metadata": {
+        "type": "info",
+        "component": "SiteFooter",
+        "feature": "debug",
+        "criticalPath": false
+      }
+    },
+    {
+      "selector": "#footer-debug-instructions",
+      "registryId": "F1.3.1.3",
+      "label": "Footer Debug Instructions",
+      "page": 1,
+      "subpage": 0,
+      "zone": "F",
+      "metadata": {
+        "type": "instructions",
+        "component": "SiteFooter",
+        "feature": "debug",
+        "criticalPath": false
+      }
+    },
+    {
+      "selector": "#footer-debug-toggle-container",
+      "registryId": "F2",
+      "label": "Footer Debug Toggle Container",
+      "page": 1,
+      "subpage": 0,
+      "zone": "F",
+      "metadata": {
+        "type": "container",
+        "component": "SiteFooter",
+        "feature": "debug",
+        "criticalPath": false
+      }
+    },
+    {
+      "selector": "#footer-debug-toggle-btn",
+      "registryId": "F2.1",
+      "label": "Footer Debug Toggle Button",
+      "page": 1,
+      "subpage": 0,
+      "zone": "F",
+      "metadata": {
+        "type": "button",
+        "component": "SiteFooter",
+        "feature": "debug",
+        "criticalPath": false
+      }
+    },
+    {
+      "selector": "#updates-admin-save",
+      "registryId": "ADMIN.UPDATES.B.SAVE",
+      "label": "Updates Admin Save Button",
+      "page": 99,
+      "subpage": 0,
+      "zone": "B",
+      "metadata": {
+        "type": "button",
+        "component": "UpdatesAdmin",
+        "feature": "updates_admin",
+        "criticalPath": true
+      }
+    },
+    {
+      "selector": "#updates-admin-add-current",
+      "registryId": "ADMIN.UPDATES.B.ADD_CURRENT",
+      "label": "Updates Admin Add Current Button",
+      "page": 99,
+      "subpage": 0,
+      "zone": "B",
+      "metadata": {
+        "type": "button",
+        "component": "UpdatesAdmin",
+        "feature": "updates_admin",
+        "criticalPath": true
+      }
+    },
+    {
+      "selector": "#updates-admin-add-upcoming",
+      "registryId": "ADMIN.UPDATES.B.ADD_UPCOMING",
+      "label": "Updates Admin Add Upcoming Button",
+      "page": 99,
+      "subpage": 0,
+      "zone": "B",
+      "metadata": {
+        "type": "button",
+        "component": "UpdatesAdmin",
+        "feature": "updates_admin",
+        "criticalPath": true
+      }
+    },
+    {
+      "selector": "#settings-admin-nav",
+      "registryId": "2.0.L.ADMIN_NAV",
+      "label": "Settings Admin Nav Container",
+      "page": 2,
+      "subpage": 0,
+      "zone": "L",
+      "metadata": {
+        "type": "nav",
+        "component": "SettingsPage",
+        "feature": "admin",
+        "criticalPath": true
+      }
+    },
+    {
+      "selector": "#settings-admin-group-management",
+      "registryId": "2.0.L.ADMIN_NAV.management",
+      "label": "Admin Nav Group: Yönetim",
+      "page": 2,
+      "subpage": 0,
+      "zone": "L",
+      "metadata": {
+        "type": "nav-group",
+        "component": "SettingsPage",
+        "feature": "admin",
+        "criticalPath": true
+      }
+    },
+    {
+      "selector": "#settings-admin-group-analytics",
+      "registryId": "2.0.L.ADMIN_NAV.analytics",
+      "label": "Admin Nav Group: Analitik & Loglar",
+      "page": 2,
+      "subpage": 0,
+      "zone": "L",
+      "metadata": {
+        "type": "nav-group",
+        "component": "SettingsPage",
+        "feature": "admin",
+        "criticalPath": true
+      }
+    },
+    {
+      "selector": "#settings-admin-group-integrations",
+      "registryId": "2.0.L.ADMIN_NAV.integrations",
+      "label": "Admin Nav Group: Entegrasyonlar",
+      "page": 2,
+      "subpage": 0,
+      "zone": "L",
+      "metadata": {
+        "type": "nav-group",
+        "component": "SettingsPage",
+        "feature": "admin",
+        "criticalPath": true
+      }
+    },
+    {
+      "selector": "#settings-admin-item-users",
+      "registryId": "2.0.L.ADMIN_NAV.management.users",
+      "label": "Admin Nav Item: Kullanıcı Yönetimi",
+      "page": 2,
+      "subpage": 0,
+      "zone": "L",
+      "metadata": {
+        "type": "button",
+        "component": "SettingsPage",
+        "feature": "admin_users",
+        "criticalPath": true
+      }
+    },
+    {
+      "selector": "#settings-admin-item-notifications",
+      "registryId": "2.0.L.ADMIN_NAV.management.notifications",
+      "label": "Admin Nav Item: Bildirim Yönetimi",
+      "page": 2,
+      "subpage": 0,
+      "zone": "L",
+      "metadata": {
+        "type": "button",
+        "component": "SettingsPage",
+        "feature": "admin_notifications",
+        "criticalPath": true
+      }
+    },
+    {
+      "selector": "#settings-admin-item-tracking",
+      "registryId": "2.0.L.ADMIN_NAV.management.tracking",
+      "label": "Admin Nav Item: Bildirim Takip",
+      "page": 2,
+      "subpage": 0,
+      "zone": "L",
+      "metadata": {
+        "type": "button",
+        "component": "SettingsPage",
+        "feature": "admin_tracking",
+        "criticalPath": true
+      }
+    },
+    {
+      "selector": "#settings-admin-item-traffic",
+      "registryId": "2.0.L.ADMIN_NAV.analytics.traffic",
+      "label": "Admin Nav Item: Trafik Logları",
+      "page": 2,
+      "subpage": 0,
+      "zone": "L",
+      "metadata": {
+        "type": "button",
+        "component": "SettingsPage",
+        "feature": "admin_traffic",
+        "criticalPath": true
+      }
+    },
+    {
+      "selector": "#settings-admin-item-api-logs",
+      "registryId": "2.0.L.ADMIN_NAV.analytics.api-logs",
+      "label": "Admin Nav Item: API Logları",
+      "page": 2,
+      "subpage": 0,
+      "zone": "L",
+      "metadata": {
+        "type": "button",
+        "component": "SettingsPage",
+        "feature": "admin_api_logs",
+        "criticalPath": true
+      }
+    },
+    {
+      "selector": "#settings-admin-item-api",
+      "registryId": "2.0.L.ADMIN_NAV.integrations.api",
+      "label": "Admin Nav Item: API Merkezi",
+      "page": 2,
+      "subpage": 0,
+      "zone": "L",
+      "metadata": {
+        "type": "button",
+        "component": "SettingsPage",
+        "feature": "admin_api",
+        "criticalPath": true
+      }
+    },
+    {
+      "selector": "#settings-admin-item-updates",
+      "registryId": "2.0.L.ADMIN_NAV.integrations.updates",
+      "label": "Admin Nav Item: Güncel Geliştirmeler",
+      "page": 2,
+      "subpage": 0,
+      "zone": "L",
+      "metadata": {
+        "type": "button",
+        "component": "SettingsPage",
+        "feature": "admin_updates",
+        "criticalPath": true
+      }
+    }
+    ,
+    {
+      "selector": "#settings-admin-item-tutorials",
+      "registryId": "2.0.L.ADMIN_NAV.management.tutorials",
+      "label": "Admin Nav Item: Tutorial Yönetimi",
+      "page": 2,
+      "subpage": 0,
+      "zone": "L",
+      "metadata": {
+        "type": "button",
+        "component": "SettingsPage",
+        "feature": "admin_tutorials",
+        "criticalPath": true
+      }
+    },
+    {
+      "selector": "#settings-admin-back",
+      "registryId": "2.0.B.ADMIN_BACK",
+      "label": "Admin Back Button",
+      "page": 2,
+      "subpage": 0,
+      "zone": "B",
+      "metadata": {
+        "type": "button",
+        "component": "SettingsPage",
+        "feature": "admin",
+        "criticalPath": true
+      }
+    },
+    {
+      "selector": "#header-tutorial-btn",
+      "registryId": "H3.3.1",
+      "label": "Header Tutorial Button",
+      "page": 1,
+      "subpage": 0,
+      "zone": "H",
+      "metadata": {
+        "type": "button",
+        "component": "Header",
+        "feature": "help",
+        "criticalPath": true
+      }
+    },
+    {
+      "selector": "#steam-import-btn",
+      "registryId": "2.1.B1.1.3.4",
+      "label": "Steam Import Button",
+      "page": 2,
+      "subpage": 1,
+      "zone": "B",
+      "metadata": {
+        "type": "button",
+        "component": "ArkadeLibrary",
+        "feature": "library-import",
+        "criticalPath": true
+      }
+    },
+    {
+      "selector": "#steam-import-modal",
+      "registryId": "2.1.B1.5",
+      "label": "Steam Import Modal",
+      "page": 2,
+      "subpage": 1,
+      "zone": "B",
+      "metadata": {
+        "type": "modal",
+        "component": "SteamImportModal",
+        "feature": "library-import",
+        "criticalPath": true
+      }
+    },
+    {
+      "selector": "#steam-import-input",
+      "registryId": "2.1.B1.5.1",
+      "label": "Steam Import Input",
+      "page": 2,
+      "subpage": 1,
+      "zone": "B",
+      "metadata": {
+        "type": "input",
+        "component": "SteamImportModal",
+        "feature": "library-import",
+        "criticalPath": true
+      }
+    },
+    {
+      "selector": "#steam-import-submit-btn",
+      "registryId": "2.1.B1.5.2",
+      "label": "Steam Import Submit Button",
+      "page": 2,
+      "subpage": 1,
+      "zone": "B",
+      "metadata": {
+        "type": "button",
+        "component": "SteamImportModal",
+        "feature": "library-import",
+        "criticalPath": true
+      }
+    },
+    {
+      "selector": "#steam-import-cancel-btn",
+      "registryId": "2.1.B1.5.3",
+      "label": "Steam Import Cancel Button",
+      "page": 2,
+      "subpage": 1,
+      "zone": "B",
+      "metadata": {
+        "type": "button",
+        "component": "SteamImportModal",
+        "feature": "library-import",
+        "criticalPath": false
+      }
+    }
+    ,
+    {
+      "selector": "#steam-import-progress",
+      "registryId": "2.1.B1.5.4",
+      "label": "Steam Import Progress",
+      "page": 2,
+      "subpage": 1,
+      "zone": "B",
+      "metadata": {
+        "type": "progress",
+        "component": "SteamImportModal",
+        "feature": "library-import",
+        "criticalPath": false
+      }
+    },
+    {
+      "selector": "#steam-import-review",
+      "registryId": "2.1.B1.5.5",
+      "label": "Steam Import Review List",
+      "page": 2,
+      "subpage": 1,
+      "zone": "B",
+      "metadata": {
+        "type": "review",
+        "component": "SteamImportModal",
+        "feature": "library-import",
+        "criticalPath": true
+      }
+    },
+    {
+      "selector": "#steam-import-review-save-btn",
+      "registryId": "2.1.B1.5.6",
+      "label": "Steam Import Review Save Button",
+      "page": 2,
+      "subpage": 1,
+      "zone": "B",
+      "metadata": {
+        "type": "button",
+        "component": "SteamImportModal",
+        "feature": "library-import",
+        "criticalPath": true
+      }
+    },
+    {
+      "selector": "#steam-import-result",
+      "registryId": "2.1.B1.5.7",
+      "label": "Steam Import Status",
+      "page": 2,
+      "subpage": 1,
+      "zone": "B",
+      "metadata": {
+        "type": "status",
+        "component": "SteamImportModal",
+        "feature": "library-import",
+        "criticalPath": false
+      }
+    },
+    {
+      "selector": "#last-added-info",
+      "registryId": "2.1.B1.1.4",
+      "label": "Library Last Added Info",
+      "page": 2,
+      "subpage": 1,
+      "zone": "B",
+      "metadata": {
+        "type": "text",
+        "component": "ArkadeLibrary",
+        "feature": "library-import",
+        "criticalPath": false
+      }
+    },
+    {
+      "selector": "#library-pagination",
+      "registryId": "2.1.B1.2.3",
+      "label": "Library Pagination Bar",
+      "page": 2,
+      "subpage": 1,
+      "zone": "B",
+      "metadata": {
+        "type": "pagination",
+        "component": "ArkadeLibrary",
+        "feature": "library-grid",
+        "criticalPath": true
+      }
+    },
+    {
+      "selector": "#pagination-page-label",
+      "registryId": "2.1.B1.2.3.0",
+      "label": "Pagination Page Label",
+      "page": 2,
+      "subpage": 1,
+      "zone": "B",
+      "metadata": {
+        "type": "text",
+        "component": "ArkadeLibrary",
+        "feature": "library-grid",
+        "criticalPath": false
+      }
+    },
+    {
+      "selector": "#pagination-prev-btn",
+      "registryId": "2.1.B1.2.3.1",
+      "label": "Pagination Previous Button",
+      "page": 2,
+      "subpage": 1,
+      "zone": "B",
+      "metadata": {
+        "type": "button",
+        "component": "ArkadeLibrary",
+        "feature": "library-grid",
+        "criticalPath": true
+      }
+    },
+    {
+      "selector": "#pagination-next-btn",
+      "registryId": "2.1.B1.2.3.2",
+      "label": "Pagination Next Button",
+      "page": 2,
+      "subpage": 1,
+      "zone": "B",
+      "metadata": {
+        "type": "button",
+        "component": "ArkadeLibrary",
+        "feature": "library-grid",
+        "criticalPath": true
+      }
+    },
+    {
+      "selector": "#pagination-number-list",
+      "registryId": "2.1.B1.2.3.3",
+      "label": "Pagination Number List",
+      "page": 2,
+      "subpage": 1,
+      "zone": "B",
+      "metadata": {
+        "type": "container",
+        "component": "ArkadeLibrary",
+        "feature": "library-grid",
+        "criticalPath": true
+      }
+    },
+    {
+      "selector": ".pagination-page-number",
+      "registryId": "2.1.B1.2.3.3.item",
+      "label": "Pagination Page Number Button",
+      "page": 2,
+      "subpage": 1,
+      "zone": "B",
+      "metadata": {
+        "type": "button",
+        "feature": "library-grid",
+        "component": "ArkadeLibrary",
+        "uniqueAttribute": "data-page",
+        "criticalPath": true
+      }
+    },
+    {
+      "selector": "#pagination-ellipsis-left",
+      "registryId": "2.1.B1.2.3.3.l",
+      "label": "Pagination Ellipsis Left",
+      "page": 2,
+      "subpage": 1,
+      "zone": "B",
+      "metadata": {
+        "type": "text",
+        "feature": "library-grid",
+        "component": "ArkadeLibrary",
+        "criticalPath": false
+      }
+    },
+    {
+      "selector": "#pagination-ellipsis-right",
+      "registryId": "2.1.B1.2.3.3.r",
+      "label": "Pagination Ellipsis Right",
+      "page": 2,
+      "subpage": 1,
+      "zone": "B",
+      "metadata": {
+        "type": "text",
+        "feature": "library-grid",
+        "component": "ArkadeLibrary",
+        "criticalPath": false
+      }
+    }
+  ],
+  "statistics": {
+    "totalElements": 100,
+    "byZone": {
+      "H": 42,
+      "L": 4,
+      "F": 49
+    },
+    "byComponent": {
+      "ArkadeHeader": 40,
+      "BackButton": 3,
+      "ArkadeSidebar": 4,
+      "SiteFooter": 48
+    },
+    "byFeature": {
+      "navigation": 25,
+      "notifications": 15,
+      "profile": 10,
+      "branding": 8,
+      "search": 4,
+      "authentication": 1,
+      "gaming-session": 1,
+      "library-stats": 1,
+      "statistics": 1,
+      "information": 12,
+      "help": 6,
+      "debug": 11,
+      "decoration": 2,
+      "layout": 1,
+      "actions": 1
+    },
+    "criticalPathElements": 32
+  }
+}

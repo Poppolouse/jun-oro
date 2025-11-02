@@ -1,40 +1,49 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect } from "react";
 
 function LiveClock() {
-  const [time, setTime] = useState(new Date())
+  const [time, setTime] = useState(new Date());
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setTime(new Date())
-    }, 1000)
+      setTime(new Date());
+    }, 1000);
 
-    return () => clearInterval(timer)
-  }, [])
+    return () => clearInterval(timer);
+  }, []);
 
   const formatTime = (date) => {
-    const hours = String(date.getHours()).padStart(2, '0')
-    const minutes = String(date.getMinutes()).padStart(2, '0')
-    const seconds = String(date.getSeconds()).padStart(2, '0')
-    return `${hours}:${minutes}:${seconds}`
-  }
+    return date.toLocaleTimeString("tr-TR", {
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+    });
+  };
 
   const formatDate = (date) => {
-    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
-    return date.toLocaleDateString('tr-TR', options)
-  }
+    return date.toLocaleDateString("tr-TR", {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  };
 
   return (
-    <div className="glass rounded-xl p-6">
+    <div className="glass rounded-xl p-6 border border-purple-500/20 bg-gradient-to-br from-purple-600/10 to-pink-600/10">
       <div className="text-center">
-        <div className="text-5xl font-bold text-neon-green mb-2 font-mono">
+        <div className="text-3xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent mb-2 font-mono">
           {formatTime(time)}
         </div>
-        <div className="text-sm text-gray-400">
+        <div className="text-sm text-gray-300 capitalize">
           {formatDate(time)}
+        </div>
+        <div className="mt-4 flex items-center justify-center gap-2">
+          <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+          <span className="text-xs text-green-400">Canlı</span>
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default LiveClock
+export default LiveClock;

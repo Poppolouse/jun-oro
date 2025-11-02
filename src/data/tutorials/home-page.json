@@ -1,0 +1,148 @@
+{
+  "id": "home-page",
+  "title": "Ana Sayfa Kullanım Kılavuzu",
+  "description": "Ana sayfanın nasıl kullanılacağını öğrenin",
+  "version": "1.0.0",
+  "steps": [
+    {
+      "id": "step-1",
+      "title": "Hoş Geldiniz!",
+      "description": "Ana sayfaya hoş geldiniz! Bu kılavuz size tüm özellikleri gösterecek.",
+      "target": null,
+      "position": "center",
+      "highlightType": "none",
+      "content": {
+        "text": "Jun Oro ana sayfasına hoş geldiniz! Bu kılavuz size sayfadaki tüm özellikleri ve nasıl kullanılacağını gösterecek.",
+        "image": null,
+        "buttons": [
+          {
+            "text": "Başlayalım",
+            "action": "next",
+            "style": "primary"
+          },
+          {
+            "text": "Atla",
+            "action": "skip",
+            "style": "secondary"
+          }
+        ]
+      }
+    },
+    {
+      "id": "step-2",
+      "title": "Gerçek Zamanlı Saat",
+      "description": "Sayfanın üst kısmında güncel saati görebilirsiniz",
+      "target": ".main-clock",
+      "position": "bottom",
+      "highlightType": "spotlight",
+      "content": {
+        "text": "Bu bölümde güncel saat ve tarih bilgisini görebilirsiniz. Saat gerçek zamanlı olarak güncellenir.",
+        "image": null,
+        "buttons": [
+          {
+            "text": "Devam",
+            "action": "next",
+            "style": "primary"
+          }
+        ]
+      }
+    },
+    {
+      "id": "step-3",
+      "title": "Arama Çubuğu",
+      "description": "Yakında gelecek olan arama özelliği",
+      "target": ".search-bar",
+      "position": "bottom",
+      "highlightType": "outline",
+      "content": {
+        "text": "Bu arama çubuğu yakında aktif olacak. Tüm uygulamalar ve içerikler arasında arama yapabileceksiniz.",
+        "image": null,
+        "buttons": [
+          {
+            "text": "Devam",
+            "action": "next",
+            "style": "primary"
+          }
+        ]
+      }
+    },
+    {
+      "id": "step-4",
+      "title": "Uygulama Kartları",
+      "description": "Mevcut uygulamaları keşfedin",
+      "target": ".apps-grid",
+      "position": "top",
+      "highlightType": "outline",
+      "content": {
+        "text": "Burada tüm uygulamaları görebilirsiniz. Şu anda sadece Arkade aktif, diğerleri yakında gelecek!",
+        "image": null,
+        "buttons": [
+          {
+            "text": "Devam",
+            "action": "next",
+            "style": "primary"
+          }
+        ]
+      }
+    },
+    {
+      "id": "step-5",
+      "title": "Sayfalama",
+      "description": "Daha fazla uygulama için sayfa değiştirin",
+      "target": ".pagination",
+      "position": "top",
+      "highlightType": "outline",
+      "content": {
+        "text": "Uygulamalar sayfalara bölünmüştür. Bu butonlarla farklı sayfalara geçebilirsiniz.",
+        "image": null,
+        "buttons": [
+          {
+            "text": "Devam",
+            "action": "next",
+            "style": "primary"
+          }
+        ]
+      }
+    },
+    {
+      "id": "step-6",
+      "title": "Yakında Gelecek Özellikler",
+      "description": "Gelecekte eklenecek özellikler",
+      "target": ".coming-soon-section",
+      "position": "top",
+      "highlightType": "spotlight",
+      "content": {
+        "text": "Bu bölümde yakında eklenecek özellikler hakkında bilgi bulabilirsiniz. Son aktiviteler, keşfet bölümü ve daha fazlası!",
+        "image": null,
+        "buttons": [
+          {
+            "text": "Tamamla",
+            "action": "finish",
+            "style": "primary"
+          }
+        ]
+      }
+    }
+  ],
+  "settings": {
+    "autoStart": true,
+    "showProgress": true,
+    "allowSkip": true,
+    "overlay": {
+      "color": "rgba(0, 0, 0, 0.7)",
+      "blur": true
+    },
+    "highlight": {
+      "color": "#8b5cf6",
+      "borderWidth": 3,
+      "borderRadius": 8,
+      "padding": 8
+    },
+    "modal": {
+      "maxWidth": 400,
+      "borderRadius": 12,
+      "backgroundColor": "rgba(17, 24, 39, 0.95)",
+      "textColor": "#ffffff"
+    }
+  }
+}

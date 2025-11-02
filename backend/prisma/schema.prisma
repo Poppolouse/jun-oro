@@ -1,0 +1,312 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id              String            @id @default(cuid())
+  name            String
+  email           String?           @unique
+  username        String?           @unique
+  password        String?
+  role            String            @default("user")
+  status          String            @default("pending") // pending, active, suspended
+  profileImage    String?           // URL to profile image in R2
+  profileImageKey String?           // R2 object key for deletion
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @default(now()) @updatedAt
+  lastActive      DateTime          @default(now())
+  sessions        GameSession[]
+  notifications   Notification[]
+  pageVisits      PageVisit[]
+  session_history session_history[]
+  user_libraries  user_libraries?
+  preferences     UserPreferences?
+  userStats       UserStats?
+  libraryEntries  LibraryEntry[]
+  apiKeys         ApiKey[]
+  changelogs      Changelog[]
+  adminAuditLogs  AdminAuditLog[]
+
+  @@map("users")
+}
+
+model ApiKey {
+  id          String    @id @default(cuid())
+  userId      String?
+  serviceName String    // 'steam', 'igdb', 'twitch', etc.
+  keyName     String    // Display name for the key
+  keyValue    String    // Encrypted API key value
+  isActive    Boolean   @default(true)
+  isGlobal    Boolean   @default(false) // Global keys for all users vs user-specific
+  metadata    Json?     // Additional configuration like client_id, endpoints, etc.
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  lastUsed    DateTime?
+  user        User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([serviceName, userId]) // One key per service per user
+  @@map("api_keys")
+}
+
+model Game {
+  id               String            @id
+  name             String
+  cover            String?
+  coverKey         String?           // R2 object key for deletion
+  firstReleaseDate DateTime?
+  genres           Json?
+  platforms        Json?
+  summary          String?
+  rating           Float?
+  developer        String?
+  developers       Json?
+  publisher        String?
+  publishers       Json?
+  steamData        Json?
+  igdbData         Json?
+  hltbData         Json?
+  metacriticData   Json?
+  cachedAt         DateTime          @default(now())
+  lastAccessed     DateTime          @default(now())
+  accessCount      Int               @default(1)
+  campaigns        Campaign[]
+  sessions         GameSession[]
+  libraryEntries   LibraryEntry[]
+  session_history  session_history[]
+
+  @@map("games")
+}
+
+model LibraryEntry {
+  id         String    @id @default(cuid())
+  userId     String
+  gameId     String
+  category   String    @default("wishlist")
+  playtime   Int       @default(0)
+  rating     Float?
+  notes      String?
+  lastPlayed DateTime?
+  progress   Int       @default(0)
+  priority   Int       @default(3)
+  isPublic   Boolean   @default(false)
+  tags       Json?
+  addedAt    DateTime  @default(now())
+  updatedAt  DateTime  @default(now()) @updatedAt
+  game       Game      @relation(fields: [gameId], references: [id])
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, gameId])
+  @@map("library_entries")
+}
+
+model UserPreferences {
+  id                    String  @id @default(cuid())
+  userId                String  @unique
+  preferredPlatform     String?
+  preferredStatus       String  @default("Oynamak İstiyorum")
+  includeDLCs           Boolean @default(false)
+  selectedDLCs          Json?
+  selectedCampaigns     Json?
+  preferredVersion      String?
+  gameSpecificPrefs     Json?
+  autoLoadHLTB          Boolean @default(true)
+  autoLoadMetacritic    Boolean @default(true)
+  autoGenerateCampaigns Boolean @default(true)
+  user                  User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("user_preferences")
+}
+
+model GameSession {
+  id        String    @id @default(cuid())
+  userId    String
+  gameId    String
+  gameName  String
+  startTime DateTime  @default(now())
+  endTime   DateTime?
+  playtime  Int       @default(0)
+  isActive  Boolean   @default(true)
+  campaigns Json?
+  platform  String?
+  status    String?
+  game      Game      @relation(fields: [gameId], references: [id])
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("game_sessions")
+}
+
+model UserStats {
+  id             String    @id @default(cuid())
+  userId         String    @unique
+  totalPlayTime  Int       @default(0)
+  totalSessions  Int       @default(0)
+  gamesPlayed    Int       @default(0)
+  gamesCompleted Int       @default(0)
+  lastPlayedGame String?
+  lastPlayedAt   DateTime?
+  weeklyStats    Json?
+  monthlyStats   Json?
+  achievements   Json?
+  user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("user_stats")
+}
+
+model Campaign {
+  id               String     @id @default(cuid())
+  gameId           String
+  name             String
+  description      String?
+  averageDuration  String?
+  customProperties Json?
+  parentId         String?
+  isAutoGenerated  Boolean    @default(false)
+  isMainCampaign   Boolean    @default(false)
+  difficulty       String?
+  features         Json?
+  createdAt        DateTime   @default(now())
+  game             Game       @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  parent           Campaign?  @relation("CampaignHierarchy", fields: [parentId], references: [id])
+  children         Campaign[] @relation("CampaignHierarchy")
+
+  @@map("campaigns")
+}
+
+model PageVisit {
+  id        String   @id @default(cuid())
+  userId    String
+  page      String
+  visitedAt DateTime @default(now())
+  metadata  Json?
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("page_visits")
+}
+
+model Notification {
+  id        String    @id @default(cuid())
+  userId    String?
+  title     String
+  message   String
+  type      String    @default("info")
+  isRead    Boolean   @default(false)
+  isGlobal  Boolean   @default(false)
+  metadata  Json?
+  createdAt DateTime  @default(now())
+  expiresAt DateTime?
+  user      User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("notifications")
+}
+
+model SystemUpdate {
+  id          String              @id @default(cuid())
+  title       String
+  description String
+  version     String?
+  type        String              @default("feature")
+  status      String              @default("planned")
+  progress    Int                 @default(0)
+  priority    String              @default("medium")
+  category    String?
+  metadata    Json?
+  createdAt   DateTime            @default(now())
+  updatedAt   DateTime            @updatedAt
+  completedAt DateTime?
+  substeps    SystemUpdateStep[]
+
+  @@map("system_updates")
+}
+
+model SystemUpdateStep {
+  id          String       @id @default(cuid())
+  updateId    String
+  title       String
+  description String?
+  progress    Int          @default(0)
+  status      String       @default("pending")
+  order       Int          @default(0)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  completedAt DateTime?
+  update      SystemUpdate @relation(fields: [updateId], references: [id], onDelete: Cascade)
+
+  @@map("system_update_steps")
+}
+
+model session_history {
+  id        String   @id
+  userId    String
+  gameId    String
+  gameName  String
+  startTime DateTime
+  endTime   DateTime
+  playtime  Int
+  campaigns Json?
+  platform  String?
+  status    String?
+  createdAt DateTime @default(now())
+  games     Game     @relation(fields: [gameId], references: [id])
+  users     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model user_libraries {
+  id            String   @id
+  userId        String   @unique
+  version       String   @default("1.0")
+  totalGames    Int      @default(0)
+  totalPlaytime Int      @default(0)
+  lastUpdated   DateTime @default(now())
+  users         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Platform {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  logoUrl   String?  // URL to platform logo in R2
+  logoKey   String?  // R2 object key for deletion
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("platforms")
+}
+
+model Changelog {
+  id          String    @id @default(cuid())
+  title       String
+  content     String    @db.Text // Markdown content
+  version     String?   // Optional version number
+  type        String    @default("update") // update, feature, bugfix, etc.
+  isPublished Boolean   @default(true)
+  publishedAt DateTime? @default(now())
+  releaseDate DateTime? // Release date for the changelog
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  authorId    String
+  author      User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  @@map("changelogs")
+}
+
+model AdminAuditLog {
+  id          String   @id @default(cuid())
+  action      String   // CREATE, UPDATE, DELETE, LOGIN, LOGOUT, etc.
+  targetType  String   // USER, GAME, SYSTEM, etc.
+  targetId    String?  // ID of the affected resource
+  targetName  String?  // Name/title of the affected resource
+  details     Json?    // Additional details about the action
+  ipAddress   String?  // IP address of the admin
+  userAgent   String?  // Browser/client info
+  success     Boolean  @default(true)
+  errorMessage String? // If action failed
+  createdAt   DateTime @default(now())
+  adminId     String
+  admin       User     @relation(fields: [adminId], references: [id], onDelete: Cascade)
+
+  @@map("admin_audit_logs")
+}

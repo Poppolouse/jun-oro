@@ -1,170 +1,211 @@
-import { useNavigate } from 'react-router-dom'
-import Header from '../components/Header'
+import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import Header from "../components/Header";
+import LiveClock from "../components/LiveClock";
+import SiteFooter from "../components/SiteFooter";
+import ElementSelector from "../components/Tutorial/ElementSelector";
+import UpdatesCard from "../components/Updates/UpdatesCard";
+import ChangelogSidebar from "../components/Changelog/ChangelogSidebar";
+import { useTutorial, useTutorialAdmin } from "../hooks/useTutorial";
 
 function HomePage() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const [currentTime, setCurrentTime] = useState(new Date());
+  const [currentPage, setCurrentPage] = useState(0);
+  
+  // Tutorial hook'unu kullan
+  useTutorial('home-page', { pageName: 'home' });
+  
+  // Admin hook'unu kullan
+  const { isAdmin } = useTutorialAdmin();
 
-  const apps = [
-    {
-      id: 'arkade',
-      title: 'Arkade',
-      description: 'Gaming companion app',
-      icon: '🎮',
-      path: '/arkade',
-      gradient: 'from-neon-green/20 to-transparent'
-    },
-  ]
+  // Saat güncelleme
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const applications = [
+    { id: 1, name: 'Arkade', icon: '🎮', status: 'active', path: '/arkade/library', description: 'Oyun kütüphanesi, ilerleme takibi ve istatistikler' },
+    { id: 2, name: 'Sinepedi', icon: '🎬', status: 'coming_soon', path: '/sinepedi', description: 'Film keşfi, değerlendirme ve izleme listesi' },
+    { id: 3, name: 'Zombososyal', icon: '🧟', status: 'coming_soon', path: '/zombososyal', description: 'Sosyal medya platformu ve topluluk ağı' },
+    { id: 4, name: 'Bölüm Bölüm', icon: '📺', status: 'coming_soon', path: '/bolum-bolum', description: 'Dizi takibi, bölüm ilerlemesi ve öneriler' },
+    { id: 5, name: 'Sayfa', icon: '📚', status: 'coming_soon', path: '/sayfa', description: 'Kitap okuma takibi, notlar ve alıntılar' },
+    { id: 6, name: 'Melodi', icon: '🎵', status: 'coming_soon', path: '/melodi', description: 'Müzik keşfi, playlist yönetimi ve istatistikler' },
+    { id: 7, name: 'Besinepedi', icon: '🍽️', status: 'coming_soon', path: '/besinepedi', description: 'Yemek tarifleri, beslenme takibi ve menü planlama' },
+    { id: 8, name: 'Kas Kurdu', icon: '🦆', status: 'coming_soon', path: '/kas-kurdu', description: 'Antrenman programları, ilerleme takibi ve hedefler' },
+    { id: 9, name: 'FinansLab', icon: '💰', status: 'coming_soon', path: '/finans-lab', description: 'Kişisel finans yönetimi ve bütçe planlama' },
+    { id: 10, name: 'Rutin', icon: '🌱', status: 'coming_soon', path: '/rutin', description: 'Alışkanlık oluşturma, takip ve motivasyon' },
+    { id: 11, name: 'Titan', icon: '🛡️', status: 'coming_soon', path: '/titan', description: 'Dosya yedekleme, senkronizasyon ve güvenlik' },
+    { id: 12, name: 'Yapyap', icon: '✅', status: 'coming_soon', path: '/yapyap', description: 'Görev yönetimi, proje takibi ve verimlilik' },
+  ];
+
+  const appsPerPage = 6; // 2 satır x 3 sütun
+  const totalPages = Math.ceil(applications.length / appsPerPage);
+  const currentApps = applications.slice(currentPage * appsPerPage, (currentPage + 1) * appsPerPage);
+
+  const formatTime = (date) => {
+    return date.toLocaleTimeString('tr-TR', { 
+      hour: '2-digit', 
+      minute: '2-digit',
+      second: '2-digit'
+    });
+  };
+
+  const formatDate = (date) => {
+    return date.toLocaleDateString('tr-TR', { 
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+  };
 
   return (
-    <div className="min-h-screen bg-[#0a0e27]">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-gray-900 to-slate-800" id="home-page" data-registry="1.0">
       <Header />
       
-      <div className="flex">
-        {/* Left Sidebar */}
-        <aside className="w-64 bg-gradient-to-b from-[#1a0f2e] to-[#0a0e27] border-r border-white/10 p-6 flex flex-col min-h-[calc(100vh-73px)]">
-          <nav className="flex-1 space-y-2">
-            <button className="sidebar-item active w-full text-left px-4 py-3 rounded-lg text-white flex items-center gap-3">
-              <span className="text-xl">🏠</span>
-              <span>Ana Sayfa</span>
-            </button>
-            <button className="sidebar-item w-full text-left px-4 py-3 rounded-lg text-gray-400 flex items-center gap-3">
-              <span className="text-xl">📊</span>
-              <span>Dashboard</span>
-            </button>
-            <button className="sidebar-item w-full text-left px-4 py-3 rounded-lg text-gray-400 flex items-center gap-3">
-              <span className="text-xl">⚙️</span>
-              <span>Ayarlar</span>
-            </button>
-          </nav>
-          
-          <div className="glass rounded-lg p-4 mt-auto">
-            <p className="text-xs text-gray-400 mb-2">v0.0.1</p>
-            <div className="h-2 bg-white/10 rounded-full overflow-hidden">
-              <div className="h-full w-1/3 bg-gradient-to-r from-neon-green to-neon-cyan"></div>
+      {/* Ana Layout - Changelog Sol, İçerik Orta */}
+      <div className="flex" id="home-content" data-registry="1.0.B">
+        {/* Changelog - Ekranın En Solunda Sabit */}
+        <div className="w-80 min-h-screen p-6 bg-slate-900/50 border-r border-slate-700/50">
+          <ChangelogSidebar />
+        </div>
+        
+        {/* Ana İçerik - Geri Kalan Alan */}
+        <div className="flex-1">
+          <div className="max-w-6xl mx-auto px-8 py-12">
+            {/* Büyük Saat */}
+            <div className="text-center mb-8 main-clock" id="main-clock" data-registry="1.0.B2">
+              <div className="text-6xl md:text-8xl font-bold text-white mb-2 font-mono tracking-wider" id="clock-time" data-registry="1.0.B2.1">
+                {formatTime(currentTime)}
+              </div>
+              <div className="text-xl text-gray-400 capitalize" id="clock-date" data-registry="1.0.B2.2">
+                {formatDate(currentTime)}
+              </div>
             </div>
-          </div>
-        </aside>
 
-        {/* Main Content */}
-        <main className="flex-1 overflow-y-auto">
-          {/* Hero Section */}
-          <div className="relative h-96 bg-gradient-to-br from-[#1a0f2e] via-[#2a1845] to-[#0a0e27] overflow-hidden">
-            <div className="absolute inset-0 opacity-20">
-              <div className="absolute inset-0 bg-gradient-to-br from-neon-purple/20 to-neon-green/20"></div>
+            {/* Arama Çubuğu */}
+            <div className="mb-12 search-bar" id="search-section" data-registry="1.0.B3">
+              <div className="relative max-w-2xl mx-auto">
+                <div className="relative">
+                  <input 
+                    type="text" 
+                    placeholder="Uygulamalarda ara..."
+                    className="w-full bg-slate-800/50 border border-slate-600/50 rounded-2xl px-6 py-4 text-white placeholder-gray-400 text-lg focus:outline-none focus:border-slate-500 transition-colors"
+                    disabled
+                    id="search-input"
+                    data-registry="1.0.B3.1"
+                  />
+                  <div className="absolute right-4 top-1/2 transform -translate-y-1/2">
+                    <span className="text-xs px-3 py-1 rounded-full bg-slate-700/50 text-slate-400 border border-slate-600/30" data-registry="1.0.B3.2">
+                      Çok Yakında
+                    </span>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div className="absolute inset-0 bg-gradient-to-t from-[#0a0e27] to-transparent"></div>
-            
-            <div className="relative h-full flex flex-col justify-end p-12">
-              <h1 className="text-6xl font-bold text-white mb-4">
-                Hoş Geldin <span className="text-neon-green text-glow-green">Özgü</span>
-              </h1>
-              <p className="text-xl text-gray-300">Günlük uygulamalarına buradan erişebilirsin</p>
-            </div>
-          </div>
 
-          {/* Apps Section */}
-          <div className="p-12">
-            <div className="flex items-center justify-between mb-8">
-              <h2 className="text-3xl font-bold text-white">Uygulamalar</h2>
-              <button className="glass glass-hover px-6 py-2 rounded-lg text-white text-sm flex items-center gap-2">
-                <span>➕</span>
-                <span>Yeni Ekle</span>
-              </button>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {apps.map((app) => (
-                <button
-                  key={app.id}
-                  onClick={() => navigate(app.path)}
-                  className="glass glass-hover rounded-2xl p-6 text-left relative overflow-hidden group"
-                >
-                  <div className={`absolute inset-0 bg-gradient-to-br ${app.gradient} opacity-0 group-hover:opacity-100 transition-opacity`}></div>
-                  
-                  <div className="relative">
-                    <div className="text-6xl mb-4">{app.icon}</div>
-                    <h3 className="text-2xl font-bold text-white mb-2">{app.title}</h3>
-                    <p className="text-gray-400">{app.description}</p>
-                    
-                    <div className="mt-4 pt-4 border-t border-white/10 flex items-center justify-between">
-                      <span className="text-xs text-gray-500">Son güncelleme: Bugün</span>
-                      <span className="text-neon-green text-xl">→</span>
+            {/* Uygulamalar */}
+            <div className="mb-8" id="apps-section" data-registry="1.0.B4">
+              <h2 className="text-2xl font-bold text-white mb-6 text-center" data-registry="1.0.B4.1">🚀 Tüm Uygulamalar</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8 apps-grid" id="apps-grid" data-registry="1.0.B4.2">
+                {currentApps.map((app) => (
+                  <div 
+                    key={app.id} 
+                    className={`relative rounded-2xl p-6 border transition-all duration-300 group ${
+                      app.status === 'active' 
+                        ? 'bg-slate-800/50 border-slate-600/50 hover:border-slate-500 cursor-pointer hover:scale-105' 
+                        : 'bg-slate-800/30 border-slate-700/30 opacity-75'
+                    }`}
+                    onClick={() => app.status === 'active' && navigate(app.path)}
+                    data-app={app.name.toLowerCase().replace(/\s+/g, '-')}
+                    data-registry={`1.0.B4.2.${app.id}`}
+                  >
+                    {app.status === 'coming_soon' && (
+                      <div className="absolute top-4 right-4 z-10">
+                        <span className="text-xs px-2 py-1 rounded-full bg-slate-700/80 text-slate-300 border border-slate-600/50" data-registry={`1.0.B4.2.${app.id}.1`}>
+                          Çok Yakında
+                        </span>
+                      </div>
+                    )}
+                    <div className="text-center">
+                      <div className={`w-16 h-16 mx-auto rounded-2xl flex items-center justify-center text-3xl shadow-lg mb-4 transition-transform ${
+                        app.status === 'active' 
+                          ? 'bg-gradient-to-br from-slate-600 to-slate-700 group-hover:scale-110' 
+                          : 'bg-slate-700/50'
+                      }`} data-registry={`1.0.B4.2.${app.id}.2`}>
+                        {app.icon}
+                      </div>
+                      <h3 className="text-lg font-bold text-white mb-2" data-registry={`1.0.B4.2.${app.id}.3`}>{app.name}</h3>
+                      <p className="text-gray-400 text-sm mb-4 leading-relaxed" data-registry={`1.0.B4.2.${app.id}.4`}>{app.description}</p>
+                      <button 
+                        className={`w-full py-2 rounded-xl font-medium transition-all ${
+                          app.status === 'active'
+                            ? 'bg-slate-700/50 border border-slate-600/50 text-white hover:bg-slate-600/50'
+                            : 'bg-slate-800/50 border border-slate-700/30 text-slate-400 cursor-not-allowed'
+                        }`}
+                        disabled={app.status !== 'active'}
+                        data-registry={`1.0.B4.2.${app.id}.5`}
+                      >
+                        {app.status === 'active' ? 'Uygulamayı Aç' : 'Çok Yakında'}
+                      </button>
                     </div>
                   </div>
-                </button>
-              ))}
-              
-              {/* Coming Soon Cards */}
-              <div className="glass rounded-2xl p-6 text-left opacity-50">
-                <div className="text-6xl mb-4">🎬</div>
-                <h3 className="text-2xl font-bold text-white mb-2">Sinepedi</h3>
-                <p className="text-gray-400">Film & dizi takibi</p>
-                <div className="mt-4 pt-4 border-t border-white/10">
-                  <span className="text-xs text-neon-cyan">Yakında...</span>
-                </div>
+                ))}
               </div>
-              
-              <div className="glass rounded-2xl p-6 text-left opacity-50">
-                <div className="text-6xl mb-4">📚</div>
-                <h3 className="text-2xl font-bold text-white mb-2">Sayfa</h3>
-                <p className="text-gray-400">Kitap okuma tracker</p>
-                <div className="mt-4 pt-4 border-t border-white/10">
-                  <span className="text-xs text-neon-cyan">Yakında...</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </main>
 
-        {/* Right Sidebar */}
-        <aside className="w-80 bg-gradient-to-b from-[#1a0f2e] to-[#0a0e27] border-l border-white/10 p-6 overflow-y-auto min-h-[calc(100vh-73px)]">
-          <h3 className="text-lg font-bold text-white mb-6">Son Aktiviteler</h3>
-          
-          <div className="space-y-4">
-            {[1, 2, 3, 4].map((item) => (
-              <div key={item} className="glass rounded-xl p-4">
-                <div className="flex items-start gap-3">
-                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-neon-purple to-neon-pink flex items-center justify-center text-white font-bold">
-                    Ö
+              {/* Sayfalama */}
+              {totalPages > 1 && (
+                <div className="flex justify-center items-center gap-4 pagination" id="pagination" data-registry="1.0.B4.3">
+                  <button 
+                    onClick={() => setCurrentPage(prev => Math.max(0, prev - 1))}
+                    disabled={currentPage === 0}
+                    className="px-4 py-2 rounded-lg bg-slate-800/50 border border-slate-600/50 text-white disabled:opacity-50 disabled:cursor-not-allowed hover:bg-slate-700/50 transition-colors"
+                    data-registry="1.0.B4.3.1"
+                  >
+                    ← Önceki
+                  </button>
+                  <div className="flex gap-2" data-registry="1.0.B4.3.2">
+                    {Array.from({ length: totalPages }, (_, i) => (
+                      <button
+                        key={i}
+                        onClick={() => setCurrentPage(i)}
+                        className={`w-10 h-10 rounded-lg font-medium transition-colors ${
+                          currentPage === i 
+                            ? 'bg-slate-600 text-white border border-slate-500' 
+                            : 'bg-slate-800/50 border border-slate-600/50 text-gray-400 hover:bg-slate-700/50'
+                        }`}
+                        data-page={i}
+                        data-registry={`1.0.B4.3.2.${i + 1}`}
+                      >
+                        {i + 1}
+                      </button>
+                    ))}
                   </div>
-                  <div className="flex-1">
-                    <p className="text-white text-sm mb-1">Yeni oyun eklendi</p>
-                    <p className="text-gray-400 text-xs">2 saat önce</p>
-                  </div>
+                  <button 
+                    onClick={() => setCurrentPage(prev => Math.min(totalPages - 1, prev + 1))}
+                    disabled={currentPage === totalPages - 1}
+                    className="px-4 py-2 rounded-lg bg-slate-800/50 border border-slate-600/50 text-white disabled:opacity-50 disabled:cursor-not-allowed hover:bg-slate-700/50 transition-colors"
+                    data-registry="1.0.B4.3.3"
+                  >
+                    Sonraki →
+                  </button>
                 </div>
-              </div>
-            ))}
-          </div>
-          
-          <div className="mt-8">
-            <h3 className="text-lg font-bold text-white mb-4">İstatistikler</h3>
-            
-            <div className="space-y-3">
-              <div className="glass rounded-xl p-4">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-gray-400 text-sm">Toplam Oyun</span>
-                  <span className="text-2xl font-bold text-neon-green">42</span>
-                </div>
-                <div className="h-2 bg-white/10 rounded-full overflow-hidden">
-                  <div className="h-full w-2/3 bg-gradient-to-r from-neon-green to-neon-cyan"></div>
-                </div>
-              </div>
-              
-              <div className="glass rounded-xl p-4">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-gray-400 text-sm">Bu Hafta</span>
-                  <span className="text-2xl font-bold text-neon-purple">12h</span>
-                </div>
-                <div className="h-2 bg-white/10 rounded-full overflow-hidden">
-                  <div className="h-full w-1/2 bg-gradient-to-r from-neon-purple to-neon-pink"></div>
-                </div>
-              </div>
+              )}
             </div>
+
+            {/* Güncel Geliştirmeler Kartı */}
+            <UpdatesCard showManage={isAdmin} />
           </div>
-        </aside>
+        </div>
       </div>
+      <SiteFooter />
+      <ElementSelector />
     </div>
-  )
+  );
 }
 
-export default HomePage
+export default HomePage;

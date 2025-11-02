@@ -1,0 +1,418 @@
+﻿582: <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[99999] flex items-center justify-center p-4">
+583: <div className="relative flex items-center justify-center w-full">
+585: <div className="bg-gradient-to-br from-[#1a0f2e] to-[#0a0e27] rounded-2xl border border-white/20 w-full max-w-4xl max-h-[90vh] overflow-hidden">
+587: <div className="flex items-center justify-between p-6 border-b border-white/10">
+588: <div className="flex items-center gap-4">
+600: </div>
+607: </div>
+609: <div className="p-6 overflow-y-auto max-h-[calc(90vh-120px)]">
+612: <div className="space-y-6">
+614: <div className="text-center">
+619: </div>
+623: <div className="bg-orange-500/10 border border-orange-500/30 rounded-lg p-4 mb-4">
+624: <div className="flex items-center justify-between mb-3">
+625: <div className="flex items-center gap-2">
+626: <div className="text-orange-400 text-xl">⏱️</div>
+628: </div>
+636: </div>
+637: <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-sm">
+639: <div className="text-center">
+640: <div className="text-gray-400">Ana Hikaye</div>
+641: <div className="text-white font-medium">{hltbData.mainStory}</div>
+642: </div>
+645: <div className="text-center">
+646: <div className="text-gray-400">Ana + Extra</div>
+647: <div className="text-white font-medium">{hltbData.mainExtra}</div>
+648: </div>
+651: <div className="text-center">
+652: <div className="text-gray-400">Completionist</div>
+653: <div className="text-white font-medium">{hltbData.completionist}</div>
+654: </div>
+657: <div className="text-center">
+658: <div className="text-gray-400">Tüm Stiller</div>
+659: <div className="text-white font-medium">{hltbData.allStyles}</div>
+660: </div>
+662: </div>
+663: <div className="mt-3 text-xs text-gray-400">
+665: </div>
+666: </div>
+670: <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+675: <div className="text-blue-400 text-2xl mb-2">📄</div>
+676: <div className="text-white font-medium">TXT Import</div>
+677: <div className="text-gray-400 text-xs">Metin dosyasından içe aktar</div>
+684: <div className="text-purple-400 text-2xl mb-2">🤖</div>
+685: <div className="text-white font-medium">AI Prompt</div>
+686: <div className="text-gray-400 text-xs">Yapay zeka için prompt oluştur</div>
+694: <div className="text-orange-400 text-2xl mb-2">⏱️</div>
+695: <div className="text-white font-medium">HowLongToBeat</div>
+696: <div className="text-gray-400 text-xs">
+698: </div>
+705: <div className="text-green-400 text-2xl mb-2">➕</div>
+706: <div className="text-white font-medium">Yeni Campaign</div>
+707: <div className="text-gray-400 text-xs">Manuel olarak ekle</div>
+709: </div>
+712: <div className="bg-white/5 rounded-lg p-6 border border-white/10">
+715: <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+717: <div>
+726: </div>
+729: <div>
+746: </div>
+747: </div>
+749: <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+751: <div>
+760: </div>
+763: <div>
+765: <div className="px-3 py-2 bg-white/5 border border-white/20 rounded-lg">
+771: </div>
+772: </div>
+773: </div>
+776: <div className="mt-4">
+785: </div>
+788: <div className="mt-6">
+789: <div className="flex items-center justify-between mb-3">
+797: </div>
+800: <div className="space-y-2">
+802: <div key={property.id} className="flex items-center gap-3 p-3 bg-white/5 rounded-lg border border-white/10">
+803: <div className="flex-1">
+804: <div className="text-sm text-white font-medium">{property.name}</div>
+805: <div className="text-xs text-gray-400">{property.value}</div>
+806: </div>
+813: </div>
+815: </div>
+817: </div>
+820: <div className="mt-6 flex gap-3">
+828: </div>
+829: </div>
+833: <div className="bg-white/5 rounded-lg p-6 border border-white/10">
+836: <div className="space-y-3">
+838: <div key={campaign.id}>
+840: <div className="p-4 bg-white/5 rounded-lg border border-white/10">
+841: <div className="flex items-start justify-between">
+842: <div className="flex-1">
+843: <div className="flex items-center gap-2">
+856: </div>
+858: <div className="text-sm text-[#00ff88] mt-1 ml-7">⏱️ {campaign.averageDuration}</div>
+864: <div className="flex flex-wrap gap-2 mt-3 ml-7">
+870: </div>
+872: </div>
+873: <div className="flex gap-2">
+892: </div>
+893: </div>
+894: </div>
+898: <div className="ml-8 mt-2 space-y-2">
+900: <div key={subCampaign.id} className="p-3 bg-white/5 rounded-lg border border-white/10 border-l-4 border-l-blue-500/50">
+901: <div className="flex items-start justify-between">
+902: <div className="flex-1">
+903: <div className="flex items-center gap-2">
+908: </div>
+910: <div className="text-sm text-[#00ff88] mt-1">⏱️ {subCampaign.averageDuration}</div>
+916: <div className="flex flex-wrap gap-2 mt-2">
+922: </div>
+924: </div>
+925: <div className="flex gap-2">
+938: </div>
+939: </div>
+940: </div>
+942: </div>
+944: </div>
+946: </div>
+947: </div>
+952: <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[100000] flex items-center justify-center p-4">
+953: <div className="bg-gradient-to-br from-[#1a0f2e] to-[#0a0e27] rounded-2xl border border-white/20 w-full max-w-2xl">
+954: <div className="p-6 border-b border-white/10">
+957: </div>
+959: <div className="p-6">
+968: <div className="flex gap-3 mt-4">
+982: </div>
+983: </div>
+984: </div>
+985: </div>
+990: <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[100000] flex items-center justify-center p-4">
+991: <div className="bg-gradient-to-br from-[#1a0f2e] to-[#0a0e27] rounded-2xl border border-white/20 w-full max-w-4xl max-h-[80vh] overflow-hidden">
+992: <div className="p-6 border-b border-white/10">
+995: </div>
+997: <div className="p-6 overflow-y-auto max-h-[60vh]">
+1006: <div className="flex gap-3 mt-4">
+1019: </div>
+1020: </div>
+1021: </div>
+1022: </div>
+1027: <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[100000] flex items-center justify-center p-4">
+1028: <div className="bg-gradient-to-br from-[#1a0f2e] to-[#0a0e27] rounded-2xl border border-white/20 w-full max-w-md">
+1029: <div className="p-6 border-b border-white/10">
+1031: </div>
+1033: <div className="p-6">
+1034: <div className="space-y-4">
+1035: <div>
+1044: </div>
+1046: <div>
+1055: </div>
+1056: </div>
+1058: <div className="flex gap-3 mt-6">
+1072: </div>
+1073: </div>
+1074: </div>
+1075: </div>
+1077: </div>
+1080: <div className="space-y-6">
+1082: <div className="space-y-4">
+1083: <div className="flex gap-3">
+1109: </div>
+1112: <div className="p-3 bg-red-500/20 border border-red-500/30 rounded-lg text-red-300 text-sm">
+1114: </div>
+1116: </div>
+1120: <div className="space-y-4">
+1122: <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-h-96 overflow-y-auto">
+1124: <div
+1129: <div className="aspect-[3/4] overflow-hidden rounded-t-lg">
+1135: </div>
+1136: <div className="p-3">
+1146: <div className="flex items-center gap-1 mt-2">
+1154: </div>
+1158: <div className="flex items-center gap-1 mt-1">
+1161: </div>
+1163: </div>
+1164: </div>
+1166: </div>
+1167: </div>
+1169: </div>
+1172: <div className="space-y-6">
+1181: <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+1183: <div className="lg:col-span-1 space-y-4">
+1191: <div className="space-y-3">
+1193: <div className="bg-white/5 rounded-lg p-3 border border-white/10">
+1195: <div className="space-y-2 text-xs">
+1197: <div className="flex justify-between">
+1200: </div>
+1203: <div className="flex justify-between">
+1206: </div>
+1209: <div className="flex justify-between">
+1212: </div>
+1215: <div className="flex justify-between">
+1218: </div>
+1220: </div>
+1221: </div>
+1225: <div className="bg-white/5 rounded-lg p-3 border border-white/10">
+1227: <div className="flex flex-wrap gap-1">
+1233: </div>
+1234: </div>
+1239: <div className="bg-blue-500/10 rounded-lg p-3 border border-blue-500/20">
+1240: <div className="flex items-center justify-between mb-2">
+1243: <div className="text-blue-400 text-xs">Kontrol ediliyor...</div>
+1245: </div>
+1248: <div className="space-y-2">
+1249: <div className="w-full bg-white/10 rounded-full h-1.5">
+1250: <div className="bg-gradient-to-r from-blue-400 to-blue-600 h-1.5 rounded-full animate-pulse"
+1252: </div>
+1253: </div>
+1254: <div className="flex justify-center items-center space-x-1">
+1255: <div className="w-1.5 h-1.5 bg-blue-400 rounded-full animate-bounce" style={{animationDelay: '0ms'}}></div>
+1256: <div className="w-1.5 h-1.5 bg-blue-400 rounded-full animate-bounce" style={{animationDelay: '150ms'}}></div>
+1257: <div className="w-1.5 h-1.5 bg-blue-400 rounded-full animate-bounce" style={{animationDelay: '300ms'}}></div>
+1258: </div>
+1259: <div className="text-center text-gray-400 text-xs">Versiyonlar kontrol ediliyor...</div>
+1260: </div>
+1262: <div className="space-y-1 text-xs">
+1263: <div className="flex justify-between">
+1266: </div>
+1267: <div className="flex justify-between">
+1270: </div>
+1271: <div className="flex justify-between">
+1274: </div>
+1275: </div>
+1277: </div>
+1282: <div className="bg-blue-500/10 rounded-lg p-3 border border-blue-500/20">
+1284: <div className="space-y-2">
+1286: <div
+1294: <div className="flex items-center gap-2">
+1295: <div className="w-8 h-10 bg-white/10 rounded flex-shrink-0 overflow-hidden">
+1303: </div>
+1304: <div className="flex-1 min-w-0">
+1305: <div className="font-medium text-white text-xs truncate">{selectedGame.name}</div>
+1306: <div className="text-xs text-gray-400">Ana Oyun</div>
+1307: </div>
+1309: <div className="text-[#00ff88] text-xs">✓</div>
+1311: </div>
+1312: </div>
+1316: <div
+1325: <div className="flex items-center gap-2">
+1326: <div className="w-8 h-10 bg-white/10 rounded flex-shrink-0 overflow-hidden">
+1334: </div>
+1335: <div className="flex-1 min-w-0">
+1336: <div className="font-medium text-white text-xs truncate">{edition.name}</div>
+1337: <div className="text-xs text-gray-400">{getCategoryName(edition.category)}</div>
+1338: </div>
+1340: <div className="text-[#00ff88] text-xs">✓</div>
+1342: </div>
+1343: </div>
+1345: </div>
+1346: </div>
+1348: </div>
+1349: </div>
+1352: <div className="lg:col-span-2 space-y-6">
+1354: <div>
+1357: <div className="grid grid-cols-2 gap-4 text-sm mb-4">
+1359: <div>
+1362: </div>
+1366: <div>
+1369: </div>
+1373: <div className="col-span-2">
+1375: <div className="flex flex-wrap gap-1 mt-1">
+1381: </div>
+1382: </div>
+1384: </div>
+1394: </div>
+1398: <div className="space-y-4 p-4 bg-purple-500/10 rounded-lg border border-purple-500/20">
+1399: <div className="flex items-center justify-between">
+1402: <div className="text-purple-400 text-sm">Yükleniyor...</div>
+1404: </div>
+1408: <div className="space-y-3">
+1409: <div className="w-full bg-white/10 rounded-full h-2">
+1410: <div className="bg-gradient-to-r from-[#00ff88] to-[#00d4ff] h-2 rounded-full animate-pulse"
+1412: </div>
+1413: </div>
+1414: <div className="flex justify-center items-center space-x-2">
+1415: <div className="w-2 h-2 bg-[#00ff88] rounded-full animate-bounce" style={{animationDelay: '0ms'}}></div>
+1416: <div className="w-2 h-2 bg-[#00ff88] rounded-full animate-bounce" style={{animationDelay: '150ms'}}></div>
+1417: <div className="w-2 h-2 bg-[#00ff88] rounded-full animate-bounce" style={{animationDelay: '300ms'}}></div>
+1418: </div>
+1419: <div className="text-center text-gray-400 text-sm">DLC'ler aranıyor...</div>
+1420: </div>
+1425: <div className="flex items-center justify-between">
+1429: <div className="flex gap-2">
+1447: </div>
+1448: </div>
+1452: <div className="flex gap-2 mb-4">
+1473: </div>
+1477: <div className="space-y-2 max-h-96 overflow-y-auto">
+1482: <div
+1498: <div className="flex items-center gap-3">
+1499: <div className="w-10 h-12 bg-white/10 rounded flex-shrink-0 overflow-hidden">
+1507: </div>
+1508: <div className="flex-1 min-w-0">
+1509: <div className="font-medium text-white text-sm truncate">{dlc.name}</div>
+1510: <div className="text-xs text-gray-400">{getCategoryName(dlc.category)}</div>
+1512: <div className="text-xs text-gray-500">
+1514: </div>
+1516: </div>
+1518: <div className="text-[#00ff88] text-sm">✓</div>
+1520: </div>
+1521: </div>
+1526: <div
+1542: <div className="flex items-center gap-3">
+1543: <div className="w-10 h-12 bg-white/10 rounded flex-shrink-0 overflow-hidden">
+1551: </div>
+1552: <div className="flex-1 min-w-0">
+1553: <div className="font-medium text-white text-sm truncate">{expansion.name}</div>
+1554: <div className="text-xs text-gray-400">{getCategoryName(expansion.category)}</div>
+1556: <div className="text-xs text-gray-500">
+1558: </div>
+1560: </div>
+1562: <div className="text-[#00ff88] text-sm">✓</div>
+1564: </div>
+1565: </div>
+1574: <div className="flex justify-between items-center text-sm text-gray-400 mb-2">
+1581: </div>
+1587: <div
+1610: <div className="flex items-center gap-3">
+1611: <div className="w-12 h-16 bg-white/10 rounded flex-shrink-0 overflow-hidden">
+1619: </div>
+1620: <div className="flex-1">
+1621: <div className="font-medium text-white">{dlc.name}</div>
+1622: <div className="text-sm text-gray-400">Steam DLC</div>
+1623: <div className="flex items-center gap-2 text-xs text-gray-500">
+1633: </div>
+1635: <div className="text-xs text-green-400 mt-1">
+1637: </div>
+1639: </div>
+1641: <div className="text-[#00ff88] text-sm">✓</div>
+1643: </div>
+1644: </div>
+1649: <div className="flex justify-center gap-2 mt-4">
+1690: </div>
+1694: </div>
+1697: </div>
+1702: <div className="space-y-4 p-4 bg-white/5 rounded-lg border border-white/10">
+1706: <div>
+1710: <div className="grid grid-cols-2 gap-2 mb-3">
+1726: <div className="flex items-center gap-2">
+1729: </div>
+1731: <div className="text-[#00ff88] text-xs mt-1">✓ Seçili</div>
+1735: </div>
+1738: <div>
+1756: </div>
+1757: </div>
+1760: <div>
+1772: </div>
+1775: <div>
+1777: <div className="space-y-3">
+1779: <div className="flex items-center gap-3">
+1790: </div>
+1793: <div className="text-xs text-gray-500 bg-gray-800/50 p-2 rounded">
+1795: </div>
+1796: </div>
+1797: </div>
+1801: <div className="p-3 bg-[#00ff88]/10 rounded-lg border border-[#00ff88]/30">
+1802: <div className="flex items-center justify-between">
+1805: </div>
+1806: <div className="text-xs text-gray-400 mt-1">
+1808: </div>
+1809: </div>
+1813: <div className="p-3 bg-red-500/20 border border-red-500/30 rounded-lg text-red-300 text-sm">
+1815: </div>
+1826: </div>
+1827: </div>
+1828: </div>
+1829: </div>
+1831: </div>
+1835: <div
+1841: <div className="w-8 h-full bg-transparent cursor-pointer"></div>
+1844: <div className={`absolute right-0 top-0 h-full w-80 bg-gradient-to-br from-[#2a1f3e] to-[#1a1e37] border-l border-white/20 rounded-r-2xl transform transition-transform duration-300 ${
+1847: <div className="p-6 h-full overflow-y-auto">
+1848: <div className="flex items-center gap-3 mb-6">
+1849: <div className="w-8 h-8 bg-gradient-to-r from-[#00ff88] to-[#00d4ff] rounded-lg flex items-center justify-center">
+1851: </div>
+1853: </div>
+1856: <div className="text-center py-8">
+1857: <div className="text-4xl mb-4">🎮</div>
+1860: </div>
+1862: <div className="space-y-3">
+1865: <div key={campaign.id} className="space-y-2">
+1867: <div className="bg-white/5 rounded-lg p-4 border border-white/10 hover:bg-white/10 transition-colors">
+1868: <div className="flex items-center justify-between mb-2">
+1869: <div className="flex items-center gap-2">
+1888: </div>
+1889: </div>
+1892: <div className="text-xs text-blue-400 mb-1">
+1894: </div>
+1902: <div className="flex flex-wrap gap-1 mt-2">
+1913: </div>
+1915: </div>
+1919: <div key={subCampaign.id} className="ml-6 bg-white/5 rounded-lg p-3 border border-blue-500/20 hover:bg-white/10 transition-colors">
+1920: <div className="flex items-center gap-2 mb-2">
+1923: </div>
+1926: <div className="text-xs text-blue-400 mb-1">
+1928: </div>
+1936: <div className="flex flex-wrap gap-1 mt-2">
+1947: </div>
+1949: </div>
+1951: </div>
+1953: </div>
+1958: <div className="mt-6 pt-4 border-t border-white/10">
+1959: <div className="grid grid-cols-2 gap-4 text-center">
+1960: <div className="bg-white/5 rounded-lg p-3">
+1961: <div className="text-[#00ff88] font-bold text-lg">{getMainCampaigns().length}</div>
+1962: <div className="text-gray-400 text-xs">Ana Campaign</div>
+1963: </div>
+1964: <div className="bg-white/5 rounded-lg p-3">
+1965: <div className="text-blue-400 font-bold text-lg">
+1967: </div>
+1968: <div className="text-gray-400 text-xs">Alt Campaign</div>
+1969: </div>
+1970: </div>
+1971: </div>
+1973: </div>
+1974: </div>
+1975: </div>
+1977: </div>
+1978: </div>,
