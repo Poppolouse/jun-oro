@@ -42,14 +42,35 @@ const limiter = rateLimit({
 });
 
 // Middleware
-app.use(helmet());
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+      fontSrc: ["'self'", "https://fonts.gstatic.com"],
+      imgSrc: ["'self'", "data:", "https:", "blob:"],
+      scriptSrc: ["'self'"],
+      connectSrc: ["'self'", "https://jun-oro.com", "https://www.jun-oro.com", "https://api.jun-oro.com"],
+      frameSrc: ["'none'"],
+      objectSrc: ["'none'"],
+      upgradeInsecureRequests: process.env.NODE_ENV === 'production' ? [] : null
+    }
+  },
+  hsts: {
+    maxAge: 31536000,
+    includeSubDomains: true,
+    preload: true
+  }
+}));
 app.use(compression());
 app.use(morgan('combined'));
 app.use(limiter);
 
-// CORS configuration (allow multiple local dev origins)
+// CORS configuration (allow production and local dev origins)
 const allowedOrigins = [
   process.env.FRONTEND_URL,
+  'https://jun-oro.com',
+  'https://www.jun-oro.com',
   'http://localhost:3000',
   'http://localhost:3001',
   'http://localhost:3002',
