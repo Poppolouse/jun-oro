@@ -139,7 +139,7 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   let backupFile = process.argv[2]
   if (!backupFile) {
     console.log('ℹ️ Yedek dosyası belirtilmedi, en son yedek aranıyor...');
-    const backupsDir = path.join(path.dirname(process.argv[1]), '..\', 'backups');
+    const backupsDir = path.join(path.dirname(process.argv[1]), '..', 'backups');
     const backupFiles = fs.readdirSync(backupsDir)
       .filter(file => file.endsWith('.json'))
       .sort((a, b) => fs.statSync(path.join(backupsDir, b)).mtime.getTime() - fs.statSync(path.join(backupsDir, a)).mtime.getTime());
