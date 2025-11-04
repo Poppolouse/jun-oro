@@ -11,8 +11,11 @@
     "db:generate": "prisma generate",
     "db:push": "prisma db push",
     "db:migrate": "prisma migrate dev",
+    "db:migrate:deploy": "prisma migrate deploy",
     "db:studio": "prisma studio",
-    "db:reset": "prisma migrate reset"
+    "db:reset": "prisma migrate reset",
+    "db:restore": "cross-env FORCE_RESTORE=true node ./scripts/restore-database.js",
+    "build": "npm run db:migrate:deploy && npm run db:restore"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.922.0",
@@ -34,7 +37,8 @@
   },
   "devDependencies": {
     "nodemon": "^3.0.2",
-    "prisma": "^6.18.0"
+    "prisma": "^6.18.0",
+    "cross-env": "^7.0.3"
   },
   "keywords": [
     "gaming",

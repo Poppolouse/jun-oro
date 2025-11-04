@@ -25,25 +25,30 @@ async function restoreDatabase(backupFilePath) {
     console.log(`   - Oyun Oturumları: ${backupData.data.gameSessions?.length || 0}`)
     
     // Güvenlik onayı
-    console.log('\n⚠️  DİKKAT: Bu işlem mevcut veritabanını tamamen değiştirecek!')
-    console.log('Devam etmek için "RESTORE" yazın:')
-    
-    // Eğer script interaktif çalışıyorsa onay iste
-    if (process.stdin.isTTY) {
-      const readline = await import('readline')
-      const rl = readline.createInterface({
-        input: process.stdin,
-        output: process.stdout
-      })
+    if (process.env.FORCE_RESTORE !== 'true') {
+      console.log('\n⚠️  DİKKAT: Bu işlem mevcut veritabanını tamamen değiştirecek!')
+      console.log('Devam etmek için "RESTORE" yazın:')
       
-      const answer = await new Promise(resolve => {
-        rl.question('> ', resolve)
-      })
-      rl.close()
-      
-      if (answer !== 'RESTORE') {
-        console.log('❌ Geri yükleme iptal edildi')
-        return { success: false, message: 'İptal edildi' }
+      // Eğer script interaktif çalışıyorsa onay iste
+      if (process.stdin.isTTY) {
+        const readline = await import('readline')
+        const rl = readline.createInterface({
+          input: process.stdin,
+          output: process.stdout
+        })
+        
+        const answer = await new Promise(resolve => {
+          rl.question('> ', resolve)
+        })
+        rl.close()
+        
+        if (answer !== 'RESTORE') {
+          console.log('❌ Geri yükleme iptal edildi')
+          return { success: false, message: 'İptal edildi' }
+        }
+      } else {
+        console.log('❌ İnteraktif olmayan ortamda onay alınamadı. FORCE_RESTORE=true ortam değişkenini kullanın.')
+        return { success: false, message: 'Onay gerekli' }
       }
     }
     
@@ -131,10 +136,20 @@ async function restoreDatabase(backupFilePath) {
 
 // Script doğrudan çalıştırılırsa
 if (import.meta.url === `file://${process.argv[1]}`) {
-  const backupFile = process.argv[2]
+  let backupFile = process.argv[2]
   if (!backupFile) {
-    console.error('❌ Kullanım: node restore-database.js <backup-file-path>')
-    process.exit(1)
+    console.log('ℹ️ Yedek dosyası belirtilmedi, en son yedek aranıyor...');
+    const backupsDir = path.join(path.dirname(process.argv[1]), '..\', 'backups');
+    const backupFiles = fs.readdirSync(backupsDir)
+      .filter(file => file.endsWith('.json'))
+      .sort((a, b) => fs.statSync(path.join(backupsDir, b)).mtime.getTime() - fs.statSync(path.join(backupsDir, a)).mtime.getTime());
+
+    if (backupFiles.length === 0) {
+      console.error('❌ backups klasöründe hiç yedek dosyası bulunamadı.');
+      process.exit(1);
+    }
+    backupFile = path.join(backupsDir, backupFiles[0]);
+    console.log(`✅ En son yedek bulundu: ${backupFiles[0]}`);
   }
   restoreDatabase(backupFile)
 }
