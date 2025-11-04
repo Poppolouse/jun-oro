@@ -1,0 +1,22 @@
+name = "jun-oro-api"
+main = "src/index.js"
+compatibility_date = "2024-09-23"
+compatibility_flags = ["nodejs_compat"]
+
+routes = [
+  { pattern = "backend.jun-oro.com/*", zone_name = "jun-oro.com" }
+]
+
+[[d1_databases]]
+binding = "DB"
+database_name = "jun-oro-db"
+database_id = "62a2f6f5-8f8e-40d3-af3a-e966e4d2f3ed"
+
+[vars]
+JWT_SECRET = "your-super-secret-jwt-key-here"
+NODE_ENV = "production"
+R2_ACCOUNT_ID = "91bfe8bb376b1cf50e3baacbe08f4339"
+R2_ACCESS_KEY_ID = "27c9538b3e150e00059874a7ac6c4ecf"
+R2_SECRET_ACCESS_KEY = "85e354a000001519240986375bdf919eead7996b64249f3005e104a80708a570"
+R2_BUCKET_NAME = "jun-oro-depot"
+R2_PUBLIC_URL = "https://pub-af98dcc0350349db863f3d9233064ff3.r2.dev"
