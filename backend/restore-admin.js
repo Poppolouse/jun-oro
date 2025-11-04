@@ -78,10 +78,9 @@ async function restoreAdminAccount() {
     await prisma.userStats.create({
       data: {
         userId: newAdmin.id,
-        totalGames: 0,
-        totalPlaytime: 0,
-        averageRating: 0,
-        completedGames: 0,
+        gamesPlayed: 0,
+        gamesCompleted: 0,
+        totalPlayTime: 0,
         favoriteGenre: null
       }
     });
