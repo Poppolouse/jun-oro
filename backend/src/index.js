@@ -76,7 +76,7 @@ const allowedOrigins = [
   'http://localhost:3002',
   'http://localhost:3003',
   'http://localhost:5173',
-  'https://master.jun-oro-final.pages.dev/'
+  'https://master.jun-oro-final.pages.dev'
 ].filter(Boolean)
 
 app.use(cors({
