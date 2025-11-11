@@ -1,5 +1,6 @@
 var __defProp = Object.defineProperty;
-var __name = (target, value) => __defProp(target, "name", { value, configurable: true });
+var __name = (target, value) =>
+  __defProp(target, "name", { value, configurable: true });
 
 // ../../../../../AppData/Local/npm-cache/_npx/32026684e21afda6/node_modules/unenv/dist/runtime/_internal/utils.mjs
 // @__NO_SIDE_EFFECTS__
@@ -28,7 +29,9 @@ __name(notImplementedClass, "notImplementedClass");
 
 // ../../../../../AppData/Local/npm-cache/_npx/32026684e21afda6/node_modules/unenv/dist/runtime/node/internal/perf_hooks/performance.mjs
 var _timeOrigin = globalThis.performance?.timeOrigin ?? Date.now();
-var _performanceNow = globalThis.performance?.now ? globalThis.performance.now.bind(globalThis.performance) : () => Date.now() - _timeOrigin;
+var _performanceNow = globalThis.performance?.now
+  ? globalThis.performance.now.bind(globalThis.performance)
+  : () => Date.now() - _timeOrigin;
 var nodeTiming = {
   name: "node",
   entryType: "node",
@@ -44,12 +47,12 @@ var nodeTiming = {
   uvMetricsInfo: {
     loopCount: 0,
     events: 0,
-    eventsWaiting: 0
+    eventsWaiting: 0,
   },
   detail: void 0,
   toJSON() {
     return this;
-  }
+  },
 };
 var PerformanceEntry = class {
   static {
@@ -74,7 +77,7 @@ var PerformanceEntry = class {
       entryType: this.entryType,
       startTime: this.startTime,
       duration: this.duration,
-      detail: this.detail
+      detail: this.detail,
     };
   }
 };
@@ -169,19 +172,27 @@ var Performance = class {
     return Date.now() - this.timeOrigin;
   }
   clearMarks(markName) {
-    this._entries = markName ? this._entries.filter((e) => e.name !== markName) : this._entries.filter((e) => e.entryType !== "mark");
+    this._entries = markName
+      ? this._entries.filter((e) => e.name !== markName)
+      : this._entries.filter((e) => e.entryType !== "mark");
   }
   clearMeasures(measureName) {
-    this._entries = measureName ? this._entries.filter((e) => e.name !== measureName) : this._entries.filter((e) => e.entryType !== "measure");
+    this._entries = measureName
+      ? this._entries.filter((e) => e.name !== measureName)
+      : this._entries.filter((e) => e.entryType !== "measure");
   }
   clearResourceTimings() {
-    this._entries = this._entries.filter((e) => e.entryType !== "resource" || e.entryType !== "navigation");
+    this._entries = this._entries.filter(
+      (e) => e.entryType !== "resource" || e.entryType !== "navigation",
+    );
   }
   getEntries() {
     return this._entries;
   }
   getEntriesByName(name, type) {
-    return this._entries.filter((e) => e.name === name && (!type || e.entryType === type));
+    return this._entries.filter(
+      (e) => e.name === name && (!type || e.entryType === type),
+    );
   }
   getEntriesByType(type) {
     return this._entries.filter((e) => e.entryType === type);
@@ -195,7 +206,8 @@ var Performance = class {
     let start;
     let end;
     if (typeof startOrMeasureOptions === "string") {
-      start = this.getEntriesByName(startOrMeasureOptions, "mark")[0]?.startTime;
+      start = this.getEntriesByName(startOrMeasureOptions, "mark")[0]
+        ?.startTime;
       end = this.getEntriesByName(endMark, "mark")[0]?.startTime;
     } else {
       start = Number.parseFloat(startOrMeasureOptions?.start) || this.now();
@@ -205,8 +217,8 @@ var Performance = class {
       startTime: start,
       detail: {
         start,
-        end
-      }
+        end,
+      },
     });
     this._entries.push(entry);
     return entry;
@@ -262,7 +274,10 @@ var PerformanceObserver = class {
     return this;
   }
 };
-var performance = globalThis.performance && "addEventListener" in globalThis.performance ? globalThis.performance : new Performance();
+var performance =
+  globalThis.performance && "addEventListener" in globalThis.performance
+    ? globalThis.performance
+    : new Performance();
 
 // ../../../../../AppData/Local/npm-cache/_npx/32026684e21afda6/node_modules/@cloudflare/unenv-preset/dist/runtime/polyfill/performance.mjs
 globalThis.performance = performance;
@@ -278,8 +293,7 @@ globalThis.PerformanceResourceTiming = PerformanceResourceTiming;
 import { Writable } from "node:stream";
 
 // ../../../../../AppData/Local/npm-cache/_npx/32026684e21afda6/node_modules/unenv/dist/runtime/mock/noop.mjs
-var noop_default = Object.assign(() => {
-}, { __unenv__: true });
+var noop_default = Object.assign(() => {}, { __unenv__: true });
 
 // ../../../../../AppData/Local/npm-cache/_npx/32026684e21afda6/node_modules/unenv/dist/runtime/node/console.mjs
 var _console = globalThis.console;
@@ -293,7 +307,8 @@ var debug = _console?.debug ?? log;
 var table = _console?.table ?? log;
 var error = _console?.error ?? log;
 var warn = _console?.warn ?? error;
-var createTask = _console?.createTask ?? /* @__PURE__ */ notImplemented("console.createTask");
+var createTask =
+  _console?.createTask ?? /* @__PURE__ */ notImplemented("console.createTask");
 var clear = _console?.clear ?? noop_default;
 var count = _console?.count ?? noop_default;
 var countReset = _console?.countReset ?? noop_default;
@@ -308,7 +323,8 @@ var time = _console?.time ?? noop_default;
 var timeEnd = _console?.timeEnd ?? noop_default;
 var timeLog = _console?.timeLog ?? noop_default;
 var timeStamp = _console?.timeStamp ?? noop_default;
-var Console = _console?.Console ?? /* @__PURE__ */ notImplementedClass("console.Console");
+var Console =
+  _console?.Console ?? /* @__PURE__ */ notImplementedClass("console.Console");
 var _times = /* @__PURE__ */ new Map();
 var _stdoutErrorHandler = noop_default;
 var _stderrErrorHandler = noop_default;
@@ -341,7 +357,7 @@ var {
   timeLog: timeLog2,
   timeStamp: timeStamp2,
   trace: trace2,
-  warn: warn2
+  warn: warn2,
 } = workerdConsole;
 Object.assign(workerdConsole, {
   Console,
@@ -350,7 +366,7 @@ Object.assign(workerdConsole, {
   _stderrErrorHandler,
   _stdout,
   _stdoutErrorHandler,
-  _times
+  _times,
 });
 var console_default = workerdConsole;
 
@@ -358,23 +374,28 @@ var console_default = workerdConsole;
 globalThis.console = console_default;
 
 // ../../../../../AppData/Local/npm-cache/_npx/32026684e21afda6/node_modules/unenv/dist/runtime/node/internal/process/hrtime.mjs
-var hrtime = /* @__PURE__ */ Object.assign(/* @__PURE__ */ __name(function hrtime2(startTime) {
-  const now = Date.now();
-  const seconds = Math.trunc(now / 1e3);
-  const nanos = now % 1e3 * 1e6;
-  if (startTime) {
-    let diffSeconds = seconds - startTime[0];
-    let diffNanos = nanos - startTime[0];
-    if (diffNanos < 0) {
-      diffSeconds = diffSeconds - 1;
-      diffNanos = 1e9 + diffNanos;
+var hrtime = /* @__PURE__ */ Object.assign(
+  /* @__PURE__ */ __name(function hrtime2(startTime) {
+    const now = Date.now();
+    const seconds = Math.trunc(now / 1e3);
+    const nanos = (now % 1e3) * 1e6;
+    if (startTime) {
+      let diffSeconds = seconds - startTime[0];
+      let diffNanos = nanos - startTime[0];
+      if (diffNanos < 0) {
+        diffSeconds = diffSeconds - 1;
+        diffNanos = 1e9 + diffNanos;
+      }
+      return [diffSeconds, diffNanos];
     }
-    return [diffSeconds, diffNanos];
-  }
-  return [seconds, nanos];
-}, "hrtime"), { bigint: /* @__PURE__ */ __name(function bigint() {
-  return BigInt(Date.now() * 1e6);
-}, "bigint") });
+    return [seconds, nanos];
+  }, "hrtime"),
+  {
+    bigint: /* @__PURE__ */ __name(function bigint() {
+      return BigInt(Date.now() * 1e6);
+    }, "bigint"),
+  },
+);
 
 // ../../../../../AppData/Local/npm-cache/_npx/32026684e21afda6/node_modules/unenv/dist/runtime/node/internal/process/process.mjs
 import { EventEmitter } from "node:events";
@@ -439,8 +460,7 @@ var WriteStream = class {
     }
     try {
       console.log(str);
-    } catch {
-    }
+    } catch {}
     cb && typeof cb === "function" && cb();
     return false;
   }
@@ -462,7 +482,10 @@ var Process = class _Process extends EventEmitter {
     this.env = impl.env;
     this.hrtime = impl.hrtime;
     this.nextTick = impl.nextTick;
-    for (const prop of [...Object.getOwnPropertyNames(_Process.prototype), ...Object.getOwnPropertyNames(EventEmitter.prototype)]) {
+    for (const prop of [
+      ...Object.getOwnPropertyNames(_Process.prototype),
+      ...Object.getOwnPropertyNames(EventEmitter.prototype),
+    ]) {
       const value = this[prop];
       if (typeof value === "function") {
         this[prop] = value.bind(this);
@@ -471,7 +494,9 @@ var Process = class _Process extends EventEmitter {
   }
   // --- event emitter ---
   emitWarning(warning, type, code) {
-    console.warn(`${code ? `[${code}] ` : ""}${type ? `${type}: ` : ""}${warning}`);
+    console.warn(
+      `${code ? `[${code}] ` : ""}${type ? `${type}: ` : ""}${warning}`,
+    );
   }
   emit(...args) {
     return super.emit(...args);
@@ -484,13 +509,13 @@ var Process = class _Process extends EventEmitter {
   #stdout;
   #stderr;
   get stdin() {
-    return this.#stdin ??= new ReadStream(0);
+    return (this.#stdin ??= new ReadStream(0));
   }
   get stdout() {
-    return this.#stdout ??= new WriteStream(1);
+    return (this.#stdout ??= new WriteStream(1));
   }
   get stderr() {
-    return this.#stderr ??= new WriteStream(2);
+    return (this.#stderr ??= new WriteStream(2));
   }
   // --- cwd ---
   #cwd = "/";
@@ -559,10 +584,8 @@ var Process = class _Process extends EventEmitter {
     return {};
   }
   // --- noop methods ---
-  ref() {
-  }
-  unref() {
-  }
+  ref() {}
+  unref() {}
   // --- unimplemented methods ---
   umask() {
     throw createNotImplementedError("process.umask");
@@ -601,10 +624,14 @@ var Process = class _Process extends EventEmitter {
     throw createNotImplementedError("process.cpuUsage");
   }
   setUncaughtExceptionCaptureCallback() {
-    throw createNotImplementedError("process.setUncaughtExceptionCaptureCallback");
+    throw createNotImplementedError(
+      "process.setUncaughtExceptionCaptureCallback",
+    );
   }
   hasUncaughtExceptionCaptureCallback() {
-    throw createNotImplementedError("process.hasUncaughtExceptionCaptureCallback");
+    throw createNotImplementedError(
+      "process.hasUncaughtExceptionCaptureCallback",
+    );
   }
   initgroups() {
     throw createNotImplementedError("process.initgroups");
@@ -619,7 +646,9 @@ var Process = class _Process extends EventEmitter {
     throw createNotImplementedError("process.binding");
   }
   // --- attached interfaces ---
-  permission = { has: /* @__PURE__ */ notImplemented("process.permission.has") };
+  permission = {
+    has: /* @__PURE__ */ notImplemented("process.permission.has"),
+  };
   report = {
     directory: "",
     filename: "",
@@ -629,20 +658,27 @@ var Process = class _Process extends EventEmitter {
     reportOnSignal: false,
     reportOnUncaughtException: false,
     getReport: /* @__PURE__ */ notImplemented("process.report.getReport"),
-    writeReport: /* @__PURE__ */ notImplemented("process.report.writeReport")
+    writeReport: /* @__PURE__ */ notImplemented("process.report.writeReport"),
   };
   finalization = {
     register: /* @__PURE__ */ notImplemented("process.finalization.register"),
-    unregister: /* @__PURE__ */ notImplemented("process.finalization.unregister"),
-    registerBeforeExit: /* @__PURE__ */ notImplemented("process.finalization.registerBeforeExit")
+    unregister: /* @__PURE__ */ notImplemented(
+      "process.finalization.unregister",
+    ),
+    registerBeforeExit: /* @__PURE__ */ notImplemented(
+      "process.finalization.registerBeforeExit",
+    ),
   };
-  memoryUsage = Object.assign(() => ({
-    arrayBuffers: 0,
-    rss: 0,
-    external: 0,
-    heapTotal: 0,
-    heapUsed: 0
-  }), { rss: /* @__PURE__ */ __name(() => 0, "rss") });
+  memoryUsage = Object.assign(
+    () => ({
+      arrayBuffers: 0,
+      rss: 0,
+      external: 0,
+      heapTotal: 0,
+      heapUsed: 0,
+    }),
+    { rss: /* @__PURE__ */ __name(() => 0, "rss") },
+  );
   // --- undefined props ---
   mainModule = void 0;
   domain = void 0;
@@ -688,13 +724,14 @@ var Process = class _Process extends EventEmitter {
 var globalProcess = globalThis["process"];
 var getBuiltinModule = globalProcess.getBuiltinModule;
 var workerdProcess = getBuiltinModule("node:process");
-var isWorkerdProcessV2 = globalThis.Cloudflare.compatibilityFlags.enable_nodejs_process_v2;
+var isWorkerdProcessV2 =
+  globalThis.Cloudflare.compatibilityFlags.enable_nodejs_process_v2;
 var unenvProcess = new Process({
   env: globalProcess.env,
   // `hrtime` is only available from workerd process v2
   hrtime: isWorkerdProcessV2 ? workerdProcess.hrtime : hrtime,
   // `nextTick` is available from workerd process v1
-  nextTick: workerdProcess.nextTick
+  nextTick: workerdProcess.nextTick,
 });
 var { exit, features, platform } = workerdProcess;
 var {
@@ -703,7 +740,7 @@ var {
   // Only implemented in workerd v2
   hrtime: hrtime3,
   // Always implemented by workerd
-  nextTick
+  nextTick,
 } = unenvProcess;
 var {
   _channel,
@@ -716,7 +753,7 @@ var {
   _send,
   assert: assert2,
   disconnect,
-  mainModule
+  mainModule,
 } = unenvProcess;
 var {
   // @ts-expect-error `_debugEnd` is missing typings
@@ -828,7 +865,7 @@ var {
   unref,
   uptime,
   version,
-  versions
+  versions,
 } = isWorkerdProcessV2 ? workerdProcess : unenvProcess;
 var _process = {
   abort,
@@ -938,7 +975,7 @@ var _process = {
   _pendingMessage,
   _channel,
   _send,
-  _linkedBinding
+  _linkedBinding,
 };
 var process_default = _process;
 
@@ -952,14 +989,17 @@ function corsMiddleware(request) {
     "http://localhost:3000",
     "http://localhost:5173",
     "https://jun-oro.pages.dev",
-    "https://jun-oro.com"
+    "https://jun-oro.com",
   ];
   const corsHeaders = {
     "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
     "Access-Control-Allow-Headers": "Content-Type, Authorization, X-API-Key",
-    "Access-Control-Max-Age": "86400"
+    "Access-Control-Max-Age": "86400",
   };
-  if (origin && (allowedOrigins.includes(origin) || origin.includes("localhost"))) {
+  if (
+    origin &&
+    (allowedOrigins.includes(origin) || origin.includes("localhost"))
+  ) {
     corsHeaders["Access-Control-Allow-Origin"] = origin;
     corsHeaders["Access-Control-Allow-Credentials"] = "true";
   } else {
@@ -972,7 +1012,7 @@ function handleOptions(request) {
   const corsHeaders = corsMiddleware(request);
   return new Response(null, {
     status: 204,
-    headers: corsHeaders
+    headers: corsHeaders,
   });
 }
 __name(handleOptions, "handleOptions");
@@ -984,11 +1024,11 @@ function createResponse(data, status = 200, headers = {}) {
     "Access-Control-Allow-Origin": "*",
     "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
     "Access-Control-Allow-Headers": "Content-Type, Authorization",
-    ...headers
+    ...headers,
   };
   return new Response(JSON.stringify(data), {
     status,
-    headers: defaultHeaders
+    headers: defaultHeaders,
   });
 }
 __name(createResponse, "createResponse");
@@ -996,31 +1036,40 @@ function successResponse(data, message = "Success") {
   return createResponse({
     success: true,
     message,
-    data
+    data,
   });
 }
 __name(successResponse, "successResponse");
 function errorResponse(message, status = 400, code = null) {
-  return createResponse({
-    success: false,
-    message,
-    code,
-    timestamp: (/* @__PURE__ */ new Date()).toISOString()
-  }, status);
+  return createResponse(
+    {
+      success: false,
+      message,
+      code,
+      timestamp: /* @__PURE__ */ new Date().toISOString(),
+    },
+    status,
+  );
 }
 __name(errorResponse, "errorResponse");
 function unauthorizedResponse(message = "Unauthorized") {
-  return createResponse({
-    success: false,
-    message
-  }, 401);
+  return createResponse(
+    {
+      success: false,
+      message,
+    },
+    401,
+  );
 }
 __name(unauthorizedResponse, "unauthorizedResponse");
 function serverErrorResponse(message = "Internal server error") {
-  return createResponse({
-    success: false,
-    message
-  }, 500);
+  return createResponse(
+    {
+      success: false,
+      message,
+    },
+    500,
+  );
 }
 __name(serverErrorResponse, "serverErrorResponse");
 
@@ -1028,14 +1077,14 @@ __name(serverErrorResponse, "serverErrorResponse");
 async function createJWT(payload, secret, expiresIn = "24h") {
   const header = {
     alg: "HS256",
-    typ: "JWT"
+    typ: "JWT",
   };
   const now = Math.floor(Date.now() / 1e3);
   const exp = now + parseExpiration(expiresIn);
   const jwtPayload = {
     ...payload,
     iat: now,
-    exp
+    exp,
   };
   const encodedHeader = base64UrlEncode(JSON.stringify(header));
   const encodedPayload = base64UrlEncode(JSON.stringify(jwtPayload));
@@ -1049,7 +1098,10 @@ async function verifyJWT(token, secret) {
     if (!encodedHeader || !encodedPayload || !signature) {
       throw new Error("Invalid token format");
     }
-    const expectedSignature = await sign(`${encodedHeader}.${encodedPayload}`, secret);
+    const expectedSignature = await sign(
+      `${encodedHeader}.${encodedPayload}`,
+      secret,
+    );
     if (signature !== expectedSignature) {
       throw new Error("Invalid signature");
     }
@@ -1070,7 +1122,7 @@ async function sign(data, secret) {
     encoder.encode(secret),
     { name: "HMAC", hash: "SHA-256" },
     false,
-    ["sign"]
+    ["sign"],
   );
   const signature = await crypto.subtle.sign("HMAC", key, encoder.encode(data));
   return base64UrlEncode(new Uint8Array(signature));
@@ -1132,14 +1184,18 @@ __name(verifyPassword, "verifyPassword");
 function generateSessionId() {
   const array = new Uint8Array(32);
   crypto.getRandomValues(array);
-  return Array.from(array, (byte) => byte.toString(16).padStart(2, "0")).join("");
+  return Array.from(array, (byte) => byte.toString(16).padStart(2, "0")).join(
+    "",
+  );
 }
 __name(generateSessionId, "generateSessionId");
 function generateUUID() {
   const bytes = crypto.getRandomValues(new Uint8Array(16));
-  bytes[6] = bytes[6] & 15 | 64;
-  bytes[8] = bytes[8] & 63 | 128;
-  const hex = Array.from(bytes, (b) => b.toString(16).padStart(2, "0")).join("");
+  bytes[6] = (bytes[6] & 15) | 64;
+  bytes[8] = (bytes[8] & 63) | 128;
+  const hex = Array.from(bytes, (b) => b.toString(16).padStart(2, "0")).join(
+    "",
+  );
   return `${hex.slice(0, 8)}-${hex.slice(8, 12)}-${hex.slice(12, 16)}-${hex.slice(16, 20)}-${hex.slice(20, 32)}`;
 }
 __name(generateUUID, "generateUUID");
@@ -1168,7 +1224,7 @@ function validatePassword(password) {
 }
 __name(validatePassword, "validatePassword");
 function validateRequired(value, fieldName) {
-  if (!value || typeof value === "string" && value.trim() === "") {
+  if (!value || (typeof value === "string" && value.trim() === "")) {
     return `${fieldName} is required`;
   }
   return null;
@@ -1196,7 +1252,9 @@ function validateUserRegistration(userData) {
   const requiredError = validateRequired(userData.username, "Username");
   if (requiredError) errors.push(requiredError);
   else if (!validateUsername(userData.username)) {
-    errors.push("Username must be 3-20 characters, alphanumeric and underscore only");
+    errors.push(
+      "Username must be 3-20 characters, alphanumeric and underscore only",
+    );
   }
   const emailError = validateRequired(userData.email, "Email");
   if (emailError) errors.push(emailError);
@@ -1225,8 +1283,15 @@ function validateGameLibraryEntry(entryData) {
   if (!entryData.game_id) {
     errors.push("Game ID is required");
   }
-  if (entryData.status && !["playing", "completed", "want_to_play", "dropped"].includes(entryData.status)) {
-    errors.push("Invalid status. Must be one of: playing, completed, want_to_play, dropped");
+  if (
+    entryData.status &&
+    !["playing", "completed", "want_to_play", "dropped"].includes(
+      entryData.status,
+    )
+  ) {
+    errors.push(
+      "Invalid status. Must be one of: playing, completed, want_to_play, dropped",
+    );
   }
   if (entryData.rating !== void 0 && entryData.rating !== null) {
     const rating = parseFloat(entryData.rating);
@@ -1234,7 +1299,10 @@ function validateGameLibraryEntry(entryData) {
       errors.push("Rating must be between 0 and 10");
     }
   }
-  if (entryData.play_time_hours !== void 0 && entryData.play_time_hours !== null) {
+  if (
+    entryData.play_time_hours !== void 0 &&
+    entryData.play_time_hours !== null
+  ) {
     const playTime = parseInt(entryData.play_time_hours);
     if (isNaN(playTime) || playTime < 0) {
       errors.push("Play time must be a non-negative number");
@@ -1260,7 +1328,7 @@ function validatePagination(query) {
     page: Math.max(1, page),
     limit: Math.min(100, Math.max(1, limit)),
     // Max 100 items per page
-    offset: (Math.max(1, page) - 1) * Math.min(100, Math.max(1, limit))
+    offset: (Math.max(1, page) - 1) * Math.min(100, Math.max(1, limit)),
   };
 }
 __name(validatePagination, "validatePagination");
@@ -1274,8 +1342,10 @@ async function authMiddleware(request, env2) {
     }
     const payload = await verifyJWT(token, env2.JWT_SECRET);
     const session = await env2.DB.prepare(
-      'SELECT s.*, u.username, u.email, u.role, u.is_active FROM sessions s JOIN users u ON s.user_id = u.id WHERE s.id = ? AND s.is_active = 1 AND s.expires_at > datetime("now")'
-    ).bind(payload.sessionId).first();
+      'SELECT s.*, u.username, u.email, u.role, u.is_active FROM sessions s JOIN users u ON s.user_id = u.id WHERE s.id = ? AND s.is_active = 1 AND s.expires_at > datetime("now")',
+    )
+      .bind(payload.sessionId)
+      .first();
     if (!session) {
       return unauthorizedResponse("Invalid or expired session");
     }
@@ -1287,7 +1357,7 @@ async function authMiddleware(request, env2) {
       username: session.username,
       email: session.email,
       role: session.role,
-      sessionId: session.id
+      sessionId: session.id,
     };
     return null;
   } catch (error3) {
@@ -1312,33 +1382,52 @@ async function handleRegister(request, env2) {
     const userData = await request.json();
     const validationErrors = validateUserRegistration(userData);
     if (validationErrors.length > 0) {
-      return errorResponse("Validation failed", 400, { errors: validationErrors });
+      return errorResponse("Validation failed", 400, {
+        errors: validationErrors,
+      });
     }
     const existingUser = await env2.DB.prepare(
-      "SELECT id FROM users WHERE username = ? OR email = ?"
-    ).bind(userData.username, userData.email).first();
+      "SELECT id FROM users WHERE username = ? OR email = ?",
+    )
+      .bind(userData.username, userData.email)
+      .first();
     if (existingUser) {
       return errorResponse("Username or email already exists", 409);
     }
     const hashedPassword = await hashPassword(userData.password);
     const userId = generateUUID();
     await env2.DB.prepare(
-      'INSERT INTO users (id, username, email, password_hash, role, is_active, created_at) VALUES (?, ?, ?, ?, ?, ?, datetime("now"))'
-    ).bind(userId, userData.username, userData.email, hashedPassword, "user", 1).run();
+      'INSERT INTO users (id, username, email, password_hash, role, is_active, created_at) VALUES (?, ?, ?, ?, ?, ?, datetime("now"))',
+    )
+      .bind(
+        userId,
+        userData.username,
+        userData.email,
+        hashedPassword,
+        "user",
+        1,
+      )
+      .run();
     const sessionId = generateSessionId();
     const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1e3);
     await env2.DB.prepare(
-      'INSERT INTO sessions (id, user_id, is_active, expires_at, created_at) VALUES (?, ?, ?, ?, datetime("now"))'
-    ).bind(sessionId, userId, 1, expiresAt.toISOString()).run();
-    const token = await createJWT({ userId, sessionId }, env2.JWT_SECRET, "24h");
+      'INSERT INTO sessions (id, user_id, is_active, expires_at, created_at) VALUES (?, ?, ?, ?, datetime("now"))',
+    )
+      .bind(sessionId, userId, 1, expiresAt.toISOString())
+      .run();
+    const token = await createJWT(
+      { userId, sessionId },
+      env2.JWT_SECRET,
+      "24h",
+    );
     return successResponse("User registered successfully", {
       user: {
         id: userId,
         username: userData.username,
         email: userData.email,
-        role: "user"
+        role: "user",
       },
-      token
+      token,
     });
   } catch (error3) {
     console.error("Register error:", error3);
@@ -1351,38 +1440,53 @@ async function handleLogin(request, env2) {
     const loginData = await request.json();
     const validationErrors = validateUserLogin(loginData);
     if (validationErrors.length > 0) {
-      return errorResponse("Validation failed", 400, { errors: validationErrors });
+      return errorResponse("Validation failed", 400, {
+        errors: validationErrors,
+      });
     }
     const user = await env2.DB.prepare(
-      "SELECT id, username, email, password_hash, role, is_active FROM users WHERE username = ? OR email = ?"
-    ).bind(loginData.username, loginData.username).first();
+      "SELECT id, username, email, password_hash, role, is_active FROM users WHERE username = ? OR email = ?",
+    )
+      .bind(loginData.username, loginData.username)
+      .first();
     if (!user) {
       return errorResponse("Invalid credentials", 401);
     }
     if (!user.is_active) {
       return errorResponse("Account is inactive", 401);
     }
-    const isValidPassword = await verifyPassword(loginData.password, user.password_hash);
+    const isValidPassword = await verifyPassword(
+      loginData.password,
+      user.password_hash,
+    );
     if (!isValidPassword) {
       return errorResponse("Invalid credentials", 401);
     }
     await env2.DB.prepare(
-      "UPDATE sessions SET is_active = 0 WHERE user_id = ? AND is_active = 1"
-    ).bind(user.id).run();
+      "UPDATE sessions SET is_active = 0 WHERE user_id = ? AND is_active = 1",
+    )
+      .bind(user.id)
+      .run();
     const sessionId = generateSessionId();
     const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1e3);
     await env2.DB.prepare(
-      'INSERT INTO sessions (id, user_id, is_active, expires_at, created_at) VALUES (?, ?, ?, ?, datetime("now"))'
-    ).bind(sessionId, user.id, 1, expiresAt.toISOString()).run();
-    const token = await createJWT({ userId: user.id, sessionId }, env2.JWT_SECRET, "24h");
+      'INSERT INTO sessions (id, user_id, is_active, expires_at, created_at) VALUES (?, ?, ?, ?, datetime("now"))',
+    )
+      .bind(sessionId, user.id, 1, expiresAt.toISOString())
+      .run();
+    const token = await createJWT(
+      { userId: user.id, sessionId },
+      env2.JWT_SECRET,
+      "24h",
+    );
     return successResponse("Login successful", {
       user: {
         id: user.id,
         username: user.username,
         email: user.email,
-        role: user.role
+        role: user.role,
       },
-      token
+      token,
     });
   } catch (error3) {
     console.error("Login error:", error3);
@@ -1394,9 +1498,9 @@ async function handleLogout(request, env2) {
   try {
     const authResult = await authMiddleware(request, env2);
     if (authResult) return authResult;
-    await env2.DB.prepare(
-      "UPDATE sessions SET is_active = 0 WHERE id = ?"
-    ).bind(request.user.sessionId).run();
+    await env2.DB.prepare("UPDATE sessions SET is_active = 0 WHERE id = ?")
+      .bind(request.user.sessionId)
+      .run();
     return successResponse("Logout successful");
   } catch (error3) {
     console.error("Logout error:", error3);
@@ -1409,8 +1513,10 @@ async function handleMe(request, env2) {
     const authResult = await authMiddleware(request, env2);
     if (authResult) return authResult;
     const user = await env2.DB.prepare(
-      "SELECT id, username, email, role, created_at FROM users WHERE id = ?"
-    ).bind(request.user.id).first();
+      "SELECT id, username, email, role, created_at FROM users WHERE id = ?",
+    )
+      .bind(request.user.id)
+      .first();
     if (!user) {
       return errorResponse("User not found", 404);
     }
@@ -1451,7 +1557,9 @@ async function handleGetGames(request, env2) {
     query += ` ORDER BY ${sortField} ${sortOrder}`;
     query += " LIMIT ? OFFSET ?";
     params.push(limit, offset);
-    const games = await env2.DB.prepare(query).bind(...params).all();
+    const games = await env2.DB.prepare(query)
+      .bind(...params)
+      .all();
     let countQuery = "SELECT COUNT(*) as total FROM games WHERE 1=1";
     const countParams = [];
     if (search) {
@@ -1466,7 +1574,9 @@ async function handleGetGames(request, env2) {
       countQuery += " AND platforms LIKE ?";
       countParams.push(`%${platform2}%`);
     }
-    const totalResult = await env2.DB.prepare(countQuery).bind(...countParams).first();
+    const totalResult = await env2.DB.prepare(countQuery)
+      .bind(...countParams)
+      .first();
     const total = totalResult.total;
     return successResponse("Games retrieved successfully", {
       games: games.results || [],
@@ -1474,8 +1584,8 @@ async function handleGetGames(request, env2) {
         page,
         limit,
         total,
-        totalPages: Math.ceil(total / limit)
-      }
+        totalPages: Math.ceil(total / limit),
+      },
     });
   } catch (error3) {
     console.error("Get games error:", error3);
@@ -1490,15 +1600,17 @@ async function handleGetGame(request, env2) {
     if (!gameId) {
       return errorResponse("Game ID is required", 400);
     }
-    const game = await env2.DB.prepare(
-      "SELECT * FROM games WHERE id = ?"
-    ).bind(gameId).first();
+    const game = await env2.DB.prepare("SELECT * FROM games WHERE id = ?")
+      .bind(gameId)
+      .first();
     if (!game) {
       return errorResponse("Game not found", 404);
     }
     const tags = await env2.DB.prepare(
-      "SELECT gt.name FROM game_tags gt JOIN games_game_tags ggt ON gt.id = ggt.tag_id WHERE ggt.game_id = ?"
-    ).bind(gameId).all();
+      "SELECT gt.name FROM game_tags gt JOIN games_game_tags ggt ON gt.id = ggt.tag_id WHERE ggt.game_id = ?",
+    )
+      .bind(gameId)
+      .all();
     game.tags = tags.results?.map((tag) => tag.name) || [];
     return successResponse("Game retrieved successfully", { game });
   } catch (error3) {
@@ -1514,52 +1626,70 @@ async function handleCreateGame(request, env2) {
     const gameData = await request.json();
     const validationErrors = validateGameData(gameData);
     if (validationErrors.length > 0) {
-      return errorResponse("Validation failed", 400, { errors: validationErrors });
+      return errorResponse("Validation failed", 400, {
+        errors: validationErrors,
+      });
     }
     const gameId = crypto.randomUUID();
-    await env2.DB.prepare(`
+    await env2.DB.prepare(
+      `
       INSERT INTO games (
         id, title, description, genre, platforms, release_date, 
         developer, publisher, rating, image_url, trailer_url, 
         steam_url, epic_url, gog_url, created_at
       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, datetime("now"))
-    `).bind(
-      gameId,
-      gameData.title,
-      gameData.description || null,
-      gameData.genre || null,
-      gameData.platforms || null,
-      gameData.release_date || null,
-      gameData.developer || null,
-      gameData.publisher || null,
-      gameData.rating || null,
-      gameData.image_url || null,
-      gameData.trailer_url || null,
-      gameData.steam_url || null,
-      gameData.epic_url || null,
-      gameData.gog_url || null
-    ).run();
+    `,
+    )
+      .bind(
+        gameId,
+        gameData.title,
+        gameData.description || null,
+        gameData.genre || null,
+        gameData.platforms || null,
+        gameData.release_date || null,
+        gameData.developer || null,
+        gameData.publisher || null,
+        gameData.rating || null,
+        gameData.image_url || null,
+        gameData.trailer_url || null,
+        gameData.steam_url || null,
+        gameData.epic_url || null,
+        gameData.gog_url || null,
+      )
+      .run();
     if (gameData.tags && Array.isArray(gameData.tags)) {
       for (const tagName of gameData.tags) {
         let tag = await env2.DB.prepare(
-          "SELECT id FROM game_tags WHERE name = ?"
-        ).bind(tagName).first();
+          "SELECT id FROM game_tags WHERE name = ?",
+        )
+          .bind(tagName)
+          .first();
         if (!tag) {
           const tagId = crypto.randomUUID();
           await env2.DB.prepare(
-            'INSERT INTO game_tags (id, name, created_at) VALUES (?, ?, datetime("now"))'
-          ).bind(tagId, tagName).run();
+            'INSERT INTO game_tags (id, name, created_at) VALUES (?, ?, datetime("now"))',
+          )
+            .bind(tagId, tagName)
+            .run();
           tag = { id: tagId };
         }
         await env2.DB.prepare(
-          "INSERT INTO games_game_tags (game_id, tag_id) VALUES (?, ?)"
-        ).bind(gameId, tag.id).run();
+          "INSERT INTO games_game_tags (game_id, tag_id) VALUES (?, ?)",
+        )
+          .bind(gameId, tag.id)
+          .run();
       }
     }
     const createdGame = await env2.DB.prepare(
-      "SELECT * FROM games WHERE id = ?"
-    ).bind(gameId).first();
-    return successResponse("Game created successfully", { game: createdGame }, 201);
+      "SELECT * FROM games WHERE id = ?",
+    )
+      .bind(gameId)
+      .first();
+    return successResponse(
+      "Game created successfully",
+      { game: createdGame },
+      201,
+    );
   } catch (error3) {
     console.error("Create game error:", error3);
     return serverErrorResponse("Failed to create game");
@@ -1577,41 +1707,51 @@ async function handleUpdateGame(request, env2) {
       return errorResponse("Game ID is required", 400);
     }
     const existingGame = await env2.DB.prepare(
-      "SELECT id FROM games WHERE id = ?"
-    ).bind(gameId).first();
+      "SELECT id FROM games WHERE id = ?",
+    )
+      .bind(gameId)
+      .first();
     if (!existingGame) {
       return errorResponse("Game not found", 404);
     }
     const validationErrors = validateGameData(gameData);
     if (validationErrors.length > 0) {
-      return errorResponse("Validation failed", 400, { errors: validationErrors });
+      return errorResponse("Validation failed", 400, {
+        errors: validationErrors,
+      });
     }
-    await env2.DB.prepare(`
+    await env2.DB.prepare(
+      `
       UPDATE games SET 
         title = ?, description = ?, genre = ?, platforms = ?, 
         release_date = ?, developer = ?, publisher = ?, rating = ?, 
         image_url = ?, trailer_url = ?, steam_url = ?, epic_url = ?, 
         gog_url = ?, updated_at = datetime("now")
       WHERE id = ?
-    `).bind(
-      gameData.title,
-      gameData.description || null,
-      gameData.genre || null,
-      gameData.platforms || null,
-      gameData.release_date || null,
-      gameData.developer || null,
-      gameData.publisher || null,
-      gameData.rating || null,
-      gameData.image_url || null,
-      gameData.trailer_url || null,
-      gameData.steam_url || null,
-      gameData.epic_url || null,
-      gameData.gog_url || null,
-      gameId
-    ).run();
+    `,
+    )
+      .bind(
+        gameData.title,
+        gameData.description || null,
+        gameData.genre || null,
+        gameData.platforms || null,
+        gameData.release_date || null,
+        gameData.developer || null,
+        gameData.publisher || null,
+        gameData.rating || null,
+        gameData.image_url || null,
+        gameData.trailer_url || null,
+        gameData.steam_url || null,
+        gameData.epic_url || null,
+        gameData.gog_url || null,
+        gameId,
+      )
+      .run();
     const updatedGame = await env2.DB.prepare(
-      "SELECT * FROM games WHERE id = ?"
-    ).bind(gameId).first();
+      "SELECT * FROM games WHERE id = ?",
+    )
+      .bind(gameId)
+      .first();
     return successResponse("Game updated successfully", { game: updatedGame });
   } catch (error3) {
     console.error("Update game error:", error3);
@@ -1629,8 +1769,10 @@ async function handleDeleteGame(request, env2) {
       return errorResponse("Game ID is required", 400);
     }
     const existingGame = await env2.DB.prepare(
-      "SELECT id FROM games WHERE id = ?"
-    ).bind(gameId).first();
+      "SELECT id FROM games WHERE id = ?",
+    )
+      .bind(gameId)
+      .first();
     if (!existingGame) {
       return errorResponse("Game not found", 404);
     }
@@ -1667,19 +1809,33 @@ async function handleGetUserLibrary(request, env2) {
       query += " AND ugl.status = ?";
       params.push(status);
     }
-    const allowedSortFields = ["added_at", "rating", "play_time_hours", "title"];
-    const sortField = allowedSortFields.includes(sortBy) ? sortBy === "title" ? "g.title" : `ugl.${sortBy}` : "ugl.added_at";
+    const allowedSortFields = [
+      "added_at",
+      "rating",
+      "play_time_hours",
+      "title",
+    ];
+    const sortField = allowedSortFields.includes(sortBy)
+      ? sortBy === "title"
+        ? "g.title"
+        : `ugl.${sortBy}`
+      : "ugl.added_at";
     query += ` ORDER BY ${sortField} ${sortOrder}`;
     query += " LIMIT ? OFFSET ?";
     params.push(limit, offset);
-    const libraryEntries = await env2.DB.prepare(query).bind(...params).all();
-    let countQuery = "SELECT COUNT(*) as total FROM user_game_library WHERE user_id = ?";
+    const libraryEntries = await env2.DB.prepare(query)
+      .bind(...params)
+      .all();
+    let countQuery =
+      "SELECT COUNT(*) as total FROM user_game_library WHERE user_id = ?";
     const countParams = [request.user.id];
     if (status) {
       countQuery += " AND status = ?";
       countParams.push(status);
     }
-    const totalResult = await env2.DB.prepare(countQuery).bind(...countParams).first();
+    const totalResult = await env2.DB.prepare(countQuery)
+      .bind(...countParams)
+      .first();
     const total = totalResult.total;
     return successResponse("Library retrieved successfully", {
       library: libraryEntries.results || [],
@@ -1687,8 +1843,8 @@ async function handleGetUserLibrary(request, env2) {
         page,
         limit,
         total,
-        totalPages: Math.ceil(total / limit)
-      }
+        totalPages: Math.ceil(total / limit),
+      },
     });
   } catch (error3) {
     console.error("Get user library error:", error3);
@@ -1703,36 +1859,45 @@ async function handleAddToLibrary(request, env2) {
     const entryData = await request.json();
     const validationErrors = validateGameLibraryEntry(entryData);
     if (validationErrors.length > 0) {
-      return errorResponse("Validation failed", 400, { errors: validationErrors });
+      return errorResponse("Validation failed", 400, {
+        errors: validationErrors,
+      });
     }
-    const game = await env2.DB.prepare(
-      "SELECT id FROM games WHERE id = ?"
-    ).bind(entryData.game_id).first();
+    const game = await env2.DB.prepare("SELECT id FROM games WHERE id = ?")
+      .bind(entryData.game_id)
+      .first();
     if (!game) {
       return errorResponse("Game not found", 404);
     }
     const existingEntry = await env2.DB.prepare(
-      "SELECT id FROM user_game_library WHERE user_id = ? AND game_id = ?"
-    ).bind(request.user.id, entryData.game_id).first();
+      "SELECT id FROM user_game_library WHERE user_id = ? AND game_id = ?",
+    )
+      .bind(request.user.id, entryData.game_id)
+      .first();
     if (existingEntry) {
       return errorResponse("Game already in library", 409);
     }
     const entryId = crypto.randomUUID();
-    await env2.DB.prepare(`
+    await env2.DB.prepare(
+      `
       INSERT INTO user_game_library (
         id, user_id, game_id, status, rating, notes, 
         play_time_hours, added_at
       ) VALUES (?, ?, ?, ?, ?, ?, ?, datetime("now"))
-    `).bind(
-      entryId,
-      request.user.id,
-      entryData.game_id,
-      entryData.status || "want_to_play",
-      entryData.rating || null,
-      entryData.notes || null,
-      entryData.play_time_hours || 0
-    ).run();
-    const createdEntry = await env2.DB.prepare(`
+    `,
+    )
+      .bind(
+        entryId,
+        request.user.id,
+        entryData.game_id,
+        entryData.status || "want_to_play",
+        entryData.rating || null,
+        entryData.notes || null,
+        entryData.play_time_hours || 0,
+      )
+      .run();
+    const createdEntry = await env2.DB.prepare(
+      `
       SELECT 
         ugl.*,
         g.title, g.description, g.genre, g.platforms, g.release_date,
@@ -1740,8 +1905,15 @@ async function handleAddToLibrary(request, env2) {
       FROM user_game_library ugl
       JOIN games g ON ugl.game_id = g.id
       WHERE ugl.id = ?
-    `).bind(entryId).first();
-    return successResponse("Game added to library", { entry: createdEntry }, 201);
+    `,
+    )
+      .bind(entryId)
+      .first();
+    return successResponse(
+      "Game added to library",
+      { entry: createdEntry },
+      201,
+    );
   } catch (error3) {
     console.error("Add to library error:", error3);
     return serverErrorResponse("Failed to add game to library");
@@ -1759,13 +1931,20 @@ async function handleUpdateLibraryEntry(request, env2) {
       return errorResponse("Entry ID is required", 400);
     }
     const existingEntry = await env2.DB.prepare(
-      "SELECT id FROM user_game_library WHERE id = ? AND user_id = ?"
-    ).bind(entryId, request.user.id).first();
+      "SELECT id FROM user_game_library WHERE id = ? AND user_id = ?",
+    )
+      .bind(entryId, request.user.id)
+      .first();
     if (!existingEntry) {
       return errorResponse("Library entry not found", 404);
     }
     const validationErrors = [];
-    if (entryData.status && !["playing", "completed", "want_to_play", "dropped"].includes(entryData.status)) {
+    if (
+      entryData.status &&
+      !["playing", "completed", "want_to_play", "dropped"].includes(
+        entryData.status,
+      )
+    ) {
       validationErrors.push("Invalid status");
     }
     if (entryData.rating !== void 0 && entryData.rating !== null) {
@@ -1775,7 +1954,9 @@ async function handleUpdateLibraryEntry(request, env2) {
       }
     }
     if (validationErrors.length > 0) {
-      return errorResponse("Validation failed", 400, { errors: validationErrors });
+      return errorResponse("Validation failed", 400, {
+        errors: validationErrors,
+      });
     }
     const updateFields = [];
     const params = [];
@@ -1801,9 +1982,12 @@ async function handleUpdateLibraryEntry(request, env2) {
     updateFields.push('updated_at = datetime("now")');
     params.push(entryId);
     await env2.DB.prepare(
-      `UPDATE user_game_library SET ${updateFields.join(", ")} WHERE id = ?`
-    ).bind(...params).run();
-    const updatedEntry = await env2.DB.prepare(`
+      `UPDATE user_game_library SET ${updateFields.join(", ")} WHERE id = ?`,
+    )
+      .bind(...params)
+      .run();
+    const updatedEntry = await env2.DB.prepare(
+      `
       SELECT 
         ugl.*,
         g.title, g.description, g.genre, g.platforms, g.release_date,
@@ -1811,7 +1995,10 @@ async function handleUpdateLibraryEntry(request, env2) {
       FROM user_game_library ugl
       JOIN games g ON ugl.game_id = g.id
       WHERE ugl.id = ?
-    `).bind(entryId).first();
+    `,
+    )
+      .bind(entryId)
+      .first();
     return successResponse("Library entry updated", { entry: updatedEntry });
   } catch (error3) {
     console.error("Update library entry error:", error3);
@@ -1829,14 +2016,16 @@ async function handleRemoveFromLibrary(request, env2) {
       return errorResponse("Entry ID is required", 400);
     }
     const existingEntry = await env2.DB.prepare(
-      "SELECT id FROM user_game_library WHERE id = ? AND user_id = ?"
-    ).bind(entryId, request.user.id).first();
+      "SELECT id FROM user_game_library WHERE id = ? AND user_id = ?",
+    )
+      .bind(entryId, request.user.id)
+      .first();
     if (!existingEntry) {
       return errorResponse("Library entry not found", 404);
     }
-    await env2.DB.prepare(
-      "DELETE FROM user_game_library WHERE id = ?"
-    ).bind(entryId).run();
+    await env2.DB.prepare("DELETE FROM user_game_library WHERE id = ?")
+      .bind(entryId)
+      .run();
     return successResponse("Game removed from library");
   } catch (error3) {
     console.error("Remove from library error:", error3);
@@ -1848,7 +2037,8 @@ async function handleGetLibraryStats(request, env2) {
   try {
     const authResult = await authMiddleware(request, env2);
     if (authResult) return authResult;
-    const stats = await env2.DB.prepare(`
+    const stats = await env2.DB.prepare(
+      `
       SELECT 
         COUNT(*) as total_games,
         COUNT(CASE WHEN status = 'playing' THEN 1 END) as currently_playing,
@@ -1859,7 +2049,10 @@ async function handleGetLibraryStats(request, env2) {
         AVG(CASE WHEN rating IS NOT NULL THEN rating END) as average_rating
       FROM user_game_library 
       WHERE user_id = ?
-    `).bind(request.user.id).first();
+    `,
+    )
+      .bind(request.user.id)
+      .first();
     return successResponse("Library statistics retrieved", { stats });
   } catch (error3) {
     console.error("Get library stats error:", error3);
@@ -1880,16 +2073,19 @@ var src_default = {
       }
       const corsHeaders = corsMiddleware(request);
       if (path === "/health" && method === "GET") {
-        return new Response(JSON.stringify({
-          status: "healthy",
-          timestamp: (/* @__PURE__ */ new Date()).toISOString(),
-          version: "2.0.0"
-        }), {
-          headers: {
-            "Content-Type": "application/json",
-            ...corsHeaders
-          }
-        });
+        return new Response(
+          JSON.stringify({
+            status: "healthy",
+            timestamp: /* @__PURE__ */ new Date().toISOString(),
+            version: "2.0.0",
+          }),
+          {
+            headers: {
+              "Content-Type": "application/json",
+              ...corsHeaders,
+            },
+          },
+        );
       }
       let response;
       if (path === "/auth/register" && method === "POST") {
@@ -1931,7 +2127,7 @@ var src_default = {
         return new Response(response.body, {
           status: response.status,
           statusText: response.statusText,
-          headers: newHeaders
+          headers: newHeaders,
         });
       }
       return errorResponse("Internal server error", 500);
@@ -1946,28 +2142,30 @@ var src_default = {
       return new Response(errorResponse2.body, {
         status: errorResponse2.status,
         statusText: errorResponse2.statusText,
-        headers: newHeaders
+        headers: newHeaders,
       });
     }
-  }
+  },
 };
 
 // ../../../../../AppData/Local/npm-cache/_npx/32026684e21afda6/node_modules/wrangler/templates/middleware/middleware-ensure-req-body-drained.ts
-var drainBody = /* @__PURE__ */ __name(async (request, env2, _ctx, middlewareCtx) => {
-  try {
-    return await middlewareCtx.next(request, env2);
-  } finally {
+var drainBody = /* @__PURE__ */ __name(
+  async (request, env2, _ctx, middlewareCtx) => {
     try {
-      if (request.body !== null && !request.bodyUsed) {
-        const reader = request.body.getReader();
-        while (!(await reader.read()).done) {
+      return await middlewareCtx.next(request, env2);
+    } finally {
+      try {
+        if (request.body !== null && !request.bodyUsed) {
+          const reader = request.body.getReader();
+          while (!(await reader.read()).done) {}
         }
+      } catch (e) {
+        console.error("Failed to drain the unused request body.", e);
       }
-    } catch (e) {
-      console.error("Failed to drain the unused request body.", e);
     }
-  }
-}, "drainBody");
+  },
+  "drainBody",
+);
 var middleware_ensure_req_body_drained_default = drainBody;
 
 // ../../../../../AppData/Local/npm-cache/_npx/32026684e21afda6/node_modules/wrangler/templates/middleware/middleware-miniflare3-json-error.ts
@@ -1976,27 +2174,30 @@ function reduceError(e) {
     name: e?.name,
     message: e?.message ?? String(e),
     stack: e?.stack,
-    cause: e?.cause === void 0 ? void 0 : reduceError(e.cause)
+    cause: e?.cause === void 0 ? void 0 : reduceError(e.cause),
   };
 }
 __name(reduceError, "reduceError");
-var jsonError = /* @__PURE__ */ __name(async (request, env2, _ctx, middlewareCtx) => {
-  try {
-    return await middlewareCtx.next(request, env2);
-  } catch (e) {
-    const error3 = reduceError(e);
-    return Response.json(error3, {
-      status: 500,
-      headers: { "MF-Experimental-Error-Stack": "true" }
-    });
-  }
-}, "jsonError");
+var jsonError = /* @__PURE__ */ __name(
+  async (request, env2, _ctx, middlewareCtx) => {
+    try {
+      return await middlewareCtx.next(request, env2);
+    } catch (e) {
+      const error3 = reduceError(e);
+      return Response.json(error3, {
+        status: 500,
+        headers: { "MF-Experimental-Error-Stack": "true" },
+      });
+    }
+  },
+  "jsonError",
+);
 var middleware_miniflare3_json_error_default = jsonError;
 
 // .wrangler/tmp/bundle-Nh65Jx/middleware-insertion-facade.js
 var __INTERNAL_WRANGLER_MIDDLEWARE__ = [
   middleware_ensure_req_body_drained_default,
-  middleware_miniflare3_json_error_default
+  middleware_miniflare3_json_error_default,
 ];
 var middleware_insertion_facade_default = src_default;
 
@@ -2012,7 +2213,7 @@ function __facade_invokeChain__(request, env2, ctx, dispatch, middlewareChain) {
     dispatch,
     next(newRequest, newEnv) {
       return __facade_invokeChain__(newRequest, newEnv, ctx, dispatch, tail);
-    }
+    },
   };
   return head(request, env2, ctx, middlewareCtx);
 }
@@ -2020,7 +2221,7 @@ __name(__facade_invokeChain__, "__facade_invokeChain__");
 function __facade_invoke__(request, env2, ctx, dispatch, finalMiddleware) {
   return __facade_invokeChain__(request, env2, ctx, dispatch, [
     ...__facade_middleware__,
-    finalMiddleware
+    finalMiddleware,
   ]);
 }
 __name(__facade_invoke__, "__facade_invoke__");
@@ -2044,13 +2245,16 @@ var __Facade_ScheduledController__ = class ___Facade_ScheduledController__ {
   }
 };
 function wrapExportedHandler(worker) {
-  if (__INTERNAL_WRANGLER_MIDDLEWARE__ === void 0 || __INTERNAL_WRANGLER_MIDDLEWARE__.length === 0) {
+  if (
+    __INTERNAL_WRANGLER_MIDDLEWARE__ === void 0 ||
+    __INTERNAL_WRANGLER_MIDDLEWARE__.length === 0
+  ) {
     return worker;
   }
   for (const middleware of __INTERNAL_WRANGLER_MIDDLEWARE__) {
     __facade_register__(middleware);
   }
-  const fetchDispatcher = /* @__PURE__ */ __name(function(request, env2, ctx) {
+  const fetchDispatcher = /* @__PURE__ */ __name(function (request, env2, ctx) {
     if (worker.fetch === void 0) {
       throw new Error("Handler does not export a fetch() function.");
     }
@@ -2059,24 +2263,26 @@ function wrapExportedHandler(worker) {
   return {
     ...worker,
     fetch(request, env2, ctx) {
-      const dispatcher = /* @__PURE__ */ __name(function(type, init) {
+      const dispatcher = /* @__PURE__ */ __name(function (type, init) {
         if (type === "scheduled" && worker.scheduled !== void 0) {
           const controller = new __Facade_ScheduledController__(
             Date.now(),
             init.cron ?? "",
-            () => {
-            }
+            () => {},
           );
           return worker.scheduled(controller, env2, ctx);
         }
       }, "dispatcher");
       return __facade_invoke__(request, env2, ctx, dispatcher, fetchDispatcher);
-    }
+    },
   };
 }
 __name(wrapExportedHandler, "wrapExportedHandler");
 function wrapWorkerEntrypoint(klass) {
-  if (__INTERNAL_WRANGLER_MIDDLEWARE__ === void 0 || __INTERNAL_WRANGLER_MIDDLEWARE__.length === 0) {
+  if (
+    __INTERNAL_WRANGLER_MIDDLEWARE__ === void 0 ||
+    __INTERNAL_WRANGLER_MIDDLEWARE__.length === 0
+  ) {
     return klass;
   }
   for (const middleware of __INTERNAL_WRANGLER_MIDDLEWARE__) {
@@ -2096,8 +2302,7 @@ function wrapWorkerEntrypoint(klass) {
         const controller = new __Facade_ScheduledController__(
           Date.now(),
           init.cron ?? "",
-          () => {
-          }
+          () => {},
         );
         return super.scheduled(controller);
       }
@@ -2108,7 +2313,7 @@ function wrapWorkerEntrypoint(klass) {
         this.env,
         this.ctx,
         this.#dispatcher,
-        this.#fetchDispatcher
+        this.#fetchDispatcher,
       );
     }
   };
@@ -2123,6 +2328,6 @@ if (typeof middleware_insertion_facade_default === "object") {
 var middleware_loader_entry_default = WRAPPED_ENTRY;
 export {
   __INTERNAL_WRANGLER_MIDDLEWARE__,
-  middleware_loader_entry_default as default
+  middleware_loader_entry_default as default,
 };
 //# sourceMappingURL=index.js.map

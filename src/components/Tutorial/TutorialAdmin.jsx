@@ -1,104 +1,106 @@
-import { useState, useEffect } from 'react'
-import { useTutorialAdmin } from '../../hooks/useTutorial'
-import TutorialEditModal from './TutorialEditModal'
-import TutorialImportModal from './TutorialImportModal'
-import Header from '../Header'
-import SiteFooter from '../SiteFooter'
+import { useState, useEffect } from "react";
+import { useTutorialAdmin } from "../../hooks/useTutorial";
+import TutorialEditModal from "./TutorialEditModal";
+import TutorialImportModal from "./TutorialImportModal";
+import Header from "../Header";
+import SiteFooter from "../SiteFooter";
 
 function TutorialAdmin({ embedded = false }) {
-  const { isAdmin, listTutorials, deleteTutorial } = useTutorialAdmin()
-  const [tutorials, setTutorials] = useState([])
-  const [isLoading, setIsLoading] = useState(true)
-  const [error, setError] = useState('')
-  const [editModalOpen, setEditModalOpen] = useState(false)
-  const [selectedTutorialId, setSelectedTutorialId] = useState(null)
-  const [importModalOpen, setImportModalOpen] = useState(false)
+  const { isAdmin, listTutorials, deleteTutorial } = useTutorialAdmin();
+  const [tutorials, setTutorials] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState("");
+  const [editModalOpen, setEditModalOpen] = useState(false);
+  const [selectedTutorialId, setSelectedTutorialId] = useState(null);
+  const [importModalOpen, setImportModalOpen] = useState(false);
 
   useEffect(() => {
     if (isAdmin) {
-      loadTutorials()
+      loadTutorials();
     }
-  }, [isAdmin])
+  }, [isAdmin]);
 
   // Sayfa geri dönüşünde modalı otomatik aç (query veya localStorage ile)
   useEffect(() => {
-    if (!isAdmin) return
+    if (!isAdmin) return;
     try {
-      const params = new URLSearchParams(window.location.search)
-      const shouldOpen = params.get('openEditModal') === '1'
-      const stepIndexParam = params.get('stepIndex')
-      const persisted = localStorage.getItem('junoro:tutorialSelection')
+      const params = new URLSearchParams(window.location.search);
+      const shouldOpen = params.get("openEditModal") === "1";
+      const stepIndexParam = params.get("stepIndex");
+      const persisted = localStorage.getItem("junoro:tutorialSelection");
       if (shouldOpen || persisted) {
-        setSelectedTutorialId(null) // oluşturma modunu aç
-        setEditModalOpen(true)
+        setSelectedTutorialId(null); // oluşturma modunu aç
+        setEditModalOpen(true);
         // URL’deki paramları temizlemek isterseniz (opsiyonel):
         // params.delete('openEditModal'); params.delete('stepIndex'); history.replaceState(null, '', window.location.pathname)
       }
     } catch (e) {
       // sessiz geç
     }
-  }, [isAdmin])
+  }, [isAdmin]);
 
   const loadTutorials = async () => {
     try {
-      setIsLoading(true)
-      const tutorialList = await listTutorials()
-      setTutorials(tutorialList)
+      setIsLoading(true);
+      const tutorialList = await listTutorials();
+      setTutorials(tutorialList);
     } catch (err) {
-      setError('Tutorial listesi yüklenirken hata oluştu')
+      setError("Tutorial listesi yüklenirken hata oluştu");
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   const handleEdit = (tutorialId) => {
-    setSelectedTutorialId(tutorialId)
-    setEditModalOpen(true)
-  }
+    setSelectedTutorialId(tutorialId);
+    setEditModalOpen(true);
+  };
 
   const handleCreate = () => {
-    setSelectedTutorialId(null)
-    setEditModalOpen(true)
-  }
+    setSelectedTutorialId(null);
+    setEditModalOpen(true);
+  };
 
   const handleOpenImport = () => {
-    setImportModalOpen(true)
-  }
+    setImportModalOpen(true);
+  };
 
   const handleDelete = async (tutorialId) => {
-    if (window.confirm('Bu tutorial\'ı silmek istediğinizden emin misiniz?')) {
+    if (window.confirm("Bu tutorial'ı silmek istediğinizden emin misiniz?")) {
       try {
-        await deleteTutorial(tutorialId)
-        await loadTutorials() // Listeyi yenile
+        await deleteTutorial(tutorialId);
+        await loadTutorials(); // Listeyi yenile
       } catch (err) {
-        setError('Tutorial silinirken hata oluştu')
+        setError("Tutorial silinirken hata oluştu");
       }
     }
-  }
+  };
 
   const handleModalClose = () => {
-    setEditModalOpen(false)
-    setSelectedTutorialId(null)
-    loadTutorials() // Listeyi yenile
-  }
+    setEditModalOpen(false);
+    setSelectedTutorialId(null);
+    loadTutorials(); // Listeyi yenile
+  };
 
   const handleImportClose = () => {
-    setImportModalOpen(false)
-  }
+    setImportModalOpen(false);
+  };
 
   const handleProceedToEdit = () => {
     // Import modalinden gelen draft, yeni modal açıldığında otomatik yüklenecek
-    setSelectedTutorialId(null)
-    setImportModalOpen(false)
-    setEditModalOpen(true)
-  }
+    setSelectedTutorialId(null);
+    setImportModalOpen(false);
+    setEditModalOpen(true);
+  };
 
   if (!isAdmin) {
     if (embedded) {
       return (
         <div className="bg-slate-800 rounded-lg p-8">
           <h2 className="text-xl font-bold text-white mb-2">Yetkisiz Erişim</h2>
-          <p className="text-gray-300 mb-4">Bu bölüm için admin yetkisi gereklidir.</p>
+          <p className="text-gray-300 mb-4">
+            Bu bölüm için admin yetkisi gereklidir.
+          </p>
           <button
             onClick={() => window.history.back()}
             className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg transition-colors"
@@ -106,12 +108,14 @@ function TutorialAdmin({ embedded = false }) {
             Geri Dön
           </button>
         </div>
-      )
+      );
     }
     return (
       <div className="min-h-screen bg-slate-900 flex items-center justify-center">
         <div className="bg-slate-800 rounded-lg p-8 max-w-md mx-4">
-          <h2 className="text-2xl font-bold text-white mb-4">Yetkisiz Erişim</h2>
+          <h2 className="text-2xl font-bold text-white mb-4">
+            Yetkisiz Erişim
+          </h2>
           <p className="text-gray-300 mb-6">
             Bu sayfaya erişmek için admin yetkisine sahip olmanız gerekiyor.
           </p>
@@ -123,7 +127,7 @@ function TutorialAdmin({ embedded = false }) {
           </button>
         </div>
       </div>
-    )
+    );
   }
 
   const content = (
@@ -132,7 +136,9 @@ function TutorialAdmin({ embedded = false }) {
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-white mb-2">Tutorial Yönetimi</h1>
+            <h1 className="text-3xl font-bold text-white mb-2">
+              Tutorial Yönetimi
+            </h1>
             <p className="text-gray-400">Uygulama tutorial'larını yönetin</p>
           </div>
           <div className="flex items-center gap-2">
@@ -173,7 +179,9 @@ function TutorialAdmin({ embedded = false }) {
           <div className="grid gap-6">
             {tutorials.length === 0 ? (
               <div className="text-center py-12">
-                <div className="text-gray-400 text-lg mb-4">Henüz tutorial bulunmuyor</div>
+                <div className="text-gray-400 text-lg mb-4">
+                  Henüz tutorial bulunmuyor
+                </div>
                 <button
                   onClick={handleCreate}
                   className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg transition-colors"
@@ -200,24 +208,28 @@ function TutorialAdmin({ embedded = false }) {
                           v{tutorial.version}
                         </span>
                       </div>
-                      
+
                       {tutorial.description && (
-                        <p className="text-gray-400 mb-3">{tutorial.description}</p>
+                        <p className="text-gray-400 mb-3">
+                          {tutorial.description}
+                        </p>
                       )}
-                      
+
                       <div className="flex items-center gap-4 text-sm text-gray-500">
                         <span>{tutorial.steps?.length || 0} adım</span>
                         <span>•</span>
                         <span>
-                          Otomatik başlat: {tutorial.settings?.autoStart ? 'Evet' : 'Hayır'}
+                          Otomatik başlat:{" "}
+                          {tutorial.settings?.autoStart ? "Evet" : "Hayır"}
                         </span>
                         <span>•</span>
                         <span>
-                          Atlama: {tutorial.settings?.allowSkip ? 'İzinli' : 'Yasak'}
+                          Atlama:{" "}
+                          {tutorial.settings?.allowSkip ? "İzinli" : "Yasak"}
                         </span>
                       </div>
                     </div>
-                    
+
                     <div className="flex items-center gap-2 ml-4">
                       <button
                         onClick={() => handleEdit(tutorial.id)}
@@ -233,11 +245,13 @@ function TutorialAdmin({ embedded = false }) {
                       </button>
                     </div>
                   </div>
-                  
+
                   {/* Tutorial Steps Preview */}
                   {tutorial.steps && tutorial.steps.length > 0 && (
                     <div className="mt-4 pt-4 border-t border-slate-700">
-                      <h4 className="text-sm font-medium text-gray-300 mb-2">Adımlar:</h4>
+                      <h4 className="text-sm font-medium text-gray-300 mb-2">
+                        Adımlar:
+                      </h4>
                       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
                         {tutorial.steps.slice(0, 6).map((step, index) => (
                           <div
@@ -245,10 +259,10 @@ function TutorialAdmin({ embedded = false }) {
                             className="bg-slate-700/50 rounded p-2 text-sm"
                           >
                             <div className="text-white font-medium truncate">
-                              {index + 1}. {step.title || 'Başlıksız'}
+                              {index + 1}. {step.title || "Başlıksız"}
                             </div>
                             <div className="text-gray-400 text-xs truncate">
-                              Target: {step.target || 'Belirtilmemiş'}
+                              Target: {step.target || "Belirtilmemiş"}
                             </div>
                           </div>
                         ))}
@@ -280,14 +294,10 @@ function TutorialAdmin({ embedded = false }) {
         />
       </div>
     </div>
-  )
+  );
 
   if (embedded) {
-    return (
-      <div className="bg-slate-900/40 rounded-xl">
-        {content}
-      </div>
-    )
+    return <div className="bg-slate-900/40 rounded-xl">{content}</div>;
   }
 
   return (
@@ -296,7 +306,7 @@ function TutorialAdmin({ embedded = false }) {
       {content}
       <SiteFooter />
     </div>
-  )
+  );
 }
 
-export default TutorialAdmin
+export default TutorialAdmin;

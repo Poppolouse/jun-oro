@@ -1,10 +1,10 @@
-import apiClient from './api.js';
+import apiClient from "./api.js";
 
 // Create API client instance for API key management
 
 class ApiKeyService {
   constructor() {
-    this.endpoint = '/api-keys';
+    this.endpoint = "/api-keys";
   }
 
   /**
@@ -16,8 +16,9 @@ class ApiKeyService {
   async getApiKeys(userId = null, includeGlobal = true) {
     const params = {};
     if (userId) params.userId = userId;
-    if (includeGlobal !== undefined) params.includeGlobal = includeGlobal.toString();
-    
+    if (includeGlobal !== undefined)
+      params.includeGlobal = includeGlobal.toString();
+
     return apiClient.get(this.endpoint, params);
   }
 
@@ -31,8 +32,8 @@ class ApiKeyService {
   async getServiceApiKey(serviceName, userId = null, decrypt = false) {
     const params = {};
     if (userId) params.userId = userId;
-    if (decrypt) params.decrypt = 'true';
-    
+    if (decrypt) params.decrypt = "true";
+
     return apiClient.get(`${this.endpoint}/service/${serviceName}`, params);
   }
 
@@ -50,8 +51,11 @@ class ApiKeyService {
   async createApiKey(keyData, userId = null) {
     const params = {};
     if (userId) params.userId = userId;
-    
-    return apiClient.post(`${this.endpoint}?${new URLSearchParams(params)}`, keyData);
+
+    return apiClient.post(
+      `${this.endpoint}?${new URLSearchParams(params)}`,
+      keyData,
+    );
   }
 
   /**
@@ -91,10 +95,10 @@ class ApiKeyService {
    */
   async getSteamApiKey(userId = null) {
     try {
-      const response = await this.getServiceApiKey('steam', userId, true);
+      const response = await this.getServiceApiKey("steam", userId, true);
       return response.data?.keyValue || null;
     } catch (error) {
-      console.warn('Steam API key not found:', error.message);
+      console.warn("Steam API key not found:", error.message);
       return null;
     }
   }
@@ -108,8 +112,8 @@ class ApiKeyService {
     try {
       // Get both Client ID and Access Token separately
       const [clientIdResponse, accessTokenResponse] = await Promise.all([
-        this.getServiceApiKey('igdb_client_id', userId, true),
-        this.getServiceApiKey('igdb_access_token', userId, true)
+        this.getServiceApiKey("igdb_client_id", userId, true),
+        this.getServiceApiKey("igdb_access_token", userId, true),
       ]);
 
       const clientId = clientIdResponse.data?.keyValue;
@@ -118,12 +122,12 @@ class ApiKeyService {
       if (clientId && accessToken) {
         return {
           clientId,
-          accessToken
+          accessToken,
         };
       }
       return null;
     } catch (error) {
-      console.warn('IGDB credentials not found:', error.message);
+      console.warn("IGDB credentials not found:", error.message);
       return null;
     }
   }
@@ -137,15 +141,15 @@ class ApiKeyService {
    */
   async setSteamApiKey(apiKey, userId = null, isGlobal = false) {
     const keyData = {
-      serviceName: 'steam',
-      keyName: 'Steam Web API Key',
+      serviceName: "steam",
+      keyName: "Steam Web API Key",
       keyValue: apiKey,
       isGlobal,
       metadata: {
-        description: 'Steam Web API key for accessing Steam services'
-      }
+        description: "Steam Web API key for accessing Steam services",
+      },
     };
-    
+
     return this.createApiKey(keyData, userId);
   }
 
@@ -157,36 +161,47 @@ class ApiKeyService {
    * @param {boolean} isGlobal - Whether this is a global key
    * @returns {Promise<Object>} API response
    */
-  async setIgdbCredentials(clientId, accessToken, userId = null, isGlobal = false) {
+  async setIgdbCredentials(
+    clientId,
+    accessToken,
+    userId = null,
+    isGlobal = false,
+  ) {
     try {
       // Save Client ID and Access Token as separate records
       const [clientIdResult, accessTokenResult] = await Promise.all([
-        this.createApiKey({
-          serviceName: 'igdb_client_id',
-          keyName: 'IGDB Client ID',
-          keyValue: clientId,
-          isGlobal,
-          metadata: {
-            description: 'IGDB Client ID for API authentication'
-          }
-        }, userId),
-        this.createApiKey({
-          serviceName: 'igdb_access_token',
-          keyName: 'IGDB Access Token',
-          keyValue: accessToken,
-          isGlobal,
-          metadata: {
-            description: 'IGDB Access Token for API requests'
-          }
-        }, userId)
+        this.createApiKey(
+          {
+            serviceName: "igdb_client_id",
+            keyName: "IGDB Client ID",
+            keyValue: clientId,
+            isGlobal,
+            metadata: {
+              description: "IGDB Client ID for API authentication",
+            },
+          },
+          userId,
+        ),
+        this.createApiKey(
+          {
+            serviceName: "igdb_access_token",
+            keyName: "IGDB Access Token",
+            keyValue: accessToken,
+            isGlobal,
+            metadata: {
+              description: "IGDB Access Token for API requests",
+            },
+          },
+          userId,
+        ),
       ]);
 
       return {
         clientId: clientIdResult,
-        accessToken: accessTokenResult
+        accessToken: accessTokenResult,
       };
     } catch (error) {
-      console.error('Error setting IGDB credentials:', error);
+      console.error("Error setting IGDB credentials:", error);
       throw error;
     }
   }
@@ -200,47 +215,46 @@ class ApiKeyService {
     const results = {
       migrated: [],
       errors: [],
-      skipped: []
+      skipped: [],
     };
 
     try {
       // Check for Steam API key in localStorage
-      const steamKey = localStorage.getItem('steamApiKey');
+      const steamKey = localStorage.getItem("steamApiKey");
       if (steamKey) {
         try {
           await this.setSteamApiKey(steamKey, userId);
-          results.migrated.push('steam');
-          localStorage.removeItem('steamApiKey');
+          results.migrated.push("steam");
+          localStorage.removeItem("steamApiKey");
         } catch (error) {
-          if (error.message.includes('already exists')) {
-            results.skipped.push('steam');
+          if (error.message.includes("already exists")) {
+            results.skipped.push("steam");
           } else {
-            results.errors.push({ service: 'steam', error: error.message });
+            results.errors.push({ service: "steam", error: error.message });
           }
         }
       }
 
       // Check for IGDB credentials in localStorage
-      const igdbClientId = localStorage.getItem('igdbClientId');
-      const igdbAccessToken = localStorage.getItem('igdbAccessToken');
+      const igdbClientId = localStorage.getItem("igdbClientId");
+      const igdbAccessToken = localStorage.getItem("igdbAccessToken");
       if (igdbClientId && igdbAccessToken) {
         try {
           await this.setIgdbCredentials(igdbClientId, igdbAccessToken, userId);
-          results.migrated.push('igdb');
-          localStorage.removeItem('igdbClientId');
-          localStorage.removeItem('igdbAccessToken');
+          results.migrated.push("igdb");
+          localStorage.removeItem("igdbClientId");
+          localStorage.removeItem("igdbAccessToken");
         } catch (error) {
-          if (error.message.includes('already exists')) {
-            results.skipped.push('igdb');
+          if (error.message.includes("already exists")) {
+            results.skipped.push("igdb");
           } else {
-            results.errors.push({ service: 'igdb', error: error.message });
+            results.errors.push({ service: "igdb", error: error.message });
           }
         }
       }
-
     } catch (error) {
-      console.error('Migration error:', error);
-      results.errors.push({ service: 'general', error: error.message });
+      console.error("Migration error:", error);
+      results.errors.push({ service: "general", error: error.message });
     }
 
     return results;

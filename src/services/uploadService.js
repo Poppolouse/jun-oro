@@ -1,4 +1,5 @@
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+const API_BASE_URL =
+  import.meta.env.VITE_API_URL || "http://localhost:5000/api";
 
 class UploadService {
   constructor() {
@@ -13,20 +14,20 @@ class UploadService {
   async uploadAvatar(formData) {
     try {
       const response = await fetch(`${this.baseURL}/avatar`, {
-        method: 'POST',
+        method: "POST",
         body: formData,
-        credentials: 'include'
+        credentials: "include",
       });
 
       const result = await response.json();
-      
+
       if (!response.ok) {
-        throw new Error(result.message || 'Avatar yükleme başarısız');
+        throw new Error(result.message || "Avatar yükleme başarısız");
       }
 
       return result;
     } catch (error) {
-      console.error('Avatar upload error:', error);
+      console.error("Avatar upload error:", error);
       throw error;
     }
   }
@@ -39,20 +40,20 @@ class UploadService {
   async uploadPlatformLogo(formData) {
     try {
       const response = await fetch(`${this.baseURL}/platform-logo`, {
-        method: 'POST',
+        method: "POST",
         body: formData,
-        credentials: 'include'
+        credentials: "include",
       });
 
       const result = await response.json();
-      
+
       if (!response.ok) {
-        throw new Error(result.message || 'Platform logosu yükleme başarısız');
+        throw new Error(result.message || "Platform logosu yükleme başarısız");
       }
 
       return result;
     } catch (error) {
-      console.error('Platform logo upload error:', error);
+      console.error("Platform logo upload error:", error);
       throw error;
     }
   }
@@ -65,20 +66,20 @@ class UploadService {
   async uploadGameCover(formData) {
     try {
       const response = await fetch(`${this.baseURL}/game-cover`, {
-        method: 'POST',
+        method: "POST",
         body: formData,
-        credentials: 'include'
+        credentials: "include",
       });
 
       const result = await response.json();
-      
+
       if (!response.ok) {
-        throw new Error(result.message || 'Oyun kapağı yükleme başarısız');
+        throw new Error(result.message || "Oyun kapağı yükleme başarısız");
       }
 
       return result;
     } catch (error) {
-      console.error('Game cover upload error:', error);
+      console.error("Game cover upload error:", error);
       throw error;
     }
   }
@@ -91,19 +92,19 @@ class UploadService {
   async deleteAvatar(userId) {
     try {
       const response = await fetch(`${this.baseURL}/avatar/${userId}`, {
-        method: 'DELETE',
-        credentials: 'include'
+        method: "DELETE",
+        credentials: "include",
       });
 
       const result = await response.json();
-      
+
       if (!response.ok) {
-        throw new Error(result.message || 'Avatar silme başarısız');
+        throw new Error(result.message || "Avatar silme başarısız");
       }
 
       return result;
     } catch (error) {
-      console.error('Avatar delete error:', error);
+      console.error("Avatar delete error:", error);
       throw error;
     }
   }
@@ -118,27 +119,27 @@ class UploadService {
   async generatePresignedUrl(fileName, contentType, uploadType) {
     try {
       const response = await fetch(`${this.baseURL}/presigned-url`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json'
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           fileName,
           contentType,
-          uploadType
+          uploadType,
         }),
-        credentials: 'include'
+        credentials: "include",
       });
 
       const result = await response.json();
-      
+
       if (!response.ok) {
-        throw new Error(result.message || 'Presigned URL oluşturma başarısız');
+        throw new Error(result.message || "Presigned URL oluşturma başarısız");
       }
 
       return result;
     } catch (error) {
-      console.error('Presigned URL error:', error);
+      console.error("Presigned URL error:", error);
       throw error;
     }
   }
@@ -153,20 +154,20 @@ class UploadService {
   async uploadToPresignedUrl(presignedUrl, file, contentType) {
     try {
       const response = await fetch(presignedUrl, {
-        method: 'PUT',
+        method: "PUT",
         body: file,
         headers: {
-          'Content-Type': contentType
-        }
+          "Content-Type": contentType,
+        },
       });
 
       if (!response.ok) {
-        throw new Error('Dosya yükleme başarısız');
+        throw new Error("Dosya yükleme başarısız");
       }
 
       return response;
     } catch (error) {
-      console.error('Direct upload error:', error);
+      console.error("Direct upload error:", error);
       throw error;
     }
   }
@@ -177,7 +178,7 @@ class UploadService {
    * @returns {string} File extension
    */
   getFileExtension(filename) {
-    return filename.split('.').pop().toLowerCase();
+    return filename.split(".").pop().toLowerCase();
   }
 
   /**
@@ -186,7 +187,16 @@ class UploadService {
    * @param {string[]} allowedTypes - Allowed MIME types
    * @returns {boolean} Is valid
    */
-  validateFileType(file, allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp']) {
+  validateFileType(
+    file,
+    allowedTypes = [
+      "image/jpeg",
+      "image/jpg",
+      "image/png",
+      "image/gif",
+      "image/webp",
+    ],
+  ) {
     return allowedTypes.includes(file.type);
   }
 
@@ -210,14 +220,14 @@ class UploadService {
    */
   async resizeImage(file, maxWidth = 800, maxHeight = 600, quality = 0.8) {
     return new Promise((resolve, reject) => {
-      const canvas = document.createElement('canvas');
-      const ctx = canvas.getContext('2d');
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d");
       const img = new Image();
 
       img.onload = () => {
         // Calculate new dimensions
         let { width, height } = img;
-        
+
         if (width > height) {
           if (width > maxWidth) {
             height = (height * maxWidth) / width;
@@ -235,8 +245,8 @@ class UploadService {
 
         // Draw and compress
         ctx.drawImage(img, 0, 0, width, height);
-        
-        canvas.toBlob(resolve, 'image/jpeg', quality);
+
+        canvas.toBlob(resolve, "image/jpeg", quality);
       };
 
       img.onerror = reject;

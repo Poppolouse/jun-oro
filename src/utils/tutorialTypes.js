@@ -4,8 +4,8 @@
  * Tutorial Types
  */
 export const TUTORIAL_TYPES = {
-  PAGE_GUIDE: 'page_guide',
-  SUB_GUIDE: 'sub_guide'
+  PAGE_GUIDE: "page_guide",
+  SUB_GUIDE: "sub_guide",
 };
 
 /**
@@ -13,33 +13,41 @@ export const TUTORIAL_TYPES = {
  */
 export const PAGE_CATEGORIES = {
   ARKADE_APPS: {
-    id: 'arkade_apps',
-    name: 'Arkade Uygulamaları',
+    id: "arkade_apps",
+    name: "Arkade Uygulamaları",
     pages: [
-      { id: 'arkade-dashboard', name: 'Arkade Dashboard', path: '/arkade' },
-      { id: 'arkade-library', name: 'Arkade Kütüphane', path: '/arkade/library' },
-      { id: 'arkade-active-session', name: 'Aktif Oturum', path: '/arkade/session' }
-    ]
+      { id: "arkade-dashboard", name: "Arkade Dashboard", path: "/arkade" },
+      {
+        id: "arkade-library",
+        name: "Arkade Kütüphane",
+        path: "/arkade/library",
+      },
+      {
+        id: "arkade-active-session",
+        name: "Aktif Oturum",
+        path: "/arkade/session",
+      },
+    ],
   },
   MAIN_APPS: {
-    id: 'main_apps',
-    name: 'Ana Uygulamalar',
+    id: "main_apps",
+    name: "Ana Uygulamalar",
     pages: [
-      { id: 'home', name: 'Ana Sayfa', path: '/' },
-      { id: 'backlog', name: 'Backlog', path: '/backlog' },
-      { id: 'wishlist', name: 'Wishlist', path: '/wishlist' },
-      { id: 'gallery', name: 'Galeri', path: '/gallery' },
-      { id: 'stats', name: 'İstatistikler', path: '/stats' }
-    ]
+      { id: "home", name: "Ana Sayfa", path: "/" },
+      { id: "backlog", name: "Backlog", path: "/backlog" },
+      { id: "wishlist", name: "Wishlist", path: "/wishlist" },
+      { id: "gallery", name: "Galeri", path: "/gallery" },
+      { id: "stats", name: "İstatistikler", path: "/stats" },
+    ],
   },
   SYSTEM_PAGES: {
-    id: 'system_pages',
-    name: 'Sistem Sayfaları',
+    id: "system_pages",
+    name: "Sistem Sayfaları",
     pages: [
-      { id: 'login', name: 'Giriş', path: '/login' },
-      { id: 'settings', name: 'Ayarlar', path: '/settings' }
-    ]
-  }
+      { id: "login", name: "Giriş", path: "/login" },
+      { id: "settings", name: "Ayarlar", path: "/settings" },
+    ],
+  },
 };
 
 /**
@@ -116,7 +124,7 @@ export class TutorialManager {
       this.currentTutorial = tutorial;
       return tutorial;
     } catch (error) {
-      console.error('Failed to load tutorial:', error);
+      console.error("Failed to load tutorial:", error);
       throw error;
     }
   }
@@ -131,15 +139,15 @@ export class TutorialManager {
       await this.loadTutorial(tutorialId);
       this.currentStep = 0;
       this.isActive = true;
-      
+
       // Check if user has seen this tutorial before
       const hasSeenTutorial = this.hasSeenTutorial(tutorialId);
-      
+
       if (!hasSeenTutorial || options.force) {
         this.showStep(0);
       }
     } catch (error) {
-      console.error('Failed to start tutorial:', error);
+      console.error("Failed to start tutorial:", error);
     }
   }
 
@@ -148,13 +156,16 @@ export class TutorialManager {
    * @param {number} stepIndex - Step index
    */
   showStep(stepIndex) {
-    if (!this.currentTutorial || stepIndex >= this.currentTutorial.steps.length) {
+    if (
+      !this.currentTutorial ||
+      stepIndex >= this.currentTutorial.steps.length
+    ) {
       return;
     }
 
     this.currentStep = stepIndex;
     const step = this.currentTutorial.steps[stepIndex];
-    
+
     // Trigger step show callback
     if (this.callbacks.onStepShow) {
       this.callbacks.onStepShow(step, stepIndex, this.currentTutorial);
@@ -195,7 +206,7 @@ export class TutorialManager {
     if (this.currentTutorial) {
       this.markTutorialAsSeen(this.currentTutorial.id);
       this.isActive = false;
-      
+
       // Trigger finish callback
       if (this.callbacks.onFinish) {
         this.callbacks.onFinish(this.currentTutorial);
@@ -209,7 +220,9 @@ export class TutorialManager {
    * @returns {boolean}
    */
   hasSeenTutorial(tutorialId) {
-    const seenTutorials = JSON.parse(localStorage.getItem('seenTutorials') || '[]');
+    const seenTutorials = JSON.parse(
+      localStorage.getItem("seenTutorials") || "[]",
+    );
     return seenTutorials.includes(tutorialId);
   }
 
@@ -218,10 +231,12 @@ export class TutorialManager {
    * @param {string} tutorialId - Tutorial identifier
    */
   markTutorialAsSeen(tutorialId) {
-    const seenTutorials = JSON.parse(localStorage.getItem('seenTutorials') || '[]');
+    const seenTutorials = JSON.parse(
+      localStorage.getItem("seenTutorials") || "[]",
+    );
     if (!seenTutorials.includes(tutorialId)) {
       seenTutorials.push(tutorialId);
-      localStorage.setItem('seenTutorials', JSON.stringify(seenTutorials));
+      localStorage.setItem("seenTutorials", JSON.stringify(seenTutorials));
     }
   }
 
@@ -239,11 +254,13 @@ export class TutorialManager {
    */
   getProgress() {
     if (!this.currentTutorial) return null;
-    
+
     return {
       current: this.currentStep + 1,
       total: this.currentTutorial.steps.length,
-      percentage: Math.round(((this.currentStep + 1) / this.currentTutorial.steps.length) * 100)
+      percentage: Math.round(
+        ((this.currentStep + 1) / this.currentTutorial.steps.length) * 100,
+      ),
     };
   }
 }
@@ -263,7 +280,7 @@ export const TutorialUtils = {
     try {
       return document.querySelector(selector);
     } catch (error) {
-      console.warn('Invalid selector:', selector);
+      console.warn("Invalid selector:", selector);
       return null;
     }
   },
@@ -274,13 +291,13 @@ export const TutorialUtils = {
    * @param {string} preferredPosition - Preferred position
    * @returns {Object}
    */
-  calculateTooltipPosition(target, preferredPosition = 'bottom') {
-    if (!target) return { position: 'center', x: 0, y: 0 };
+  calculateTooltipPosition(target, preferredPosition = "bottom") {
+    if (!target) return { position: "center", x: 0, y: 0 };
 
     const rect = target.getBoundingClientRect();
     const viewport = {
       width: window.innerWidth,
-      height: window.innerHeight
+      height: window.innerHeight,
     };
 
     // Calculate positions
@@ -289,24 +306,34 @@ export const TutorialUtils = {
       bottom: { x: rect.left + rect.width / 2, y: rect.bottom + 10 },
       left: { x: rect.left - 10, y: rect.top + rect.height / 2 },
       right: { x: rect.right + 10, y: rect.top + rect.height / 2 },
-      center: { x: viewport.width / 2, y: viewport.height / 2 }
+      center: { x: viewport.width / 2, y: viewport.height / 2 },
     };
 
     // Check if preferred position fits in viewport
     const pos = positions[preferredPosition];
-    if (pos.x >= 0 && pos.x <= viewport.width && pos.y >= 0 && pos.y <= viewport.height) {
+    if (
+      pos.x >= 0 &&
+      pos.x <= viewport.width &&
+      pos.y >= 0 &&
+      pos.y <= viewport.height
+    ) {
       return { position: preferredPosition, ...pos };
     }
 
     // Find best alternative position
     for (const [position, coords] of Object.entries(positions)) {
-      if (coords.x >= 0 && coords.x <= viewport.width && coords.y >= 0 && coords.y <= viewport.height) {
+      if (
+        coords.x >= 0 &&
+        coords.x <= viewport.width &&
+        coords.y >= 0 &&
+        coords.y <= viewport.height
+      ) {
         return { position, ...coords };
       }
     }
 
     // Fallback to center
-    return { position: 'center', ...positions.center };
+    return { position: "center", ...positions.center };
   },
 
   /**
@@ -316,10 +343,10 @@ export const TutorialUtils = {
   scrollToElement(element) {
     if (element) {
       element.scrollIntoView({
-        behavior: 'smooth',
-        block: 'center',
-        inline: 'center'
+        behavior: "smooth",
+        block: "center",
+        inline: "center",
       });
     }
-  }
+  },
 };

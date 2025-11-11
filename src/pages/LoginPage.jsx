@@ -1,109 +1,115 @@
-import { useState } from 'react'
-import { useAuth } from '../contexts/AuthContext'
-import { useNavigate } from 'react-router-dom'
+import { useState } from "react";
+import { useAuth } from "../contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 function LoginPage() {
   const [formData, setFormData] = useState({
-    username: '',
-    password: ''
-  })
-  const [error, setError] = useState('')
-  const [isLoading, setIsLoading] = useState(false)
-  const [showRegister, setShowRegister] = useState(false)
+    username: "",
+    password: "",
+  });
+  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [showRegister, setShowRegister] = useState(false);
   const [registerData, setRegisterData] = useState({
-    username: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-    firstName: '',
-    lastName: ''
-  })
+    username: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    firstName: "",
+    lastName: "",
+  });
 
-  const { login, register } = useAuth()
-  const navigate = useNavigate()
+  const { login, register } = useAuth();
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
-    e.preventDefault()
-    setError('')
-    setIsLoading(true)
+    e.preventDefault();
+    setError("");
+    setIsLoading(true);
 
     if (!formData.username || !formData.password) {
-      setError('Lütfen tüm alanları doldurun')
-      setIsLoading(false)
-      return
+      setError("Lütfen tüm alanları doldurun");
+      setIsLoading(false);
+      return;
     }
 
-    const result = await login(formData.username, formData.password)
-    
+    const result = await login(formData.username, formData.password);
+
     if (result.success) {
-      navigate('/')
+      navigate("/");
     } else {
-      setError(result.message)
+      setError(result.message);
     }
-    
-    setIsLoading(false)
-  }
+
+    setIsLoading(false);
+  };
 
   const handleRegister = async (e) => {
-    e.preventDefault()
-    setError('')
-    setIsLoading(true)
+    e.preventDefault();
+    setError("");
+    setIsLoading(true);
 
-    if (!registerData.username || !registerData.email || !registerData.password) {
-      setError('Lütfen tüm zorunlu alanları doldurun')
-      setIsLoading(false)
-      return
+    if (
+      !registerData.username ||
+      !registerData.email ||
+      !registerData.password
+    ) {
+      setError("Lütfen tüm zorunlu alanları doldurun");
+      setIsLoading(false);
+      return;
     }
 
     if (registerData.password !== registerData.confirmPassword) {
-      setError('Şifreler eşleşmiyor')
-      setIsLoading(false)
-      return
+      setError("Şifreler eşleşmiyor");
+      setIsLoading(false);
+      return;
     }
 
     if (registerData.password.length < 6) {
-      setError('Şifre en az 6 karakter olmalıdır')
-      setIsLoading(false)
-      return
+      setError("Şifre en az 6 karakter olmalıdır");
+      setIsLoading(false);
+      return;
     }
 
-    const result = await register(registerData)
-    
+    const result = await register(registerData);
+
     if (result.success) {
       // Admin onayı sistemi - kullanıcıyı login sayfasına yönlendir
-      setShowRegister(false)
-      setError('')
+      setShowRegister(false);
+      setError("");
       // Başarı mesajını göster
-      alert(result.message || 'Kayıt başarılı! Hesabınız admin onayı bekliyor.')
+      alert(
+        result.message || "Kayıt başarılı! Hesabınız admin onayı bekliyor.",
+      );
       // Form verilerini temizle
       setRegisterData({
-        username: '',
-        email: '',
-        password: '',
-        confirmPassword: '',
-        firstName: '',
-        lastName: ''
-      })
+        username: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
+        firstName: "",
+        lastName: "",
+      });
     } else {
-      setError(result.message)
+      setError(result.message);
     }
-    
-    setIsLoading(false)
-  }
+
+    setIsLoading(false);
+  };
 
   const handleInputChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
-    })
-  }
+      [e.target.name]: e.target.value,
+    });
+  };
 
   const handleRegisterInputChange = (e) => {
     setRegisterData({
       ...registerData,
-      [e.target.name]: e.target.value
-    })
-  }
+      [e.target.name]: e.target.value,
+    });
+  };
 
   // Arkaplan pattern (geçici olarak kaldırıldı; derleme stabilitesini doğrulamak için)
 
@@ -156,7 +162,7 @@ function LoginPage() {
         disabled={isLoading}
         className="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white font-medium py-3 px-4 rounded-lg hover:from-blue-600 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-800 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        {isLoading ? 'Giriş yapılıyor...' : 'Giriş Yap'}
+        {isLoading ? "Giriş yapılıyor..." : "Giriş Yap"}
       </button>
 
       <div className="text-center">
@@ -169,7 +175,7 @@ function LoginPage() {
         </button>
       </div>
     </form>
-  )
+  );
 
   const renderRegisterForm = () => (
     <form onSubmit={handleRegister} className="space-y-6">
@@ -284,7 +290,7 @@ function LoginPage() {
         disabled={isLoading}
         className="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white font-medium py-3 px-4 rounded-lg hover:from-blue-600 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-800 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        {isLoading ? 'Kayıt oluşturuluyor...' : 'Kayıt Ol'}
+        {isLoading ? "Kayıt oluşturuluyor..." : "Kayıt Ol"}
       </button>
 
       <div className="text-center">
@@ -297,41 +303,63 @@ function LoginPage() {
         </button>
       </div>
     </form>
-  )
+  );
 
   return (
-    <div id="login-page" data-registry="7.0" className="relative min-h-screen overflow-hidden">
+    <div
+      id="login-page"
+      data-registry="7.0"
+      className="relative min-h-screen overflow-hidden"
+    >
       {/* Daha Koyu Hareketli Gradient Arkaplan */}
       <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-black to-gray-800">
         {/* Dalga Animasyonları */}
         <div className="absolute inset-0">
-          <div className="absolute inset-0 bg-gradient-to-r from-purple-900/30 via-blue-900/20 to-indigo-900/30 animate-pulse" style={{animationDuration: '4s'}}></div>
-          <div className="absolute inset-0 bg-gradient-to-l from-blue-800/20 via-purple-800/15 to-pink-800/20 animate-bounce" style={{animationDuration: '6s'}}></div>
-          
+          <div
+            className="absolute inset-0 bg-gradient-to-r from-purple-900/30 via-blue-900/20 to-indigo-900/30 animate-pulse"
+            style={{ animationDuration: "4s" }}
+          ></div>
+          <div
+            className="absolute inset-0 bg-gradient-to-l from-blue-800/20 via-purple-800/15 to-pink-800/20 animate-bounce"
+            style={{ animationDuration: "6s" }}
+          ></div>
+
           {/* İç İçe Geçen Dalga Efektleri */}
           <div className="absolute top-0 left-0 w-full h-full">
-            <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-600/10 rounded-full animate-ping" style={{animationDuration: '3s'}}></div>
-            <div className="absolute top-1/3 right-1/4 w-80 h-80 bg-blue-600/10 rounded-full animate-ping" style={{animationDuration: '4s', animationDelay: '1s'}}></div>
-            <div className="absolute bottom-1/4 left-1/3 w-72 h-72 bg-indigo-600/10 rounded-full animate-ping" style={{animationDuration: '5s', animationDelay: '2s'}}></div>
+            <div
+              className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-600/10 rounded-full animate-ping"
+              style={{ animationDuration: "3s" }}
+            ></div>
+            <div
+              className="absolute top-1/3 right-1/4 w-80 h-80 bg-blue-600/10 rounded-full animate-ping"
+              style={{ animationDuration: "4s", animationDelay: "1s" }}
+            ></div>
+            <div
+              className="absolute bottom-1/4 left-1/3 w-72 h-72 bg-indigo-600/10 rounded-full animate-ping"
+              style={{ animationDuration: "5s", animationDelay: "2s" }}
+            ></div>
           </div>
-          
+
           {/* Ek Dalga Katmanları */}
-          <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-purple-500/5 to-transparent animate-pulse" style={{animationDuration: '7s'}}></div>
+          <div
+            className="absolute inset-0 bg-gradient-to-tr from-transparent via-purple-500/5 to-transparent animate-pulse"
+            style={{ animationDuration: "7s" }}
+          ></div>
         </div>
       </div>
-      
+
       {/* Background Pattern kaldırıldı */}
 
       <div className="relative z-10 flex items-center justify-center min-h-screen p-4">
         <div className="relative w-full max-w-md">
           <div className="bg-gray-800/50 backdrop-blur-xl border border-gray-700/50 rounded-2xl p-8 shadow-2xl">
-          {showRegister ? renderRegisterForm() : renderLoginForm()}
+            {showRegister ? renderRegisterForm() : renderLoginForm()}
+          </div>
         </div>
       </div>
+      {/* Outer wrapper close */}
     </div>
-    {/* Outer wrapper close */}
-    </div>
-  )
+  );
 }
 
-export default LoginPage
+export default LoginPage;

@@ -4,41 +4,68 @@ var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
 var __getOwnPropNames = Object.getOwnPropertyNames;
 var __getProtoOf = Object.getPrototypeOf;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
-var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __name = (target, value) => __defProp(target, "name", { value, configurable: true });
-var __require = /* @__PURE__ */ ((x) => typeof require !== "undefined" ? require : typeof Proxy !== "undefined" ? new Proxy(x, {
-  get: (a, b) => (typeof require !== "undefined" ? require : a)[b]
-}) : x)(function(x) {
-  if (typeof require !== "undefined")
-    return require.apply(this, arguments);
+var __defNormalProp = (obj, key, value) =>
+  key in obj
+    ? __defProp(obj, key, {
+        enumerable: true,
+        configurable: true,
+        writable: true,
+        value,
+      })
+    : (obj[key] = value);
+var __name = (target, value) =>
+  __defProp(target, "name", { value, configurable: true });
+var __require = /* @__PURE__ */ ((x) =>
+  typeof require !== "undefined"
+    ? require
+    : typeof Proxy !== "undefined"
+      ? new Proxy(x, {
+          get: (a, b) => (typeof require !== "undefined" ? require : a)[b],
+        })
+      : x)(function (x) {
+  if (typeof require !== "undefined") return require.apply(this, arguments);
   throw new Error('Dynamic require of "' + x + '" is not supported');
 });
-var __esm = (fn, res) => function __init() {
-  return fn && (res = (0, fn[__getOwnPropNames(fn)[0]])(fn = 0)), res;
-};
-var __commonJS = (cb, mod) => function __require2() {
-  return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
-};
+var __esm = (fn, res) =>
+  function __init() {
+    return (fn && (res = (0, fn[__getOwnPropNames(fn)[0]])((fn = 0))), res);
+  };
+var __commonJS = (cb, mod) =>
+  function __require2() {
+    return (
+      mod ||
+        (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod),
+      mod.exports
+    );
+  };
 var __export = (target, all) => {
   for (var name in all)
     __defProp(target, name, { get: all[name], enumerable: true });
 };
 var __copyProps = (to, from, except, desc) => {
-  if (from && typeof from === "object" || typeof from === "function") {
+  if ((from && typeof from === "object") || typeof from === "function") {
     for (let key of __getOwnPropNames(from))
       if (!__hasOwnProp.call(to, key) && key !== except)
-        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
+        __defProp(to, key, {
+          get: () => from[key],
+          enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable,
+        });
   }
   return to;
 };
-var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
-  // If the importer is in node compatibility mode or this is not an ESM
-  // file that has been converted to a CommonJS file using a Babel-
-  // compatible transform (i.e. "__esModule" has not been set), then set
-  // "default" to the CommonJS "module.exports" for node compatibility.
-  isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
-  mod
-));
+var __toESM = (mod, isNodeMode, target) => (
+  (target = mod != null ? __create(__getProtoOf(mod)) : {}),
+  __copyProps(
+    // If the importer is in node compatibility mode or this is not an ESM
+    // file that has been converted to a CommonJS file using a Babel-
+    // compatible transform (i.e. "__esModule" has not been set), then set
+    // "default" to the CommonJS "module.exports" for node compatibility.
+    isNodeMode || !mod || !mod.__esModule
+      ? __defProp(target, "default", { value: mod, enumerable: true })
+      : target,
+    mod,
+  )
+);
 var __publicField = (obj, key, value) => {
   __defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value);
   return value;
@@ -56,11 +83,11 @@ var init_strip_cf_connecting_ip_header = __esm({
     globalThis.fetch = new Proxy(globalThis.fetch, {
       apply(target, thisArg, argArray) {
         return Reflect.apply(target, thisArg, [
-          stripCfConnectingIPHeader.apply(null, argArray)
+          stripCfConnectingIPHeader.apply(null, argArray),
         ]);
-      }
+      },
     });
-  }
+  },
 });
 
 // node_modules/unenv/dist/runtime/_internal/utils.mjs
@@ -98,11 +125,21 @@ var init_utils = __esm({
     __name(notImplemented, "notImplemented");
     __name(notImplementedAsync, "notImplementedAsync");
     __name(notImplementedClass, "notImplementedClass");
-  }
+  },
 });
 
 // node_modules/unenv/dist/runtime/node/internal/perf_hooks/performance.mjs
-var _timeOrigin, _performanceNow, nodeTiming, PerformanceEntry, PerformanceMark, PerformanceMeasure, PerformanceResourceTiming, PerformanceObserverEntryList, Performance, PerformanceObserver, performance;
+var _timeOrigin,
+  _performanceNow,
+  nodeTiming,
+  PerformanceEntry,
+  PerformanceMark,
+  PerformanceMeasure,
+  PerformanceResourceTiming,
+  PerformanceObserverEntryList,
+  Performance,
+  PerformanceObserver,
+  performance;
 var init_performance = __esm({
   "node_modules/unenv/dist/runtime/node/internal/perf_hooks/performance.mjs"() {
     init_strip_cf_connecting_ip_header();
@@ -112,7 +149,9 @@ var init_performance = __esm({
     init_performance2();
     init_utils();
     _timeOrigin = globalThis.performance?.timeOrigin ?? Date.now();
-    _performanceNow = globalThis.performance?.now ? globalThis.performance.now.bind(globalThis.performance) : () => Date.now() - _timeOrigin;
+    _performanceNow = globalThis.performance?.now
+      ? globalThis.performance.now.bind(globalThis.performance)
+      : () => Date.now() - _timeOrigin;
     nodeTiming = {
       name: "node",
       entryType: "node",
@@ -128,12 +167,12 @@ var init_performance = __esm({
       uvMetricsInfo: {
         loopCount: 0,
         events: 0,
-        eventsWaiting: 0
+        eventsWaiting: 0,
       },
       detail: void 0,
       toJSON() {
         return this;
-      }
+      },
     };
     PerformanceEntry = class {
       __unenv__ = true;
@@ -155,20 +194,23 @@ var init_performance = __esm({
           entryType: this.entryType,
           startTime: this.startTime,
           duration: this.duration,
-          detail: this.detail
+          detail: this.detail,
         };
       }
     };
     __name(PerformanceEntry, "PerformanceEntry");
-    PerformanceMark = /* @__PURE__ */ __name(class PerformanceMark2 extends PerformanceEntry {
-      entryType = "mark";
-      constructor() {
-        super(...arguments);
-      }
-      get duration() {
-        return 0;
-      }
-    }, "PerformanceMark");
+    PerformanceMark = /* @__PURE__ */ __name(
+      class PerformanceMark2 extends PerformanceEntry {
+        entryType = "mark";
+        constructor() {
+          super(...arguments);
+        }
+        get duration() {
+          return 0;
+        }
+      },
+      "PerformanceMark",
+    );
     PerformanceMeasure = class extends PerformanceEntry {
       entryType = "measure";
     };
@@ -239,19 +281,27 @@ var init_performance = __esm({
         return Date.now() - this.timeOrigin;
       }
       clearMarks(markName) {
-        this._entries = markName ? this._entries.filter((e) => e.name !== markName) : this._entries.filter((e) => e.entryType !== "mark");
+        this._entries = markName
+          ? this._entries.filter((e) => e.name !== markName)
+          : this._entries.filter((e) => e.entryType !== "mark");
       }
       clearMeasures(measureName) {
-        this._entries = measureName ? this._entries.filter((e) => e.name !== measureName) : this._entries.filter((e) => e.entryType !== "measure");
+        this._entries = measureName
+          ? this._entries.filter((e) => e.name !== measureName)
+          : this._entries.filter((e) => e.entryType !== "measure");
       }
       clearResourceTimings() {
-        this._entries = this._entries.filter((e) => e.entryType !== "resource" || e.entryType !== "navigation");
+        this._entries = this._entries.filter(
+          (e) => e.entryType !== "resource" || e.entryType !== "navigation",
+        );
       }
       getEntries() {
         return this._entries;
       }
       getEntriesByName(name, type2) {
-        return this._entries.filter((e) => e.name === name && (!type2 || e.entryType === type2));
+        return this._entries.filter(
+          (e) => e.name === name && (!type2 || e.entryType === type2),
+        );
       }
       getEntriesByType(type2) {
         return this._entries.filter((e) => e.entryType === type2);
@@ -265,7 +315,8 @@ var init_performance = __esm({
         let start;
         let end;
         if (typeof startOrMeasureOptions === "string") {
-          start = this.getEntriesByName(startOrMeasureOptions, "mark")[0]?.startTime;
+          start = this.getEntriesByName(startOrMeasureOptions, "mark")[0]
+            ?.startTime;
           end = this.getEntriesByName(endMark, "mark")[0]?.startTime;
         } else {
           start = Number.parseFloat(startOrMeasureOptions?.start) || this.now();
@@ -275,8 +326,8 @@ var init_performance = __esm({
           startTime: start,
           detail: {
             start,
-            end
-          }
+            end,
+          },
         });
         this._entries.push(entry);
         return entry;
@@ -331,8 +382,11 @@ var init_performance = __esm({
     };
     __name(PerformanceObserver, "PerformanceObserver");
     __publicField(PerformanceObserver, "supportedEntryTypes", []);
-    performance = globalThis.performance && "addEventListener" in globalThis.performance ? globalThis.performance : new Performance();
-  }
+    performance =
+      globalThis.performance && "addEventListener" in globalThis.performance
+        ? globalThis.performance
+        : new Performance();
+  },
 });
 
 // node_modules/unenv/dist/runtime/node/perf_hooks.mjs
@@ -344,7 +398,7 @@ var init_perf_hooks = __esm({
     init_virtual_unenv_global_polyfill_cloudflare_unenv_preset_node_console();
     init_performance2();
     init_performance();
-  }
+  },
 });
 
 // node_modules/@cloudflare/unenv-preset/dist/runtime/polyfill/performance.mjs
@@ -359,7 +413,7 @@ var init_performance2 = __esm({
     globalThis.PerformanceObserver = PerformanceObserver;
     globalThis.PerformanceObserverEntryList = PerformanceObserverEntryList;
     globalThis.PerformanceResourceTiming = PerformanceResourceTiming;
-  }
+  },
 });
 
 // node_modules/unenv/dist/runtime/mock/noop.mjs
@@ -371,14 +425,42 @@ var init_noop = __esm({
     init_virtual_unenv_global_polyfill_cloudflare_unenv_preset_node_process();
     init_virtual_unenv_global_polyfill_cloudflare_unenv_preset_node_console();
     init_performance2();
-    noop_default = Object.assign(() => {
-    }, { __unenv__: true });
-  }
+    noop_default = Object.assign(() => {}, { __unenv__: true });
+  },
 });
 
 // node_modules/unenv/dist/runtime/node/console.mjs
 import { Writable } from "node:stream";
-var _console, _ignoreErrors, _stderr, _stdout, log, info, trace, debug, table, error, warn, createTask, clear, count, countReset, dir, dirxml, group, groupEnd, groupCollapsed, profile, profileEnd, time, timeEnd, timeLog, timeStamp, Console, _times, _stdoutErrorHandler, _stderrErrorHandler;
+var _console,
+  _ignoreErrors,
+  _stderr,
+  _stdout,
+  log,
+  info,
+  trace,
+  debug,
+  table,
+  error,
+  warn,
+  createTask,
+  clear,
+  count,
+  countReset,
+  dir,
+  dirxml,
+  group,
+  groupEnd,
+  groupCollapsed,
+  profile,
+  profileEnd,
+  time,
+  timeEnd,
+  timeLog,
+  timeStamp,
+  Console,
+  _times,
+  _stdoutErrorHandler,
+  _stderrErrorHandler;
 var init_console = __esm({
   "node_modules/unenv/dist/runtime/node/console.mjs"() {
     init_strip_cf_connecting_ip_header();
@@ -399,7 +481,9 @@ var init_console = __esm({
     table = _console?.table ?? log;
     error = _console?.error ?? log;
     warn = _console?.warn ?? error;
-    createTask = _console?.createTask ?? /* @__PURE__ */ notImplemented("console.createTask");
+    createTask =
+      _console?.createTask ??
+      /* @__PURE__ */ notImplemented("console.createTask");
     clear = _console?.clear ?? noop_default;
     count = _console?.count ?? noop_default;
     countReset = _console?.countReset ?? noop_default;
@@ -414,15 +498,42 @@ var init_console = __esm({
     timeEnd = _console?.timeEnd ?? noop_default;
     timeLog = _console?.timeLog ?? noop_default;
     timeStamp = _console?.timeStamp ?? noop_default;
-    Console = _console?.Console ?? /* @__PURE__ */ notImplementedClass("console.Console");
+    Console =
+      _console?.Console ??
+      /* @__PURE__ */ notImplementedClass("console.Console");
     _times = /* @__PURE__ */ new Map();
     _stdoutErrorHandler = noop_default;
     _stderrErrorHandler = noop_default;
-  }
+  },
 });
 
 // node_modules/@cloudflare/unenv-preset/dist/runtime/node/console.mjs
-var workerdConsole, assert, clear2, context, count2, countReset2, createTask2, debug2, dir2, dirxml2, error2, group2, groupCollapsed2, groupEnd2, info2, log2, profile2, profileEnd2, table2, time2, timeEnd2, timeLog2, timeStamp2, trace2, warn2, console_default;
+var workerdConsole,
+  assert,
+  clear2,
+  context,
+  count2,
+  countReset2,
+  createTask2,
+  debug2,
+  dir2,
+  dirxml2,
+  error2,
+  group2,
+  groupCollapsed2,
+  groupEnd2,
+  info2,
+  log2,
+  profile2,
+  profileEnd2,
+  table2,
+  time2,
+  timeEnd2,
+  timeLog2,
+  timeStamp2,
+  trace2,
+  warn2,
+  console_default;
 var init_console2 = __esm({
   "node_modules/@cloudflare/unenv-preset/dist/runtime/node/console.mjs"() {
     init_strip_cf_connecting_ip_header();
@@ -435,16 +546,14 @@ var init_console2 = __esm({
     ({
       assert,
       clear: clear2,
-      context: (
+      context:
         // @ts-expect-error undocumented public API
-        context
-      ),
+        context,
       count: count2,
       countReset: countReset2,
-      createTask: (
+      createTask:
         // @ts-expect-error undocumented public API
-        createTask2
-      ),
+        createTask2,
       debug: debug2,
       dir: dir2,
       dirxml: dirxml2,
@@ -462,7 +571,7 @@ var init_console2 = __esm({
       timeLog: timeLog2,
       timeStamp: timeStamp2,
       trace: trace2,
-      warn: warn2
+      warn: warn2,
     } = workerdConsole);
     Object.assign(workerdConsole, {
       Console,
@@ -471,19 +580,20 @@ var init_console2 = __esm({
       _stderrErrorHandler,
       _stdout,
       _stdoutErrorHandler,
-      _times
+      _times,
     });
     console_default = workerdConsole;
-  }
+  },
 });
 
 // node_modules/wrangler/_virtual_unenv_global_polyfill-@cloudflare-unenv-preset-node-console
-var init_virtual_unenv_global_polyfill_cloudflare_unenv_preset_node_console = __esm({
-  "node_modules/wrangler/_virtual_unenv_global_polyfill-@cloudflare-unenv-preset-node-console"() {
-    init_console2();
-    globalThis.console = console_default;
-  }
-});
+var init_virtual_unenv_global_polyfill_cloudflare_unenv_preset_node_console =
+  __esm({
+    "node_modules/wrangler/_virtual_unenv_global_polyfill-@cloudflare-unenv-preset-node-console"() {
+      init_console2();
+      globalThis.console = console_default;
+    },
+  });
 
 // node_modules/unenv/dist/runtime/node/internal/process/hrtime.mjs
 var hrtime;
@@ -494,24 +604,29 @@ var init_hrtime = __esm({
     init_virtual_unenv_global_polyfill_cloudflare_unenv_preset_node_process();
     init_virtual_unenv_global_polyfill_cloudflare_unenv_preset_node_console();
     init_performance2();
-    hrtime = /* @__PURE__ */ Object.assign(/* @__PURE__ */ __name(function hrtime2(startTime) {
-      const now = Date.now();
-      const seconds = Math.trunc(now / 1e3);
-      const nanos = now % 1e3 * 1e6;
-      if (startTime) {
-        let diffSeconds = seconds - startTime[0];
-        let diffNanos = nanos - startTime[0];
-        if (diffNanos < 0) {
-          diffSeconds = diffSeconds - 1;
-          diffNanos = 1e9 + diffNanos;
+    hrtime = /* @__PURE__ */ Object.assign(
+      /* @__PURE__ */ __name(function hrtime2(startTime) {
+        const now = Date.now();
+        const seconds = Math.trunc(now / 1e3);
+        const nanos = (now % 1e3) * 1e6;
+        if (startTime) {
+          let diffSeconds = seconds - startTime[0];
+          let diffNanos = nanos - startTime[0];
+          if (diffNanos < 0) {
+            diffSeconds = diffSeconds - 1;
+            diffNanos = 1e9 + diffNanos;
+          }
+          return [diffSeconds, diffNanos];
         }
-        return [diffSeconds, diffNanos];
-      }
-      return [seconds, nanos];
-    }, "hrtime"), { bigint: /* @__PURE__ */ __name(function bigint() {
-      return BigInt(Date.now() * 1e6);
-    }, "bigint") });
-  }
+        return [seconds, nanos];
+      }, "hrtime"),
+      {
+        bigint: /* @__PURE__ */ __name(function bigint() {
+          return BigInt(Date.now() * 1e6);
+        }, "bigint"),
+      },
+    );
+  },
 });
 
 // node_modules/unenv/dist/runtime/node/internal/tty/read-stream.mjs
@@ -538,7 +653,7 @@ var init_read_stream = __esm({
       isTTY = false;
     };
     __name(ReadStream, "ReadStream");
-  }
+  },
 });
 
 // node_modules/unenv/dist/runtime/node/internal/tty/write-stream.mjs
@@ -587,7 +702,7 @@ var init_write_stream = __esm({
       isTTY = false;
     };
     __name(WriteStream, "WriteStream");
-  }
+  },
 });
 
 // node_modules/unenv/dist/runtime/node/tty.mjs
@@ -600,7 +715,7 @@ var init_tty = __esm({
     init_performance2();
     init_read_stream();
     init_write_stream();
-  }
+  },
 });
 
 // node_modules/unenv/dist/runtime/node/internal/process/process.mjs
@@ -624,7 +739,10 @@ var init_process = __esm({
         this.env = impl.env;
         this.hrtime = impl.hrtime;
         this.nextTick = impl.nextTick;
-        for (const prop of [...Object.getOwnPropertyNames(Process.prototype), ...Object.getOwnPropertyNames(EventEmitter.prototype)]) {
+        for (const prop of [
+          ...Object.getOwnPropertyNames(Process.prototype),
+          ...Object.getOwnPropertyNames(EventEmitter.prototype),
+        ]) {
           const value = this[prop];
           if (typeof value === "function") {
             this[prop] = value.bind(this);
@@ -632,7 +750,9 @@ var init_process = __esm({
         }
       }
       emitWarning(warning, type2, code) {
-        console.warn(`${code ? `[${code}] ` : ""}${type2 ? `${type2}: ` : ""}${warning}`);
+        console.warn(
+          `${code ? `[${code}] ` : ""}${type2 ? `${type2}: ` : ""}${warning}`,
+        );
       }
       emit(...args) {
         return super.emit(...args);
@@ -644,13 +764,13 @@ var init_process = __esm({
       #stdout;
       #stderr;
       get stdin() {
-        return this.#stdin ??= new ReadStream(0);
+        return (this.#stdin ??= new ReadStream(0));
       }
       get stdout() {
-        return this.#stdout ??= new WriteStream(1);
+        return (this.#stdout ??= new WriteStream(1));
       }
       get stderr() {
-        return this.#stderr ??= new WriteStream(2);
+        return (this.#stderr ??= new WriteStream(2));
       }
       #cwd = "/";
       chdir(cwd2) {
@@ -716,10 +836,8 @@ var init_process = __esm({
       resourceUsage() {
         return {};
       }
-      ref() {
-      }
-      unref() {
-      }
+      ref() {}
+      unref() {}
       umask() {
         throw createNotImplementedError("process.umask");
       }
@@ -757,10 +875,14 @@ var init_process = __esm({
         throw createNotImplementedError("process.cpuUsage");
       }
       setUncaughtExceptionCaptureCallback() {
-        throw createNotImplementedError("process.setUncaughtExceptionCaptureCallback");
+        throw createNotImplementedError(
+          "process.setUncaughtExceptionCaptureCallback",
+        );
       }
       hasUncaughtExceptionCaptureCallback() {
-        throw createNotImplementedError("process.hasUncaughtExceptionCaptureCallback");
+        throw createNotImplementedError(
+          "process.hasUncaughtExceptionCaptureCallback",
+        );
       }
       initgroups() {
         throw createNotImplementedError("process.initgroups");
@@ -774,7 +896,9 @@ var init_process = __esm({
       binding() {
         throw createNotImplementedError("process.binding");
       }
-      permission = { has: /* @__PURE__ */ notImplemented("process.permission.has") };
+      permission = {
+        has: /* @__PURE__ */ notImplemented("process.permission.has"),
+      };
       report = {
         directory: "",
         filename: "",
@@ -784,20 +908,31 @@ var init_process = __esm({
         reportOnSignal: false,
         reportOnUncaughtException: false,
         getReport: /* @__PURE__ */ notImplemented("process.report.getReport"),
-        writeReport: /* @__PURE__ */ notImplemented("process.report.writeReport")
+        writeReport: /* @__PURE__ */ notImplemented(
+          "process.report.writeReport",
+        ),
       };
       finalization = {
-        register: /* @__PURE__ */ notImplemented("process.finalization.register"),
-        unregister: /* @__PURE__ */ notImplemented("process.finalization.unregister"),
-        registerBeforeExit: /* @__PURE__ */ notImplemented("process.finalization.registerBeforeExit")
+        register: /* @__PURE__ */ notImplemented(
+          "process.finalization.register",
+        ),
+        unregister: /* @__PURE__ */ notImplemented(
+          "process.finalization.unregister",
+        ),
+        registerBeforeExit: /* @__PURE__ */ notImplemented(
+          "process.finalization.registerBeforeExit",
+        ),
       };
-      memoryUsage = Object.assign(() => ({
-        arrayBuffers: 0,
-        rss: 0,
-        external: 0,
-        heapTotal: 0,
-        heapUsed: 0
-      }), { rss: () => 0 });
+      memoryUsage = Object.assign(
+        () => ({
+          arrayBuffers: 0,
+          rss: 0,
+          external: 0,
+          heapTotal: 0,
+          heapUsed: 0,
+        }),
+        { rss: () => 0 },
+      );
       mainModule = void 0;
       domain = void 0;
       send = void 0;
@@ -836,11 +971,121 @@ var init_process = __esm({
       _linkedBinding = void 0;
     };
     __name(Process, "Process");
-  }
+  },
 });
 
 // node_modules/@cloudflare/unenv-preset/dist/runtime/node/process.mjs
-var globalProcess, getBuiltinModule, exit, platform, nextTick, unenvProcess, abort, addListener, allowedNodeEnvironmentFlags, hasUncaughtExceptionCaptureCallback, setUncaughtExceptionCaptureCallback, loadEnvFile, sourceMapsEnabled, arch, argv, argv0, chdir, config, connected, constrainedMemory, availableMemory, cpuUsage, cwd, debugPort, dlopen, disconnect, emit, emitWarning, env, eventNames, execArgv, execPath, finalization, features, getActiveResourcesInfo, getMaxListeners, hrtime3, kill, listeners, listenerCount, memoryUsage, on, off, once, pid, ppid, prependListener, prependOnceListener, rawListeners, release, removeAllListeners, removeListener, report, resourceUsage, setMaxListeners, setSourceMapsEnabled, stderr, stdin, stdout, title, throwDeprecation, traceDeprecation, umask, uptime, version, versions, domain, initgroups, moduleLoadList, reallyExit, openStdin, assert2, binding, send, exitCode, channel, getegid, geteuid, getgid, getgroups, getuid, setegid, seteuid, setgid, setgroups, setuid, permission, mainModule, _events, _eventsCount, _exiting, _maxListeners, _debugEnd, _debugProcess, _fatalException, _getActiveHandles, _getActiveRequests, _kill, _preload_modules, _rawDebug, _startProfilerIdleNotifier, _stopProfilerIdleNotifier, _tickCallback, _disconnect, _handleQueue, _pendingMessage, _channel, _send, _linkedBinding, _process, process_default;
+var globalProcess,
+  getBuiltinModule,
+  exit,
+  platform,
+  nextTick,
+  unenvProcess,
+  abort,
+  addListener,
+  allowedNodeEnvironmentFlags,
+  hasUncaughtExceptionCaptureCallback,
+  setUncaughtExceptionCaptureCallback,
+  loadEnvFile,
+  sourceMapsEnabled,
+  arch,
+  argv,
+  argv0,
+  chdir,
+  config,
+  connected,
+  constrainedMemory,
+  availableMemory,
+  cpuUsage,
+  cwd,
+  debugPort,
+  dlopen,
+  disconnect,
+  emit,
+  emitWarning,
+  env,
+  eventNames,
+  execArgv,
+  execPath,
+  finalization,
+  features,
+  getActiveResourcesInfo,
+  getMaxListeners,
+  hrtime3,
+  kill,
+  listeners,
+  listenerCount,
+  memoryUsage,
+  on,
+  off,
+  once,
+  pid,
+  ppid,
+  prependListener,
+  prependOnceListener,
+  rawListeners,
+  release,
+  removeAllListeners,
+  removeListener,
+  report,
+  resourceUsage,
+  setMaxListeners,
+  setSourceMapsEnabled,
+  stderr,
+  stdin,
+  stdout,
+  title,
+  throwDeprecation,
+  traceDeprecation,
+  umask,
+  uptime,
+  version,
+  versions,
+  domain,
+  initgroups,
+  moduleLoadList,
+  reallyExit,
+  openStdin,
+  assert2,
+  binding,
+  send,
+  exitCode,
+  channel,
+  getegid,
+  geteuid,
+  getgid,
+  getgroups,
+  getuid,
+  setegid,
+  seteuid,
+  setgid,
+  setgroups,
+  setuid,
+  permission,
+  mainModule,
+  _events,
+  _eventsCount,
+  _exiting,
+  _maxListeners,
+  _debugEnd,
+  _debugProcess,
+  _fatalException,
+  _getActiveHandles,
+  _getActiveRequests,
+  _kill,
+  _preload_modules,
+  _rawDebug,
+  _startProfilerIdleNotifier,
+  _stopProfilerIdleNotifier,
+  _tickCallback,
+  _disconnect,
+  _handleQueue,
+  _pendingMessage,
+  _channel,
+  _send,
+  _linkedBinding,
+  _process,
+  process_default;
 var init_process2 = __esm({
   "node_modules/@cloudflare/unenv-preset/dist/runtime/node/process.mjs"() {
     init_strip_cf_connecting_ip_header();
@@ -852,13 +1097,11 @@ var init_process2 = __esm({
     init_process();
     globalProcess = globalThis["process"];
     getBuiltinModule = globalProcess.getBuiltinModule;
-    ({ exit, platform, nextTick } = getBuiltinModule(
-      "node:process"
-    ));
+    ({ exit, platform, nextTick } = getBuiltinModule("node:process"));
     unenvProcess = new Process({
       env: globalProcess.env,
       hrtime,
-      nextTick
+      nextTick,
     });
     ({
       abort,
@@ -963,7 +1206,7 @@ var init_process2 = __esm({
       _pendingMessage,
       _channel,
       _send,
-      _linkedBinding
+      _linkedBinding,
     } = unenvProcess);
     _process = {
       abort,
@@ -1073,19 +1316,20 @@ var init_process2 = __esm({
       _pendingMessage,
       _channel,
       _send,
-      _linkedBinding
+      _linkedBinding,
     };
     process_default = _process;
-  }
+  },
 });
 
 // node_modules/wrangler/_virtual_unenv_global_polyfill-@cloudflare-unenv-preset-node-process
-var init_virtual_unenv_global_polyfill_cloudflare_unenv_preset_node_process = __esm({
-  "node_modules/wrangler/_virtual_unenv_global_polyfill-@cloudflare-unenv-preset-node-process"() {
-    init_process2();
-    globalThis.process = process_default;
-  }
-});
+var init_virtual_unenv_global_polyfill_cloudflare_unenv_preset_node_process =
+  __esm({
+    "node_modules/wrangler/_virtual_unenv_global_polyfill-@cloudflare-unenv-preset-node-process"() {
+      init_process2();
+      globalThis.process = process_default;
+    },
+  });
 
 // wrangler-modules-watch:wrangler:modules-watch
 var init_wrangler_modules_watch = __esm({
@@ -1095,14 +1339,14 @@ var init_wrangler_modules_watch = __esm({
     init_virtual_unenv_global_polyfill_cloudflare_unenv_preset_node_process();
     init_virtual_unenv_global_polyfill_cloudflare_unenv_preset_node_console();
     init_performance2();
-  }
+  },
 });
 
 // node_modules/wrangler/templates/modules-watch-stub.js
 var init_modules_watch_stub = __esm({
   "node_modules/wrangler/templates/modules-watch-stub.js"() {
     init_wrangler_modules_watch();
-  }
+  },
 });
 
 // node-built-in-modules:path
@@ -1115,11 +1359,41 @@ var require_path = __commonJS({
     init_virtual_unenv_global_polyfill_cloudflare_unenv_preset_node_console();
     init_performance2();
     module.exports = libDefault;
-  }
+  },
 });
 
 // node_modules/unenv/dist/runtime/node/internal/fs/promises.mjs
-var access, copyFile, cp, open, opendir, rename, truncate, rm, rmdir, mkdir, readdir, readlink, symlink, lstat, stat, link, unlink, chmod, lchmod, lchown, chown, utimes, lutimes, realpath, mkdtemp, writeFile, appendFile, readFile, watch, statfs, glob;
+var access,
+  copyFile,
+  cp,
+  open,
+  opendir,
+  rename,
+  truncate,
+  rm,
+  rmdir,
+  mkdir,
+  readdir,
+  readlink,
+  symlink,
+  lstat,
+  stat,
+  link,
+  unlink,
+  chmod,
+  lchmod,
+  lchown,
+  chown,
+  utimes,
+  lutimes,
+  realpath,
+  mkdtemp,
+  writeFile,
+  appendFile,
+  readFile,
+  watch,
+  statfs,
+  glob;
 var init_promises = __esm({
   "node_modules/unenv/dist/runtime/node/internal/fs/promises.mjs"() {
     init_strip_cf_connecting_ip_header();
@@ -1159,7 +1433,7 @@ var init_promises = __esm({
     watch = /* @__PURE__ */ notImplemented("fs.watch");
     statfs = /* @__PURE__ */ notImplemented("fs.statfs");
     glob = /* @__PURE__ */ notImplemented("fs.glob");
-  }
+  },
 });
 
 // node_modules/unenv/dist/runtime/node/internal/fs/constants.mjs
@@ -1222,9 +1496,66 @@ __export(constants_exports, {
   UV_FS_SYMLINK_DIR: () => UV_FS_SYMLINK_DIR,
   UV_FS_SYMLINK_JUNCTION: () => UV_FS_SYMLINK_JUNCTION,
   W_OK: () => W_OK,
-  X_OK: () => X_OK
+  X_OK: () => X_OK,
 });
-var UV_FS_SYMLINK_DIR, UV_FS_SYMLINK_JUNCTION, O_RDONLY, O_WRONLY, O_RDWR, UV_DIRENT_UNKNOWN, UV_DIRENT_FILE, UV_DIRENT_DIR, UV_DIRENT_LINK, UV_DIRENT_FIFO, UV_DIRENT_SOCKET, UV_DIRENT_CHAR, UV_DIRENT_BLOCK, EXTENSIONLESS_FORMAT_JAVASCRIPT, EXTENSIONLESS_FORMAT_WASM, S_IFMT, S_IFREG, S_IFDIR, S_IFCHR, S_IFBLK, S_IFIFO, S_IFLNK, S_IFSOCK, O_CREAT, O_EXCL, UV_FS_O_FILEMAP, O_NOCTTY, O_TRUNC, O_APPEND, O_DIRECTORY, O_NOATIME, O_NOFOLLOW, O_SYNC, O_DSYNC, O_DIRECT, O_NONBLOCK, S_IRWXU, S_IRUSR, S_IWUSR, S_IXUSR, S_IRWXG, S_IRGRP, S_IWGRP, S_IXGRP, S_IRWXO, S_IROTH, S_IWOTH, S_IXOTH, F_OK, R_OK, W_OK, X_OK, UV_FS_COPYFILE_EXCL, COPYFILE_EXCL, UV_FS_COPYFILE_FICLONE, COPYFILE_FICLONE, UV_FS_COPYFILE_FICLONE_FORCE, COPYFILE_FICLONE_FORCE;
+var UV_FS_SYMLINK_DIR,
+  UV_FS_SYMLINK_JUNCTION,
+  O_RDONLY,
+  O_WRONLY,
+  O_RDWR,
+  UV_DIRENT_UNKNOWN,
+  UV_DIRENT_FILE,
+  UV_DIRENT_DIR,
+  UV_DIRENT_LINK,
+  UV_DIRENT_FIFO,
+  UV_DIRENT_SOCKET,
+  UV_DIRENT_CHAR,
+  UV_DIRENT_BLOCK,
+  EXTENSIONLESS_FORMAT_JAVASCRIPT,
+  EXTENSIONLESS_FORMAT_WASM,
+  S_IFMT,
+  S_IFREG,
+  S_IFDIR,
+  S_IFCHR,
+  S_IFBLK,
+  S_IFIFO,
+  S_IFLNK,
+  S_IFSOCK,
+  O_CREAT,
+  O_EXCL,
+  UV_FS_O_FILEMAP,
+  O_NOCTTY,
+  O_TRUNC,
+  O_APPEND,
+  O_DIRECTORY,
+  O_NOATIME,
+  O_NOFOLLOW,
+  O_SYNC,
+  O_DSYNC,
+  O_DIRECT,
+  O_NONBLOCK,
+  S_IRWXU,
+  S_IRUSR,
+  S_IWUSR,
+  S_IXUSR,
+  S_IRWXG,
+  S_IRGRP,
+  S_IWGRP,
+  S_IXGRP,
+  S_IRWXO,
+  S_IROTH,
+  S_IWOTH,
+  S_IXOTH,
+  F_OK,
+  R_OK,
+  W_OK,
+  X_OK,
+  UV_FS_COPYFILE_EXCL,
+  COPYFILE_EXCL,
+  UV_FS_COPYFILE_FICLONE,
+  COPYFILE_FICLONE,
+  UV_FS_COPYFILE_FICLONE_FORCE,
+  COPYFILE_FICLONE_FORCE;
 var init_constants = __esm({
   "node_modules/unenv/dist/runtime/node/internal/fs/constants.mjs"() {
     init_strip_cf_connecting_ip_header();
@@ -1290,7 +1621,7 @@ var init_constants = __esm({
     COPYFILE_FICLONE = 2;
     UV_FS_COPYFILE_FICLONE_FORCE = 4;
     COPYFILE_FICLONE_FORCE = 4;
-  }
+  },
 });
 
 // node_modules/unenv/dist/runtime/node/fs/promises.mjs
@@ -1337,13 +1668,19 @@ var init_promises2 = __esm({
       unlink,
       utimes,
       watch,
-      writeFile
+      writeFile,
     };
-  }
+  },
 });
 
 // node_modules/unenv/dist/runtime/node/internal/fs/classes.mjs
-var Dir, Dirent, Stats, ReadStream2, WriteStream2, FileReadStream, FileWriteStream;
+var Dir,
+  Dirent,
+  Stats,
+  ReadStream2,
+  WriteStream2,
+  FileReadStream,
+  FileWriteStream;
 var init_classes = __esm({
   "node_modules/unenv/dist/runtime/node/internal/fs/classes.mjs"() {
     init_strip_cf_connecting_ip_header();
@@ -1359,20 +1696,114 @@ var init_classes = __esm({
     WriteStream2 = /* @__PURE__ */ notImplementedClass("fs.WriteStream");
     FileReadStream = ReadStream2;
     FileWriteStream = WriteStream2;
-  }
+  },
 });
 
 // node_modules/unenv/dist/runtime/node/internal/fs/fs.mjs
 function callbackify(fn) {
-  const fnc = /* @__PURE__ */ __name(function(...args) {
+  const fnc = /* @__PURE__ */ __name(function (...args) {
     const cb = args.pop();
-    fn().catch((error3) => cb(error3)).then((val) => cb(void 0, val));
+    fn()
+      .catch((error3) => cb(error3))
+      .then((val) => cb(void 0, val));
   }, "fnc");
   fnc.__promisify__ = fn;
   fnc.native = fnc;
   return fnc;
 }
-var access2, appendFile2, chown2, chmod2, copyFile2, cp2, lchown2, lchmod2, link2, lstat2, lutimes2, mkdir2, mkdtemp2, realpath2, open2, opendir2, readdir2, readFile2, readlink2, rename2, rm2, rmdir2, stat2, symlink2, truncate2, unlink2, utimes2, writeFile2, statfs2, close, createReadStream, createWriteStream, exists, fchown, fchmod, fdatasync, fstat, fsync, ftruncate, futimes, lstatSync, read, readv, realpathSync, statSync, unwatchFile, watch2, watchFile, write, writev, _toUnixTimestamp, openAsBlob, glob2, appendFileSync, accessSync, chownSync, chmodSync, closeSync, copyFileSync, cpSync, existsSync, fchownSync, fchmodSync, fdatasyncSync, fstatSync, fsyncSync, ftruncateSync, futimesSync, lchownSync, lchmodSync, linkSync, lutimesSync, mkdirSync, mkdtempSync, openSync, opendirSync, readdirSync, readSync, readvSync, readFileSync, readlinkSync, renameSync, rmSync, rmdirSync, symlinkSync, truncateSync, unlinkSync, utimesSync, writeFileSync, writeSync, writevSync, statfsSync, globSync;
+var access2,
+  appendFile2,
+  chown2,
+  chmod2,
+  copyFile2,
+  cp2,
+  lchown2,
+  lchmod2,
+  link2,
+  lstat2,
+  lutimes2,
+  mkdir2,
+  mkdtemp2,
+  realpath2,
+  open2,
+  opendir2,
+  readdir2,
+  readFile2,
+  readlink2,
+  rename2,
+  rm2,
+  rmdir2,
+  stat2,
+  symlink2,
+  truncate2,
+  unlink2,
+  utimes2,
+  writeFile2,
+  statfs2,
+  close,
+  createReadStream,
+  createWriteStream,
+  exists,
+  fchown,
+  fchmod,
+  fdatasync,
+  fstat,
+  fsync,
+  ftruncate,
+  futimes,
+  lstatSync,
+  read,
+  readv,
+  realpathSync,
+  statSync,
+  unwatchFile,
+  watch2,
+  watchFile,
+  write,
+  writev,
+  _toUnixTimestamp,
+  openAsBlob,
+  glob2,
+  appendFileSync,
+  accessSync,
+  chownSync,
+  chmodSync,
+  closeSync,
+  copyFileSync,
+  cpSync,
+  existsSync,
+  fchownSync,
+  fchmodSync,
+  fdatasyncSync,
+  fstatSync,
+  fsyncSync,
+  ftruncateSync,
+  futimesSync,
+  lchownSync,
+  lchmodSync,
+  linkSync,
+  lutimesSync,
+  mkdirSync,
+  mkdtempSync,
+  openSync,
+  opendirSync,
+  readdirSync,
+  readSync,
+  readvSync,
+  readFileSync,
+  readlinkSync,
+  renameSync,
+  rmSync,
+  rmdirSync,
+  symlinkSync,
+  truncateSync,
+  unlinkSync,
+  utimesSync,
+  writeFileSync,
+  writeSync,
+  writevSync,
+  statfsSync,
+  globSync;
 var init_fs = __esm({
   "node_modules/unenv/dist/runtime/node/internal/fs/fs.mjs"() {
     init_strip_cf_connecting_ip_header();
@@ -1413,8 +1844,12 @@ var init_fs = __esm({
     writeFile2 = callbackify(writeFile);
     statfs2 = callbackify(statfs);
     close = /* @__PURE__ */ notImplementedAsync("fs.close");
-    createReadStream = /* @__PURE__ */ notImplementedAsync("fs.createReadStream");
-    createWriteStream = /* @__PURE__ */ notImplementedAsync("fs.createWriteStream");
+    createReadStream = /* @__PURE__ */ notImplementedAsync(
+      "fs.createReadStream",
+    );
+    createWriteStream = /* @__PURE__ */ notImplementedAsync(
+      "fs.createWriteStream",
+    );
     exists = /* @__PURE__ */ notImplementedAsync("fs.exists");
     fchown = /* @__PURE__ */ notImplementedAsync("fs.fchown");
     fchmod = /* @__PURE__ */ notImplementedAsync("fs.fchmod");
@@ -1433,7 +1868,9 @@ var init_fs = __esm({
     watchFile = /* @__PURE__ */ notImplementedAsync("fs.watchFile");
     write = /* @__PURE__ */ notImplementedAsync("fs.write");
     writev = /* @__PURE__ */ notImplementedAsync("fs.writev");
-    _toUnixTimestamp = /* @__PURE__ */ notImplementedAsync("fs._toUnixTimestamp");
+    _toUnixTimestamp = /* @__PURE__ */ notImplementedAsync(
+      "fs._toUnixTimestamp",
+    );
     openAsBlob = /* @__PURE__ */ notImplementedAsync("fs.openAsBlob");
     glob2 = /* @__PURE__ */ notImplementedAsync("fs.glob");
     appendFileSync = /* @__PURE__ */ notImplemented("fs.appendFileSync");
@@ -1476,7 +1913,7 @@ var init_fs = __esm({
     writevSync = /* @__PURE__ */ notImplemented("fs.writevSync");
     statfsSync = /* @__PURE__ */ notImplemented("fs.statfsSync");
     globSync = /* @__PURE__ */ notImplemented("fs.globSync");
-  }
+  },
 });
 
 // node_modules/unenv/dist/runtime/node/fs.mjs
@@ -1601,9 +2038,9 @@ var init_fs2 = __esm({
       writeFileSync,
       writeSync,
       writev,
-      writevSync
+      writevSync,
     };
-  }
+  },
 });
 
 // node-built-in-modules:fs
@@ -1616,7 +2053,7 @@ var require_fs = __commonJS({
     init_performance2();
     init_fs2();
     module.exports = fs_default;
-  }
+  },
 });
 
 // node_modules/unenv/dist/runtime/node/internal/os/constants.mjs
@@ -1634,7 +2071,7 @@ var init_constants2 = __esm({
       RTLD_NOW: 2,
       RTLD_GLOBAL: 256,
       RTLD_LOCAL: 0,
-      RTLD_DEEPBIND: 8
+      RTLD_DEEPBIND: 8,
     };
     errno = {
       E2BIG: 7,
@@ -1715,7 +2152,7 @@ var init_constants2 = __esm({
       ETIMEDOUT: 110,
       ETXTBSY: 26,
       EWOULDBLOCK: 11,
-      EXDEV: 18
+      EXDEV: 18,
     };
     signals = {
       SIGHUP: 1,
@@ -1750,7 +2187,7 @@ var init_constants2 = __esm({
       SIGIO: 29,
       SIGPOLL: 29,
       SIGPWR: 30,
-      SIGSYS: 31
+      SIGSYS: 31,
     };
     priority = {
       PRIORITY_LOW: 19,
@@ -1758,13 +2195,37 @@ var init_constants2 = __esm({
       PRIORITY_NORMAL: 0,
       PRIORITY_ABOVE_NORMAL: -7,
       PRIORITY_HIGH: -14,
-      PRIORITY_HIGHEST: -20
+      PRIORITY_HIGHEST: -20,
     };
-  }
+  },
 });
 
 // node_modules/unenv/dist/runtime/node/os.mjs
-var constants, NUM_CPUS, availableParallelism, arch2, machine, endianness, cpus, getPriority, setPriority, homedir, tmpdir, devNull, freemem, totalmem, loadavg, uptime2, hostname, networkInterfaces, platform2, type, release2, version2, userInfo, EOL, os_default;
+var constants,
+  NUM_CPUS,
+  availableParallelism,
+  arch2,
+  machine,
+  endianness,
+  cpus,
+  getPriority,
+  setPriority,
+  homedir,
+  tmpdir,
+  devNull,
+  freemem,
+  totalmem,
+  loadavg,
+  uptime2,
+  hostname,
+  networkInterfaces,
+  platform2,
+  type,
+  release2,
+  version2,
+  userInfo,
+  EOL,
+  os_default;
 var init_os = __esm({
   "node_modules/unenv/dist/runtime/node/os.mjs"() {
     init_strip_cf_connecting_ip_header();
@@ -1779,10 +2240,13 @@ var init_os = __esm({
       dlopen: dlopen2,
       errno,
       signals,
-      priority
+      priority,
     };
     NUM_CPUS = 8;
-    availableParallelism = /* @__PURE__ */ __name(() => NUM_CPUS, "availableParallelism");
+    availableParallelism = /* @__PURE__ */ __name(
+      () => NUM_CPUS,
+      "availableParallelism",
+    );
     arch2 = /* @__PURE__ */ __name(() => "", "arch");
     machine = /* @__PURE__ */ __name(() => "", "machine");
     endianness = /* @__PURE__ */ __name(() => "LE", "endianness");
@@ -1795,8 +2259,8 @@ var init_os = __esm({
           nice: 0,
           sys: 0,
           idle: 0,
-          irq: 0
-        }
+          irq: 0,
+        },
       };
       return Array.from({ length: NUM_CPUS }, () => info3);
     }, "cpus");
@@ -1807,42 +2271,40 @@ var init_os = __esm({
     devNull = "/dev/null";
     freemem = /* @__PURE__ */ __name(() => 0, "freemem");
     totalmem = /* @__PURE__ */ __name(() => 0, "totalmem");
-    loadavg = /* @__PURE__ */ __name(() => [
-      0,
-      0,
-      0
-    ], "loadavg");
+    loadavg = /* @__PURE__ */ __name(() => [0, 0, 0], "loadavg");
     uptime2 = /* @__PURE__ */ __name(() => 0, "uptime");
     hostname = /* @__PURE__ */ __name(() => "", "hostname");
     networkInterfaces = /* @__PURE__ */ __name(() => {
-      return { lo0: [
-        {
-          address: "127.0.0.1",
-          netmask: "255.0.0.0",
-          family: "IPv4",
-          mac: "00:00:00:00:00:00",
-          internal: true,
-          cidr: "127.0.0.1/8"
-        },
-        {
-          address: "::1",
-          netmask: "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff",
-          family: "IPv6",
-          mac: "00:00:00:00:00:00",
-          internal: true,
-          cidr: "::1/128",
-          scopeid: 0
-        },
-        {
-          address: "fe80::1",
-          netmask: "ffff:ffff:ffff:ffff::",
-          family: "IPv6",
-          mac: "00:00:00:00:00:00",
-          internal: true,
-          cidr: "fe80::1/64",
-          scopeid: 1
-        }
-      ] };
+      return {
+        lo0: [
+          {
+            address: "127.0.0.1",
+            netmask: "255.0.0.0",
+            family: "IPv4",
+            mac: "00:00:00:00:00:00",
+            internal: true,
+            cidr: "127.0.0.1/8",
+          },
+          {
+            address: "::1",
+            netmask: "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff",
+            family: "IPv6",
+            mac: "00:00:00:00:00:00",
+            internal: true,
+            cidr: "::1/128",
+            scopeid: 0,
+          },
+          {
+            address: "fe80::1",
+            netmask: "ffff:ffff:ffff:ffff::",
+            family: "IPv6",
+            mac: "00:00:00:00:00:00",
+            internal: true,
+            cidr: "fe80::1/64",
+            scopeid: 1,
+          },
+        ],
+      };
     }, "networkInterfaces");
     platform2 = /* @__PURE__ */ __name(() => "linux", "platform");
     type = /* @__PURE__ */ __name(() => "Linux", "type");
@@ -1852,7 +2314,9 @@ var init_os = __esm({
       const encode = /* @__PURE__ */ __name((str) => {
         if (opts?.encoding) {
           const buff = Buffer.from(str);
-          return opts.encoding === "buffer" ? buff : buff.toString(opts.encoding);
+          return opts.encoding === "buffer"
+            ? buff
+            : buff.toString(opts.encoding);
         }
         return str;
       }, "encode");
@@ -1861,7 +2325,7 @@ var init_os = __esm({
         uid: 1e3,
         homedir: encode("/"),
         shell: encode("/bin/sh"),
-        username: encode("root")
+        username: encode("root"),
       };
     }, "userInfo");
     EOL = "\n";
@@ -1888,9 +2352,9 @@ var init_os = __esm({
       type,
       uptime: uptime2,
       userInfo,
-      version: version2
+      version: version2,
     };
-  }
+  },
 });
 
 // node-built-in-modules:os
@@ -1903,7 +2367,7 @@ var require_os = __commonJS({
     init_performance2();
     init_os();
     module.exports = os_default;
-  }
+  },
 });
 
 // node_modules/node-gyp-build/node-gyp-build.js
@@ -1917,43 +2381,46 @@ var require_node_gyp_build = __commonJS({
     var fs = require_fs();
     var path = require_path();
     var os = require_os();
-    var runtimeRequire = typeof __webpack_require__ === "function" ? __non_webpack_require__ : __require;
-    var vars = process.config && process.config.variables || {};
+    var runtimeRequire =
+      typeof __webpack_require__ === "function"
+        ? __non_webpack_require__
+        : __require;
+    var vars = (process.config && process.config.variables) || {};
     var prebuildsOnly = !!process.env.PREBUILDS_ONLY;
     var abi = process.versions.modules;
     var runtime = isElectron() ? "electron" : isNwjs() ? "node-webkit" : "node";
     var arch3 = process.env.npm_config_arch || os.arch();
     var platform3 = process.env.npm_config_platform || os.platform();
     var libc = process.env.LIBC || (isAlpine(platform3) ? "musl" : "glibc");
-    var armv = process.env.ARM_VERSION || (arch3 === "arm64" ? "8" : vars.arm_version) || "";
+    var armv =
+      process.env.ARM_VERSION ||
+      (arch3 === "arm64" ? "8" : vars.arm_version) ||
+      "";
     var uv = (process.versions.uv || "").split(".")[0];
     module.exports = load;
     function load(dir3) {
       return runtimeRequire(load.resolve(dir3));
     }
     __name(load, "load");
-    load.resolve = load.path = function(dir3) {
+    load.resolve = load.path = function (dir3) {
       dir3 = path.resolve(dir3 || ".");
       try {
-        var name = runtimeRequire(path.join(dir3, "package.json")).name.toUpperCase().replace(/-/g, "_");
+        var name = runtimeRequire(path.join(dir3, "package.json"))
+          .name.toUpperCase()
+          .replace(/-/g, "_");
         if (process.env[name + "_PREBUILD"])
           dir3 = process.env[name + "_PREBUILD"];
-      } catch (err) {
-      }
+      } catch (err) {}
       if (!prebuildsOnly) {
         var release3 = getFirst(path.join(dir3, "build/Release"), matchBuild);
-        if (release3)
-          return release3;
+        if (release3) return release3;
         var debug3 = getFirst(path.join(dir3, "build/Debug"), matchBuild);
-        if (debug3)
-          return debug3;
+        if (debug3) return debug3;
       }
       var prebuild = resolve(dir3);
-      if (prebuild)
-        return prebuild;
+      if (prebuild) return prebuild;
       var nearby = resolve(path.dirname(process.execPath));
-      if (nearby)
-        return nearby;
+      if (nearby) return nearby;
       var target = [
         "platform=" + platform3,
         "arch=" + arch3,
@@ -1963,22 +2430,32 @@ var require_node_gyp_build = __commonJS({
         armv ? "armv=" + armv : "",
         "libc=" + libc,
         "node=" + process.versions.node,
-        process.versions.electron ? "electron=" + process.versions.electron : "",
-        typeof __webpack_require__ === "function" ? "webpack=true" : ""
+        process.versions.electron
+          ? "electron=" + process.versions.electron
+          : "",
+        typeof __webpack_require__ === "function" ? "webpack=true" : "",
         // eslint-disable-line
-      ].filter(Boolean).join(" ");
-      throw new Error("No native build was found for " + target + "\n    loaded from: " + dir3 + "\n");
+      ]
+        .filter(Boolean)
+        .join(" ");
+      throw new Error(
+        "No native build was found for " +
+          target +
+          "\n    loaded from: " +
+          dir3 +
+          "\n",
+      );
       function resolve(dir4) {
         var tuples = readdirSync2(path.join(dir4, "prebuilds")).map(parseTuple);
-        var tuple = tuples.filter(matchTuple(platform3, arch3)).sort(compareTuples)[0];
-        if (!tuple)
-          return;
+        var tuple = tuples
+          .filter(matchTuple(platform3, arch3))
+          .sort(compareTuples)[0];
+        if (!tuple) return;
         var prebuilds = path.join(dir4, "prebuilds", tuple.name);
         var parsed = readdirSync2(prebuilds).map(parseTags);
         var candidates = parsed.filter(matchTags(runtime, abi));
         var winner = candidates.sort(compareTags(runtime))[0];
-        if (winner)
-          return path.join(prebuilds, winner.file);
+        if (winner) return path.join(prebuilds, winner.file);
       }
       __name(resolve, "resolve");
     };
@@ -2001,25 +2478,19 @@ var require_node_gyp_build = __commonJS({
     __name(matchBuild, "matchBuild");
     function parseTuple(name) {
       var arr = name.split("-");
-      if (arr.length !== 2)
-        return;
+      if (arr.length !== 2) return;
       var platform4 = arr[0];
       var architectures = arr[1].split("+");
-      if (!platform4)
-        return;
-      if (!architectures.length)
-        return;
-      if (!architectures.every(Boolean))
-        return;
+      if (!platform4) return;
+      if (!architectures.length) return;
+      if (!architectures.every(Boolean)) return;
       return { name, platform: platform4, architectures };
     }
     __name(parseTuple, "parseTuple");
     function matchTuple(platform4, arch4) {
-      return function(tuple) {
-        if (tuple == null)
-          return false;
-        if (tuple.platform !== platform4)
-          return false;
+      return function (tuple) {
+        if (tuple == null) return false;
+        if (tuple.platform !== platform4) return false;
         return tuple.architectures.includes(arch4);
       };
     }
@@ -2032,8 +2503,7 @@ var require_node_gyp_build = __commonJS({
       var arr = file.split(".");
       var extension = arr.pop();
       var tags = { file, specificity: 0 };
-      if (extension !== "node")
-        return;
+      if (extension !== "node") return;
       for (var i = 0; i < arr.length; i++) {
         var tag = arr[i];
         if (tag === "node" || tag === "electron" || tag === "node-webkit") {
@@ -2057,19 +2527,14 @@ var require_node_gyp_build = __commonJS({
     }
     __name(parseTags, "parseTags");
     function matchTags(runtime2, abi2) {
-      return function(tags) {
-        if (tags == null)
-          return false;
+      return function (tags) {
+        if (tags == null) return false;
         if (tags.runtime && tags.runtime !== runtime2 && !runtimeAgnostic(tags))
           return false;
-        if (tags.abi && tags.abi !== abi2 && !tags.napi)
-          return false;
-        if (tags.uv && tags.uv !== uv)
-          return false;
-        if (tags.armv && tags.armv !== armv)
-          return false;
-        if (tags.libc && tags.libc !== libc)
-          return false;
+        if (tags.abi && tags.abi !== abi2 && !tags.napi) return false;
+        if (tags.uv && tags.uv !== uv) return false;
+        if (tags.armv && tags.armv !== armv) return false;
+        if (tags.libc && tags.libc !== libc) return false;
         return true;
       };
     }
@@ -2079,7 +2544,7 @@ var require_node_gyp_build = __commonJS({
     }
     __name(runtimeAgnostic, "runtimeAgnostic");
     function compareTags(runtime2) {
-      return function(a, b) {
+      return function (a, b) {
         if (a.runtime !== b.runtime) {
           return a.runtime === runtime2 ? -1 : 1;
         } else if (a.abi !== b.abi) {
@@ -2097,11 +2562,13 @@ var require_node_gyp_build = __commonJS({
     }
     __name(isNwjs, "isNwjs");
     function isElectron() {
-      if (process.versions && process.versions.electron)
-        return true;
-      if (process.env.ELECTRON_RUN_AS_NODE)
-        return true;
-      return typeof window !== "undefined" && window.process && window.process.type === "renderer";
+      if (process.versions && process.versions.electron) return true;
+      if (process.env.ELECTRON_RUN_AS_NODE) return true;
+      return (
+        typeof window !== "undefined" &&
+        window.process &&
+        window.process.type === "renderer"
+      );
     }
     __name(isElectron, "isElectron");
     function isAlpine(platform4) {
@@ -2114,7 +2581,7 @@ var require_node_gyp_build = __commonJS({
     load.parseTuple = parseTuple;
     load.matchTuple = matchTuple;
     load.compareTuples = compareTuples;
-  }
+  },
 });
 
 // node_modules/node-gyp-build/index.js
@@ -2125,13 +2592,16 @@ var require_node_gyp_build2 = __commonJS({
     init_virtual_unenv_global_polyfill_cloudflare_unenv_preset_node_process();
     init_virtual_unenv_global_polyfill_cloudflare_unenv_preset_node_console();
     init_performance2();
-    var runtimeRequire = typeof __webpack_require__ === "function" ? __non_webpack_require__ : __require;
+    var runtimeRequire =
+      typeof __webpack_require__ === "function"
+        ? __non_webpack_require__
+        : __require;
     if (typeof runtimeRequire.addon === "function") {
       module.exports = runtimeRequire.addon.bind(runtimeRequire);
     } else {
       module.exports = require_node_gyp_build();
     }
-  }
+  },
 });
 
 // node_modules/unenv/dist/runtime/node/internal/crypto/web.mjs
@@ -2144,11 +2614,35 @@ var init_web = __esm({
     init_virtual_unenv_global_polyfill_cloudflare_unenv_preset_node_console();
     init_performance2();
     subtle = globalThis.crypto?.subtle;
-  }
+  },
 });
 
 // node_modules/unenv/dist/runtime/node/internal/crypto/node.mjs
-var webcrypto, createCipher, createDecipher, pseudoRandomBytes, createCipheriv, createDecipheriv, createECDH, createSign, createVerify, diffieHellman, getCipherInfo, privateDecrypt, privateEncrypt, publicDecrypt, publicEncrypt, sign, verify, hash, Cipher, Cipheriv, Decipher, Decipheriv, ECDH, Sign, Verify;
+var webcrypto,
+  createCipher,
+  createDecipher,
+  pseudoRandomBytes,
+  createCipheriv,
+  createDecipheriv,
+  createECDH,
+  createSign,
+  createVerify,
+  diffieHellman,
+  getCipherInfo,
+  privateDecrypt,
+  privateEncrypt,
+  publicDecrypt,
+  publicEncrypt,
+  sign,
+  verify,
+  hash,
+  Cipher,
+  Cipheriv,
+  Decipher,
+  Decipheriv,
+  ECDH,
+  Sign,
+  Verify;
 var init_node = __esm({
   "node_modules/unenv/dist/runtime/node/internal/crypto/node.mjs"() {
     init_strip_cf_connecting_ip_header();
@@ -2157,20 +2651,26 @@ var init_node = __esm({
     init_virtual_unenv_global_polyfill_cloudflare_unenv_preset_node_console();
     init_performance2();
     init_utils();
-    webcrypto = new Proxy(globalThis.crypto, { get(_, key) {
-      if (key === "CryptoKey") {
-        return globalThis.CryptoKey;
-      }
-      if (typeof globalThis.crypto[key] === "function") {
-        return globalThis.crypto[key].bind(globalThis.crypto);
-      }
-      return globalThis.crypto[key];
-    } });
+    webcrypto = new Proxy(globalThis.crypto, {
+      get(_, key) {
+        if (key === "CryptoKey") {
+          return globalThis.CryptoKey;
+        }
+        if (typeof globalThis.crypto[key] === "function") {
+          return globalThis.crypto[key].bind(globalThis.crypto);
+        }
+        return globalThis.crypto[key];
+      },
+    });
     createCipher = /* @__PURE__ */ notImplemented("crypto.createCipher");
     createDecipher = /* @__PURE__ */ notImplemented("crypto.createDecipher");
-    pseudoRandomBytes = /* @__PURE__ */ notImplemented("crypto.pseudoRandomBytes");
+    pseudoRandomBytes = /* @__PURE__ */ notImplemented(
+      "crypto.pseudoRandomBytes",
+    );
     createCipheriv = /* @__PURE__ */ notImplemented("crypto.createCipheriv");
-    createDecipheriv = /* @__PURE__ */ notImplemented("crypto.createDecipheriv");
+    createDecipheriv = /* @__PURE__ */ notImplemented(
+      "crypto.createDecipheriv",
+    );
     createECDH = /* @__PURE__ */ notImplemented("crypto.createECDH");
     createSign = /* @__PURE__ */ notImplemented("crypto.createSign");
     createVerify = /* @__PURE__ */ notImplemented("crypto.createVerify");
@@ -2185,22 +2685,77 @@ var init_node = __esm({
     hash = /* @__PURE__ */ notImplemented("crypto.hash");
     Cipher = /* @__PURE__ */ notImplementedClass("crypto.Cipher");
     Cipheriv = /* @__PURE__ */ notImplementedClass(
-      "crypto.Cipheriv"
+      "crypto.Cipheriv",
       // @ts-expect-error not typed yet
     );
     Decipher = /* @__PURE__ */ notImplementedClass("crypto.Decipher");
     Decipheriv = /* @__PURE__ */ notImplementedClass(
-      "crypto.Decipheriv"
+      "crypto.Decipheriv",
       // @ts-expect-error not typed yet
     );
     ECDH = /* @__PURE__ */ notImplementedClass("crypto.ECDH");
     Sign = /* @__PURE__ */ notImplementedClass("crypto.Sign");
     Verify = /* @__PURE__ */ notImplementedClass("crypto.Verify");
-  }
+  },
 });
 
 // node_modules/unenv/dist/runtime/node/internal/crypto/constants.mjs
-var SSL_OP_ALL, SSL_OP_ALLOW_NO_DHE_KEX, SSL_OP_ALLOW_UNSAFE_LEGACY_RENEGOTIATION, SSL_OP_CIPHER_SERVER_PREFERENCE, SSL_OP_CISCO_ANYCONNECT, SSL_OP_COOKIE_EXCHANGE, SSL_OP_CRYPTOPRO_TLSEXT_BUG, SSL_OP_DONT_INSERT_EMPTY_FRAGMENTS, SSL_OP_LEGACY_SERVER_CONNECT, SSL_OP_NO_COMPRESSION, SSL_OP_NO_ENCRYPT_THEN_MAC, SSL_OP_NO_QUERY_MTU, SSL_OP_NO_RENEGOTIATION, SSL_OP_NO_SESSION_RESUMPTION_ON_RENEGOTIATION, SSL_OP_NO_SSLv2, SSL_OP_NO_SSLv3, SSL_OP_NO_TICKET, SSL_OP_NO_TLSv1, SSL_OP_NO_TLSv1_1, SSL_OP_NO_TLSv1_2, SSL_OP_NO_TLSv1_3, SSL_OP_PRIORITIZE_CHACHA, SSL_OP_TLS_ROLLBACK_BUG, ENGINE_METHOD_RSA, ENGINE_METHOD_DSA, ENGINE_METHOD_DH, ENGINE_METHOD_RAND, ENGINE_METHOD_EC, ENGINE_METHOD_CIPHERS, ENGINE_METHOD_DIGESTS, ENGINE_METHOD_PKEY_METHS, ENGINE_METHOD_PKEY_ASN1_METHS, ENGINE_METHOD_ALL, ENGINE_METHOD_NONE, DH_CHECK_P_NOT_SAFE_PRIME, DH_CHECK_P_NOT_PRIME, DH_UNABLE_TO_CHECK_GENERATOR, DH_NOT_SUITABLE_GENERATOR, RSA_PKCS1_PADDING, RSA_NO_PADDING, RSA_PKCS1_OAEP_PADDING, RSA_X931_PADDING, RSA_PKCS1_PSS_PADDING, RSA_PSS_SALTLEN_DIGEST, RSA_PSS_SALTLEN_MAX_SIGN, RSA_PSS_SALTLEN_AUTO, POINT_CONVERSION_COMPRESSED, POINT_CONVERSION_UNCOMPRESSED, POINT_CONVERSION_HYBRID, defaultCoreCipherList, defaultCipherList, OPENSSL_VERSION_NUMBER, TLS1_VERSION, TLS1_1_VERSION, TLS1_2_VERSION, TLS1_3_VERSION;
+var SSL_OP_ALL,
+  SSL_OP_ALLOW_NO_DHE_KEX,
+  SSL_OP_ALLOW_UNSAFE_LEGACY_RENEGOTIATION,
+  SSL_OP_CIPHER_SERVER_PREFERENCE,
+  SSL_OP_CISCO_ANYCONNECT,
+  SSL_OP_COOKIE_EXCHANGE,
+  SSL_OP_CRYPTOPRO_TLSEXT_BUG,
+  SSL_OP_DONT_INSERT_EMPTY_FRAGMENTS,
+  SSL_OP_LEGACY_SERVER_CONNECT,
+  SSL_OP_NO_COMPRESSION,
+  SSL_OP_NO_ENCRYPT_THEN_MAC,
+  SSL_OP_NO_QUERY_MTU,
+  SSL_OP_NO_RENEGOTIATION,
+  SSL_OP_NO_SESSION_RESUMPTION_ON_RENEGOTIATION,
+  SSL_OP_NO_SSLv2,
+  SSL_OP_NO_SSLv3,
+  SSL_OP_NO_TICKET,
+  SSL_OP_NO_TLSv1,
+  SSL_OP_NO_TLSv1_1,
+  SSL_OP_NO_TLSv1_2,
+  SSL_OP_NO_TLSv1_3,
+  SSL_OP_PRIORITIZE_CHACHA,
+  SSL_OP_TLS_ROLLBACK_BUG,
+  ENGINE_METHOD_RSA,
+  ENGINE_METHOD_DSA,
+  ENGINE_METHOD_DH,
+  ENGINE_METHOD_RAND,
+  ENGINE_METHOD_EC,
+  ENGINE_METHOD_CIPHERS,
+  ENGINE_METHOD_DIGESTS,
+  ENGINE_METHOD_PKEY_METHS,
+  ENGINE_METHOD_PKEY_ASN1_METHS,
+  ENGINE_METHOD_ALL,
+  ENGINE_METHOD_NONE,
+  DH_CHECK_P_NOT_SAFE_PRIME,
+  DH_CHECK_P_NOT_PRIME,
+  DH_UNABLE_TO_CHECK_GENERATOR,
+  DH_NOT_SUITABLE_GENERATOR,
+  RSA_PKCS1_PADDING,
+  RSA_NO_PADDING,
+  RSA_PKCS1_OAEP_PADDING,
+  RSA_X931_PADDING,
+  RSA_PKCS1_PSS_PADDING,
+  RSA_PSS_SALTLEN_DIGEST,
+  RSA_PSS_SALTLEN_MAX_SIGN,
+  RSA_PSS_SALTLEN_AUTO,
+  POINT_CONVERSION_COMPRESSED,
+  POINT_CONVERSION_UNCOMPRESSED,
+  POINT_CONVERSION_HYBRID,
+  defaultCoreCipherList,
+  defaultCipherList,
+  OPENSSL_VERSION_NUMBER,
+  TLS1_VERSION,
+  TLS1_1_VERSION,
+  TLS1_2_VERSION,
+  TLS1_3_VERSION;
 var init_constants3 = __esm({
   "node_modules/unenv/dist/runtime/node/internal/crypto/constants.mjs"() {
     init_strip_cf_connecting_ip_header();
@@ -2264,7 +2819,7 @@ var init_constants3 = __esm({
     TLS1_1_VERSION = 0;
     TLS1_2_VERSION = 0;
     TLS1_3_VERSION = 0;
-  }
+  },
 });
 
 // node_modules/unenv/dist/runtime/node/crypto.mjs
@@ -2335,13 +2890,60 @@ var init_crypto = __esm({
       POINT_CONVERSION_COMPRESSED,
       POINT_CONVERSION_UNCOMPRESSED,
       POINT_CONVERSION_HYBRID,
-      defaultCipherList
+      defaultCipherList,
     };
-  }
+  },
 });
 
 // node_modules/@cloudflare/unenv-preset/dist/runtime/node/crypto.mjs
-var workerdCrypto, Certificate, DiffieHellman, DiffieHellmanGroup, Hash, Hmac, KeyObject, X509Certificate, checkPrime, checkPrimeSync, createDiffieHellman, createDiffieHellmanGroup, createHash, createHmac, createPrivateKey, createPublicKey, createSecretKey, generateKey, generateKeyPair, generateKeyPairSync, generateKeySync, generatePrime, generatePrimeSync, getCiphers, getCurves, getDiffieHellman, getFips, getHashes, hkdf, hkdfSync, pbkdf2, pbkdf2Sync, randomBytes, randomFill, randomFillSync, randomInt, randomUUID, scrypt, scryptSync, secureHeapUsed, setEngine, setFips, subtle2, timingSafeEqual, getRandomValues, webcrypto2, fips, crypto_default;
+var workerdCrypto,
+  Certificate,
+  DiffieHellman,
+  DiffieHellmanGroup,
+  Hash,
+  Hmac,
+  KeyObject,
+  X509Certificate,
+  checkPrime,
+  checkPrimeSync,
+  createDiffieHellman,
+  createDiffieHellmanGroup,
+  createHash,
+  createHmac,
+  createPrivateKey,
+  createPublicKey,
+  createSecretKey,
+  generateKey,
+  generateKeyPair,
+  generateKeyPairSync,
+  generateKeySync,
+  generatePrime,
+  generatePrimeSync,
+  getCiphers,
+  getCurves,
+  getDiffieHellman,
+  getFips,
+  getHashes,
+  hkdf,
+  hkdfSync,
+  pbkdf2,
+  pbkdf2Sync,
+  randomBytes,
+  randomFill,
+  randomFillSync,
+  randomInt,
+  randomUUID,
+  scrypt,
+  scryptSync,
+  secureHeapUsed,
+  setEngine,
+  setFips,
+  subtle2,
+  timingSafeEqual,
+  getRandomValues,
+  webcrypto2,
+  fips,
+  crypto_default;
 var init_crypto2 = __esm({
   "node_modules/@cloudflare/unenv-preset/dist/runtime/node/crypto.mjs"() {
     init_strip_cf_connecting_ip_header();
@@ -2394,17 +2996,17 @@ var init_crypto2 = __esm({
       setEngine,
       setFips,
       subtle: subtle2,
-      timingSafeEqual
+      timingSafeEqual,
     } = workerdCrypto);
     getRandomValues = workerdCrypto.getRandomValues.bind(
-      workerdCrypto.webcrypto
+      workerdCrypto.webcrypto,
     );
     webcrypto2 = {
       // @ts-expect-error unenv has unknown type
       CryptoKey: webcrypto.CryptoKey,
       getRandomValues,
       randomUUID,
-      subtle: subtle2
+      subtle: subtle2,
     };
     fips = workerdCrypto.fips;
     crypto_default = {
@@ -2505,9 +3107,9 @@ var init_crypto2 = __esm({
       // default-only export from workerd
       fips,
       // special-cased deep merged symbols
-      webcrypto: webcrypto2
+      webcrypto: webcrypto2,
     };
-  }
+  },
 });
 
 // node-built-in-modules:crypto
@@ -2520,7 +3122,7 @@ var require_crypto = __commonJS({
     init_performance2();
     init_crypto2();
     module.exports = crypto_default;
-  }
+  },
 });
 
 // node_modules/bcrypt/promises.js
@@ -2562,9 +3164,9 @@ var require_promises = __commonJS({
     module.exports = {
       promise,
       reject,
-      use
+      use,
     };
-  }
+  },
 });
 
 // node_modules/bcrypt/bcrypt.js
@@ -2610,7 +3212,7 @@ var require_bcrypt = __commonJS({
         rounds = 10;
       } else if (typeof rounds !== "number") {
         error3 = new Error("rounds must be a number");
-        return process.nextTick(function() {
+        return process.nextTick(function () {
           cb(error3);
         });
       }
@@ -2618,11 +3220,11 @@ var require_bcrypt = __commonJS({
         minor = "b";
       } else if (minor !== "b" && minor !== "a") {
         error3 = new Error('minor must be either "a" or "b"');
-        return process.nextTick(function() {
+        return process.nextTick(function () {
           cb(error3);
         });
       }
-      crypto2.randomBytes(16, function(error4, randomBytes2) {
+      crypto2.randomBytes(16, function (error4, randomBytes2) {
         if (error4) {
           cb(error4);
           return;
@@ -2635,8 +3237,13 @@ var require_bcrypt = __commonJS({
       if (data == null || salt == null) {
         throw new Error("data and salt arguments required");
       }
-      if (!(typeof data === "string" || data instanceof Buffer) || typeof salt !== "string" && typeof salt !== "number") {
-        throw new Error("data must be a string or Buffer and salt must either be a salt string or a number of rounds");
+      if (
+        !(typeof data === "string" || data instanceof Buffer) ||
+        (typeof salt !== "string" && typeof salt !== "number")
+      ) {
+        throw new Error(
+          "data must be a string or Buffer and salt must either be a salt string or a number of rounds",
+        );
       }
       if (typeof salt === "number") {
         salt = module.exports.genSaltSync(salt);
@@ -2647,37 +3254,48 @@ var require_bcrypt = __commonJS({
     function hash2(data, salt, cb) {
       let error3;
       if (typeof data === "function") {
-        error3 = new Error("data must be a string or Buffer and salt must either be a salt string or a number of rounds");
-        return process.nextTick(function() {
+        error3 = new Error(
+          "data must be a string or Buffer and salt must either be a salt string or a number of rounds",
+        );
+        return process.nextTick(function () {
           data(error3);
         });
       }
       if (typeof salt === "function") {
-        error3 = new Error("data must be a string or Buffer and salt must either be a salt string or a number of rounds");
-        return process.nextTick(function() {
+        error3 = new Error(
+          "data must be a string or Buffer and salt must either be a salt string or a number of rounds",
+        );
+        return process.nextTick(function () {
           salt(error3);
         });
       }
       if (cb && typeof cb !== "function") {
-        return promises.reject(new Error("cb must be a function or null to return a Promise"));
+        return promises.reject(
+          new Error("cb must be a function or null to return a Promise"),
+        );
       }
       if (!cb) {
         return promises.promise(hash2, this, [data, salt]);
       }
       if (data == null || salt == null) {
         error3 = new Error("data and salt arguments required");
-        return process.nextTick(function() {
+        return process.nextTick(function () {
           cb(error3);
         });
       }
-      if (!(typeof data === "string" || data instanceof Buffer) || typeof salt !== "string" && typeof salt !== "number") {
-        error3 = new Error("data must be a string or Buffer and salt must either be a salt string or a number of rounds");
-        return process.nextTick(function() {
+      if (
+        !(typeof data === "string" || data instanceof Buffer) ||
+        (typeof salt !== "string" && typeof salt !== "number")
+      ) {
+        error3 = new Error(
+          "data must be a string or Buffer and salt must either be a salt string or a number of rounds",
+        );
+        return process.nextTick(function () {
           cb(error3);
         });
       }
       if (typeof salt === "number") {
-        return module.exports.genSalt(salt, function(err, salt2) {
+        return module.exports.genSalt(salt, function (err, salt2) {
           return bindings.encrypt(data, salt2, cb);
         });
       }
@@ -2688,8 +3306,13 @@ var require_bcrypt = __commonJS({
       if (data == null || hash3 == null) {
         throw new Error("data and hash arguments required");
       }
-      if (!(typeof data === "string" || data instanceof Buffer) || typeof hash3 !== "string") {
-        throw new Error("data must be a string or Buffer and hash must be a string");
+      if (
+        !(typeof data === "string" || data instanceof Buffer) ||
+        typeof hash3 !== "string"
+      ) {
+        throw new Error(
+          "data must be a string or Buffer and hash must be a string",
+        );
       }
       return bindings.compare_sync(data, hash3);
     }
@@ -2698,31 +3321,36 @@ var require_bcrypt = __commonJS({
       let error3;
       if (typeof data === "function") {
         error3 = new Error("data and hash arguments required");
-        return process.nextTick(function() {
+        return process.nextTick(function () {
           data(error3);
         });
       }
       if (typeof hash3 === "function") {
         error3 = new Error("data and hash arguments required");
-        return process.nextTick(function() {
+        return process.nextTick(function () {
           hash3(error3);
         });
       }
       if (cb && typeof cb !== "function") {
-        return promises.reject(new Error("cb must be a function or null to return a Promise"));
+        return promises.reject(
+          new Error("cb must be a function or null to return a Promise"),
+        );
       }
       if (!cb) {
         return promises.promise(compare, this, [data, hash3]);
       }
       if (data == null || hash3 == null) {
         error3 = new Error("data and hash arguments required");
-        return process.nextTick(function() {
+        return process.nextTick(function () {
           cb(error3);
         });
       }
-      if (!(typeof data === "string" || data instanceof Buffer) || typeof hash3 !== "string") {
+      if (
+        !(typeof data === "string" || data instanceof Buffer) ||
+        typeof hash3 !== "string"
+      ) {
         error3 = new Error("data and hash must be strings");
-        return process.nextTick(function() {
+        return process.nextTick(function () {
           cb(error3);
         });
       }
@@ -2746,9 +3374,9 @@ var require_bcrypt = __commonJS({
       hash: hash2,
       compareSync,
       compare,
-      getRounds
+      getRounds,
     };
-  }
+  },
 });
 
 // .wrangler/tmp/bundle-Jq3s0c/middleware-loader.entry.ts
@@ -2784,14 +3412,17 @@ function corsMiddleware(request) {
     "http://localhost:3000",
     "http://localhost:5173",
     "https://jun-oro.pages.dev",
-    "https://jun-oro.com"
+    "https://jun-oro.com",
   ];
   const corsHeaders = {
     "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
     "Access-Control-Allow-Headers": "Content-Type, Authorization, X-API-Key",
-    "Access-Control-Max-Age": "86400"
+    "Access-Control-Max-Age": "86400",
   };
-  if (origin && (allowedOrigins.includes(origin) || origin.includes("localhost"))) {
+  if (
+    origin &&
+    (allowedOrigins.includes(origin) || origin.includes("localhost"))
+  ) {
     corsHeaders["Access-Control-Allow-Origin"] = origin;
     corsHeaders["Access-Control-Allow-Credentials"] = "true";
   } else {
@@ -2804,7 +3435,7 @@ function handleOptions(request) {
   const corsHeaders = corsMiddleware(request);
   return new Response(null, {
     status: 204,
-    headers: corsHeaders
+    headers: corsHeaders,
   });
 }
 __name(handleOptions, "handleOptions");
@@ -2821,11 +3452,11 @@ function createResponse(data, status = 200, headers = {}) {
     "Access-Control-Allow-Origin": "*",
     "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
     "Access-Control-Allow-Headers": "Content-Type, Authorization",
-    ...headers
+    ...headers,
   };
   return new Response(JSON.stringify(data), {
     status,
-    headers: defaultHeaders
+    headers: defaultHeaders,
   });
 }
 __name(createResponse, "createResponse");
@@ -2833,31 +3464,40 @@ function successResponse(data, message = "Success") {
   return createResponse({
     success: true,
     message,
-    data
+    data,
   });
 }
 __name(successResponse, "successResponse");
 function errorResponse(message, status = 400, code = null) {
-  return createResponse({
-    success: false,
-    message,
-    code,
-    timestamp: (/* @__PURE__ */ new Date()).toISOString()
-  }, status);
+  return createResponse(
+    {
+      success: false,
+      message,
+      code,
+      timestamp: /* @__PURE__ */ new Date().toISOString(),
+    },
+    status,
+  );
 }
 __name(errorResponse, "errorResponse");
 function unauthorizedResponse(message = "Unauthorized") {
-  return createResponse({
-    success: false,
-    message
-  }, 401);
+  return createResponse(
+    {
+      success: false,
+      message,
+    },
+    401,
+  );
 }
 __name(unauthorizedResponse, "unauthorizedResponse");
 function serverErrorResponse(message = "Internal server error") {
-  return createResponse({
-    success: false,
-    message
-  }, 500);
+  return createResponse(
+    {
+      success: false,
+      message,
+    },
+    500,
+  );
 }
 __name(serverErrorResponse, "serverErrorResponse");
 
@@ -2878,14 +3518,14 @@ var import_bcrypt = __toESM(require_bcrypt());
 async function createJWT(payload, secret, expiresIn = "24h") {
   const header = {
     alg: "HS256",
-    typ: "JWT"
+    typ: "JWT",
   };
   const now = Math.floor(Date.now() / 1e3);
   const exp = now + parseExpiration(expiresIn);
   const jwtPayload = {
     ...payload,
     iat: now,
-    exp
+    exp,
   };
   const encodedHeader = base64UrlEncode(JSON.stringify(header));
   const encodedPayload = base64UrlEncode(JSON.stringify(jwtPayload));
@@ -2899,7 +3539,10 @@ async function verifyJWT(token, secret) {
     if (!encodedHeader || !encodedPayload || !signature) {
       throw new Error("Invalid token format");
     }
-    const expectedSignature = await sign2(`${encodedHeader}.${encodedPayload}`, secret);
+    const expectedSignature = await sign2(
+      `${encodedHeader}.${encodedPayload}`,
+      secret,
+    );
     if (signature !== expectedSignature) {
       throw new Error("Invalid signature");
     }
@@ -2920,7 +3563,7 @@ async function sign2(data, secret) {
     encoder.encode(secret),
     { name: "HMAC", hash: "SHA-256" },
     false,
-    ["sign"]
+    ["sign"],
   );
   const signature = await crypto.subtle.sign("HMAC", key, encoder.encode(data));
   return base64UrlEncode(new Uint8Array(signature));
@@ -2978,7 +3621,9 @@ __name(verifyPassword, "verifyPassword");
 function generateSessionId() {
   const array = new Uint8Array(32);
   crypto.getRandomValues(array);
-  return Array.from(array, (byte) => byte.toString(16).padStart(2, "0")).join("");
+  return Array.from(array, (byte) => byte.toString(16).padStart(2, "0")).join(
+    "",
+  );
 }
 __name(generateSessionId, "generateSessionId");
 function extractToken(request) {
@@ -3011,7 +3656,7 @@ function validatePassword(password) {
 }
 __name(validatePassword, "validatePassword");
 function validateRequired(value, fieldName) {
-  if (!value || typeof value === "string" && value.trim() === "") {
+  if (!value || (typeof value === "string" && value.trim() === "")) {
     return `${fieldName} is required`;
   }
   return null;
@@ -3037,20 +3682,19 @@ __name(validateGameData, "validateGameData");
 function validateUserRegistration(userData) {
   const errors = [];
   const requiredError = validateRequired(userData.username, "Username");
-  if (requiredError)
-    errors.push(requiredError);
+  if (requiredError) errors.push(requiredError);
   else if (!validateUsername(userData.username)) {
-    errors.push("Username must be 3-20 characters, alphanumeric and underscore only");
+    errors.push(
+      "Username must be 3-20 characters, alphanumeric and underscore only",
+    );
   }
   const emailError = validateRequired(userData.email, "Email");
-  if (emailError)
-    errors.push(emailError);
+  if (emailError) errors.push(emailError);
   else if (!validateEmail(userData.email)) {
     errors.push("Invalid email format");
   }
   const passwordError = validateRequired(userData.password, "Password");
-  if (passwordError)
-    errors.push(passwordError);
+  if (passwordError) errors.push(passwordError);
   else if (!validatePassword(userData.password)) {
     errors.push("Password must be at least 6 characters");
   }
@@ -3060,11 +3704,9 @@ __name(validateUserRegistration, "validateUserRegistration");
 function validateUserLogin(userData) {
   const errors = [];
   const usernameError = validateRequired(userData.username, "Username");
-  if (usernameError)
-    errors.push(usernameError);
+  if (usernameError) errors.push(usernameError);
   const passwordError = validateRequired(userData.password, "Password");
-  if (passwordError)
-    errors.push(passwordError);
+  if (passwordError) errors.push(passwordError);
   return errors;
 }
 __name(validateUserLogin, "validateUserLogin");
@@ -3073,8 +3715,15 @@ function validateGameLibraryEntry(entryData) {
   if (!entryData.game_id) {
     errors.push("Game ID is required");
   }
-  if (entryData.status && !["playing", "completed", "want_to_play", "dropped"].includes(entryData.status)) {
-    errors.push("Invalid status. Must be one of: playing, completed, want_to_play, dropped");
+  if (
+    entryData.status &&
+    !["playing", "completed", "want_to_play", "dropped"].includes(
+      entryData.status,
+    )
+  ) {
+    errors.push(
+      "Invalid status. Must be one of: playing, completed, want_to_play, dropped",
+    );
   }
   if (entryData.rating !== void 0 && entryData.rating !== null) {
     const rating = parseFloat(entryData.rating);
@@ -3082,7 +3731,10 @@ function validateGameLibraryEntry(entryData) {
       errors.push("Rating must be between 0 and 10");
     }
   }
-  if (entryData.play_time_hours !== void 0 && entryData.play_time_hours !== null) {
+  if (
+    entryData.play_time_hours !== void 0 &&
+    entryData.play_time_hours !== null
+  ) {
     const playTime = parseInt(entryData.play_time_hours);
     if (isNaN(playTime) || playTime < 0) {
       errors.push("Play time must be a non-negative number");
@@ -3097,8 +3749,7 @@ function isValidDate(dateString) {
 }
 __name(isValidDate, "isValidDate");
 function sanitizeString(str) {
-  if (typeof str !== "string")
-    return str;
+  if (typeof str !== "string") return str;
   return str.trim().replace(/[<>]/g, "");
 }
 __name(sanitizeString, "sanitizeString");
@@ -3109,7 +3760,7 @@ function validatePagination(query) {
     page: Math.max(1, page),
     limit: Math.min(100, Math.max(1, limit)),
     // Max 100 items per page
-    offset: (Math.max(1, page) - 1) * Math.min(100, Math.max(1, limit))
+    offset: (Math.max(1, page) - 1) * Math.min(100, Math.max(1, limit)),
   };
 }
 __name(validatePagination, "validatePagination");
@@ -3128,8 +3779,10 @@ async function authMiddleware(request, env2) {
     }
     const payload = await verifyJWT(token, env2.JWT_SECRET);
     const session = await env2.DB.prepare(
-      'SELECT s.*, u.username, u.email, u.role, u.is_active FROM sessions s JOIN users u ON s.user_id = u.id WHERE s.id = ? AND s.is_active = 1 AND s.expires_at > datetime("now")'
-    ).bind(payload.sessionId).first();
+      'SELECT s.*, u.username, u.email, u.role, u.is_active FROM sessions s JOIN users u ON s.user_id = u.id WHERE s.id = ? AND s.is_active = 1 AND s.expires_at > datetime("now")',
+    )
+      .bind(payload.sessionId)
+      .first();
     if (!session) {
       return { success: false, message: "Invalid or expired session" };
     }
@@ -3141,7 +3794,7 @@ async function authMiddleware(request, env2) {
       username: session.username,
       email: session.email,
       role: session.role,
-      sessionId: session.id
+      sessionId: session.id,
     };
     return { success: true, userId: session.user_id, user: request.user };
   } catch (error3) {
@@ -3152,8 +3805,7 @@ async function authMiddleware(request, env2) {
 __name(authMiddleware, "authMiddleware");
 async function adminMiddleware(request, env2) {
   const authResult = await authMiddleware(request, env2);
-  if (authResult)
-    return authResult;
+  if (authResult) return authResult;
   if (request.user.role !== "admin") {
     return unauthorizedResponse("Admin access required");
   }
@@ -3167,33 +3819,45 @@ async function handleRegister(request, env2) {
     const userData = await request.json();
     const validationErrors = validateUserRegistration(userData);
     if (validationErrors.length > 0) {
-      return errorResponse("Validation failed", 400, { errors: validationErrors });
+      return errorResponse("Validation failed", 400, {
+        errors: validationErrors,
+      });
     }
     const existingUser = await env2.DB.prepare(
-      "SELECT id FROM users WHERE username = ? OR email = ?"
-    ).bind(userData.username, userData.email).first();
+      "SELECT id FROM users WHERE username = ? OR email = ?",
+    )
+      .bind(userData.username, userData.email)
+      .first();
     if (existingUser) {
       return errorResponse("Username or email already exists", 409);
     }
     const hashedPassword = await hashPassword(userData.password);
     const result = await env2.DB.prepare(
-      'INSERT INTO users (username, email, password_hash, role, is_active, created_at) VALUES (?, ?, ?, ?, ?, datetime("now"))'
-    ).bind(userData.username, userData.email, hashedPassword, "user", 1).run();
+      'INSERT INTO users (username, email, password_hash, role, is_active, created_at) VALUES (?, ?, ?, ?, ?, datetime("now"))',
+    )
+      .bind(userData.username, userData.email, hashedPassword, "user", 1)
+      .run();
     const userId = result.meta.last_row_id;
     const sessionId = generateSessionId();
     const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1e3);
     await env2.DB.prepare(
-      'INSERT INTO sessions (id, user_id, is_active, expires_at, created_at) VALUES (?, ?, ?, ?, datetime("now"))'
-    ).bind(sessionId, userId, 1, expiresAt.toISOString()).run();
-    const token = await createJWT({ userId, sessionId }, env2.JWT_SECRET, "24h");
+      'INSERT INTO sessions (id, user_id, is_active, expires_at, created_at) VALUES (?, ?, ?, ?, datetime("now"))',
+    )
+      .bind(sessionId, userId, 1, expiresAt.toISOString())
+      .run();
+    const token = await createJWT(
+      { userId, sessionId },
+      env2.JWT_SECRET,
+      "24h",
+    );
     return successResponse("User registered successfully", {
       user: {
         id: userId,
         username: userData.username,
         email: userData.email,
-        role: "user"
+        role: "user",
       },
-      token
+      token,
     });
   } catch (error3) {
     console.error("Register error:", error3);
@@ -3206,11 +3870,15 @@ async function handleLogin(request, env2) {
     const loginData = await request.json();
     const validationErrors = validateUserLogin(loginData);
     if (validationErrors.length > 0) {
-      return errorResponse("Validation failed", 400, { errors: validationErrors });
+      return errorResponse("Validation failed", 400, {
+        errors: validationErrors,
+      });
     }
     const user = await env2.DB.prepare(
-      "SELECT id, username, email, password_hash, role, is_active FROM users WHERE username = ? OR email = ?"
-    ).bind(loginData.username, loginData.username).first();
+      "SELECT id, username, email, password_hash, role, is_active FROM users WHERE username = ? OR email = ?",
+    )
+      .bind(loginData.username, loginData.username)
+      .first();
     if (!user) {
       return errorResponse("Invalid credentials", 401);
     }
@@ -3220,7 +3888,10 @@ async function handleLogin(request, env2) {
     console.log("Password verification starting...");
     console.log("Plain password from frontend:", loginData.password);
     console.log("Hashed password from DB:", user.password_hash);
-    const isValidPassword = await verifyPassword(loginData.password, user.password_hash);
+    const isValidPassword = await verifyPassword(
+      loginData.password,
+      user.password_hash,
+    );
     console.log("Password validation result:", isValidPassword);
     if (!isValidPassword) {
       console.log("Password verification failed.");
@@ -3228,22 +3899,30 @@ async function handleLogin(request, env2) {
     }
     console.log("Password verification successful.");
     await env2.DB.prepare(
-      "UPDATE sessions SET is_active = 0 WHERE user_id = ? AND is_active = 1"
-    ).bind(user.id).run();
+      "UPDATE sessions SET is_active = 0 WHERE user_id = ? AND is_active = 1",
+    )
+      .bind(user.id)
+      .run();
     const sessionId = generateSessionId();
     const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1e3);
     await env2.DB.prepare(
-      'INSERT INTO sessions (id, user_id, is_active, expires_at, created_at) VALUES (?, ?, ?, ?, datetime("now"))'
-    ).bind(sessionId, user.id, 1, expiresAt.toISOString()).run();
-    const token = await createJWT({ userId: user.id, sessionId }, env2.JWT_SECRET, "24h");
+      'INSERT INTO sessions (id, user_id, is_active, expires_at, created_at) VALUES (?, ?, ?, ?, datetime("now"))',
+    )
+      .bind(sessionId, user.id, 1, expiresAt.toISOString())
+      .run();
+    const token = await createJWT(
+      { userId: user.id, sessionId },
+      env2.JWT_SECRET,
+      "24h",
+    );
     return successResponse("Login successful", {
       user: {
         id: user.id,
         username: user.username,
         email: user.email,
-        role: user.role
+        role: user.role,
       },
-      token
+      token,
     });
   } catch (error3) {
     console.error("Login error:", error3);
@@ -3254,11 +3933,10 @@ __name(handleLogin, "handleLogin");
 async function handleLogout(request, env2) {
   try {
     const authResult = await authMiddleware(request, env2);
-    if (authResult)
-      return authResult;
-    await env2.DB.prepare(
-      "UPDATE sessions SET is_active = 0 WHERE id = ?"
-    ).bind(request.user.sessionId).run();
+    if (authResult) return authResult;
+    await env2.DB.prepare("UPDATE sessions SET is_active = 0 WHERE id = ?")
+      .bind(request.user.sessionId)
+      .run();
     return successResponse("Logout successful");
   } catch (error3) {
     console.error("Logout error:", error3);
@@ -3273,8 +3951,10 @@ async function handleVerify(request, env2) {
       return errorResponse(authResult.message, 401);
     }
     const user = await env2.DB.prepare(
-      "SELECT id, username, email, role, is_active, created_at, last_login FROM users WHERE id = ?"
-    ).bind(authResult.userId).first();
+      "SELECT id, username, email, role, is_active, created_at, last_login FROM users WHERE id = ?",
+    )
+      .bind(authResult.userId)
+      .first();
     if (!user) {
       return errorResponse("User not found", 404);
     }
@@ -3288,11 +3968,12 @@ __name(handleVerify, "handleVerify");
 async function handleMe(request, env2) {
   try {
     const authResult = await authMiddleware(request, env2);
-    if (authResult)
-      return authResult;
+    if (authResult) return authResult;
     const user = await env2.DB.prepare(
-      "SELECT id, username, email, role, created_at FROM users WHERE id = ?"
-    ).bind(request.user.id).first();
+      "SELECT id, username, email, role, created_at FROM users WHERE id = ?",
+    )
+      .bind(request.user.id)
+      .first();
     if (!user) {
       return errorResponse("User not found", 404);
     }
@@ -3338,7 +4019,9 @@ async function handleGetGames(request, env2) {
     query += ` ORDER BY ${sortField} ${sortOrder}`;
     query += " LIMIT ? OFFSET ?";
     params.push(limit, offset);
-    const games = await env2.DB.prepare(query).bind(...params).all();
+    const games = await env2.DB.prepare(query)
+      .bind(...params)
+      .all();
     let countQuery = "SELECT COUNT(*) as total FROM games WHERE 1=1";
     const countParams = [];
     if (search) {
@@ -3353,7 +4036,9 @@ async function handleGetGames(request, env2) {
       countQuery += " AND platforms LIKE ?";
       countParams.push(`%${platform3}%`);
     }
-    const totalResult = await env2.DB.prepare(countQuery).bind(...countParams).first();
+    const totalResult = await env2.DB.prepare(countQuery)
+      .bind(...countParams)
+      .first();
     const total = totalResult.total;
     return successResponse("Games retrieved successfully", {
       games: games.results || [],
@@ -3361,8 +4046,8 @@ async function handleGetGames(request, env2) {
         page,
         limit,
         total,
-        totalPages: Math.ceil(total / limit)
-      }
+        totalPages: Math.ceil(total / limit),
+      },
     });
   } catch (error3) {
     console.error("Get games error:", error3);
@@ -3377,15 +4062,17 @@ async function handleGetGame(request, env2) {
     if (!gameId) {
       return errorResponse("Game ID is required", 400);
     }
-    const game = await env2.DB.prepare(
-      "SELECT * FROM games WHERE id = ?"
-    ).bind(gameId).first();
+    const game = await env2.DB.prepare("SELECT * FROM games WHERE id = ?")
+      .bind(gameId)
+      .first();
     if (!game) {
       return errorResponse("Game not found", 404);
     }
     const tags = await env2.DB.prepare(
-      "SELECT gt.name FROM game_tags gt JOIN games_game_tags ggt ON gt.id = ggt.tag_id WHERE ggt.game_id = ?"
-    ).bind(gameId).all();
+      "SELECT gt.name FROM game_tags gt JOIN games_game_tags ggt ON gt.id = ggt.tag_id WHERE ggt.game_id = ?",
+    )
+      .bind(gameId)
+      .all();
     game.tags = tags.results?.map((tag) => tag.name) || [];
     return successResponse("Game retrieved successfully", { game });
   } catch (error3) {
@@ -3397,57 +4084,74 @@ __name(handleGetGame, "handleGetGame");
 async function handleCreateGame(request, env2) {
   try {
     const authResult = await adminMiddleware(request, env2);
-    if (authResult)
-      return authResult;
+    if (authResult) return authResult;
     const gameData = await request.json();
     const validationErrors = validateGameData(gameData);
     if (validationErrors.length > 0) {
-      return errorResponse("Validation failed", 400, { errors: validationErrors });
+      return errorResponse("Validation failed", 400, {
+        errors: validationErrors,
+      });
     }
     const gameId = crypto.randomUUID();
-    await env2.DB.prepare(`
+    await env2.DB.prepare(
+      `
       INSERT INTO games (
         id, title, description, genre, platforms, release_date, 
         developer, publisher, rating, image_url, trailer_url, 
         steam_url, epic_url, gog_url, created_at
       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, datetime("now"))
-    `).bind(
-      gameId,
-      gameData.title,
-      gameData.description || null,
-      gameData.genre || null,
-      gameData.platforms || null,
-      gameData.release_date || null,
-      gameData.developer || null,
-      gameData.publisher || null,
-      gameData.rating || null,
-      gameData.image_url || null,
-      gameData.trailer_url || null,
-      gameData.steam_url || null,
-      gameData.epic_url || null,
-      gameData.gog_url || null
-    ).run();
+    `,
+    )
+      .bind(
+        gameId,
+        gameData.title,
+        gameData.description || null,
+        gameData.genre || null,
+        gameData.platforms || null,
+        gameData.release_date || null,
+        gameData.developer || null,
+        gameData.publisher || null,
+        gameData.rating || null,
+        gameData.image_url || null,
+        gameData.trailer_url || null,
+        gameData.steam_url || null,
+        gameData.epic_url || null,
+        gameData.gog_url || null,
+      )
+      .run();
     if (gameData.tags && Array.isArray(gameData.tags)) {
       for (const tagName of gameData.tags) {
         let tag = await env2.DB.prepare(
-          "SELECT id FROM game_tags WHERE name = ?"
-        ).bind(tagName).first();
+          "SELECT id FROM game_tags WHERE name = ?",
+        )
+          .bind(tagName)
+          .first();
         if (!tag) {
           const tagId = crypto.randomUUID();
           await env2.DB.prepare(
-            'INSERT INTO game_tags (id, name, created_at) VALUES (?, ?, datetime("now"))'
-          ).bind(tagId, tagName).run();
+            'INSERT INTO game_tags (id, name, created_at) VALUES (?, ?, datetime("now"))',
+          )
+            .bind(tagId, tagName)
+            .run();
           tag = { id: tagId };
         }
         await env2.DB.prepare(
-          "INSERT INTO games_game_tags (game_id, tag_id) VALUES (?, ?)"
-        ).bind(gameId, tag.id).run();
+          "INSERT INTO games_game_tags (game_id, tag_id) VALUES (?, ?)",
+        )
+          .bind(gameId, tag.id)
+          .run();
       }
     }
     const createdGame = await env2.DB.prepare(
-      "SELECT * FROM games WHERE id = ?"
-    ).bind(gameId).first();
-    return successResponse("Game created successfully", { game: createdGame }, 201);
+      "SELECT * FROM games WHERE id = ?",
+    )
+      .bind(gameId)
+      .first();
+    return successResponse(
+      "Game created successfully",
+      { game: createdGame },
+      201,
+    );
   } catch (error3) {
     console.error("Create game error:", error3);
     return serverErrorResponse("Failed to create game");
@@ -3457,8 +4161,7 @@ __name(handleCreateGame, "handleCreateGame");
 async function handleUpdateGame(request, env2) {
   try {
     const authResult = await adminMiddleware(request, env2);
-    if (authResult)
-      return authResult;
+    if (authResult) return authResult;
     const url = new URL(request.url);
     const gameId = url.pathname.split("/").pop();
     const gameData = await request.json();
@@ -3466,41 +4169,51 @@ async function handleUpdateGame(request, env2) {
       return errorResponse("Game ID is required", 400);
     }
     const existingGame = await env2.DB.prepare(
-      "SELECT id FROM games WHERE id = ?"
-    ).bind(gameId).first();
+      "SELECT id FROM games WHERE id = ?",
+    )
+      .bind(gameId)
+      .first();
     if (!existingGame) {
       return errorResponse("Game not found", 404);
     }
     const validationErrors = validateGameData(gameData);
     if (validationErrors.length > 0) {
-      return errorResponse("Validation failed", 400, { errors: validationErrors });
+      return errorResponse("Validation failed", 400, {
+        errors: validationErrors,
+      });
     }
-    await env2.DB.prepare(`
+    await env2.DB.prepare(
+      `
       UPDATE games SET 
         title = ?, description = ?, genre = ?, platforms = ?, 
         release_date = ?, developer = ?, publisher = ?, rating = ?, 
         image_url = ?, trailer_url = ?, steam_url = ?, epic_url = ?, 
         gog_url = ?, updated_at = datetime("now")
       WHERE id = ?
-    `).bind(
-      gameData.title,
-      gameData.description || null,
-      gameData.genre || null,
-      gameData.platforms || null,
-      gameData.release_date || null,
-      gameData.developer || null,
-      gameData.publisher || null,
-      gameData.rating || null,
-      gameData.image_url || null,
-      gameData.trailer_url || null,
-      gameData.steam_url || null,
-      gameData.epic_url || null,
-      gameData.gog_url || null,
-      gameId
-    ).run();
+    `,
+    )
+      .bind(
+        gameData.title,
+        gameData.description || null,
+        gameData.genre || null,
+        gameData.platforms || null,
+        gameData.release_date || null,
+        gameData.developer || null,
+        gameData.publisher || null,
+        gameData.rating || null,
+        gameData.image_url || null,
+        gameData.trailer_url || null,
+        gameData.steam_url || null,
+        gameData.epic_url || null,
+        gameData.gog_url || null,
+        gameId,
+      )
+      .run();
     const updatedGame = await env2.DB.prepare(
-      "SELECT * FROM games WHERE id = ?"
-    ).bind(gameId).first();
+      "SELECT * FROM games WHERE id = ?",
+    )
+      .bind(gameId)
+      .first();
     return successResponse("Game updated successfully", { game: updatedGame });
   } catch (error3) {
     console.error("Update game error:", error3);
@@ -3511,16 +4224,17 @@ __name(handleUpdateGame, "handleUpdateGame");
 async function handleDeleteGame(request, env2) {
   try {
     const authResult = await adminMiddleware(request, env2);
-    if (authResult)
-      return authResult;
+    if (authResult) return authResult;
     const url = new URL(request.url);
     const gameId = url.pathname.split("/").pop();
     if (!gameId) {
       return errorResponse("Game ID is required", 400);
     }
     const existingGame = await env2.DB.prepare(
-      "SELECT id FROM games WHERE id = ?"
-    ).bind(gameId).first();
+      "SELECT id FROM games WHERE id = ?",
+    )
+      .bind(gameId)
+      .first();
     if (!existingGame) {
       return errorResponse("Game not found", 404);
     }
@@ -3542,8 +4256,7 @@ init_performance2();
 async function handleGetUserLibrary(request, env2) {
   try {
     const authResult = await authMiddleware(request, env2);
-    if (authResult)
-      return authResult;
+    if (authResult) return authResult;
     const url = new URL(request.url);
     const { page, limit, offset } = validatePagination(url.searchParams);
     const status = url.searchParams.get("status");
@@ -3563,19 +4276,33 @@ async function handleGetUserLibrary(request, env2) {
       query += " AND ugl.status = ?";
       params.push(status);
     }
-    const allowedSortFields = ["added_at", "rating", "play_time_hours", "title"];
-    const sortField = allowedSortFields.includes(sortBy) ? sortBy === "title" ? "g.title" : `ugl.${sortBy}` : "ugl.added_at";
+    const allowedSortFields = [
+      "added_at",
+      "rating",
+      "play_time_hours",
+      "title",
+    ];
+    const sortField = allowedSortFields.includes(sortBy)
+      ? sortBy === "title"
+        ? "g.title"
+        : `ugl.${sortBy}`
+      : "ugl.added_at";
     query += ` ORDER BY ${sortField} ${sortOrder}`;
     query += " LIMIT ? OFFSET ?";
     params.push(limit, offset);
-    const libraryEntries = await env2.DB.prepare(query).bind(...params).all();
-    let countQuery = "SELECT COUNT(*) as total FROM user_game_library WHERE user_id = ?";
+    const libraryEntries = await env2.DB.prepare(query)
+      .bind(...params)
+      .all();
+    let countQuery =
+      "SELECT COUNT(*) as total FROM user_game_library WHERE user_id = ?";
     const countParams = [request.user.id];
     if (status) {
       countQuery += " AND status = ?";
       countParams.push(status);
     }
-    const totalResult = await env2.DB.prepare(countQuery).bind(...countParams).first();
+    const totalResult = await env2.DB.prepare(countQuery)
+      .bind(...countParams)
+      .first();
     const total = totalResult.total;
     return successResponse("Library retrieved successfully", {
       library: libraryEntries.results || [],
@@ -3583,8 +4310,8 @@ async function handleGetUserLibrary(request, env2) {
         page,
         limit,
         total,
-        totalPages: Math.ceil(total / limit)
-      }
+        totalPages: Math.ceil(total / limit),
+      },
     });
   } catch (error3) {
     console.error("Get user library error:", error3);
@@ -3595,41 +4322,49 @@ __name(handleGetUserLibrary, "handleGetUserLibrary");
 async function handleAddToLibrary(request, env2) {
   try {
     const authResult = await authMiddleware(request, env2);
-    if (authResult)
-      return authResult;
+    if (authResult) return authResult;
     const entryData = await request.json();
     const validationErrors = validateGameLibraryEntry(entryData);
     if (validationErrors.length > 0) {
-      return errorResponse("Validation failed", 400, { errors: validationErrors });
+      return errorResponse("Validation failed", 400, {
+        errors: validationErrors,
+      });
     }
-    const game = await env2.DB.prepare(
-      "SELECT id FROM games WHERE id = ?"
-    ).bind(entryData.game_id).first();
+    const game = await env2.DB.prepare("SELECT id FROM games WHERE id = ?")
+      .bind(entryData.game_id)
+      .first();
     if (!game) {
       return errorResponse("Game not found", 404);
     }
     const existingEntry = await env2.DB.prepare(
-      "SELECT id FROM user_game_library WHERE user_id = ? AND game_id = ?"
-    ).bind(request.user.id, entryData.game_id).first();
+      "SELECT id FROM user_game_library WHERE user_id = ? AND game_id = ?",
+    )
+      .bind(request.user.id, entryData.game_id)
+      .first();
     if (existingEntry) {
       return errorResponse("Game already in library", 409);
     }
     const entryId = crypto.randomUUID();
-    await env2.DB.prepare(`
+    await env2.DB.prepare(
+      `
       INSERT INTO user_game_library (
         id, user_id, game_id, status, rating, notes, 
         play_time_hours, added_at
       ) VALUES (?, ?, ?, ?, ?, ?, ?, datetime("now"))
-    `).bind(
-      entryId,
-      request.user.id,
-      entryData.game_id,
-      entryData.status || "want_to_play",
-      entryData.rating || null,
-      entryData.notes || null,
-      entryData.play_time_hours || 0
-    ).run();
-    const createdEntry = await env2.DB.prepare(`
+    `,
+    )
+      .bind(
+        entryId,
+        request.user.id,
+        entryData.game_id,
+        entryData.status || "want_to_play",
+        entryData.rating || null,
+        entryData.notes || null,
+        entryData.play_time_hours || 0,
+      )
+      .run();
+    const createdEntry = await env2.DB.prepare(
+      `
       SELECT 
         ugl.*,
         g.title, g.description, g.genre, g.platforms, g.release_date,
@@ -3637,8 +4372,15 @@ async function handleAddToLibrary(request, env2) {
       FROM user_game_library ugl
       JOIN games g ON ugl.game_id = g.id
       WHERE ugl.id = ?
-    `).bind(entryId).first();
-    return successResponse("Game added to library", { entry: createdEntry }, 201);
+    `,
+    )
+      .bind(entryId)
+      .first();
+    return successResponse(
+      "Game added to library",
+      { entry: createdEntry },
+      201,
+    );
   } catch (error3) {
     console.error("Add to library error:", error3);
     return serverErrorResponse("Failed to add game to library");
@@ -3648,8 +4390,7 @@ __name(handleAddToLibrary, "handleAddToLibrary");
 async function handleUpdateLibraryEntry(request, env2) {
   try {
     const authResult = await authMiddleware(request, env2);
-    if (authResult)
-      return authResult;
+    if (authResult) return authResult;
     const url = new URL(request.url);
     const entryId = url.pathname.split("/").pop();
     const entryData = await request.json();
@@ -3657,13 +4398,20 @@ async function handleUpdateLibraryEntry(request, env2) {
       return errorResponse("Entry ID is required", 400);
     }
     const existingEntry = await env2.DB.prepare(
-      "SELECT id FROM user_game_library WHERE id = ? AND user_id = ?"
-    ).bind(entryId, request.user.id).first();
+      "SELECT id FROM user_game_library WHERE id = ? AND user_id = ?",
+    )
+      .bind(entryId, request.user.id)
+      .first();
     if (!existingEntry) {
       return errorResponse("Library entry not found", 404);
     }
     const validationErrors = [];
-    if (entryData.status && !["playing", "completed", "want_to_play", "dropped"].includes(entryData.status)) {
+    if (
+      entryData.status &&
+      !["playing", "completed", "want_to_play", "dropped"].includes(
+        entryData.status,
+      )
+    ) {
       validationErrors.push("Invalid status");
     }
     if (entryData.rating !== void 0 && entryData.rating !== null) {
@@ -3673,7 +4421,9 @@ async function handleUpdateLibraryEntry(request, env2) {
       }
     }
     if (validationErrors.length > 0) {
-      return errorResponse("Validation failed", 400, { errors: validationErrors });
+      return errorResponse("Validation failed", 400, {
+        errors: validationErrors,
+      });
     }
     const updateFields = [];
     const params = [];
@@ -3699,9 +4449,12 @@ async function handleUpdateLibraryEntry(request, env2) {
     updateFields.push('updated_at = datetime("now")');
     params.push(entryId);
     await env2.DB.prepare(
-      `UPDATE user_game_library SET ${updateFields.join(", ")} WHERE id = ?`
-    ).bind(...params).run();
-    const updatedEntry = await env2.DB.prepare(`
+      `UPDATE user_game_library SET ${updateFields.join(", ")} WHERE id = ?`,
+    )
+      .bind(...params)
+      .run();
+    const updatedEntry = await env2.DB.prepare(
+      `
       SELECT 
         ugl.*,
         g.title, g.description, g.genre, g.platforms, g.release_date,
@@ -3709,7 +4462,10 @@ async function handleUpdateLibraryEntry(request, env2) {
       FROM user_game_library ugl
       JOIN games g ON ugl.game_id = g.id
       WHERE ugl.id = ?
-    `).bind(entryId).first();
+    `,
+    )
+      .bind(entryId)
+      .first();
     return successResponse("Library entry updated", { entry: updatedEntry });
   } catch (error3) {
     console.error("Update library entry error:", error3);
@@ -3720,22 +4476,23 @@ __name(handleUpdateLibraryEntry, "handleUpdateLibraryEntry");
 async function handleRemoveFromLibrary(request, env2) {
   try {
     const authResult = await authMiddleware(request, env2);
-    if (authResult)
-      return authResult;
+    if (authResult) return authResult;
     const url = new URL(request.url);
     const entryId = url.pathname.split("/").pop();
     if (!entryId) {
       return errorResponse("Entry ID is required", 400);
     }
     const existingEntry = await env2.DB.prepare(
-      "SELECT id FROM user_game_library WHERE id = ? AND user_id = ?"
-    ).bind(entryId, request.user.id).first();
+      "SELECT id FROM user_game_library WHERE id = ? AND user_id = ?",
+    )
+      .bind(entryId, request.user.id)
+      .first();
     if (!existingEntry) {
       return errorResponse("Library entry not found", 404);
     }
-    await env2.DB.prepare(
-      "DELETE FROM user_game_library WHERE id = ?"
-    ).bind(entryId).run();
+    await env2.DB.prepare("DELETE FROM user_game_library WHERE id = ?")
+      .bind(entryId)
+      .run();
     return successResponse("Game removed from library");
   } catch (error3) {
     console.error("Remove from library error:", error3);
@@ -3746,9 +4503,9 @@ __name(handleRemoveFromLibrary, "handleRemoveFromLibrary");
 async function handleGetLibraryStats(request, env2) {
   try {
     const authResult = await authMiddleware(request, env2);
-    if (authResult)
-      return authResult;
-    const stats = await env2.DB.prepare(`
+    if (authResult) return authResult;
+    const stats = await env2.DB.prepare(
+      `
       SELECT 
         COUNT(*) as total_games,
         COUNT(CASE WHEN status = 'playing' THEN 1 END) as currently_playing,
@@ -3759,7 +4516,10 @@ async function handleGetLibraryStats(request, env2) {
         AVG(CASE WHEN rating IS NOT NULL THEN rating END) as average_rating
       FROM user_game_library 
       WHERE user_id = ?
-    `).bind(request.user.id).first();
+    `,
+    )
+      .bind(request.user.id)
+      .first();
     return successResponse("Library statistics retrieved", { stats });
   } catch (error3) {
     console.error("Get library stats error:", error3);
@@ -3780,16 +4540,19 @@ var src_default = {
       }
       const corsHeaders = corsMiddleware(request);
       if (path === "/health" && method === "GET") {
-        return new Response(JSON.stringify({
-          status: "healthy",
-          timestamp: (/* @__PURE__ */ new Date()).toISOString(),
-          version: "2.0.0"
-        }), {
-          headers: {
-            "Content-Type": "application/json",
-            ...corsHeaders
-          }
-        });
+        return new Response(
+          JSON.stringify({
+            status: "healthy",
+            timestamp: /* @__PURE__ */ new Date().toISOString(),
+            version: "2.0.0",
+          }),
+          {
+            headers: {
+              "Content-Type": "application/json",
+              ...corsHeaders,
+            },
+          },
+        );
       }
       let response;
       if (path === "/auth/register" && method === "POST") {
@@ -3833,7 +4596,7 @@ var src_default = {
         return new Response(response.body, {
           status: response.status,
           statusText: response.statusText,
-          headers: newHeaders
+          headers: newHeaders,
         });
       }
       return errorResponse("Internal server error", 500);
@@ -3848,10 +4611,10 @@ var src_default = {
       return new Response(errorResponse2.body, {
         status: errorResponse2.status,
         statusText: errorResponse2.statusText,
-        headers: newHeaders
+        headers: newHeaders,
       });
     }
-  }
+  },
 };
 
 // node_modules/wrangler/templates/middleware/middleware-ensure-req-body-drained.ts
@@ -3860,21 +4623,23 @@ init_modules_watch_stub();
 init_virtual_unenv_global_polyfill_cloudflare_unenv_preset_node_process();
 init_virtual_unenv_global_polyfill_cloudflare_unenv_preset_node_console();
 init_performance2();
-var drainBody = /* @__PURE__ */ __name(async (request, env2, _ctx, middlewareCtx) => {
-  try {
-    return await middlewareCtx.next(request, env2);
-  } finally {
+var drainBody = /* @__PURE__ */ __name(
+  async (request, env2, _ctx, middlewareCtx) => {
     try {
-      if (request.body !== null && !request.bodyUsed) {
-        const reader = request.body.getReader();
-        while (!(await reader.read()).done) {
+      return await middlewareCtx.next(request, env2);
+    } finally {
+      try {
+        if (request.body !== null && !request.bodyUsed) {
+          const reader = request.body.getReader();
+          while (!(await reader.read()).done) {}
         }
+      } catch (e) {
+        console.error("Failed to drain the unused request body.", e);
       }
-    } catch (e) {
-      console.error("Failed to drain the unused request body.", e);
     }
-  }
-}, "drainBody");
+  },
+  "drainBody",
+);
 var middleware_ensure_req_body_drained_default = drainBody;
 
 // node_modules/wrangler/templates/middleware/middleware-miniflare3-json-error.ts
@@ -3888,27 +4653,30 @@ function reduceError(e) {
     name: e?.name,
     message: e?.message ?? String(e),
     stack: e?.stack,
-    cause: e?.cause === void 0 ? void 0 : reduceError(e.cause)
+    cause: e?.cause === void 0 ? void 0 : reduceError(e.cause),
   };
 }
 __name(reduceError, "reduceError");
-var jsonError = /* @__PURE__ */ __name(async (request, env2, _ctx, middlewareCtx) => {
-  try {
-    return await middlewareCtx.next(request, env2);
-  } catch (e) {
-    const error3 = reduceError(e);
-    return Response.json(error3, {
-      status: 500,
-      headers: { "MF-Experimental-Error-Stack": "true" }
-    });
-  }
-}, "jsonError");
+var jsonError = /* @__PURE__ */ __name(
+  async (request, env2, _ctx, middlewareCtx) => {
+    try {
+      return await middlewareCtx.next(request, env2);
+    } catch (e) {
+      const error3 = reduceError(e);
+      return Response.json(error3, {
+        status: 500,
+        headers: { "MF-Experimental-Error-Stack": "true" },
+      });
+    }
+  },
+  "jsonError",
+);
 var middleware_miniflare3_json_error_default = jsonError;
 
 // .wrangler/tmp/bundle-Jq3s0c/middleware-insertion-facade.js
 var __INTERNAL_WRANGLER_MIDDLEWARE__ = [
   middleware_ensure_req_body_drained_default,
-  middleware_miniflare3_json_error_default
+  middleware_miniflare3_json_error_default,
 ];
 var middleware_insertion_facade_default = src_default;
 
@@ -3929,7 +4697,7 @@ function __facade_invokeChain__(request, env2, ctx, dispatch, middlewareChain) {
     dispatch,
     next(newRequest, newEnv) {
       return __facade_invokeChain__(newRequest, newEnv, ctx, dispatch, tail);
-    }
+    },
   };
   return head(request, env2, ctx, middlewareCtx);
 }
@@ -3937,7 +4705,7 @@ __name(__facade_invokeChain__, "__facade_invokeChain__");
 function __facade_invoke__(request, env2, ctx, dispatch, finalMiddleware) {
   return __facade_invokeChain__(request, env2, ctx, dispatch, [
     ...__facade_middleware__,
-    finalMiddleware
+    finalMiddleware,
   ]);
 }
 __name(__facade_invoke__, "__facade_invoke__");
@@ -3959,13 +4727,16 @@ var __Facade_ScheduledController__ = class {
 };
 __name(__Facade_ScheduledController__, "__Facade_ScheduledController__");
 function wrapExportedHandler(worker) {
-  if (__INTERNAL_WRANGLER_MIDDLEWARE__ === void 0 || __INTERNAL_WRANGLER_MIDDLEWARE__.length === 0) {
+  if (
+    __INTERNAL_WRANGLER_MIDDLEWARE__ === void 0 ||
+    __INTERNAL_WRANGLER_MIDDLEWARE__.length === 0
+  ) {
     return worker;
   }
   for (const middleware of __INTERNAL_WRANGLER_MIDDLEWARE__) {
     __facade_register__(middleware);
   }
-  const fetchDispatcher = /* @__PURE__ */ __name(function(request, env2, ctx) {
+  const fetchDispatcher = /* @__PURE__ */ __name(function (request, env2, ctx) {
     if (worker.fetch === void 0) {
       throw new Error("Handler does not export a fetch() function.");
     }
@@ -3974,24 +4745,26 @@ function wrapExportedHandler(worker) {
   return {
     ...worker,
     fetch(request, env2, ctx) {
-      const dispatcher = /* @__PURE__ */ __name(function(type2, init) {
+      const dispatcher = /* @__PURE__ */ __name(function (type2, init) {
         if (type2 === "scheduled" && worker.scheduled !== void 0) {
           const controller = new __Facade_ScheduledController__(
             Date.now(),
             init.cron ?? "",
-            () => {
-            }
+            () => {},
           );
           return worker.scheduled(controller, env2, ctx);
         }
       }, "dispatcher");
       return __facade_invoke__(request, env2, ctx, dispatcher, fetchDispatcher);
-    }
+    },
   };
 }
 __name(wrapExportedHandler, "wrapExportedHandler");
 function wrapWorkerEntrypoint(klass) {
-  if (__INTERNAL_WRANGLER_MIDDLEWARE__ === void 0 || __INTERNAL_WRANGLER_MIDDLEWARE__.length === 0) {
+  if (
+    __INTERNAL_WRANGLER_MIDDLEWARE__ === void 0 ||
+    __INTERNAL_WRANGLER_MIDDLEWARE__.length === 0
+  ) {
     return klass;
   }
   for (const middleware of __INTERNAL_WRANGLER_MIDDLEWARE__) {
@@ -4011,8 +4784,7 @@ function wrapWorkerEntrypoint(klass) {
         const controller = new __Facade_ScheduledController__(
           Date.now(),
           init.cron ?? "",
-          () => {
-          }
+          () => {},
         );
         return super.scheduled(controller);
       }
@@ -4023,7 +4795,7 @@ function wrapWorkerEntrypoint(klass) {
         this.env,
         this.ctx,
         this.#dispatcher,
-        this.#fetchDispatcher
+        this.#fetchDispatcher,
       );
     }
   };
@@ -4038,6 +4810,6 @@ if (typeof middleware_insertion_facade_default === "object") {
 var middleware_loader_entry_default = WRAPPED_ENTRY;
 export {
   __INTERNAL_WRANGLER_MIDDLEWARE__,
-  middleware_loader_entry_default as default
+  middleware_loader_entry_default as default,
 };
 //# sourceMappingURL=index.js.map

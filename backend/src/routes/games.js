@@ -1,41 +1,29 @@
-import express from 'express';
-import { prisma } from '../lib/prisma.js';
-import { createGameSchema, updateGameSchema, idParamSchema, paginationSchema } from '../lib/validation.js';
+import express from "express";
+import { prisma } from "../lib/prisma.js";
+import {
+  createGameSchema,
+  updateGameSchema,
+  idParamSchema,
+  paginationSchema,
+} from "../lib/validation.js";
 
 const router = express.Router();
 
 // GET /api/games - Get all games with pagination and search
-router.get('/', async (req, res, next) => {
+router.get("/", async (req, res, next) => {
   try {
-    const { page, limit, sortBy = 'lastAccessed', sortOrder } = paginationSchema.parse(req.query);
+    const {
+      page,
+      limit,
+      sortBy = "lastAccessed",
+      sortOrder,
+    } = paginationSchema.parse(req.query);
     const { search, genre, platform } = req.query;
-    
+
     const skip = (page - 1) * limit;
-    
+
     // Build where clause
-    const where = {};
-    
-    if (search) {
-      where.OR = [
-        { name: { contains: search, mode: 'insensitive' } },
-        { developer: { contains: search, mode: 'insensitive' } },
-        { publisher: { contains: search, mode: 'insensitive' } }
-      ];
-    }
-    
-    if (genre) {
-      where.genres = {
-        path: '$',
-        array_contains: genre
-      };
-    }
-    
-    if (platform) {
-      where.platforms = {
-        path: '$',
-        array_contains: platform
-      };
-    }
+    const where = buildGamesWhereClause(search, genre, platform);
 
     const [games, total] = await Promise.all([
       prisma.game.findMany({
@@ -47,12 +35,12 @@ router.get('/', async (req, res, next) => {
           _count: {
             select: {
               libraryEntries: true,
-              sessions: true
-            }
-          }
-        }
+              sessions: true,
+            },
+          },
+        },
       }),
-      prisma.game.count({ where })
+      prisma.game.count({ where }),
     ]);
 
     res.json({
@@ -62,150 +50,241 @@ router.get('/', async (req, res, next) => {
         page,
         limit,
         total,
-        pages: Math.ceil(total / limit)
-      }
+        pages: Math.ceil(total / limit),
+      },
     });
   } catch (error) {
     next(error);
   }
 });
 
+/**
+ * Builds where clause for games queries
+ * @param {string} search - Search term (optional)
+ * @param {string} genre - Genre filter (optional)
+ * @param {string} platform - Platform filter (optional)
+ * @returns {object} - Where clause object
+ */
+function buildGamesWhereClause(search, genre, platform) {
+  const where = {};
+
+  if (search) {
+    where.OR = [
+      { name: { contains: search, mode: "insensitive" } },
+      { developer: { contains: search, mode: "insensitive" } },
+      { publisher: { contains: search, mode: "insensitive" } },
+    ];
+  }
+
+  if (genre) {
+    where.genres = {
+      path: "$",
+      array_contains: genre,
+    };
+  }
+
+  if (platform) {
+    where.platforms = {
+      path: "$",
+      array_contains: platform,
+    };
+  }
+
+  return where;
+}
+
 // GET /api/games/:id - Get game by ID
-router.get('/:id', async (req, res, next) => {
+router.get("/:id", async (req, res, next) => {
   try {
     const { id } = idParamSchema.parse(req.params);
 
-    const game = await prisma.game.findUnique({
-      where: { id },
-      include: {
-        campaigns: {
-          orderBy: { createdAt: 'desc' }
-        },
-        libraryEntries: {
-          include: {
-            user: {
-              select: { id: true, name: true }
-            }
-          }
-        },
-        _count: {
-          select: {
-            libraryEntries: true,
-            sessions: true,
-            campaigns: true
-          }
-        }
-      }
-    });
-
+    const game = await findGameById(id);
     if (!game) {
       return res.status(404).json({
         success: false,
-        error: 'Game not found'
+        error: "Game not found",
       });
     }
 
     // Update access count and last accessed
-    await prisma.game.update({
-      where: { id },
-      data: {
-        accessCount: { increment: 1 },
-        lastAccessed: new Date()
-      }
-    });
+    await updateGameAccess(id);
 
     res.json({
       success: true,
-      data: game
+      data: game,
     });
   } catch (error) {
     next(error);
   }
 });
 
+/**
+ * Finds game by ID with includes
+ * @param {string} id - Game ID
+ * @returns {Promise<object|null>} - Game data or null
+ */
+async function findGameById(id) {
+  return await prisma.game.findUnique({
+    where: { id },
+    select: {
+      id: true,
+      name: true,
+      cover: true,
+      firstReleaseDate: true,
+      genres: true,
+      platforms: true,
+      summary: true,
+      rating: true,
+      developer: true,
+      publishers: true,
+      steamData: true,
+      igdbData: true,
+      hltbData: true,
+      metacriticData: true,
+      cachedAt: true,
+      lastAccessed: true,
+      accessCount: true,
+      campaigns: {
+        select: {
+          id: true,
+          name: true,
+          description: true,
+          averageDuration: true,
+          isAutoGenerated: true,
+          isMainCampaign: true,
+          difficulty: true,
+          createdAt: true,
+        },
+        orderBy: { createdAt: "desc" },
+      },
+      _count: {
+        select: {
+          libraryEntries: true,
+          sessions: true,
+          campaigns: true,
+        },
+      },
+    },
+  });
+}
+
+/**
+ * Updates game access statistics
+ * @param {string} id - Game ID
+ * @returns {Promise<object>} - Update result
+ */
+async function updateGameAccess(id) {
+  return await prisma.game.update({
+    where: { id },
+    data: {
+      accessCount: { increment: 1 },
+      lastAccessed: new Date(),
+    },
+  });
+}
+
 // POST /api/games - Create or update game (upsert)
-router.post('/', async (req, res, next) => {
+router.post("/", async (req, res, next) => {
   try {
     const validatedData = createGameSchema.parse(req.body);
 
-    const game = await prisma.game.upsert({
-      where: { id: validatedData.id },
-      update: {
-        ...validatedData,
-        lastAccessed: new Date(),
-        accessCount: { increment: 1 }
-      },
-      create: {
-        ...validatedData,
-        cachedAt: new Date(),
-        lastAccessed: new Date()
-      },
-      include: {
-        campaigns: true,
-        _count: {
-          select: {
-            libraryEntries: true,
-            sessions: true
-          }
-        }
-      }
-    });
+    const game = await upsertGame(validatedData);
 
     res.status(201).json({
       success: true,
       data: game,
-      message: 'Game saved successfully'
+      message: "Game saved successfully",
     });
   } catch (error) {
     next(error);
   }
 });
 
+/**
+ * Upserts a game with proper includes
+ * @param {object} validatedData - Validated game data
+ * @returns {Promise<object>} - Upserted game
+ */
+async function upsertGame(validatedData) {
+  return await prisma.game.upsert({
+    where: { id: validatedData.id },
+    update: {
+      ...validatedData,
+      lastAccessed: new Date(),
+      accessCount: { increment: 1 },
+    },
+    create: {
+      ...validatedData,
+      cachedAt: new Date(),
+      lastAccessed: new Date(),
+    },
+    include: {
+      campaigns: true,
+      _count: {
+        select: {
+          libraryEntries: true,
+          sessions: true,
+        },
+      },
+    },
+  });
+}
+
 // PUT /api/games/:id - Update game
-router.put('/:id', async (req, res, next) => {
+router.put("/:id", async (req, res, next) => {
   try {
     const { id } = idParamSchema.parse(req.params);
     const validatedData = updateGameSchema.parse(req.body);
 
-    const game = await prisma.game.update({
-      where: { id },
-      data: {
-        ...validatedData,
-        lastAccessed: new Date()
-      },
-      include: {
-        campaigns: true,
-        _count: {
-          select: {
-            libraryEntries: true,
-            sessions: true
-          }
-        }
-      }
-    });
+    const game = await updateGame(id, validatedData);
 
     res.json({
       success: true,
       data: game,
-      message: 'Game updated successfully'
+      message: "Game updated successfully",
     });
   } catch (error) {
     next(error);
   }
 });
 
+/**
+ * Updates a game with proper includes
+ * @param {string} id - Game ID
+ * @param {object} validatedData - Validated update data
+ * @returns {Promise<object>} - Updated game
+ */
+async function updateGame(id, validatedData) {
+  return await prisma.game.update({
+    where: { id },
+    data: {
+      ...validatedData,
+      lastAccessed: new Date(),
+    },
+    include: {
+      campaigns: true,
+      _count: {
+        select: {
+          libraryEntries: true,
+          sessions: true,
+        },
+      },
+    },
+  });
+}
+
 // DELETE /api/games/:id - Delete game
-router.delete('/:id', async (req, res, next) => {
+router.delete("/:id", async (req, res, next) => {
   try {
     const { id } = idParamSchema.parse(req.params);
 
     await prisma.game.delete({
-      where: { id }
+      where: { id },
     });
 
     res.json({
       success: true,
-      message: 'Game deleted successfully'
+      message: "Game deleted successfully",
     });
   } catch (error) {
     next(error);
@@ -213,166 +292,213 @@ router.delete('/:id', async (req, res, next) => {
 });
 
 // GET /api/games/:id/stats - Get game statistics
-router.get('/:id/stats', async (req, res, next) => {
+router.get("/:id/stats", async (req, res, next) => {
   try {
     const { id } = idParamSchema.parse(req.params);
 
-    const game = await prisma.game.findUnique({
-      where: { id },
-      select: {
-        id: true,
-        name: true,
-        accessCount: true,
-        lastAccessed: true,
-        cachedAt: true
-      }
-    });
-
+    const game = await findGameBasicInfo(id);
     if (!game) {
       return res.status(404).json({
         success: false,
-        error: 'Game not found'
+        error: "Game not found",
       });
     }
 
     // Get additional stats
-    const [
-      totalInLibraries,
-      totalPlaytime,
-      averageRating,
-      statusDistribution
-    ] = await Promise.all([
-      prisma.libraryEntry.count({
-        where: { gameId: id }
-      }),
-      prisma.libraryEntry.aggregate({
-        where: { gameId: id },
-        _sum: { playtime: true }
-      }),
-      prisma.libraryEntry.aggregate({
-        where: { 
-          gameId: id,
-          rating: { not: null }
-        },
-        _avg: { rating: true }
-      }),
-      prisma.libraryEntry.groupBy({
-        by: ['category'],
-        where: { gameId: id },
-        _count: { category: true }
-      })
-    ]);
-
-    const stats = {
-      ...game,
-      totalInLibraries,
-      totalPlaytime: totalPlaytime._sum.playtime || 0,
-      averageRating: averageRating._avg.rating || null,
-      statusDistribution: statusDistribution.reduce((acc, item) => {
-        acc[item.category] = item._count.category;
-        return acc;
-      }, {})
-    };
+    const stats = await calculateGameStats(id);
 
     res.json({
       success: true,
-      data: stats
+      data: { ...game, ...stats },
     });
   } catch (error) {
     next(error);
   }
 });
 
+/**
+ * Finds basic game info for stats
+ * @param {string} id - Game ID
+ * @returns {Promise<object|null>} - Game info or null
+ */
+async function findGameBasicInfo(id) {
+  return await prisma.game.findUnique({
+    where: { id },
+    select: {
+      id: true,
+      name: true,
+      accessCount: true,
+      lastAccessed: true,
+      cachedAt: true,
+    },
+  });
+}
+
+/**
+ * Calculates comprehensive game statistics
+ * @param {string} id - Game ID
+ * @returns {Promise<object>} - Game statistics
+ */
+async function calculateGameStats(id) {
+  const [totalInLibraries, totalPlaytime, averageRating, statusDistribution] =
+    await Promise.all([
+      prisma.libraryEntry.count({
+        where: { gameId: id },
+      }),
+      prisma.libraryEntry.aggregate({
+        where: { gameId: id },
+        _sum: { playtime: true },
+      }),
+      prisma.libraryEntry.aggregate({
+        where: {
+          gameId: id,
+          rating: { not: null },
+        },
+        _avg: { rating: true },
+      }),
+      prisma.libraryEntry.groupBy({
+        by: ["category"],
+        where: { gameId: id },
+        _count: { category: true },
+      }),
+    ]);
+
+  return {
+    totalInLibraries,
+    totalPlaytime: totalPlaytime._sum.playtime || 0,
+    averageRating: averageRating._avg.rating || null,
+    statusDistribution: statusDistribution.reduce((acc, item) => {
+      acc[item.category] = item._count.category;
+      return acc;
+    }, {}),
+  };
+}
+
 // POST /api/games/batch - Batch create/update games
-router.post('/batch', async (req, res, next) => {
+router.post("/batch", async (req, res, next) => {
   try {
     const { games } = req.body;
-    
+
     if (!Array.isArray(games) || games.length === 0) {
       return res.status(400).json({
         success: false,
-        error: 'Games array is required'
+        error: "Games array is required",
       });
     }
 
-    const validatedGames = games.map(game => createGameSchema.parse(game));
-    
-    const results = await Promise.allSettled(
-      validatedGames.map(gameData =>
+    const batchResults = await processBatchGames(games);
+
+    res.json({
+      success: true,
+      data: batchResults,
+      message: `Batch operation completed: ${batchResults.successful} successful, ${batchResults.failed} failed`,
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
+/**
+ * Processes batch game operations
+ * @param {Array} games - Games to process
+ * @returns {Promise<object>} - Batch results
+ */
+async function processBatchGames(games) {
+  // Batch process in chunks to avoid overwhelming the database
+  const BATCH_SIZE = 50;
+  const validatedGames = games.map((game) => createGameSchema.parse(game));
+  const results = [];
+
+  for (let i = 0; i < validatedGames.length; i += BATCH_SIZE) {
+    const batch = validatedGames.slice(i, i + BATCH_SIZE);
+    const batchResults = await Promise.allSettled(
+      batch.map((gameData) =>
         prisma.game.upsert({
           where: { id: gameData.id },
           update: {
             ...gameData,
             lastAccessed: new Date(),
-            accessCount: { increment: 1 }
+            accessCount: { increment: 1 },
           },
           create: {
             ...gameData,
             cachedAt: new Date(),
-            lastAccessed: new Date()
-          }
-        })
-      )
+            lastAccessed: new Date(),
+          },
+          select: {
+            id: true,
+            name: true,
+            cover: true,
+            rating: true,
+            accessCount: true,
+            lastAccessed: true,
+          },
+        }),
+      ),
     );
-
-    const successful = results.filter(r => r.status === 'fulfilled').length;
-    const failed = results.filter(r => r.status === 'rejected').length;
-
-    res.json({
-      success: true,
-      data: {
-        total: games.length,
-        successful,
-        failed,
-        results: results.map((result, index) => ({
-          gameId: validatedGames[index].id,
-          status: result.status,
-          error: result.status === 'rejected' ? result.reason.message : null
-        }))
-      },
-      message: `Batch operation completed: ${successful} successful, ${failed} failed`
-    });
-  } catch (error) {
-    next(error);
+    results.push(...batchResults);
   }
-});
+
+  const successful = results.filter((r) => r.status === "fulfilled").length;
+  const failed = results.filter((r) => r.status === "rejected").length;
+
+  return {
+    total: games.length,
+    successful,
+    failed,
+    results: results.map((result, index) => ({
+      gameId: validatedGames[index].id,
+      status: result.status,
+      error: result.status === "rejected" ? result.reason.message : null,
+    })),
+  };
+}
 
 // GET /api/games/search/suggestions - Get search suggestions
-router.get('/search/suggestions', async (req, res, next) => {
+router.get("/search/suggestions", async (req, res, next) => {
   try {
     const { q } = req.query;
-    
+
     if (!q || q.length < 2) {
       return res.json({
         success: true,
-        data: []
+        data: [],
       });
     }
 
-    const suggestions = await prisma.game.findMany({
-      where: {
-        OR: [
-          { name: { contains: q, mode: 'insensitive' } },
-          { developer: { contains: q, mode: 'insensitive' } }
-        ]
-      },
-      select: {
-        id: true,
-        name: true,
-        cover: true,
-        developer: true
-      },
-      take: 10,
-      orderBy: { accessCount: 'desc' }
-    });
+    const suggestions = await getSearchSuggestions(q);
 
     res.json({
       success: true,
-      data: suggestions
+      data: suggestions,
     });
   } catch (error) {
     next(error);
   }
 });
+
+/**
+ * Gets search suggestions for games
+ * @param {string} query - Search query
+ * @returns {Promise<Array>} - Search suggestions
+ */
+async function getSearchSuggestions(query) {
+  return await prisma.game.findMany({
+    where: {
+      OR: [
+        { name: { contains: query, mode: "insensitive" } },
+        { developer: { contains: query, mode: "insensitive" } },
+      ],
+    },
+    select: {
+      id: true,
+      name: true,
+      cover: true,
+      developer: true,
+    },
+    take: 10,
+    orderBy: { accessCount: "desc" },
+  });
+}
 
 export default router;

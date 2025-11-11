@@ -1,37 +1,42 @@
 # metacritic-scraper
+
 Metacritic Scraper is a library that scrapes data about albums, tv shows, movies and persons. These data include user/critic review, review counts, credits, image url for the item thumbnail, etc.
 
 This project is built using the .Net Framework v 4.6.1
 
 # API
+
 Check the API built using this library at https://github.com/marcalencc/metacritic-api/blob/master/README.md
 
 # NuGet
-* > https://www.nuget.org/packages/MetacriticScraper
+
+- > https://www.nuget.org/packages/MetacriticScraper
 
 # How to Use
+
 Create an instance of WebScraper class
 
 ```c#
 IScraper m_metacriticScraper = new WebScraper(ResponseChannel, limit);
 ```
 
-* 'limit' is the number of request that can be processed simultaneously.
-* 'ResponseChannel' is the callback that will receive all the responses. It follows the following signature:
+- 'limit' is the number of request that can be processed simultaneously.
+- 'ResponseChannel' is the callback that will receive all the responses. It follows the following signature:
 
 ```c#
 Action<string, IMetacriticData[]>
 ```
 
------------------
+---
+
 To add a request, call the 'AddItem' function.
 
 ```c#
  m_metacriticScraper.AddItem(id, url);
 ```
 
-* 'id' is a user provided string that can be used to identify which responses are from which requests.
-* 'url' can be any of the following:
+- 'id' is a user provided string that can be used to identify which responses are from which requests.
+- 'url' can be any of the following:
 
 ```
 /search/<dash-separated-search-string>/<mediaType>
@@ -45,25 +50,25 @@ To add a request, call the 'AddItem' function.
 /person/<dash-separated-name>/<mediaType>
 
 * Search and person responses include an Id field which can be used in album, tvshow and movie requests (see below)
-Sample Search Response: 
-         {  
+Sample Search Response:
+         {
             "Id":"/movie/amityville-the-awakening",
             "Title":"Amityville: The Awakening",
             "ReleaseDate":"PG-13",
             "Genre":"Thriller, Horror",
-            "Rating":{  
+            "Rating":{
                "CriticRating":0
             }
          }
-         
+
 Sample Person Response:
-          {  
+          {
             "Credit":"Primary Artist",
-            "Item":{  
+            "Item":{
                "Id":"/album/bangerz",
                "Title":"Bangerz",
                "ReleaseDate":"10/08/2013",
-               "Rating":{  
+               "Rating":{
                   "CriticRating":61,
                   "UserRating":6.9
                }
@@ -84,7 +89,8 @@ Sample Person Response:
 Note: If the name or title has a '-', prefix it with a '~' e.g (/person/jay~-z/album)
 ```
 
------------------
+---
+
 All responses will be routed to the callback set during instantiation.
 
 ```c#
@@ -94,10 +100,11 @@ All responses will be routed to the callback set during instantiation.
         }
 ```
 
-* id is the id set when the request is added so be sure to keep track of them
-* responses is an array of responses of type IMetacriticData. It can be an album, tvshow, movie, person or an error.
+- id is the id set when the request is added so be sure to keep track of them
+- responses is an array of responses of type IMetacriticData. It can be an album, tvshow, movie, person or an error.
 
 # Sample Implementation
+
 For a complete sample implementation, check <br/> https://github.com/marcalencc/metacritic-api/blob/master/MetacriticAPI/Services/MetacriticService.cs <br/>
 
 This is from an API that I built using this project.

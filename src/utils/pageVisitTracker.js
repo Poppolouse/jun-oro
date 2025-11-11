@@ -2,8 +2,8 @@
  * Sayfa ziyaret takibi için localStorage yönetimi
  */
 
-const PAGE_VISITS_KEY = 'pageVisits'
-const USER_TUTORIAL_SETTINGS_KEY = 'userTutorialSettings'
+const PAGE_VISITS_KEY = "pageVisits";
+const USER_TUTORIAL_SETTINGS_KEY = "userTutorialSettings";
 
 /**
  * Kullanıcının sayfa ziyaret verilerini yükler
@@ -12,13 +12,13 @@ const USER_TUTORIAL_SETTINGS_KEY = 'userTutorialSettings'
  */
 export const loadPageVisits = (userId) => {
   try {
-    const visits = localStorage.getItem(`${PAGE_VISITS_KEY}_${userId}`)
-    return visits ? JSON.parse(visits) : {}
+    const visits = localStorage.getItem(`${PAGE_VISITS_KEY}_${userId}`);
+    return visits ? JSON.parse(visits) : {};
   } catch (error) {
-    console.error('Sayfa ziyaret verileri yüklenirken hata:', error)
-    return {}
+    console.error("Sayfa ziyaret verileri yüklenirken hata:", error);
+    return {};
   }
-}
+};
 
 /**
  * Kullanıcının sayfa ziyaret verilerini kaydeder
@@ -27,11 +27,14 @@ export const loadPageVisits = (userId) => {
  */
 export const savePageVisits = (userId, visits) => {
   try {
-    localStorage.setItem(`${PAGE_VISITS_KEY}_${userId}`, JSON.stringify(visits))
+    localStorage.setItem(
+      `${PAGE_VISITS_KEY}_${userId}`,
+      JSON.stringify(visits),
+    );
   } catch (error) {
-    console.error('Sayfa ziyaret verileri kaydedilirken hata:', error)
+    console.error("Sayfa ziyaret verileri kaydedilirken hata:", error);
   }
-}
+};
 
 /**
  * Belirli bir sayfanın ziyaret edilip edilmediğini kontrol eder
@@ -40,9 +43,9 @@ export const savePageVisits = (userId, visits) => {
  * @returns {boolean} Sayfa daha önce ziyaret edildi mi?
  */
 export const hasVisitedPage = (userId, pageName) => {
-  const visits = loadPageVisits(userId)
-  return Boolean(visits[pageName])
-}
+  const visits = loadPageVisits(userId);
+  return Boolean(visits[pageName]);
+};
 
 /**
  * Bir sayfayı ziyaret edildi olarak işaretler
@@ -50,14 +53,14 @@ export const hasVisitedPage = (userId, pageName) => {
  * @param {string} pageName - Sayfa adı
  */
 export const markPageAsVisited = (userId, pageName) => {
-  const visits = loadPageVisits(userId)
+  const visits = loadPageVisits(userId);
   visits[pageName] = {
     firstVisit: new Date().toISOString(),
     visitCount: (visits[pageName]?.visitCount || 0) + 1,
-    lastVisit: new Date().toISOString()
-  }
-  savePageVisits(userId, visits)
-}
+    lastVisit: new Date().toISOString(),
+  };
+  savePageVisits(userId, visits);
+};
 
 /**
  * Kullanıcının tutorial ayarlarını yükler
@@ -66,21 +69,25 @@ export const markPageAsVisited = (userId, pageName) => {
  */
 export const loadTutorialSettings = (userId) => {
   try {
-    const settings = localStorage.getItem(`${USER_TUTORIAL_SETTINGS_KEY}_${userId}`)
-    return settings ? JSON.parse(settings) : {
-      autoShowTutorials: true,
-      completedTutorials: [],
-      skippedTutorials: []
-    }
+    const settings = localStorage.getItem(
+      `${USER_TUTORIAL_SETTINGS_KEY}_${userId}`,
+    );
+    return settings
+      ? JSON.parse(settings)
+      : {
+          autoShowTutorials: true,
+          completedTutorials: [],
+          skippedTutorials: [],
+        };
   } catch (error) {
-    console.error('Tutorial ayarları yüklenirken hata:', error)
+    console.error("Tutorial ayarları yüklenirken hata:", error);
     return {
       autoShowTutorials: true,
       completedTutorials: [],
-      skippedTutorials: []
-    }
+      skippedTutorials: [],
+    };
   }
-}
+};
 
 /**
  * Kullanıcının tutorial ayarlarını kaydeder
@@ -89,11 +96,14 @@ export const loadTutorialSettings = (userId) => {
  */
 export const saveTutorialSettings = (userId, settings) => {
   try {
-    localStorage.setItem(`${USER_TUTORIAL_SETTINGS_KEY}_${userId}`, JSON.stringify(settings))
+    localStorage.setItem(
+      `${USER_TUTORIAL_SETTINGS_KEY}_${userId}`,
+      JSON.stringify(settings),
+    );
   } catch (error) {
-    console.error('Tutorial ayarları kaydedilirken hata:', error)
+    console.error("Tutorial ayarları kaydedilirken hata:", error);
   }
-}
+};
 
 /**
  * Bir tutorial'ın tamamlandığını işaretler
@@ -101,14 +111,16 @@ export const saveTutorialSettings = (userId, settings) => {
  * @param {string} tutorialId - Tutorial ID'si
  */
 export const markTutorialAsCompleted = (userId, tutorialId) => {
-  const settings = loadTutorialSettings(userId)
+  const settings = loadTutorialSettings(userId);
   if (!settings.completedTutorials.includes(tutorialId)) {
-    settings.completedTutorials.push(tutorialId)
+    settings.completedTutorials.push(tutorialId);
   }
   // Eğer atlanmış listesindeyse kaldır
-  settings.skippedTutorials = settings.skippedTutorials.filter(id => id !== tutorialId)
-  saveTutorialSettings(userId, settings)
-}
+  settings.skippedTutorials = settings.skippedTutorials.filter(
+    (id) => id !== tutorialId,
+  );
+  saveTutorialSettings(userId, settings);
+};
 
 /**
  * Bir tutorial'ın atlandığını işaretler
@@ -116,12 +128,12 @@ export const markTutorialAsCompleted = (userId, tutorialId) => {
  * @param {string} tutorialId - Tutorial ID'si
  */
 export const markTutorialAsSkipped = (userId, tutorialId) => {
-  const settings = loadTutorialSettings(userId)
+  const settings = loadTutorialSettings(userId);
   if (!settings.skippedTutorials.includes(tutorialId)) {
-    settings.skippedTutorials.push(tutorialId)
+    settings.skippedTutorials.push(tutorialId);
   }
-  saveTutorialSettings(userId, settings)
-}
+  saveTutorialSettings(userId, settings);
+};
 
 /**
  * Bir tutorial'ın gösterilip gösterilmeyeceğini kontrol eder
@@ -131,30 +143,30 @@ export const markTutorialAsSkipped = (userId, tutorialId) => {
  * @returns {boolean} Tutorial gösterilmeli mi?
  */
 export const shouldShowTutorial = (userId, tutorialId, pageName) => {
-  const settings = loadTutorialSettings(userId)
-  
+  const settings = loadTutorialSettings(userId);
+
   // Otomatik gösterim kapalıysa gösterme
   if (!settings.autoShowTutorials) {
-    return false
+    return false;
   }
-  
+
   // Daha önce tamamlanmışsa gösterme
   if (settings.completedTutorials.includes(tutorialId)) {
-    return false
+    return false;
   }
-  
+
   // Daha önce atlanmışsa gösterme
   if (settings.skippedTutorials.includes(tutorialId)) {
-    return false
+    return false;
   }
-  
+
   // Sayfa daha önce ziyaret edilmişse gösterme
   if (hasVisitedPage(userId, pageName)) {
-    return false
+    return false;
   }
-  
-  return true
-}
+
+  return true;
+};
 
 /**
  * Otomatik tutorial gösterimini açar/kapatır
@@ -162,10 +174,10 @@ export const shouldShowTutorial = (userId, tutorialId, pageName) => {
  * @param {boolean} enabled - Açık/kapalı durumu
  */
 export const setAutoShowTutorials = (userId, enabled) => {
-  const settings = loadTutorialSettings(userId)
-  settings.autoShowTutorials = enabled
-  saveTutorialSettings(userId, settings)
-}
+  const settings = loadTutorialSettings(userId);
+  settings.autoShowTutorials = enabled;
+  saveTutorialSettings(userId, settings);
+};
 
 /**
  * Kullanıcının tüm tutorial verilerini sıfırlar
@@ -173,12 +185,12 @@ export const setAutoShowTutorials = (userId, enabled) => {
  */
 export const resetUserTutorialData = (userId) => {
   try {
-    localStorage.removeItem(`${PAGE_VISITS_KEY}_${userId}`)
-    localStorage.removeItem(`${USER_TUTORIAL_SETTINGS_KEY}_${userId}`)
+    localStorage.removeItem(`${PAGE_VISITS_KEY}_${userId}`);
+    localStorage.removeItem(`${USER_TUTORIAL_SETTINGS_KEY}_${userId}`);
   } catch (error) {
-    console.error('Tutorial verileri sıfırlanırken hata:', error)
+    console.error("Tutorial verileri sıfırlanırken hata:", error);
   }
-}
+};
 
 /**
  * Sayfa ziyaret istatistiklerini getirir
@@ -186,14 +198,17 @@ export const resetUserTutorialData = (userId) => {
  * @returns {Object} Ziyaret istatistikleri
  */
 export const getVisitStats = (userId) => {
-  const visits = loadPageVisits(userId)
-  const settings = loadTutorialSettings(userId)
-  
+  const visits = loadPageVisits(userId);
+  const settings = loadTutorialSettings(userId);
+
   return {
     totalPages: Object.keys(visits).length,
-    totalVisits: Object.values(visits).reduce((sum, page) => sum + page.visitCount, 0),
+    totalVisits: Object.values(visits).reduce(
+      (sum, page) => sum + page.visitCount,
+      0,
+    ),
     completedTutorials: settings.completedTutorials.length,
     skippedTutorials: settings.skippedTutorials.length,
-    autoShowEnabled: settings.autoShowTutorials
-  }
-}
+    autoShowEnabled: settings.autoShowTutorials,
+  };
+};

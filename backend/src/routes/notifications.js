@@ -1,18 +1,18 @@
-import express from 'express';
-import { prisma } from '../lib/prisma.js';
-import { createNotificationSchema, idParamSchema } from '../lib/validation.js';
+import express from "express";
+import { prisma } from "../lib/prisma.js";
+import { createNotificationSchema, idParamSchema } from "../lib/validation.js";
 
 const router = express.Router();
 
 // GET /api/notifications/:userId - Get user notifications
-router.get('/:userId', async (req, res, next) => {
+router.get("/:userId", async (req, res, next) => {
   try {
     const { id: userId } = idParamSchema.parse({ id: req.params.userId });
     const { unread, page = 1, limit = 20 } = req.query;
     const skip = (page - 1) * limit;
 
     const where = { userId };
-    if (unread === 'true') {
+    if (unread === "true") {
       where.isRead = false;
     }
 
@@ -21,9 +21,9 @@ router.get('/:userId', async (req, res, next) => {
         where,
         skip: parseInt(skip),
         take: parseInt(limit),
-        orderBy: { createdAt: 'desc' }
+        orderBy: { createdAt: "desc" },
       }),
-      prisma.notification.count({ where })
+      prisma.notification.count({ where }),
     ]);
 
     res.json({
@@ -33,8 +33,8 @@ router.get('/:userId', async (req, res, next) => {
         page: parseInt(page),
         limit: parseInt(limit),
         total,
-        pages: Math.ceil(total / limit)
-      }
+        pages: Math.ceil(total / limit),
+      },
     });
   } catch (error) {
     next(error);
@@ -42,7 +42,7 @@ router.get('/:userId', async (req, res, next) => {
 });
 
 // POST /api/notifications/:userId - Create notification
-router.post('/:userId', async (req, res, next) => {
+router.post("/:userId", async (req, res, next) => {
   try {
     const { id: userId } = idParamSchema.parse({ id: req.params.userId });
     const validatedData = createNotificationSchema.parse(req.body);
@@ -50,14 +50,14 @@ router.post('/:userId', async (req, res, next) => {
     const notification = await prisma.notification.create({
       data: {
         ...validatedData,
-        userId
-      }
+        userId,
+      },
     });
 
     res.status(201).json({
       success: true,
       data: notification,
-      message: 'Notification created successfully'
+      message: "Notification created successfully",
     });
   } catch (error) {
     next(error);
@@ -65,22 +65,24 @@ router.post('/:userId', async (req, res, next) => {
 });
 
 // PUT /api/notifications/:notificationId/read - Mark notification as read
-router.put('/:notificationId/read', async (req, res, next) => {
+router.put("/:notificationId/read", async (req, res, next) => {
   try {
-    const { notificationId } = idParamSchema.parse({ id: req.params.notificationId });
+    const { notificationId } = idParamSchema.parse({
+      id: req.params.notificationId,
+    });
 
     const notification = await prisma.notification.update({
       where: { id: notificationId },
-      data: { 
+      data: {
         isRead: true,
-        readAt: new Date()
-      }
+        readAt: new Date(),
+      },
     });
 
     res.json({
       success: true,
       data: notification,
-      message: 'Notification marked as read'
+      message: "Notification marked as read",
     });
   } catch (error) {
     next(error);
@@ -88,25 +90,25 @@ router.put('/:notificationId/read', async (req, res, next) => {
 });
 
 // PUT /api/notifications/:userId/read-all - Mark all notifications as read
-router.put('/:userId/read-all', async (req, res, next) => {
+router.put("/:userId/read-all", async (req, res, next) => {
   try {
     const { id: userId } = idParamSchema.parse({ id: req.params.userId });
 
     const result = await prisma.notification.updateMany({
-      where: { 
+      where: {
         userId,
-        isRead: false
+        isRead: false,
       },
-      data: { 
+      data: {
         isRead: true,
-        readAt: new Date()
-      }
+        readAt: new Date(),
+      },
     });
 
     res.json({
       success: true,
       data: { updatedCount: result.count },
-      message: `${result.count} notifications marked as read`
+      message: `${result.count} notifications marked as read`,
     });
   } catch (error) {
     next(error);
@@ -114,17 +116,19 @@ router.put('/:userId/read-all', async (req, res, next) => {
 });
 
 // DELETE /api/notifications/:notificationId - Delete notification
-router.delete('/:notificationId', async (req, res, next) => {
+router.delete("/:notificationId", async (req, res, next) => {
   try {
-    const { notificationId } = idParamSchema.parse({ id: req.params.notificationId });
+    const { notificationId } = idParamSchema.parse({
+      id: req.params.notificationId,
+    });
 
     await prisma.notification.delete({
-      where: { id: notificationId }
+      where: { id: notificationId },
     });
 
     res.json({
       success: true,
-      message: 'Notification deleted successfully'
+      message: "Notification deleted successfully",
     });
   } catch (error) {
     next(error);
@@ -132,13 +136,13 @@ router.delete('/:notificationId', async (req, res, next) => {
 });
 
 // DELETE /api/notifications/:userId/clear - Clear all notifications
-router.delete('/:userId/clear', async (req, res, next) => {
+router.delete("/:userId/clear", async (req, res, next) => {
   try {
     const { id: userId } = idParamSchema.parse({ id: req.params.userId });
     const { readOnly } = req.query;
 
     const where = { userId };
-    if (readOnly === 'true') {
+    if (readOnly === "true") {
       where.isRead = true;
     }
 
@@ -147,7 +151,7 @@ router.delete('/:userId/clear', async (req, res, next) => {
     res.json({
       success: true,
       data: { deletedCount: result.count },
-      message: `${result.count} notifications deleted`
+      message: `${result.count} notifications deleted`,
     });
   } catch (error) {
     next(error);
@@ -155,20 +159,20 @@ router.delete('/:userId/clear', async (req, res, next) => {
 });
 
 // GET /api/notifications/:userId/unread-count - Get unread notification count
-router.get('/:userId/unread-count', async (req, res, next) => {
+router.get("/:userId/unread-count", async (req, res, next) => {
   try {
     const { id: userId } = idParamSchema.parse({ id: req.params.userId });
 
     const count = await prisma.notification.count({
       where: {
         userId,
-        isRead: false
-      }
+        isRead: false,
+      },
     });
 
     res.json({
       success: true,
-      data: { count }
+      data: { count },
     });
   } catch (error) {
     next(error);
@@ -176,29 +180,29 @@ router.get('/:userId/unread-count', async (req, res, next) => {
 });
 
 // POST /api/notifications/bulk - Create multiple notifications
-router.post('/bulk', async (req, res, next) => {
+router.post("/bulk", async (req, res, next) => {
   try {
     const { notifications } = req.body;
 
     if (!Array.isArray(notifications)) {
       return res.status(400).json({
         success: false,
-        message: 'Notifications must be an array'
+        message: "Notifications must be an array",
       });
     }
 
-    const validatedNotifications = notifications.map(notification => 
-      createNotificationSchema.parse(notification)
+    const validatedNotifications = notifications.map((notification) =>
+      createNotificationSchema.parse(notification),
     );
 
     const createdNotifications = await prisma.notification.createMany({
-      data: validatedNotifications
+      data: validatedNotifications,
     });
 
     res.status(201).json({
       success: true,
       data: { count: createdNotifications.count },
-      message: `${createdNotifications.count} notifications created successfully`
+      message: `${createdNotifications.count} notifications created successfully`,
     });
   } catch (error) {
     next(error);

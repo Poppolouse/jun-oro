@@ -5,7 +5,7 @@
   "format": "[Page].[SubPage].[Zone][Element]",
   "zones": {
     "H": "Header",
-    "L": "Left Sidebar", 
+    "L": "Left Sidebar",
     "R": "Right Sidebar",
     "B": "Body",
     "F": "Footer"
@@ -1578,8 +1578,7 @@
         "feature": "admin_updates",
         "criticalPath": true
       }
-    }
-    ,
+    },
     {
       "selector": "#settings-admin-item-tutorials",
       "registryId": "2.0.L.ADMIN_NAV.management.tutorials",
@@ -1691,8 +1690,7 @@
         "feature": "library-import",
         "criticalPath": false
       }
-    }
-    ,
+    },
     {
       "selector": "#steam-import-progress",
       "registryId": "2.1.B1.5.4",

@@ -3,10 +3,10 @@
  */
 
 // Simple JWT implementation for Cloudflare Workers
-export async function createJWT(payload, secret, expiresIn = '24h') {
+export async function createJWT(payload, secret, expiresIn = "24h") {
   const header = {
-    alg: 'HS256',
-    typ: 'JWT'
+    alg: "HS256",
+    typ: "JWT",
   };
 
   const now = Math.floor(Date.now() / 1000);
@@ -15,37 +15,40 @@ export async function createJWT(payload, secret, expiresIn = '24h') {
   const jwtPayload = {
     ...payload,
     iat: now,
-    exp
+    exp,
   };
 
   const encodedHeader = base64UrlEncode(JSON.stringify(header));
   const encodedPayload = base64UrlEncode(JSON.stringify(jwtPayload));
-  
+
   const signature = await sign(`${encodedHeader}.${encodedPayload}`, secret);
-  
+
   return `${encodedHeader}.${encodedPayload}.${signature}`;
 }
 
 export async function verifyJWT(token, secret) {
   try {
-    const [encodedHeader, encodedPayload, signature] = token.split('.');
-    
+    const [encodedHeader, encodedPayload, signature] = token.split(".");
+
     if (!encodedHeader || !encodedPayload || !signature) {
-      throw new Error('Invalid token format');
+      throw new Error("Invalid token format");
     }
 
     // Verify signature
-    const expectedSignature = await sign(`${encodedHeader}.${encodedPayload}`, secret);
+    const expectedSignature = await sign(
+      `${encodedHeader}.${encodedPayload}`,
+      secret,
+    );
     if (signature !== expectedSignature) {
-      throw new Error('Invalid signature');
+      throw new Error("Invalid signature");
     }
 
     // Decode payload
     const payload = JSON.parse(base64UrlDecode(encodedPayload));
-    
+
     // Check expiration
     if (payload.exp && payload.exp < Math.floor(Date.now() / 1000)) {
-      throw new Error('Token expired');
+      throw new Error("Token expired");
     }
 
     return payload;
@@ -57,57 +60,62 @@ export async function verifyJWT(token, secret) {
 async function sign(data, secret) {
   const encoder = new TextEncoder();
   const key = await crypto.subtle.importKey(
-    'raw',
+    "raw",
     encoder.encode(secret),
-    { name: 'HMAC', hash: 'SHA-256' },
+    { name: "HMAC", hash: "SHA-256" },
     false,
-    ['sign']
+    ["sign"],
   );
-  
-  const signature = await crypto.subtle.sign('HMAC', key, encoder.encode(data));
+
+  const signature = await crypto.subtle.sign("HMAC", key, encoder.encode(data));
   return base64UrlEncode(new Uint8Array(signature));
 }
 
 function base64UrlEncode(data) {
-  if (typeof data === 'string') {
+  if (typeof data === "string") {
     data = new TextEncoder().encode(data);
   }
-  
+
   const base64 = btoa(String.fromCharCode(...data));
-  return base64.replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
+  return base64.replace(/\+/g, "-").replace(/\//g, "_").replace(/=/g, "");
 }
 
 function base64UrlDecode(str) {
-  str = str.replace(/-/g, '+').replace(/_/g, '/');
+  str = str.replace(/-/g, "+").replace(/_/g, "/");
   while (str.length % 4) {
-    str += '=';
+    str += "=";
   }
   return atob(str);
 }
 
 function parseExpiration(expiresIn) {
-  if (typeof expiresIn === 'number') {
+  if (typeof expiresIn === "number") {
     return expiresIn;
   }
-  
+
   const match = expiresIn.match(/^(\d+)([smhd])$/);
   if (!match) {
-    throw new Error('Invalid expiration format');
+    throw new Error("Invalid expiration format");
   }
-  
+
   const value = parseInt(match[1]);
   const unit = match[2];
-  
+
   switch (unit) {
-    case 's': return value;
-    case 'm': return value * 60;
-    case 'h': return value * 60 * 60;
-    case 'd': return value * 60 * 60 * 24;
-    default: throw new Error('Invalid expiration unit');
+    case "s":
+      return value;
+    case "m":
+      return value * 60;
+    case "h":
+      return value * 60 * 60;
+    case "d":
+      return value * 60 * 60 * 24;
+    default:
+      throw new Error("Invalid expiration unit");
   }
 }
 
-import bcrypt from 'bcryptjs';
+import bcrypt from "bcryptjs";
 
 // ... (existing code) ...
 
@@ -125,7 +133,9 @@ export async function verifyPassword(password, hash) {
 export function generateSessionId() {
   const array = new Uint8Array(32);
   crypto.getRandomValues(array);
-  return Array.from(array, byte => byte.toString(16).padStart(2, '0')).join('');
+  return Array.from(array, (byte) => byte.toString(16).padStart(2, "0")).join(
+    "",
+  );
 }
 
 // Generate UUID v4
@@ -133,15 +143,17 @@ export function generateUUID() {
   const bytes = crypto.getRandomValues(new Uint8Array(16));
   bytes[6] = (bytes[6] & 0x0f) | 0x40; // Version 4
   bytes[8] = (bytes[8] & 0x3f) | 0x80; // Variant 10
-  
-  const hex = Array.from(bytes, b => b.toString(16).padStart(2, '0')).join('');
+
+  const hex = Array.from(bytes, (b) => b.toString(16).padStart(2, "0")).join(
+    "",
+  );
   return `${hex.slice(0, 8)}-${hex.slice(8, 12)}-${hex.slice(12, 16)}-${hex.slice(16, 20)}-${hex.slice(20, 32)}`;
 }
 
 // Extract token from Authorization header
 export function extractToken(request) {
-  const authHeader = request.headers.get('Authorization');
-  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+  const authHeader = request.headers.get("Authorization");
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
     return null;
   }
   return authHeader.substring(7);

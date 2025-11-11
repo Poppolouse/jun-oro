@@ -2,45 +2,64 @@
  * Authentication middleware
  */
 
-import { verifyJWT, extractToken } from '../utils/auth.js';
-import { unauthorizedResponse, serverErrorResponse } from '../utils/response.js';
+import { verifyJWT, extractToken } from "../utils/auth.js";
+import { unauthorizedResponse } from "../utils/response.js";
+import { getPrismaClient } from "../lib/prisma.js";
 
 export async function authMiddleware(request, env) {
   try {
     const token = extractToken(request);
-    
+
     if (!token) {
-      return { success: false, message: 'Authorization token required' };
+      return { success: false, message: "Authorization token required" };
     }
 
     const payload = await verifyJWT(token, env.JWT_SECRET);
-    
+    const prisma = getPrismaClient(env);
+
     // Check if session is still valid in database
-    const session = await env.DB.prepare(
-      'SELECT s.*, u.username, u.email, u.role, u.is_active FROM sessions s JOIN users u ON s.user_id = u.id WHERE s.id = ? AND s.is_active = 1 AND s.expires_at > datetime("now")'
-    ).bind(payload.sessionId).first();
+    const session = await prisma.session.findFirst({
+      where: {
+        id: payload.sessionId,
+        isActive: true,
+        expiresAt: {
+          gt: new Date(),
+        },
+      },
+      include: {
+        user: {
+          select: {
+            id: true,
+            username: true,
+            email: true,
+            role: true,
+            isActive: true,
+          }
+        }
+      }
+    });
 
     if (!session) {
-      return { success: false, message: 'Invalid or expired session' };
+      return { success: false, message: "Invalid or expired session" };
     }
 
-    if (!session.is_active) {
-      return { success: false, message: 'User account is inactive' };
+    if (!session.user.isActive) {
+      return { success: false, message: "User account is inactive" };
     }
 
     // Add user info to request context
     request.user = {
-      id: session.user_id,
-      username: session.username,
-      email: session.email,
-      role: session.role,
-      sessionId: session.id
+      id: session.user.id,
+      username: session.user.username,
+      email: session.user.email,
+      role: session.user.role,
+      sessionId: session.id,
     };
 
-    return { success: true, userId: session.user_id, user: request.user };
+    return { success: true, userId: session.user.id, user: request.user };
   } catch (error) {
-    console.error('Auth middleware error:', error);
-    return { success: false, message: 'Invalid token' };
+    console.error("Auth middleware error:", error);
+    return { success: false, message: "Invalid token" };
   }
 }
 
@@ -50,8 +69,8 @@ export async function adminMiddleware(request, env) {
   if (authResult) return authResult;
 
   // Check if user is admin
-  if (request.user.role !== 'admin') {
-    return unauthorizedResponse('Admin access required');
+  if (request.user.role !== "admin") {
+    return unauthorizedResponse("Admin access required");
   }
 
   return null; // No error, continue
@@ -60,25 +79,43 @@ export async function adminMiddleware(request, env) {
 export async function optionalAuthMiddleware(request, env) {
   try {
     const token = extractToken(request);
-    
+
     if (!token) {
       request.user = null;
       return null;
     }
 
     const payload = await verifyJWT(token, env.JWT_SECRET);
-    
-    const session = await env.DB.prepare(
-      'SELECT s.*, u.username, u.email, u.role, u.is_active FROM sessions s JOIN users u ON s.user_id = u.id WHERE s.id = ? AND s.is_active = 1 AND s.expires_at > datetime("now")'
-    ).bind(payload.sessionId).first();
+    const prisma = getPrismaClient(env);
 
-    if (session && session.is_active) {
+    const session = await prisma.session.findFirst({
+      where: {
+        id: payload.sessionId,
+        isActive: true,
+        expiresAt: {
+          gt: new Date(),
+        },
+      },
+      include: {
+        user: {
+          select: {
+            id: true,
+            username: true,
+            email: true,
+            role: true,
+            isActive: true,
+          }
+        }
+      }
+    });
+
+    if (session && session.user.isActive) {
       request.user = {
-        id: session.user_id,
-        username: session.username,
-        email: session.email,
-        role: session.role,
-        sessionId: session.id
+        id: session.user.id,
+        username: session.user.username,
+        email: session.user.email,
+        role: session.user.role,
+        sessionId: session.id,
       };
     } else {
       request.user = null;

@@ -24,8 +24,6 @@ model User {
   sessions        GameSession[]
   notifications   Notification[]
   pageVisits      PageVisit[]
-  session_history session_history[]
-  user_libraries  user_libraries?
   preferences     UserPreferences?
   userStats       UserStats?
   libraryEntries  LibraryEntry[]
@@ -34,6 +32,11 @@ model User {
   adminAuditLogs  AdminAuditLog[]
 
   @@map("users")
+  @@index([email])
+  @@index([username])
+  @@index([status])
+  @@index([lastActive])
+  @@index([role])
 }
 
 model ApiKey {
@@ -78,9 +81,13 @@ model Game {
   campaigns        Campaign[]
   sessions         GameSession[]
   libraryEntries   LibraryEntry[]
-  session_history  session_history[]
 
   @@map("games")
+  @@index([name])
+  @@index([firstReleaseDate])
+  @@index([rating])
+  @@index([lastAccessed])
+  @@index([accessCount])
 }
 
 model LibraryEntry {
@@ -103,6 +110,12 @@ model LibraryEntry {
 
   @@unique([userId, gameId])
   @@map("library_entries")
+  @@index([userId])
+  @@index([gameId])
+  @@index([category])
+  @@index([priority])
+  @@index([lastPlayed])
+  @@index([isPublic])
 }
 
 model UserPreferences {
@@ -139,6 +152,11 @@ model GameSession {
   user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("game_sessions")
+  @@index([userId])
+  @@index([gameId])
+  @@index([startTime])
+  @@index([isActive])
+  @@index([platform])
 }
 
 model UserStats {
@@ -238,32 +256,6 @@ model SystemUpdateStep {
   update      SystemUpdate @relation(fields: [updateId], references: [id], onDelete: Cascade)
 
   @@map("system_update_steps")
-}
-
-model session_history {
-  id        String   @id
-  userId    String
-  gameId    String
-  gameName  String
-  startTime DateTime
-  endTime   DateTime
-  playtime  Int
-  campaigns Json?
-  platform  String?
-  status    String?
-  createdAt DateTime @default(now())
-  games     Game     @relation(fields: [gameId], references: [id])
-  users     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
-
-model user_libraries {
-  id            String   @id
-  userId        String   @unique
-  version       String   @default("1.0")
-  totalGames    Int      @default(0)
-  totalPlaytime Int      @default(0)
-  lastUpdated   DateTime @default(now())
-  users         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Platform {

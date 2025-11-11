@@ -1,15 +1,15 @@
-import React, { useState, useRef } from 'react';
-import { Upload, X, Image, Loader2 } from 'lucide-react';
+import React, { useState, useRef } from "react";
+import { Upload, X, Image, Loader2 } from "lucide-react";
 
-const ImageUpload = ({ 
-  onUpload, 
-  currentImage, 
-  uploadType = 'avatar', 
-  maxSize = 5, 
-  acceptedTypes = 'image/*',
-  className = '',
+const ImageUpload = ({
+  onUpload,
+  currentImage,
+  uploadType = "avatar",
+  maxSize = 5,
+  acceptedTypes = "image/*",
+  className = "",
   disabled = false,
-  label = 'Resim Yükle'
+  label = "Resim Yükle",
 }) => {
   const [isUploading, setIsUploading] = useState(false);
   const [dragActive, setDragActive] = useState(false);
@@ -20,8 +20,8 @@ const ImageUpload = ({
     if (!file) return;
 
     // Validate file type
-    if (!file.type.startsWith('image/')) {
-      alert('Lütfen sadece resim dosyası seçin');
+    if (!file.type.startsWith("image/")) {
+      alert("Lütfen sadece resim dosyası seçin");
       return;
     }
 
@@ -41,21 +41,21 @@ const ImageUpload = ({
     try {
       const formData = new FormData();
       formData.append(getFieldName(uploadType), file);
-      
+
       // Add additional fields based on upload type
-      if (uploadType === 'platform-logo') {
-        const platformName = prompt('Platform adını girin:');
+      if (uploadType === "platform-logo") {
+        const platformName = prompt("Platform adını girin:");
         if (!platformName) {
           setIsUploading(false);
           return;
         }
-        formData.append('platformName', platformName);
+        formData.append("platformName", platformName);
       }
 
       await onUpload(formData);
     } catch (error) {
-      console.error('Upload error:', error);
-      alert('Yükleme sırasında hata oluştu');
+      console.error("Upload error:", error);
+      alert("Yükleme sırasında hata oluştu");
       setPreview(currentImage); // Reset preview on error
     } finally {
       setIsUploading(false);
@@ -64,19 +64,23 @@ const ImageUpload = ({
 
   const getFieldName = (type) => {
     switch (type) {
-      case 'avatar': return 'avatar';
-      case 'platform-logo': return 'logo';
-      case 'game-cover': return 'cover';
-      default: return 'image';
+      case "avatar":
+        return "avatar";
+      case "platform-logo":
+        return "logo";
+      case "game-cover":
+        return "cover";
+      default:
+        return "image";
     }
   };
 
   const handleDrag = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    if (e.type === 'dragenter' || e.type === 'dragover') {
+    if (e.type === "dragenter" || e.type === "dragover") {
       setDragActive(true);
-    } else if (e.type === 'dragleave') {
+    } else if (e.type === "dragleave") {
       setDragActive(false);
     }
   };
@@ -85,7 +89,7 @@ const ImageUpload = ({
     e.preventDefault();
     e.stopPropagation();
     setDragActive(false);
-    
+
     if (disabled || isUploading) return;
 
     const files = e.dataTransfer.files;
@@ -110,16 +114,20 @@ const ImageUpload = ({
   const handleRemove = () => {
     setPreview(null);
     if (fileInputRef.current) {
-      fileInputRef.current.value = '';
+      fileInputRef.current.value = "";
     }
   };
 
   const getUploadAreaSize = () => {
     switch (uploadType) {
-      case 'avatar': return 'w-32 h-32';
-      case 'platform-logo': return 'w-24 h-24';
-      case 'game-cover': return 'w-48 h-64';
-      default: return 'w-32 h-32';
+      case "avatar":
+        return "w-32 h-32";
+      case "platform-logo":
+        return "w-24 h-24";
+      case "game-cover":
+        return "w-48 h-64";
+      default:
+        return "w-32 h-32";
     }
   };
 
@@ -139,11 +147,12 @@ const ImageUpload = ({
           ${getUploadAreaSize()}
           border-2 border-dashed rounded-lg cursor-pointer
           transition-all duration-200 relative overflow-hidden
-          ${dragActive 
-            ? 'border-blue-500 bg-blue-50' 
-            : 'border-gray-300 hover:border-gray-400'
+          ${
+            dragActive
+              ? "border-blue-500 bg-blue-50"
+              : "border-gray-300 hover:border-gray-400"
           }
-          ${disabled || isUploading ? 'opacity-50 cursor-not-allowed' : ''}
+          ${disabled || isUploading ? "opacity-50 cursor-not-allowed" : ""}
         `}
         onDragEnter={handleDrag}
         onDragLeave={handleDrag}
@@ -183,7 +192,7 @@ const ImageUpload = ({
               <Upload className="mb-2" size={24} />
             )}
             <span className="text-xs text-center px-2">
-              {isUploading ? 'Yükleniyor...' : label}
+              {isUploading ? "Yükleniyor..." : label}
             </span>
           </div>
         )}

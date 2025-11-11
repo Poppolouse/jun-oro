@@ -1,33 +1,33 @@
-import express from 'express';
-import { prisma } from '../lib/prisma.js';
-import { updatePreferencesSchema, idParamSchema } from '../lib/validation.js';
+import express from "express";
+import { prisma } from "../lib/prisma.js";
+import { updatePreferencesSchema, idParamSchema } from "../lib/validation.js";
 
 const router = express.Router();
 
 // GET /api/preferences/:userId - Get user preferences
-router.get('/:userId', async (req, res, next) => {
+router.get("/:userId", async (req, res, next) => {
   try {
     const { id: userId } = idParamSchema.parse({ id: req.params.userId });
 
     const preferences = await prisma.userPreferences.findUnique({
-      where: { userId }
+      where: { userId },
     });
 
     if (!preferences) {
       // Create default preferences if they don't exist
       const defaultPreferences = await prisma.userPreferences.create({
-        data: { userId }
+        data: { userId },
       });
-      
+
       return res.json({
         success: true,
-        data: defaultPreferences
+        data: defaultPreferences,
       });
     }
 
     res.json({
       success: true,
-      data: preferences
+      data: preferences,
     });
   } catch (error) {
     next(error);
@@ -35,7 +35,7 @@ router.get('/:userId', async (req, res, next) => {
 });
 
 // PUT /api/preferences/:userId - Update user preferences
-router.put('/:userId', async (req, res, next) => {
+router.put("/:userId", async (req, res, next) => {
   try {
     const { id: userId } = idParamSchema.parse({ id: req.params.userId });
     const validatedData = updatePreferencesSchema.parse(req.body);
@@ -45,14 +45,14 @@ router.put('/:userId', async (req, res, next) => {
       update: validatedData,
       create: {
         userId,
-        ...validatedData
-      }
+        ...validatedData,
+      },
     });
 
     res.json({
       success: true,
       data: preferences,
-      message: 'Preferences updated successfully'
+      message: "Preferences updated successfully",
     });
   } catch (error) {
     next(error);
@@ -60,21 +60,21 @@ router.put('/:userId', async (req, res, next) => {
 });
 
 // GET /api/preferences/:userId/game/:gameId - Get game-specific preferences
-router.get('/:userId/game/:gameId', async (req, res, next) => {
+router.get("/:userId/game/:gameId", async (req, res, next) => {
   try {
     const { id: userId } = idParamSchema.parse({ id: req.params.userId });
     const { gameId } = idParamSchema.parse({ id: req.params.gameId });
 
     const preferences = await prisma.userPreferences.findUnique({
       where: { userId },
-      select: { gameSpecificPrefs: true }
+      select: { gameSpecificPrefs: true },
     });
 
     const gamePrefs = preferences?.gameSpecificPrefs?.[gameId] || {};
 
     res.json({
       success: true,
-      data: gamePrefs
+      data: gamePrefs,
     });
   } catch (error) {
     next(error);
@@ -82,7 +82,7 @@ router.get('/:userId/game/:gameId', async (req, res, next) => {
 });
 
 // PUT /api/preferences/:userId/game/:gameId - Update game-specific preferences
-router.put('/:userId/game/:gameId', async (req, res, next) => {
+router.put("/:userId/game/:gameId", async (req, res, next) => {
   try {
     const { id: userId } = idParamSchema.parse({ id: req.params.userId });
     const { id: gameId } = idParamSchema.parse({ id: req.params.gameId });
@@ -90,7 +90,7 @@ router.put('/:userId/game/:gameId', async (req, res, next) => {
 
     // Get current preferences
     const currentPrefs = await prisma.userPreferences.findUnique({
-      where: { userId }
+      where: { userId },
     });
 
     const gameSpecificPrefs = currentPrefs?.gameSpecificPrefs || {};
@@ -101,14 +101,14 @@ router.put('/:userId/game/:gameId', async (req, res, next) => {
       update: { gameSpecificPrefs },
       create: {
         userId,
-        gameSpecificPrefs
-      }
+        gameSpecificPrefs,
+      },
     });
 
     res.json({
       success: true,
       data: preferences.gameSpecificPrefs[gameId],
-      message: 'Game preferences updated successfully'
+      message: "Game preferences updated successfully",
     });
   } catch (error) {
     next(error);
@@ -116,13 +116,13 @@ router.put('/:userId/game/:gameId', async (req, res, next) => {
 });
 
 // DELETE /api/preferences/:userId/game/:gameId - Delete game-specific preferences
-router.delete('/:userId/game/:gameId', async (req, res, next) => {
+router.delete("/:userId/game/:gameId", async (req, res, next) => {
   try {
     const { id: userId } = idParamSchema.parse({ id: req.params.userId });
     const { id: gameId } = idParamSchema.parse({ id: req.params.gameId });
 
     const currentPrefs = await prisma.userPreferences.findUnique({
-      where: { userId }
+      where: { userId },
     });
 
     if (currentPrefs?.gameSpecificPrefs?.[gameId]) {
@@ -131,13 +131,13 @@ router.delete('/:userId/game/:gameId', async (req, res, next) => {
 
       await prisma.userPreferences.update({
         where: { userId },
-        data: { gameSpecificPrefs }
+        data: { gameSpecificPrefs },
       });
     }
 
     res.json({
       success: true,
-      message: 'Game preferences deleted successfully'
+      message: "Game preferences deleted successfully",
     });
   } catch (error) {
     next(error);
@@ -145,7 +145,7 @@ router.delete('/:userId/game/:gameId', async (req, res, next) => {
 });
 
 // POST /api/preferences/:userId/reset - Reset preferences to default
-router.post('/:userId/reset', async (req, res, next) => {
+router.post("/:userId/reset", async (req, res, next) => {
   try {
     const { id: userId } = idParamSchema.parse({ id: req.params.userId });
 
@@ -153,7 +153,7 @@ router.post('/:userId/reset', async (req, res, next) => {
       where: { userId },
       update: {
         preferredPlatform: null,
-        preferredStatus: 'Oynamak İstiyorum',
+        preferredStatus: "Oynamak İstiyorum",
         includeDLCs: false,
         selectedDLCs: null,
         selectedCampaigns: null,
@@ -161,15 +161,15 @@ router.post('/:userId/reset', async (req, res, next) => {
         gameSpecificPrefs: null,
         autoLoadHLTB: true,
         autoLoadMetacritic: true,
-        autoGenerateCampaigns: true
+        autoGenerateCampaigns: true,
       },
-      create: { userId }
+      create: { userId },
     });
 
     res.json({
       success: true,
       data: preferences,
-      message: 'Preferences reset to default successfully'
+      message: "Preferences reset to default successfully",
     });
   } catch (error) {
     next(error);

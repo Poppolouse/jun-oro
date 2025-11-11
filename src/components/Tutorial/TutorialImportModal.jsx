@@ -1,68 +1,68 @@
-import { useState } from 'react'
-import { createPortal } from 'react-dom'
-import { useTutorialAdmin } from '../../hooks/useTutorial'
-import { parseTutorialText } from '../../utils/tutorialImportParser'
+import { useState } from "react";
+import { createPortal } from "react-dom";
+import { useTutorialAdmin } from "../../hooks/useTutorial";
+import { parseTutorialText } from "../../utils/tutorialImportParser";
 
 function TutorialImportModal({ isOpen, onClose, onProceedToEdit }) {
-  const { isAdmin, saveTutorial, listTutorials } = useTutorialAdmin()
-  const [parsed, setParsed] = useState(null)
-  const [errors, setErrors] = useState([])
-  const [status, setStatus] = useState('')
-  const [isSaving, setIsSaving] = useState(false)
-  const [existingIds, setExistingIds] = useState([])
+  const { isAdmin, saveTutorial, listTutorials } = useTutorialAdmin();
+  const [parsed, setParsed] = useState(null);
+  const [errors, setErrors] = useState([]);
+  const [status, setStatus] = useState("");
+  const [isSaving, setIsSaving] = useState(false);
+  const [existingIds, setExistingIds] = useState([]);
 
-  if (!isOpen) return null
+  if (!isOpen) return null;
 
   const handleFile = async (file) => {
-    setStatus('')
-    setErrors([])
-    setParsed(null)
+    setStatus("");
+    setErrors([]);
+    setParsed(null);
     try {
-      const text = await file.text()
-      const { tutorial, errors } = parseTutorialText(text)
-      setErrors(errors || [])
-      setParsed(tutorial)
+      const text = await file.text();
+      const { tutorial, errors } = parseTutorialText(text);
+      setErrors(errors || []);
+      setParsed(tutorial);
       // Mevcut ID’leri listele (overwrite uyarısı için)
       try {
-        const list = await listTutorials()
-        setExistingIds(list.map(t => t.id))
+        const list = await listTutorials();
+        setExistingIds(list.map((t) => t.id));
       } catch {}
     } catch (e) {
-      setErrors([`Dosya okunamadı: ${e.message}`])
+      setErrors([`Dosya okunamadı: ${e.message}`]);
     }
-  }
+  };
 
   const handleInputChange = (e) => {
-    const file = e.target.files?.[0]
-    if (file) handleFile(file)
-  }
+    const file = e.target.files?.[0];
+    if (file) handleFile(file);
+  };
 
   const importAndSave = async () => {
-    if (!parsed) return
+    if (!parsed) return;
     try {
-      setIsSaving(true)
-      await saveTutorial(parsed.id, parsed)
-      setStatus('İçe aktarılan tutorial kaydedildi.')
+      setIsSaving(true);
+      await saveTutorial(parsed.id, parsed);
+      setStatus("İçe aktarılan tutorial kaydedildi.");
       setTimeout(() => {
-        setStatus('')
-        onClose()
-      }, 1500)
+        setStatus("");
+        onClose();
+      }, 1500);
     } catch (e) {
-      setErrors([`Kaydedilirken hata: ${e.message}`])
+      setErrors([`Kaydedilirken hata: ${e.message}`]);
     } finally {
-      setIsSaving(false)
+      setIsSaving(false);
     }
-  }
+  };
 
   const proceedToEditor = () => {
-    if (!parsed) return
+    if (!parsed) return;
     try {
       // Yeni oluşturma modali açıldığında draft’tan otomatik dolsun
-      const payload = { tutorialData: parsed, currentStep: 0, ts: Date.now() }
-      localStorage.setItem('junoro:tutorialDraft:new', JSON.stringify(payload))
+      const payload = { tutorialData: parsed, currentStep: 0, ts: Date.now() };
+      localStorage.setItem("junoro:tutorialDraft:new", JSON.stringify(payload));
     } catch {}
-    onProceedToEdit(parsed)
-  }
+    onProceedToEdit(parsed);
+  };
 
   return createPortal(
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
@@ -75,7 +75,9 @@ function TutorialImportModal({ isOpen, onClose, onProceedToEdit }) {
             </div>
             <div>
               <h3 className="text-white font-semibold">TXT’den İçe Aktar</h3>
-              <p className="text-xs text-gray-400">JSON veya DSL formatlı .txt dosyasını içe aktar</p>
+              <p className="text-xs text-gray-400">
+                JSON veya DSL formatlı .txt dosyasını içe aktar
+              </p>
             </div>
           </div>
           <button
@@ -96,14 +98,19 @@ function TutorialImportModal({ isOpen, onClose, onProceedToEdit }) {
           )}
 
           <div className="space-y-2">
-            <label className="block text-sm font-medium text-gray-300">.txt Dosyası Seç</label>
+            <label className="block text-sm font-medium text-gray-300">
+              .txt Dosyası Seç
+            </label>
             <input
               type="file"
               accept=".txt"
               onChange={handleInputChange}
               className="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-white"
             />
-            <p className="text-xs text-gray-400">Desteklenen formatlar: Tutorial JSON veya DSL ([TUTORIAL], [TARGET_PAGE], [SETTINGS], [STEP])</p>
+            <p className="text-xs text-gray-400">
+              Desteklenen formatlar: Tutorial JSON veya DSL ([TUTORIAL],
+              [TARGET_PAGE], [SETTINGS], [STEP])
+            </p>
           </div>
 
           {errors && errors.length > 0 && (
@@ -121,31 +128,51 @@ function TutorialImportModal({ isOpen, onClose, onProceedToEdit }) {
               <div className="flex items-start justify-between">
                 <div className="space-y-1">
                   <div className="text-white font-semibold">{parsed.title}</div>
-                  <div className="text-gray-400 text-sm">ID: <span className="font-mono">{parsed.id}</span></div>
-                  <div className="text-gray-400 text-sm">Versiyon: {parsed.version}</div>
+                  <div className="text-gray-400 text-sm">
+                    ID: <span className="font-mono">{parsed.id}</span>
+                  </div>
+                  <div className="text-gray-400 text-sm">
+                    Versiyon: {parsed.version}
+                  </div>
                   {parsed.targetPage && (
-                    <div className="text-gray-400 text-sm">Hedef Sayfa: {parsed.targetPage.pageName} ({parsed.targetPage.pagePath})</div>
+                    <div className="text-gray-400 text-sm">
+                      Hedef Sayfa: {parsed.targetPage.pageName} (
+                      {parsed.targetPage.pagePath})
+                    </div>
                   )}
                 </div>
                 <div className="text-sm text-gray-400">
                   {existingIds.includes(parsed.id) ? (
-                    <span className="text-yellow-300">Uyarı: Bu ID zaten mevcut, kaydedilirse üzerine yazılacak.</span>
+                    <span className="text-yellow-300">
+                      Uyarı: Bu ID zaten mevcut, kaydedilirse üzerine yazılacak.
+                    </span>
                   ) : (
                     <span>Yeni ID</span>
                   )}
                 </div>
               </div>
               <div className="mt-3">
-                <div className="text-sm text-gray-300">Toplam Adım: {parsed.steps?.length || 0}</div>
+                <div className="text-sm text-gray-300">
+                  Toplam Adım: {parsed.steps?.length || 0}
+                </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mt-2">
                   {parsed.steps.slice(0, 6).map((step, idx) => (
-                    <div key={idx} className="bg-slate-700/50 rounded p-2 text-sm">
-                      <div className="text-white truncate">{idx + 1}. {step.title || 'Başlıksız'}</div>
-                      <div className="text-gray-400 text-xs truncate">Target: {step.target || '—'}</div>
+                    <div
+                      key={idx}
+                      className="bg-slate-700/50 rounded p-2 text-sm"
+                    >
+                      <div className="text-white truncate">
+                        {idx + 1}. {step.title || "Başlıksız"}
+                      </div>
+                      <div className="text-gray-400 text-xs truncate">
+                        Target: {step.target || "—"}
+                      </div>
                     </div>
                   ))}
                   {parsed.steps.length > 6 && (
-                    <div className="bg-slate-700/30 rounded p-2 text-sm text-gray-400 flex items-center justify-center">+{parsed.steps.length - 6} daha…</div>
+                    <div className="bg-slate-700/30 rounded p-2 text-sm text-gray-400 flex items-center justify-center">
+                      +{parsed.steps.length - 6} daha…
+                    </div>
                   )}
                 </div>
               </div>
@@ -163,27 +190,29 @@ function TutorialImportModal({ isOpen, onClose, onProceedToEdit }) {
             <button
               onClick={proceedToEditor}
               disabled={!parsed}
-              className={`px-4 py-2 rounded-lg ${parsed ? 'bg-blue-600 hover:bg-blue-700 text-white' : 'bg-slate-700 text-gray-400'}`}
+              className={`px-4 py-2 rounded-lg ${parsed ? "bg-blue-600 hover:bg-blue-700 text-white" : "bg-slate-700 text-gray-400"}`}
             >
               Düzenleyiciye Aktar
             </button>
             <button
               onClick={importAndSave}
               disabled={!parsed || isSaving}
-              className={`px-4 py-2 rounded-lg ${parsed && !isSaving ? 'bg-green-600 hover:bg-green-700 text-white' : 'bg-slate-700 text-gray-400'}`}
+              className={`px-4 py-2 rounded-lg ${parsed && !isSaving ? "bg-green-600 hover:bg-green-700 text-white" : "bg-slate-700 text-gray-400"}`}
             >
-              {isSaving ? 'Kaydediliyor…' : 'İçe Aktar ve Kaydet'}
+              {isSaving ? "Kaydediliyor…" : "İçe Aktar ve Kaydet"}
             </button>
           </div>
 
           {status && (
-            <div className="bg-green-600/10 border border-green-500/30 rounded-lg p-3 text-green-300 text-sm">{status}</div>
+            <div className="bg-green-600/10 border border-green-500/30 rounded-lg p-3 text-green-300 text-sm">
+              {status}
+            </div>
           )}
         </div>
       </div>
     </div>,
-    document.body
-  )
+    document.body,
+  );
 }
 
-export default TutorialImportModal
+export default TutorialImportModal;

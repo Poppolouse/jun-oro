@@ -5,32 +5,32 @@
 
 class UserPreferencesService {
   constructor() {
-    this.storageKey = 'arkade_user_preferences'
+    this.storageKey = "arkade_user_preferences";
     this.defaultPreferences = {
       // Platform tercihleri
-      preferredPlatform: '',
-      
+      preferredPlatform: "",
+
       // Durum tercihleri
-      preferredStatus: 'Oynamak İstiyorum',
-      
+      preferredStatus: "Oynamak İstiyorum",
+
       // DLC tercihleri
       includeDLCs: false,
       selectedDLCs: [],
-      
+
       // Campaign tercihleri
       selectedCampaigns: [],
-      
+
       // Oyun versiyonu tercihleri
-      preferredVersion: '',
-      
+      preferredVersion: "",
+
       // Son kullanılan tercihler (oyun bazında)
       gameSpecificPreferences: {},
-      
+
       // Genel ayarlar
       autoLoadHLTB: true,
       autoLoadMetacritic: true,
-      autoGenerateCampaigns: true
-    }
+      autoGenerateCampaigns: true,
+    };
   }
 
   /**
@@ -38,15 +38,15 @@ class UserPreferencesService {
    */
   getPreferences() {
     try {
-      const stored = localStorage.getItem(this.storageKey)
+      const stored = localStorage.getItem(this.storageKey);
       if (stored) {
-        const parsed = JSON.parse(stored)
-        return { ...this.defaultPreferences, ...parsed }
+        const parsed = JSON.parse(stored);
+        return { ...this.defaultPreferences, ...parsed };
       }
     } catch (error) {
-      console.warn('⚠️ Kullanıcı tercihleri yüklenemedi:', error.message)
+      console.warn("⚠️ Kullanıcı tercihleri yüklenemedi:", error.message);
     }
-    return { ...this.defaultPreferences }
+    return { ...this.defaultPreferences };
   }
 
   /**
@@ -54,14 +54,14 @@ class UserPreferencesService {
    */
   savePreferences(preferences) {
     try {
-      const current = this.getPreferences()
-      const updated = { ...current, ...preferences }
-      localStorage.setItem(this.storageKey, JSON.stringify(updated))
-      console.log('✅ Kullanıcı tercihleri kaydedildi')
-      return true
+      const current = this.getPreferences();
+      const updated = { ...current, ...preferences };
+      localStorage.setItem(this.storageKey, JSON.stringify(updated));
+      console.log("✅ Kullanıcı tercihleri kaydedildi");
+      return true;
     } catch (error) {
-      console.error('❌ Kullanıcı tercihleri kaydedilemedi:', error.message)
-      return false
+      console.error("❌ Kullanıcı tercihleri kaydedilemedi:", error.message);
+      return false;
     }
   }
 
@@ -70,24 +70,24 @@ class UserPreferencesService {
    */
   saveGamePreferences(gameId, gameName, preferences) {
     try {
-      const current = this.getPreferences()
-      
+      const current = this.getPreferences();
+
       if (!current.gameSpecificPreferences) {
-        current.gameSpecificPreferences = {}
+        current.gameSpecificPreferences = {};
       }
 
       current.gameSpecificPreferences[gameId] = {
         gameName,
         ...preferences,
-        lastUpdated: Date.now()
-      }
+        lastUpdated: Date.now(),
+      };
 
-      this.savePreferences(current)
-      console.log(`✅ ${gameName} için tercihler kaydedildi`)
-      return true
+      this.savePreferences(current);
+      console.log(`✅ ${gameName} için tercihler kaydedildi`);
+      return true;
     } catch (error) {
-      console.error('❌ Oyun tercihleri kaydedilemedi:', error.message)
-      return false
+      console.error("❌ Oyun tercihleri kaydedilemedi:", error.message);
+      return false;
     }
   }
 
@@ -96,11 +96,11 @@ class UserPreferencesService {
    */
   getGamePreferences(gameId) {
     try {
-      const preferences = this.getPreferences()
-      return preferences.gameSpecificPreferences?.[gameId] || null
+      const preferences = this.getPreferences();
+      return preferences.gameSpecificPreferences?.[gameId] || null;
     } catch (error) {
-      console.warn('⚠️ Oyun tercihleri alınamadı:', error.message)
-      return null
+      console.warn("⚠️ Oyun tercihleri alınamadı:", error.message);
+      return null;
     }
   }
 
@@ -108,73 +108,75 @@ class UserPreferencesService {
    * Platform tercihini kaydet
    */
   savePlatformPreference(platform) {
-    return this.savePreferences({ preferredPlatform: platform })
+    return this.savePreferences({ preferredPlatform: platform });
   }
 
   /**
    * Platform tercihini al
    */
   getPlatformPreference() {
-    return this.getPreferences().preferredPlatform
+    return this.getPreferences().preferredPlatform;
   }
 
   /**
    * Durum tercihini kaydet
    */
   saveStatusPreference(status) {
-    return this.savePreferences({ preferredStatus: status })
+    return this.savePreferences({ preferredStatus: status });
   }
 
   /**
    * Durum tercihini al
    */
   getStatusPreference() {
-    return this.getPreferences().preferredStatus
+    return this.getPreferences().preferredStatus;
   }
 
   /**
    * DLC tercihlerini kaydet
    */
   saveDLCPreferences(includeDLCs, selectedDLCs = []) {
-    return this.savePreferences({ 
-      includeDLCs, 
-      selectedDLCs: Array.isArray(selectedDLCs) ? selectedDLCs : []
-    })
+    return this.savePreferences({
+      includeDLCs,
+      selectedDLCs: Array.isArray(selectedDLCs) ? selectedDLCs : [],
+    });
   }
 
   /**
    * DLC tercihlerini al
    */
   getDLCPreferences() {
-    const prefs = this.getPreferences()
+    const prefs = this.getPreferences();
     return {
       includeDLCs: prefs.includeDLCs,
-      selectedDLCs: prefs.selectedDLCs || []
-    }
+      selectedDLCs: prefs.selectedDLCs || [],
+    };
   }
 
   /**
    * Campaign tercihlerini kaydet
    */
   saveCampaignPreferences(selectedCampaigns = []) {
-    return this.savePreferences({ 
-      selectedCampaigns: Array.isArray(selectedCampaigns) ? selectedCampaigns : []
-    })
+    return this.savePreferences({
+      selectedCampaigns: Array.isArray(selectedCampaigns)
+        ? selectedCampaigns
+        : [],
+    });
   }
 
   /**
    * Campaign tercihlerini al
    */
   getCampaignPreferences() {
-    return this.getPreferences().selectedCampaigns || []
+    return this.getPreferences().selectedCampaigns || [];
   }
 
   /**
    * Oyun ekleme/düzenleme için tüm tercihleri al
    */
   getGameFormPreferences(gameId = null) {
-    const generalPrefs = this.getPreferences()
-    const gameSpecific = gameId ? this.getGamePreferences(gameId) : null
+    const generalPrefs = this.getPreferences();
+    const gameSpecific = gameId ? this.getGamePreferences(gameId) : null;
 
     return {
       // Genel tercihler
@@ -184,21 +186,25 @@ class UserPreferencesService {
       selectedDLCs: generalPrefs.selectedDLCs,
       selectedCampaigns: generalPrefs.selectedCampaigns,
       version: generalPrefs.preferredVersion,
-      
+
       // Oyun-spesifik tercihler (varsa genel tercihleri override eder)
       ...(gameSpecific && {
         platform: gameSpecific.platform || generalPrefs.preferredPlatform,
         status: gameSpecific.status || generalPrefs.preferredStatus,
-        includeDLCs: gameSpecific.includeDLCs !== undefined ? gameSpecific.includeDLCs : generalPrefs.includeDLCs,
+        includeDLCs:
+          gameSpecific.includeDLCs !== undefined
+            ? gameSpecific.includeDLCs
+            : generalPrefs.includeDLCs,
         selectedDLCs: gameSpecific.selectedDLCs || generalPrefs.selectedDLCs,
-        selectedCampaigns: gameSpecific.selectedCampaigns || generalPrefs.selectedCampaigns,
-        version: gameSpecific.version || generalPrefs.preferredVersion
+        selectedCampaigns:
+          gameSpecific.selectedCampaigns || generalPrefs.selectedCampaigns,
+        version: gameSpecific.version || generalPrefs.preferredVersion,
       }),
 
       // Meta bilgiler
       hasGameSpecificPrefs: !!gameSpecific,
-      lastUpdated: gameSpecific?.lastUpdated || null
-    }
+      lastUpdated: gameSpecific?.lastUpdated || null,
+    };
   }
 
   /**
@@ -211,8 +217,8 @@ class UserPreferencesService {
       includeDLCs: formData.includeDLCs,
       selectedDLCs: formData.selectedDLCs,
       selectedCampaigns: formData.selectedCampaigns,
-      version: formData.version
-    }
+      version: formData.version,
+    };
 
     // Hem genel hem de oyun-spesifik tercihleri güncelle
     this.savePreferences({
@@ -221,38 +227,42 @@ class UserPreferencesService {
       includeDLCs: formData.includeDLCs,
       selectedDLCs: formData.selectedDLCs,
       selectedCampaigns: formData.selectedCampaigns,
-      preferredVersion: formData.version
-    })
+      preferredVersion: formData.version,
+    });
 
     // Oyun-spesifik tercihleri de kaydet
     if (gameId && gameName) {
-      this.saveGamePreferences(gameId, gameName, preferences)
+      this.saveGamePreferences(gameId, gameName, preferences);
     }
 
-    return true
+    return true;
   }
 
   /**
    * Otomatik yükleme tercihlerini al
    */
   getAutoLoadPreferences() {
-    const prefs = this.getPreferences()
+    const prefs = this.getPreferences();
     return {
       autoLoadHLTB: prefs.autoLoadHLTB,
       autoLoadMetacritic: prefs.autoLoadMetacritic,
-      autoGenerateCampaigns: prefs.autoGenerateCampaigns
-    }
+      autoGenerateCampaigns: prefs.autoGenerateCampaigns,
+    };
   }
 
   /**
    * Otomatik yükleme tercihlerini kaydet
    */
-  saveAutoLoadPreferences(autoLoadHLTB, autoLoadMetacritic, autoGenerateCampaigns) {
+  saveAutoLoadPreferences(
+    autoLoadHLTB,
+    autoLoadMetacritic,
+    autoGenerateCampaigns,
+  ) {
     return this.savePreferences({
       autoLoadHLTB,
       autoLoadMetacritic,
-      autoGenerateCampaigns
-    })
+      autoGenerateCampaigns,
+    });
   }
 
   /**
@@ -260,12 +270,12 @@ class UserPreferencesService {
    */
   resetPreferences() {
     try {
-      localStorage.removeItem(this.storageKey)
-      console.log('✅ Kullanıcı tercihleri sıfırlandı')
-      return true
+      localStorage.removeItem(this.storageKey);
+      console.log("✅ Kullanıcı tercihleri sıfırlandı");
+      return true;
     } catch (error) {
-      console.error('❌ Tercihler sıfırlanamadı:', error.message)
-      return false
+      console.error("❌ Tercihler sıfırlanamadı:", error.message);
+      return false;
     }
   }
 
@@ -274,17 +284,20 @@ class UserPreferencesService {
    */
   removeGamePreferences(gameId) {
     try {
-      const current = this.getPreferences()
-      if (current.gameSpecificPreferences && current.gameSpecificPreferences[gameId]) {
-        delete current.gameSpecificPreferences[gameId]
-        this.savePreferences(current)
-        console.log(`✅ Oyun tercihleri silindi: ${gameId}`)
-        return true
+      const current = this.getPreferences();
+      if (
+        current.gameSpecificPreferences &&
+        current.gameSpecificPreferences[gameId]
+      ) {
+        delete current.gameSpecificPreferences[gameId];
+        this.savePreferences(current);
+        console.log(`✅ Oyun tercihleri silindi: ${gameId}`);
+        return true;
       }
-      return false
+      return false;
     } catch (error) {
-      console.error('❌ Oyun tercihleri silinemedi:', error.message)
-      return false
+      console.error("❌ Oyun tercihleri silinemedi:", error.message);
+      return false;
     }
   }
 
@@ -293,26 +306,28 @@ class UserPreferencesService {
    */
   getPreferenceStats() {
     try {
-      const prefs = this.getPreferences()
-      const gameCount = Object.keys(prefs.gameSpecificPreferences || {}).length
-      
+      const prefs = this.getPreferences();
+      const gameCount = Object.keys(prefs.gameSpecificPreferences || {}).length;
+
       return {
         totalGamePreferences: gameCount,
         preferredPlatform: prefs.preferredPlatform,
         preferredStatus: prefs.preferredStatus,
         autoLoadEnabled: prefs.autoLoadHLTB && prefs.autoLoadMetacritic,
-        lastModified: Math.max(
-          ...Object.values(prefs.gameSpecificPreferences || {})
-            .map(p => p.lastUpdated || 0)
-        ) || null
-      }
+        lastModified:
+          Math.max(
+            ...Object.values(prefs.gameSpecificPreferences || {}).map(
+              (p) => p.lastUpdated || 0,
+            ),
+          ) || null,
+      };
     } catch (error) {
-      console.warn('⚠️ Tercih istatistikleri alınamadı:', error.message)
-      return null
+      console.warn("⚠️ Tercih istatistikleri alınamadı:", error.message);
+      return null;
     }
   }
 }
 
 // Singleton instance
-const userPreferences = new UserPreferencesService()
-export default userPreferences
+const userPreferences = new UserPreferencesService();
+export default userPreferences;
