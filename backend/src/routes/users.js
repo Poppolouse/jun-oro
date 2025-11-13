@@ -421,16 +421,22 @@ async function createUserSession(userId, ipAddress, userAgent) {
   const sessionId = require("@paralleldrive/cuid2").createId();
   const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
 
-  await prisma.session.create({
-    data: {
-      id: sessionId,
-      userId,
-      expiresAt,
-      ipAddress,
-      userAgent,
-      isActive: true,
-    },
-  });
+  // Session tablosu bazı ortamlarda mevcut olmayabilir.
+  // DB yazımı hata verirse login'i tamamen kırmak yerine devam edelim.
+  try {
+    await prisma.session.create({
+      data: {
+        id: sessionId,
+        userId,
+        expiresAt,
+        ipAddress,
+        userAgent,
+        isActive: true,
+      },
+    });
+  } catch (error) {
+    console.error("Session create failed, proceeding without DB session:", error?.message || error);
+  }
 
   return sessionId;
 }
@@ -442,6 +448,14 @@ async function createUserSession(userId, ipAddress, userAgent) {
  * @returns {Promise<string>} - JWT token
  */
 async function createJWTToken(userId, sessionId) {
+  // Guard: JWT_SECRET yoksa açık bir hata mesajı verelim
+  if (!process.env.JWT_SECRET) {
+    const err = new Error("JWT secret is not configured");
+    // Express error handler'a anlamlı mesajla düşsün
+    err.statusCode = 500;
+    throw err;
+  }
+
   const payload = {
     userId,
     sessionId,
