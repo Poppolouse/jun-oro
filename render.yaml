@@ -5,7 +5,7 @@ services:
     plan: free
     region: oregon
     rootDir: backend
-    buildCommand: npm ci && npm run db:generate
+    buildCommand: npm ci && npm run db:migrate:deploy && npm run db:generate
     startCommand: npm start
     autoDeploy: true
     healthCheckPath: /health
