@@ -1,6 +1,7 @@
 import express from "express";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { v4 as uuidv4 } from "uuid";
 import { prisma } from "../lib/prisma.js";
 import {
   createUserSchema,
@@ -418,7 +419,7 @@ function handleAuthenticationError(res) {
  * @returns {Promise<string>} - Session ID
  */
 async function createUserSession(userId, ipAddress, userAgent) {
-  const sessionId = require("@paralleldrive/cuid2").createId();
+  const sessionId = uuidv4();
   const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
 
   // Session tablosu bazı ortamlarda mevcut olmayabilir.
