@@ -479,7 +479,6 @@ async function updateUserActivityAndReturn(user) {
     where: { id: user.id },
     data: {
       lastActive: new Date(),
-      lastLogin: new Date(),
     },
   });
 
