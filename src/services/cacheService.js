@@ -215,9 +215,14 @@ class CacheService {
 const cacheService = new CacheService();
 
 // Periyodik temizlik
-// Disable automatic cleanup during test runs to avoid keeping the Node process alive
-// which prevents Vitest from exiting cleanly.
-if (process?.env?.NODE_ENV !== "test") {
+// Test ortamında otomatik temizliği devre dışı bırak (Vitest çıkışını engellememek için)
+// Browser ortamında 'process' bulunmadığından güvenli kontrol uygula
+const isTestEnv =
+  typeof import.meta !== "undefined" &&
+  import.meta.env &&
+  (import.meta.env.MODE === "test" || import.meta.env.TEST === true);
+
+if (!isTestEnv) {
   setInterval(
     () => {
       cacheService.cleanup();
