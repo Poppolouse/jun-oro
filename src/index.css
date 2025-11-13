@@ -183,3 +183,12 @@
     display: none; /* Safari and Chrome */
   }
 }
+
+/* Login sayfası link stili (scope: #login-page) */
+#login-page a {
+  position: fixed;
+  left: calc(50% - 40px);
+  font-size: 20px;
+  color: white;
+  mix-blend-mode: difference;
+}

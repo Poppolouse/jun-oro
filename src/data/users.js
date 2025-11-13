@@ -75,6 +75,13 @@ export const userService = {
         body: JSON.stringify({ username, password }),
       });
 
+      const contentType = response.headers.get("content-type") || "";
+      if (!contentType.includes("application/json")) {
+        const raw = await response.text();
+        console.error("Non-JSON response from API:", raw);
+        return { success: false, message: "Sunucudan beklenmeyen yanıt" };
+      }
+
       const data = await response.json();
 
       if (response.ok && data.success) {
@@ -104,6 +111,13 @@ export const userService = {
           lastName: userData.lastName,
         }),
       });
+
+      const contentType = response.headers.get("content-type") || "";
+      if (!contentType.includes("application/json")) {
+        const raw = await response.text();
+        console.error("Non-JSON response from API:", raw);
+        return { success: false, message: "Sunucudan beklenmeyen yanıt" };
+      }
 
       const data = await response.json();
 

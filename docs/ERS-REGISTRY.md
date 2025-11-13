@@ -237,4 +237,42 @@ Bu dosya Jun-Oro projesindeki tüm UI element'lerini ve ERS kodlarını içerir.
 
 - 10.11.2025: AddGameModal component'leri ERS ile entegre edildi
 - 10.11.2025: Tüm component'lere ERS attribute'leri eklendi ve registry güncellendi
-- 11.11.2025: FAQPage component'leri ERS ile entegre edildi
+ - 11.11.2025: FAQPage component'leri ERS ile entegre edildi
+
+## Settings Component'leri
+
+### ProfileSettings
+- `settings.profile.avatar.delete-button` - Avatar silme butonu
+
+### ApiKeysSection
+- `settings.api-keys.refresh` - Anahtarları yenile butonu
+- `settings.api-keys.new-button` - Yeni API anahtarı oluşturma butonu
+- `settings.api-keys.edit-button.{id}` - Kayıt düzenleme butonu
+- `settings.api-keys.delete-button.{id}` - Kayıt silme butonu
+- `settings.api-keys.modal.close-button` - Modal kapatma butonu
+- `settings.api-keys.modal.save-button` - Modal kaydet butonu
+- `settings.api-keys.modal.cancel-button` - Modal iptal butonu
+
+### NotificationTrackingSection
+- `settings.notification-tracking.refresh-button` - İstatistikleri yenile butonu
+- `settings.notification-tracking.details-button.{id}` - Bildirim detayını açma butonu
+- `settings.notification-tracking.modal.close-button` - Kullanıcı detay modal kapatma butonu
+
+### AuditLogsSection
+- `settings.audit-logs.refresh-button` - Denetim günlüklerini yenile butonu
+- `settings.audit-logs.pagination.prev` - Önceki sayfa butonu
+- `settings.audit-logs.pagination.next` - Sonraki sayfa butonu
+
+### R2StorageSection
+- `settings.r2-storage.quick-actions` - Hızlı işlemler konteyner'i
+- `settings.r2-storage.quick-actions.test-connection` - Bağlantı testi butonu
+- `settings.r2-storage.quick-actions.refresh-stats` - İstatistik yenile butonu
+- `settings.r2-storage.quick-actions.clear-cache` - Cache temizle butonu
+
+### ChangelogSection
+- `settings.changelog.new-button` - Yeni changelog oluşturma butonu
+- `settings.changelog.edit-button.{id}` - Changelog düzenleme butonu
+- `settings.changelog.delete-button.{id}` - Changelog silme butonu
+- `settings.changelog.modal.close-button` - Modal kapatma butonu
+- `settings.changelog.modal.save-button` - Modal kaydet butonu
+- `settings.changelog.modal.cancel-button` - Modal iptal butonu

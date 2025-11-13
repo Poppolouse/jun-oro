@@ -204,6 +204,6 @@ export function useUpdates() {
     addUpcoming,
     updateUpcoming,
     removeUpcoming,
-    isAdmin: isAdmin(),
+    isAdmin,
   };
 }

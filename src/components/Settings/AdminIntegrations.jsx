@@ -55,7 +55,7 @@ export default function AdminIntegrations() {
       await apiKeyService.setSteamApiKey(
         steamApiKey.trim(),
         user?.id,
-        isAdmin(),
+        isAdmin,
       );
       setSteamConnectionStatus({
         success: true,

@@ -61,6 +61,60 @@ const AddGameModal = ({
 
   const modalRef = useRef(null);
 
+  // Form inputlarını tek yerden yönet
+  const handleFormInputChange = (e) => {
+    const { name, value } = e.target || e;
+    switch (name) {
+      case "platform":
+        setPlatform(value);
+        break;
+      case "totalPlaytime":
+        setTotalPlaytime(value);
+        break;
+      case "gameStatus":
+        dispatch({ type: 'field_update', field: 'status', payload: value });
+        break;
+      default:
+        // diğer alanlar için genişletilebilir
+        break;
+    }
+  };
+
+  // Arama girişi değiştiğinde state'i güncelle ve debounce ile arama yap
+  const handleSearchChange = (e) => {
+    const value = e.target.value;
+    dispatch({ type: 'field_update', field: 'searchTerm', payload: value });
+    if (searchTimeout) {
+      clearTimeout(searchTimeout);
+      setSearchTimeout(null);
+    }
+    const to = setTimeout(() => {
+      handleSearchSubmit();
+    }, 400);
+    setSearchTimeout(to);
+  };
+
+  const handleSearchSubmit = async () => {
+    const term = (searchTerm || '').trim();
+    if (!term) return;
+    setIsSearching(true);
+    dispatch({ type: 'field_update', field: 'error', payload: null });
+    try {
+      const results = await igdbApi.searchGames(term, 12);
+      const normalized = Array.isArray(results) ? results : [];
+      const withFlags = normalized.map((g) => ({
+        ...g,
+        isInLibrary: false, // kütüphane kontrolü ileride eklenebilir
+      }));
+      const sorted = sortGamesByRelevance(withFlags, term);
+      dispatch({ type: 'set_search_results', payload: sorted });
+    } catch (err) {
+      dispatch({ type: 'field_update', field: 'error', payload: err.message || 'Arama sırasında hata oluştu' });
+    } finally {
+      setIsSearching(false);
+    }
+  };
+
   const defaultOtherPlatforms = useMemo(() => [
     "GOG", "Nintendo Switch", "Origin", "Ubisoft Connect", "Battle.net",
     "Microsoft Store", "Mac App Store", "Itch.io", "Fiziksel Kopya", "Diğer",
@@ -231,16 +285,13 @@ const AddGameModal = ({
             ) : !selectedGame ? (
               <GameSearch
                 searchTerm={searchTerm}
-                setSearchTerm={(value) => dispatch({ type: 'field_update', field: 'searchTerm', payload: value })}
+                onSearchChange={handleSearchChange}
+                onSearchSubmit={handleSearchSubmit}
                 searchResults={searchResults}
-                setSearchResults={(results) => dispatch({ type: 'set_search_results', payload: results })}
                 isSearching={isSearching}
-                setIsSearching={setIsSearching}
                 error={error}
-                setError={(message) => dispatch({ type: 'field_update', field: 'error', payload: message })}
                 onGameSelect={(game) => dispatch({ type: 'select_game', payload: game })}
-                searchTimeout={searchTimeout}
-                setSearchTimeout={setSearchTimeout}
+                onEditGame={onEditGame}
               />
             ) : (
               <div className="space-y-6" data-ers="add-game-modal.game-details-section">
@@ -255,29 +306,15 @@ const AddGameModal = ({
                   <GameDetails selectedGame={selectedGame} gameVariants={gameVariants} showVariants={showVariants} isLoadingVariants={isLoadingVariants} selectedVariant={selectedVariant} setSelectedVariant={setSelectedVariant} />
                   <div className="lg:col-span-2" data-ers="add-game-modal.form-section">
                     <GameForm
-                      selectedGame={selectedGame}
-                      platform={platform}
-                      setPlatform={setPlatform}
-                      gameStatus={gameStatus}
-                      setGameStatus={(status) => dispatch({ type: 'field_update', field: 'status', payload: status })}
-                      totalPlaytime={totalPlaytime}
-                      setTotalPlaytime={setTotalPlaytime}
-                      otherPlatforms={otherPlatforms}
-                      showVariants={showVariants}
-                      gameVariants={gameVariants}
-                      isLoadingVariants={isLoadingVariants}
+                      formState={{ platform, gameStatus, totalPlaytime }}
+                      handleInputChange={handleFormInputChange}
+                      platforms={platforms}
+                      setIsCampaignMode={setIsCampaignMode}
                       selectedDlcs={selectedDlcs}
-                      setSelectedDlcs={setSelectedDlcs}
-                      steamDlcs={steamDlcs}
-                      isCampaignMode={isCampaignMode}
-                      campaigns={campaigns}
-                      setCampaigns={setCampaigns}
-                      handleCampaignMode={() => setIsCampaignMode(true)}
-                      error={error}
-                      setError={(message) => dispatch({ type: 'field_update', field: 'error', payload: message })}
                       isAddingGame={isAddingGame}
                       handleAddGame={handleAddGame}
                       editMode={editMode}
+                      error={error}
                     />
                   </div>
                 </div>

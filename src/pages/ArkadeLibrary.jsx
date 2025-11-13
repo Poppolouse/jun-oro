@@ -1191,7 +1191,7 @@ function LibraryCyclePlanner({ games, onAdd, renderCard }) {
   // const { user, isAdmin } = useAuth();
 
   // Admin kontrolü - admin olmayan kullanıcılar için uyarı göster
-  if (!isAdmin()) {
+  if (!isAdmin) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
         <div className="bg-white/5 backdrop-blur-md rounded-2xl p-8 border border-white/10 text-center max-w-md">

@@ -135,45 +135,40 @@ data-ers={`1.3.1.${i+1}`}
 
 ---
 
-## 🎨 Design System
+## 🎨 Design System (Güncellenmiş Dark Theme)
 
-### Renk Paleti (Claude-inspired)
+### Renk Paleti (Dark Theme - Tailwind Tabanlı)
 
-- Background: `#F5F3EE` (warm cream)
-- Card: `#EEEAE4` (light beige)
-- Text Primary: `#2D2A26` (dark brown)
-- Text Secondary: `#6B6661` (medium brown)
-- Accent: `#D97757` (warm terracotta)
+- **Card/Section Arkaplanı:** `bg-gray-800/50` (Yaklaşık `rgba(31, 41, 55, 0.5)`)
+- **Ana Metin:** `text-white` (`#FFFFFF`)
+- **İkincil Metin:** `text-gray-400` (`#9CA3AF`)
+- **Vurgu (Başarı):** `text-green-400` (`#4ADE80`)
+- **Vurgu (Hata/Tehlike):** `text-red-400` (`#F87171`) / `bg-red-500` (`#EF4444`)
+- **Vurgu (Bilgi):** `text-blue-400` (`#60A5FA`)
 
-### Neumorphism Shadows
+### Gölgeler (Shadows)
+- **Not:** Projedeki mevcut bileşenlerde Neumorphism yerine daha çok düz tasarım veya standart gölgeler kullanılıyor. `box-shadow` veya `drop-shadow` gibi standart Tailwind class'ları tercih edilir.
 
-- Outer: `5px 5px 10px rgba(0,0,0,0.1), -5px -5px 10px rgba(255,255,255,0.7)`
-- Inset: `inset 2px 2px 5px rgba(255,255,255,0.5), inset -2px -2px 5px rgba(0,0,0,0.1)`
+### Boşluk Ölçeği (Spacing Scale - Tailwind CSS Tabanlı)
+- **Temel Birim:** 4px (Tailwind'de `1` birimi)
+- **Standart Aralıklar:** `p-4` (16px), `p-6` (24px), `p-8` (32px)
+- **Element Araları:** `gap-2` (8px), `gap-4` (16px), `gap-6` (24px)
 
-### Spacing Scale
+### Köşe Yarıçapı (Border Radius)
+- **Varsayılan (Kartlar):** `rounded-xl` (12px)
+- **Butonlar/Inputlar:** `rounded-lg` (8px)
+- **Küçük Elementler:** `rounded-full` veya `rounded-md`
 
-- Base: 8px
-- Standard: 16px, 24px, 32px
-- Large: 48px, 64px
+### Tipografi (Typography - Tailwind CSS Tabanlı)
+- **Font:** Inter (Proje varsayılanı)
+- **Başlık:** `text-xl` (20px), `text-2xl` (24px) - `font-bold`
+- **Gövde Metni:** `text-sm` (14px), `text-base` (16px) - `font-normal` / `font-medium`
+- **Satır Yüksekliği:** Tailwind varsayılanları (`leading-normal`, `leading-relaxed`)
 
-### Border Radius
-
-- Default: 16-20px
-- Buttons: 12px
-- Small elements: 8px
-
-### Typography
-
-- Font: Inter
-- Title: 20-24px, weight 600
-- Body: 14-16px, weight 400
-- Line height: 1.5
-
-### Animation
-
-- Duration: 300-500ms (subtle animations preferred)
-- Easing: ease-in-out
-- Hover: Lift (-4px) + Glow
+### Animasyon (Animation)
+- **Süre ve Geçiş:** `transition-colors` gibi Tailwind utility'leri ile yönetilir.
+- **Easing:** `ease-in-out` (Tailwind varsayılanı)
+- **Hover Etkileşimi:** `hover:bg-red-600` gibi class'larla yönetilen basit renk değişimleri.
 
 ### Desktop Only Resolutions
 

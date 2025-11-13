@@ -5,6 +5,7 @@ import { NavigationProvider } from "./contexts/NavigationContext";
 import { ActiveSessionProvider } from "./contexts/ActiveSessionContext";
 import TutorialOverlay from "./components/Tutorial/TutorialOverlay";
 import ElementSelector from "./components/Tutorial/ElementSelector";
+import ErrorBoundary from "./components/ErrorBoundary";
 import HomePage from "./pages/HomePage";
 import FAQPage from "./pages/FAQPage";
 
@@ -191,7 +192,17 @@ function App() {
       <NavigationProvider>
         <ActiveSessionProvider>
           <div className="App">
-            <AppRoutes />
+            <ErrorBoundary>
+              <Suspense
+                fallback={
+                  <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 flex items-center justify-center">
+                    <div className="text-white text-xl">İçerik yükleniyor...</div>
+                  </div>
+                }
+              >
+                <AppRoutes />
+              </Suspense>
+            </ErrorBoundary>
             <TutorialOverlay />
             <ElementSelector />
           </div>

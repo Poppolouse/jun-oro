@@ -81,7 +81,7 @@ export const useTutorial = (tutorialId = null, options = {}) => {
         }
       },
     });
-  }, [tutorialId, userId, startTutorial]);
+  }, [tutorialId, userId]);
 
   /**
    * Tutorial'ı manuel olarak başlat

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
+import ShaderBackground from "../components/ShaderBackground";
 
 function LoginPage() {
   const [formData, setFormData] = useState({
@@ -311,44 +312,8 @@ function LoginPage() {
       data-registry="7.0"
       className="relative min-h-screen overflow-hidden"
     >
-      {/* Daha Koyu Hareketli Gradient Arkaplan */}
-      <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-black to-gray-800">
-        {/* Dalga Animasyonları */}
-        <div className="absolute inset-0">
-          <div
-            className="absolute inset-0 bg-gradient-to-r from-purple-900/30 via-blue-900/20 to-indigo-900/30 animate-pulse"
-            style={{ animationDuration: "4s" }}
-          ></div>
-          <div
-            className="absolute inset-0 bg-gradient-to-l from-blue-800/20 via-purple-800/15 to-pink-800/20 animate-bounce"
-            style={{ animationDuration: "6s" }}
-          ></div>
-
-          {/* İç İçe Geçen Dalga Efektleri */}
-          <div className="absolute top-0 left-0 w-full h-full">
-            <div
-              className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-600/10 rounded-full animate-ping"
-              style={{ animationDuration: "3s" }}
-            ></div>
-            <div
-              className="absolute top-1/3 right-1/4 w-80 h-80 bg-blue-600/10 rounded-full animate-ping"
-              style={{ animationDuration: "4s", animationDelay: "1s" }}
-            ></div>
-            <div
-              className="absolute bottom-1/4 left-1/3 w-72 h-72 bg-indigo-600/10 rounded-full animate-ping"
-              style={{ animationDuration: "5s", animationDelay: "2s" }}
-            ></div>
-          </div>
-
-          {/* Ek Dalga Katmanları */}
-          <div
-            className="absolute inset-0 bg-gradient-to-tr from-transparent via-purple-500/5 to-transparent animate-pulse"
-            style={{ animationDuration: "7s" }}
-          ></div>
-        </div>
-      </div>
-
-      {/* Background Pattern kaldırıldı */}
+      <ShaderBackground />
+      {/* Eski gradient/dalga arka plan kaldırıldı; ShaderBackground aktif */}
 
       <div className="relative z-10 flex items-center justify-center min-h-screen p-4">
         <div className="relative w-full max-w-md">

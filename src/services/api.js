@@ -24,15 +24,29 @@ class ApiClient {
 
     try {
       const response = await fetch(url, config);
+      const contentType = response.headers.get("content-type") || "";
 
       if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        throw new Error(
-          errorData.message || `HTTP error! status: ${response.status}`,
-        );
+        let errorMessage = `HTTP error! status: ${response.status}`;
+        if (contentType.includes("application/json")) {
+          const errorData = await response.json().catch(() => ({}));
+          errorMessage = errorData.message || errorMessage;
+        } else {
+          const errorText = await response.text().catch(() => "");
+          if (errorText) {
+            // Trim long HTML/text responses for readability
+            const snippet = errorText.slice(0, 200).replace(/\s+/g, " ");
+            errorMessage = `${errorMessage} - ${snippet}`;
+          }
+        }
+        throw new Error(errorMessage);
       }
 
-      return await response.json();
+      if (contentType.includes("application/json")) {
+        return await response.json();
+      }
+      // Non-JSON successful response (rare). Return empty object to avoid parse errors.
+      return {};
     } catch (error) {
       console.error(`API request failed: ${endpoint}`, error);
       throw error;

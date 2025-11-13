@@ -10,6 +10,12 @@ export default function useSettingsData() {
   const [r2Stats, setR2Stats] = useState(null);
   const [changelogs, setChangelogs] = useState([]);
   const [auditLogs, setAuditLogs] = useState([]);
+  const [auditLogsPagination, setAuditLogsPagination] = useState({
+    currentPage: 1,
+    totalPages: 1,
+    totalItems: 0,
+    limit: 20,
+  });
   const [notificationHistory, setNotificationHistory] = useState([]);
   const [userReadStats, setUserReadStats] = useState({});
   const [trafficLogs, setTrafficLogs] = useState([]);
@@ -127,10 +133,20 @@ export default function useSettingsData() {
       );
       if (!res.ok) throw new Error("audit logs failed");
       const data = await res.json();
-      setAuditLogs(data.data?.logs || []);
+      const logs = data?.data?.logs || data?.logs || [];
+      setAuditLogs(logs);
+      // Map backend pagination { page, limit, total, pages } → UI state
+      const pageMeta = {
+        currentPage: data?.data?.page ?? data?.page ?? page,
+        totalPages: data?.data?.pages ?? data?.pages ?? 1,
+        totalItems: data?.data?.total ?? data?.total ?? logs.length,
+        limit: data?.data?.limit ?? data?.limit ?? 20,
+      };
+      setAuditLogsPagination(pageMeta);
     } catch (err) {
       console.error("loadAuditLogs", err);
       setAuditLogs([]);
+      setAuditLogsPagination((prev) => ({ ...prev, currentPage: page }));
     }
   }, []);
 
@@ -423,6 +439,7 @@ export default function useSettingsData() {
     r2Stats,
     changelogs,
     auditLogs,
+    auditLogsPagination,
     notificationHistory,
     userReadStats,
     trafficLogs,
