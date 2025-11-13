@@ -18,14 +18,14 @@ Jun-Oro projesine katkıda bulunmak için gereken teknik bilgiler, kurulum adım
 
 ### Sistem Gereksinimleri
 
-| Gereksinim | Minimum | Tavsiye Edilen |
-|-------------|---------|----------------|
+| Gereksinim             | Minimum                               | Tavsiye Edilen                     |
+| ---------------------- | ------------------------------------- | ---------------------------------- |
 | 💻 **İşletim Sistemi** | Windows 10, macOS 10.15, Ubuntu 18.04 | Windows 11, macOS 12, Ubuntu 20.04 |
-| 🟢 **Node.js** | v16.0.0 | v18.0.0+ |
-| 📦 **npm** | v8.0.0 | v9.0.0+ |
-| 🗄️ **Git** | v2.30.0 | v2.40.0+ |
-| 🐘 **PostgreSQL** | v13.0 | v15.0+ |
-| 🌐 **Browser** | Chrome 90+, Firefox 88+ | Chrome 100+, Firefox 100+ |
+| 🟢 **Node.js**         | v16.0.0                               | v18.0.0+                           |
+| 📦 **npm**             | v8.0.0                                | v9.0.0+                            |
+| 🗄️ **Git**             | v2.30.0                               | v2.40.0+                           |
+| 🐘 **PostgreSQL**      | v13.0                                 | v15.0+                             |
+| 🌐 **Browser**         | Chrome 90+, Firefox 88+               | Chrome 100+, Firefox 100+          |
 
 ### Geliştirme Araçları
 
@@ -44,25 +44,27 @@ Jun-Oro projesine katkıda bulunmak için gereken teknik bilgiler, kurulum adım
 
 #### Tavsiye Edilen VS Code Extension'ları
 
-| Extension | Açıklama |
-|-----------|------------|
+| Extension                                     | Açıklama               |
+| --------------------------------------------- | ---------------------- |
 | 📦 **ES7+ React/Redux/React-Native snippets** | React kod parçacıkları |
-| 🎨 **Prettier - Code formatter** | Kod formatlama |
-| 🔍 **ESLint** | Kod kalitesi kontrolü |
-| 🌈 **GitLens** | Git geliştirmeleri |
-| 🧪 **Thunder Client** | API test etme |
-| 🐳 **Docker** | Konteyner yönetimi |
-| 📊 **Thunder Client** | API test etme |
+| 🎨 **Prettier - Code formatter**              | Kod formatlama         |
+| 🔍 **ESLint**                                 | Kod kalitesi kontrolü  |
+| 🌈 **GitLens**                                | Git geliştirmeleri     |
+| 🧪 **Thunder Client**                         | API test etme          |
+| 🐳 **Docker**                                 | Konteyner yönetimi     |
+| 📊 **Thunder Client**                         | API test etme          |
 
 ### Kurulum Adımları
 
 1. **Depoyu Klonla**:
+
    ```bash
    git clone https://github.com/jun-oro/jun-oro.git
    cd jun-oro
    ```
 
 2. **Backend Kurulumu**:
+
    ```bash
    cd backend
    npm install
@@ -71,12 +73,14 @@ Jun-Oro projesine katkıda bulunmak için gereken teknik bilgiler, kurulum adım
    ```
 
 3. **Frontend Kurulumu**:
+
    ```bash
    cd ..
    npm install
    ```
 
 4. **Veritabanı Kurulumu**:
+
    ```bash
    cd backend
    npx prisma migrate dev
@@ -84,11 +88,12 @@ Jun-Oro projesine katkıda bulunmak için gereken teknik bilgiler, kurulum adım
    ```
 
 5. **Geliştirme Sunucusunu Başlat**:
+
    ```bash
    # Terminal 1: Backend
    cd backend
    npm run dev
-   
+
    # Terminal 2: Frontend
    npm run dev
    ```
@@ -174,7 +179,7 @@ backend/src/
 #### Component Şablonu
 
 ```jsx
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
 /**
  * Component açıklaması
@@ -183,16 +188,16 @@ import React, { useState, useEffect } from 'react';
  */
 export default function ComponentName({ prop1, prop2 }) {
   const [state, setState] = useState(initialValue);
-  
+
   useEffect(() => {
     // Side effect logic
   }, [dependency]);
-  
+
   // Early return pattern
   if (!condition) {
     return null;
   }
-  
+
   return (
     <div className="component-name" data-ers="PAGE.SECTION.CONTAINER.ELEMENT">
       {/* JSX content */}
@@ -204,7 +209,7 @@ export default function ComponentName({ prop1, prop2 }) {
 #### Hook Şablonu
 
 ```jsx
-import { useState, useCallback } from 'react';
+import { useState, useCallback } from "react";
 
 /**
  * Hook açıklaması
@@ -213,11 +218,11 @@ import { useState, useCallback } from 'react';
  */
 export function useCustomHook(param) {
   const [state, setState] = useState(initialState);
-  
+
   const action = useCallback(() => {
     // Action logic
   }, [dependencies]);
-  
+
   return [state, action];
 }
 ```
@@ -227,10 +232,10 @@ export function useCustomHook(param) {
 #### Route Şablonu
 
 ```javascript
-import { Router } from 'express';
-import { z } from 'zod';
-import { validateRequest } from '../middleware/validation.js';
-import { authenticateToken } from '../middleware/auth.js';
+import { Router } from "express";
+import { z } from "zod";
+import { validateRequest } from "../middleware/validation.js";
+import { authenticateToken } from "../middleware/auth.js";
 
 const router = Router();
 
@@ -244,22 +249,23 @@ const schema = z.object({
  * @route POST /api/endpoint
  * @access Private
  */
-router.post('/endpoint', 
+router.post(
+  "/endpoint",
   authenticateToken,
   validateRequest(schema),
   async (req, res, next) => {
     try {
       // Business logic
       const result = await processRequest(req.body);
-      
+
       res.json({
         success: true,
-        data: result
+        data: result,
       });
     } catch (error) {
       next(error);
     }
-  }
+  },
 );
 
 export default router;
@@ -275,10 +281,10 @@ export default router;
  */
 export async function serviceFunction(data) {
   try {
-    const response = await api.post('/endpoint', data);
+    const response = await api.post("/endpoint", data);
     return response.data;
   } catch (error) {
-    console.error('Service error:', error);
+    console.error("Service error:", error);
     throw error;
   }
 }
@@ -288,12 +294,13 @@ export async function serviceFunction(data) {
 
 ### Teknoloji Stack'i
 
-| Teknoloji | Versiyon | Kullanım Alanı |
-|-----------|---------|----------------|
-| ⚛️ **React** | 18.2.0+ | UI framework |
-| 🔄 **Vite** | 4.0.0+ | Build tool |
-| 🎨 **Tailwind CSS** | 3.3.0+ | Styling |
-| 🗂️ **React Router** | 6.8.0+ | Routing |
+| Teknoloji           | Versiyon | Kullanım Alanı |
+| ------------------- | -------- | -------------- |
+| ⚛️ **React**        | 18.2.0+  | UI framework   |
+| 🔄 **Vite**         | 4.0.0+   | Build tool     |
+| 🎨 **Tailwind CSS** | 3.3.0+   | Styling        |
+| 🗂️ **React Router** | 6.8.0+   | Routing        |
+
 - 🏪 **Zustand** - State management
 - 🧪 **Vitest** - Testing framework
 - 📦 **Axios** - HTTP client
@@ -307,10 +314,7 @@ Her component'e ERS kodu eklemelisiniz:
 ```jsx
 <div data-ers="1.3.1" className="game-grid">
   {games.map((game, i) => (
-    <GameCard
-      data-ers={`1.3.1.${i+1}`}
-      {...game}
-    />
+    <GameCard data-ers={`1.3.1.${i + 1}`} {...game} />
   ))}
 </div>
 ```
@@ -320,27 +324,23 @@ Her component'e ERS kodu eklemelisiniz:
 Zustand store kullanımı:
 
 ```jsx
-import { useGameStore } from '../stores/gameStore';
+import { useGameStore } from "../stores/gameStore";
 
 function GameComponent() {
   const { games, addGame, removeGame } = useGameStore();
-  
+
   const handleAddGame = (game) => {
     addGame(game);
   };
-  
-  return (
-    <div>
-      {/* Component content */}
-    </div>
-  );
+
+  return <div>{/* Component content */}</div>;
 }
 ```
 
 ### API Entegrasyonu
 
 ```jsx
-import { gameService } from '../services/gameService';
+import { gameService } from "../services/gameService";
 
 async function loadGames() {
   try {
@@ -356,13 +356,14 @@ async function loadGames() {
 
 ### Teknoloji Stack'i
 
-| Teknoloji | Versiyon | Kullanım Alanı |
-|-----------|---------|----------------|
-| 🟢 **Node.js** | 18.0.0+ | Runtime |
-| 🌐 **Express** | 4.18.0+ | Web framework |
-| 🗄️ **Prisma** | 5.0.0+ | ORM |
-| 🐘 **PostgreSQL** | 15.0+ | Veritabanı |
-| 🔐 **JWT** | 9.0.0+ | Authentication |
+| Teknoloji         | Versiyon | Kullanım Alanı |
+| ----------------- | -------- | -------------- |
+| 🟢 **Node.js**    | 18.0.0+  | Runtime        |
+| 🌐 **Express**    | 4.18.0+  | Web framework  |
+| 🗄️ **Prisma**     | 5.0.0+   | ORM            |
+| 🐘 **PostgreSQL** | 15.0+    | Veritabanı     |
+| 🔐 **JWT**        | 9.0.0+   | Authentication |
+
 - ✅ **Zod** - Validation
 - 📝 **Winston** - Logging
 
@@ -372,10 +373,10 @@ async function loadGames() {
 
 ```javascript
 // routes/games.js
-import { Router } from 'express';
-import { z } from 'zod';
-import { validateRequest } from '../middleware/validation.js';
-import { authenticateToken } from '../middleware/auth.js';
+import { Router } from "express";
+import { z } from "zod";
+import { validateRequest } from "../middleware/validation.js";
+import { authenticateToken } from "../middleware/auth.js";
 
 const router = Router();
 
@@ -385,16 +386,17 @@ const gameSchema = z.object({
   platform: z.string().min(1),
 });
 
-router.get('/', async (req, res) => {
+router.get("/", async (req, res) => {
   // Get games logic
 });
 
-router.post('/', 
+router.post(
+  "/",
   authenticateToken,
   validateRequest(gameSchema),
   async (req, res, next) => {
     // Create game logic
-  }
+  },
 );
 
 export default router;
@@ -404,7 +406,7 @@ export default router;
 
 ```javascript
 // middleware/validation.js
-import { z } from 'zod';
+import { z } from "zod";
 
 export function validateRequest(schema) {
   return (req, res, next) => {
@@ -414,7 +416,7 @@ export function validateRequest(schema) {
     } catch (error) {
       res.status(400).json({
         success: false,
-        error: error.errors
+        error: error.errors,
       });
     }
   };
@@ -435,7 +437,7 @@ model Game {
   status    GameStatus @default(PLAYING)
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
-  
+
   @@map("games")
   @@index([platform])
   @@index([status])
@@ -451,6 +453,7 @@ enum GameStatus {
 ### Migration Süreci
 
 1. **Schema Değişikliği**:
+
    ```prisma
    // Yeni alan ekle
    model Game {
@@ -460,6 +463,7 @@ enum GameStatus {
    ```
 
 2. **Migration Oluşturma**:
+
    ```bash
    npx prisma migrate dev --name add_release_date
    ```
@@ -473,11 +477,11 @@ enum GameStatus {
 
 ### Test Framework'leri
 
-| Framework | Kullanım Alanı |
-|-----------|----------------|
-| 🧪 **Vitest** | Unit/Integration testleri |
-| 🎭 **Testing Library** | Component testleri |
-| 🎮 **Playwright** | E2E testleri |
+| Framework              | Kullanım Alanı            |
+| ---------------------- | ------------------------- |
+| 🧪 **Vitest**          | Unit/Integration testleri |
+| 🎭 **Testing Library** | Component testleri        |
+| 🎮 **Playwright**      | E2E testleri              |
 
 ### Test Yazma
 
@@ -485,22 +489,22 @@ enum GameStatus {
 
 ```javascript
 // services/gameService.test.js
-import { describe, it, expect } from 'vitest';
-import { gameService } from './gameService';
+import { describe, it, expect } from "vitest";
+import { gameService } from "./gameService";
 
-describe('gameService', () => {
-  it('should get all games', async () => {
+describe("gameService", () => {
+  it("should get all games", async () => {
     const games = await gameService.getAllGames();
     expect(Array.isArray(games)).toBe(true);
   });
-  
-  it('should create a game', async () => {
+
+  it("should create a game", async () => {
     const gameData = {
-      title: 'Test Game',
-      genre: 'RPG',
-      platform: 'PC'
+      title: "Test Game",
+      genre: "RPG",
+      platform: "PC",
     };
-    
+
     const game = await gameService.createGame(gameData);
     expect(game.title).toBe(gameData.title);
   });
@@ -511,25 +515,25 @@ describe('gameService', () => {
 
 ```jsx
 // components/GameCard.test.jsx
-import { render, screen, fireEvent } from '@testing-library/react';
-import { describe, it, expect } from 'vitest';
-import GameCard from './GameCard';
+import { render, screen, fireEvent } from "@testing-library/react";
+import { describe, it, expect } from "vitest";
+import GameCard from "./GameCard";
 
-describe('GameCard', () => {
-  it('should render game title', () => {
-    const game = { title: 'Test Game', genre: 'RPG' };
+describe("GameCard", () => {
+  it("should render game title", () => {
+    const game = { title: "Test Game", genre: "RPG" };
     render(<GameCard game={game} />);
-    
-    expect(screen.getByText('Test Game')).toBeInTheDocument();
+
+    expect(screen.getByText("Test Game")).toBeInTheDocument();
   });
-  
-  it('should handle click events', () => {
+
+  it("should handle click events", () => {
     const mockOnClick = vi.fn();
-    const game = { title: 'Test Game' };
-    
+    const game = { title: "Test Game" };
+
     render(<GameCard game={game} onClick={mockOnClick} />);
-    
-    fireEvent.click(screen.getByRole('button'));
+
+    fireEvent.click(screen.getByRole("button"));
     expect(mockOnClick).toHaveBeenCalledWith(game);
   });
 });
@@ -574,21 +578,26 @@ docs(readme): kurulum rehberi güncelleme
    - ✅ ERS kayıtları yapıldı
 
 2. **PR Template**:
+
    ```markdown
    ## Değişiklik Açıklaması
+
    Bu PR oyun ekleme özelliğini ekler.
-   
+
    ## Değişiklik Türü
+
    - [ ] Yeni özellik
    - [ ] Hata düzeltme
    - [ ] Dokümantasyon
-   
+
    ## Testler
+
    - [ ] Unit testleri eklendi
    - [ ] Integration testleri eklendi
    - [ ] E2E testleri eklendi
-   
+
    ## Ekran Görüntüleri
+
    <!-- Gerekirse ekran görüntüleri ekleyin -->
    ```
 
@@ -604,13 +613,14 @@ docs(readme): kurulum rehberi güncelleme
 
 ### Review Kriterleri
 
-| Kategori | Kontrol Noktaları |
-|----------|------------------|
+| Kategori              | Kontrol Noktaları              |
+| --------------------- | ------------------------------ |
 | 🎯 **Fonksiyonellik** | Gereksinimler karşılanıyor mu? |
-| 📏 **Kod Kalitesi** | Standartlara uygun mu? |
-| 🧪 **Testler** | Test yeterliliği var mı? |
-| 📚 **Dokümantasyon** | Dokümantasyon güncel mi? |
-| 🔒 **Güvenlik** | Güvenlik açığı var mı? |
+| 📏 **Kod Kalitesi**   | Standartlara uygun mu?         |
+| 🧪 **Testler**        | Test yeterliliği var mı?       |
+| 📚 **Dokümantasyon**  | Dokümantasyon güncel mi?       |
+| 🔒 **Güvenlik**       | Güvenlik açığı var mı?         |
+
 - 🚀 **Performans** - Performans etkisi nedir?
 
 ### Review İpuçları
@@ -666,7 +676,7 @@ npm run db:seed
 
 ```javascript
 // Browser'da debugging
-console.log('Debug info:', data);
+console.log("Debug info:", data);
 debugger; // Browser'da durdurma noktası
 
 // React DevTools

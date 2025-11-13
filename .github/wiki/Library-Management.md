@@ -20,13 +20,13 @@ Oyun kütüphaneniz, sahip olduğunuz tüm oyunları tek bir yerde toplamanızı
 
 ### 📋 Kütüphane Ana Özellikleri
 
-| Özellik | Açıklama |
-|---------|----------|
-| **Görsel Oyun Kartları** | Her oyun kapak görseli ve temel bilgileriyle gösterilir |
-| **Hızlı Erişim** | Oyunları tek tıkla görüntüleme ve düzenleme |
-| **Akıllı Filtreleme** | Kategori, platform, durum ve daha fazlasına göre filtreleme |
-| **Arama** | Oyun adlarına göre hızlı arama |
-| **Toplu İşlemler** | Birden fazla oyunu aynı anda düzenleme |
+| Özellik                  | Açıklama                                                    |
+| ------------------------ | ----------------------------------------------------------- |
+| **Görsel Oyun Kartları** | Her oyun kapak görseli ve temel bilgileriyle gösterilir     |
+| **Hızlı Erişim**         | Oyunları tek tıkla görüntüleme ve düzenleme                 |
+| **Akıllı Filtreleme**    | Kategori, platform, durum ve daha fazlasına göre filtreleme |
+| **Arama**                | Oyun adlarına göre hızlı arama                              |
+| **Toplu İşlemler**       | Birden fazla oyunu aynı anda düzenleme                      |
 
 ## ➕ Oyun Ekleme Yöntemleri
 
@@ -130,16 +130,16 @@ Kategoriler, oyunlarınızı mantıksal gruplara ayırmanıza yardımcı olur:
 
 #### Varsayılan Kategoriler
 
-| Kategori | Açıklama |
-|----------|-----------|
-| **Aksiyon** | Hızlı tempolu, refleks gerektiren oyunlar |
-| **RPG** | Karakter gelişimi ve hikaye odaklı oyunlar |
-| **Strateji** | Planlama ve taktik gerektiren oyunlar |
+| Kategori       | Açıklama                                       |
+| -------------- | ---------------------------------------------- |
+| **Aksiyon**    | Hızlı tempolu, refleks gerektiren oyunlar      |
+| **RPG**        | Karakter gelişimi ve hikaye odaklı oyunlar     |
+| **Strateji**   | Planlama ve taktik gerektiren oyunlar          |
 | **Simülasyon** | Gerçek yaşam deneyimlerini taklit eden oyunlar |
-| **Spor** | Farklı spor dallarını içeren oyunlar |
-| **Yarış** | Araç veya karakter yarışları |
-| **Bulmaca** | Zeka ve problem çözme odaklı oyunlar |
-| **Macera** | Keşif ve hikaye odaklı oyunlar |
+| **Spor**       | Farklı spor dallarını içeren oyunlar           |
+| **Yarış**      | Araç veya karakter yarışları                   |
+| **Bulmaca**    | Zeka ve problem çözme odaklı oyunlar           |
+| **Macera**     | Keşif ve hikaye odaklı oyunlar                 |
 
 #### Özel Kategori Oluşturma
 
@@ -155,16 +155,16 @@ Etiketler, kategorilerden daha esnek bir organizasyon sağlar:
 
 #### Popüler Etiketler
 
-| Etiket | Açıklama |
-|--------|----------|
-| `#tek-oyuncu` | Tek kişilik oyunlar |
-| `#cok-oyuncu` | Çoklu oyuncu desteği olanlar |
-| `#co-op` | İşbirliği modlu oyunlar |
-| `#indie` | Bağımsız geliştirilen oyunlar |
-| `#aaa` | Büyük bütçeli oyunlar |
-| `#retro` | Klasik/eski oyunlar |
-| `#vr` | Sanal gerçeklik oyunları |
-| `#fps` | Birinci şahıs nişancı oyunlar |
+| Etiket        | Açıklama                      |
+| ------------- | ----------------------------- |
+| `#tek-oyuncu` | Tek kişilik oyunlar           |
+| `#cok-oyuncu` | Çoklu oyuncu desteği olanlar  |
+| `#co-op`      | İşbirliği modlu oyunlar       |
+| `#indie`      | Bağımsız geliştirilen oyunlar |
+| `#aaa`        | Büyük bütçeli oyunlar         |
+| `#retro`      | Klasik/eski oyunlar           |
+| `#vr`         | Sanal gerçeklik oyunları      |
+| `#fps`        | Birinci şahıs nişancı oyunlar |
 
 #### Etiket Ekleme
 
@@ -182,14 +182,14 @@ Kütüphanenizdeki oyunları hızlıca bulmak için filtreleri kullanın:
 
 #### Filtre Seçenekleri
 
-| Filtre | Seçenekler |
-|--------|-----------|
-| **Platform** | PC, PlayStation, Xbox, Nintendo Switch |
-| **Kategori** | Oyun türüne göre filtreleme |
-| **Durum** | Oynanıyor, Tamamlandı, Bırakıldı, Planlanıyor |
-| **Etiketler** | Özel etiketlere göre filtreleme |
-| **Tarih Aralığı** | Belirli dönemde eklenen oyunlar |
-| **Değerlendirme** | Verdiğiniz puanlara göre filtreleme |
+| Filtre            | Seçenekler                                    |
+| ----------------- | --------------------------------------------- |
+| **Platform**      | PC, PlayStation, Xbox, Nintendo Switch        |
+| **Kategori**      | Oyun türüne göre filtreleme                   |
+| **Durum**         | Oynanıyor, Tamamlandı, Bırakıldı, Planlanıyor |
+| **Etiketler**     | Özel etiketlere göre filtreleme               |
+| **Tarih Aralığı** | Belirli dönemde eklenen oyunlar               |
+| **Değerlendirme** | Verdiğiniz puanlara göre filtreleme           |
 
 #### Filtre Kullanımı
 
@@ -240,12 +240,12 @@ Kütüphanenizin genel durumunu hızlıca görün:
 
 ### Ana İstatistikler
 
-| İstatistik | Açıklama |
-|-----------|----------|
-| **Toplam Oyun Sayısı** | Kütüphanenizdeki oyunların toplamı |
-| **Tamamlanan Oyunlar** | Bitirdiğiniz oyun sayısı |
-| **Oynanan Oyunlar** | En az bir kez oynadığınız oyunlar |
-| **Toplam Değer** | Kütüphanenizin tahmini değeri |
+| İstatistik                  | Açıklama                                     |
+| --------------------------- | -------------------------------------------- |
+| **Toplam Oyun Sayısı**      | Kütüphanenizdeki oyunların toplamı           |
+| **Tamamlanan Oyunlar**      | Bitirdiğiniz oyun sayısı                     |
+| **Oynanan Oyunlar**         | En az bir kez oynadığınız oyunlar            |
+| **Toplam Değer**            | Kütüphanenizin tahmini değeri                |
 | **En Çok Oynanan Platform** | Hangi platformda daha çok vakit geçirdiğiniz |
 
 ### Kategori Dağılımı
@@ -262,21 +262,21 @@ Kütüphanenizi kendi zevkinize göre özelleştirin:
 
 #### Kart Görünümleri
 
-| Görünüm | Açıklama |
-|---------|----------|
-| **Büyük Kartlar** | Kapak görselleri büyük gösterilir |
-| **Küçük Kartlar** | Daha fazla oyun aynı ekranda gösterilir |
-| **Liste Görünümü** | Metin odaklı kompakt görünüm |
+| Görünüm            | Açıklama                                |
+| ------------------ | --------------------------------------- |
+| **Büyük Kartlar**  | Kapak görselleri büyük gösterilir       |
+| **Küçük Kartlar**  | Daha fazla oyun aynı ekranda gösterilir |
+| **Liste Görünümü** | Metin odaklı kompakt görünüm            |
 
 #### Sıralama Seçenekleri
 
-| Sıralama | Açıklama |
-|-----------|----------|
-| **Eklenme Tarihi** | En yeni eklenenler üstte |
-| **Alfabetik** | A-Z sıralaması |
-| **Oynama Süresi** | En çok oynananlar üstte |
-| **Değerlendirme** | En yüksek puan alanlar üstte |
-| **Son Oynanma** | En son oynadıklarınız üstte |
+| Sıralama           | Açıklama                     |
+| ------------------ | ---------------------------- |
+| **Eklenme Tarihi** | En yeni eklenenler üstte     |
+| **Alfabetik**      | A-Z sıralaması               |
+| **Oynama Süresi**  | En çok oynananlar üstte      |
+| **Değerlendirme**  | En yüksek puan alanlar üstte |
+| **Son Oynanma**    | En son oynadıklarınız üstte  |
 
 #### Kişiselleştirme Adımları
 
@@ -291,12 +291,12 @@ Kütüphanenizi kendi zevkinize göre özelleştirin:
 
 #### Klavye Kısayolları
 
-| Kısayol | İşlev |
-|---------|-------|
-| `Ctrl + N` | Yeni oyun ekle |
+| Kısayol    | İşlev                  |
+| ---------- | ---------------------- |
+| `Ctrl + N` | Yeni oyun ekle         |
 | `Ctrl + F` | Arama kutusuna odaklan |
-| `Esc` | Filtreleri temizle |
-| `Enter` | Seçili oyunu düzenle |
+| `Esc`      | Filtreleri temizle     |
+| `Enter`    | Seçili oyunu düzenle   |
 
 #### Hızlı Eylemler
 

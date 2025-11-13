@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Refactor mode instructions for 'refactor' mode -->
+<refactor_instructions>
+  <metadata>
+    <slug>refactor</slug>
+    <name>🔨 Refactor Ustası</name>
+    <description>Kod düzenleme, bileşen ayrıştırma ve yapısal iyileştirmeler</description>
+    <language>tr</language>
+  </metadata>
+  <general_principles>
+    <principle name="single_responsibility">
+      <title>Single Responsibility Principle</title>
+      <details>
+        Her bileşen veya fonksiyon tek bir sorumluluk taşıyacak şekilde tasarlanmalı.
+        Bir dosya 300 satırı aşıyorsa MUTLAKA bölünmelidir.
+      </details>
+      <example>AdminPanel → UserManagement, ApiKeysPanel, R2Panel</example>
+    </principle>
+    <principle name="dry">
+      <title>DRY (Don't Repeat Yourself)</title>
+      <details>
+        Tekrar eden kod custom hook, utility veya shared component'e taşınmalı.
+        Utility fonksiyonları src/utils/ altında toplanmalı.
+      </details>
+    </principle>
+    <principle name="turkish_requirements">
+      <title>Türkçe Zorunluluğu</title>
+      <details>
+        Commit mesajları, açıklamalar ve TODO yorumları TÜRKÇE yazılmalıdır.
+        Kod içi değişken/fonksiyon isimleri İngilizce bırakılabilir.
+      </details>
+    </principle>
+    <principle name="backward_compatibility">
+      <title>Backward Compatibility</title>
+      <details>
+        Mevcut import'ları bozmadan ayrıştırma yapılmalı.
+        Breaking change varsa başına <warning>🚨 DİKKAT</warning> etiketi ekle.
+        Eski export'ları koruyarak re-export yap.
+      </details>
+    </principle>
+    <principle name="testing_validation">
+      <title>Test ve Doğrulama</title>
+      <details>
+        Her refactor adımı sonrası davranışın aynı kaldığını doğrula.
+        console.log ile temel testler yap, import hatalarını kontrol et.
+      </details>
+    </principle>
+  </general_principles>
+  <refactoring_strategies>
+    <strategy name="split_large_file">
+      <title>Büyük Dosya Bölme</title>
+      <steps>
+        <step>Dosyayı oku ve logical bölümleri tespit et</step>
+        <step>Her bölüm için ayrı dosya oluştur: src/components/[Module]/[Component].jsx</step>
+        <step>State ve fonksiyonları yeni dosyaya taşı</step>
+        <step>Props interface veya PropTypes tanımla</step>
+        <step>Ana dosyada re-export veya import ile bağla</step>
+        <step>Gereksiz kodu temizle</step>
+      </steps>
+      <validation>Yeni dosya 300 satırın altında olmalı ve testler geçmeli</validation>
+    </strategy>
+    <strategy name="state_management">
+      <title>State Management Refactor</title>
+      <details>
+        Birden fazla bileşen aynı state'i kullanıyorsa custom hook oluştur.
+        Global state gerekiyorsa Context API kullan; UI-only state ise local tut.
+        Async işlemler için React Query veya useSWR düşün.
+      </details>
+    </strategy>
+    <strategy name="props_drilling">
+      <title>Props Drilling Çözümü</title>
+      <rules>
+        <rule>3+ seviye props varsa Context API kullan</rule>
+        <rule>Sadece birkaç bileşene gerekliyse composition pattern uygula</rule>
+        <rule>State lift up ile en yakın ortak parent'a taşı</rule>
+      </rules>
+    </strategy>
+    <strategy name="custom_hooks">
+      <title>Custom Hook Oluşturma</title>
+      <rules>
+        <rule>Tekrar eden useEffect/useState kombinasyonları için hook yaz</rule>
+        <rule>API çağrıları için useApiCall</rule>
+        <rule>Form yönetimi için useForm</rule>
+        <rule>Modal state için useModal</rule>
+      </rules>
+    </strategy>
+  </refactoring_strategies>
+  <file_organization>
+    <structure>
+      <![CDATA[
+src/
+├── components/
+│   ├── Settings/
+│   │   ├── AdminPanel.jsx
+│   │   ├── UserManagement.jsx
+│   │   ├── ApiKeysPanel.jsx
+│   │   └── index.js
+│   └── shared/
+│       ├── Modal.jsx
+│       └── Button.jsx
+├── hooks/
+│   ├── useSettingsData.js
+│   └── useModal.js
+├── utils/
+│   ├── formatters.js
+│   └── validators.js
+└── pages/
+    └── SettingsPage.jsx
+    ]]>
+    </structure>
+    <guidance>Modül bazlı organizasyon ve re-export kullanımı tercih edilir</guidance>
+  </file_organization>
+  <common_pitfalls>
+    <pitfall>
+      <title>Tüm state'i hemen Context'e taşımak</title>
+      <solution>Önce global ihtiyaç analiz et; local state yeterliyse local bırak</solution>
+    </pitfall>
+    <pitfall>
+      <title>Tek seferde her şeyi refactor etmek</title>
+      <solution>Incremental refactor yap, her adımı test et</solution>
+    </pitfall>
+    <pitfall>
+      <title>Import path'leri kırılması</title>
+      <solution>Önce re-export ile mevcut yolları koru, sonra import'ları güncelle</solution>
+    </pitfall>
+    <pitfall>
+      <title>Props interface tanımlamadan ayırmak</title>
+      <solution>Her bileşen için PropTypes veya TypeScript interface yaz</solution>
+    </pitfall>
+  </common_pitfalls>
+  <quality_checklist>
+    <before>
+      <item>Mevcut kodu tam anladım mı?</item>
+      <item>Hangi bölümler ayrılacak belirledim mi?</item>
+      <item>Breaking change var mı?</item>
+      <item>Bağımlılıkları tespit ettim mi?</item>
+    </before>
+    <during>
+      <item>Yeni dosya oluşturdum</item>
+      <item>State ve fonksiyonları taşıdım</item>
+      <item>Props interface tanımladım</item>
+      <item>Import/export düzenledim</item>
+      <item>Gereksiz kodu kaldırdım</item>
+    </during>
+    <after>
+      <item>Console error yok</item>
+      <item>Import hataları yok</item>
+      <item>Davranış değişmedi</item>
+      <item>Dosya boyutları makul (<300 satır)</item>
+      <item>Commit mesajı açıklayıcı (Türkçe)</item>
+    </after>
+  </quality_checklist>
+  <examples>
+    <example name="adminpanel_split">
+      <title>AdminPanel Ayrıştırma</title>
+      <description>AdminPanel 1200 satır, 6 panel içeriyor</description>
+      <solution>
+        <![CDATA[
+ 1. Her panel için ayrı dosya: UserManagement.jsx, ApiKeysPanel.jsx, vb.
+ 2. Shared state'i useSettingsData hook'una taşı
+ 3. AdminPanel sadece routing ve layout yapsın
+ Sonuç: AdminPanel ~150 satır, her panel 200-250 satır
+        ]]>
+      </solution>
+    </example>
+    <example name="duplicate_api_calls">
+      <title>Tekrar Eden API Çağrıları</title>
+      <solution>
+        <![CDATA[
+ 1. hooks/useApiCall.js oluştur
+ 2. Loading, error, data state'lerini kapsülle
+ 3. Retry, cache mekanizması ekle
+ Kullanım: const { data, loading, error } = useApiCall('/api/users')
+        ]]>
+      </solution>
+    </example>
+    <example name="props_drilling">
+      <title>Props Drilling</title>
+      <solution>
+        <![CDATA[
+ 1. contexts/UserContext.js oluştur
+ 2. UserProvider en üst seviyeye ekle
+ 3. Alt bileşenlerde useUser() hook'u kullan
+        ]]>
+      </solution>
+    </example>
+  </examples>
+  <mermaid_examples>
+    <diagram><![CDATA[
+graph TD
+  A[SettingsPage 1200 satır] --> B[Refactor]
+  B --> C[SettingsPage 150 satır]
+  B --> D[UserManagement 200 satır]
+  B --> E[ApiKeysPanel 180 satır]
+  B --> F[useSettingsData hook]
+    ]]></diagram>
+  </mermaid_examples>
+  <tool_usage>
+    <note>Bu talimatlar apply_diff ve write_to_file ile birlikte kullanılacak şekilde tasarlandı</note>
+    <best_practices>
+      <item>Bir dosyayı değiştirmeden önce read_file ile içeriği oku</item>
+      <item>apply_diff kullanırken SEARCH bloğunun tam eşleştiğinden emin ol</item>
+      <item>Birden fazla küçük değişikliği tek apply_diff isteğinde birleştir</item>
+      <item>Commit mesajlarını Türkçe yaz: "Refactor: AdminPanel ayrıştırıldı"</item>
+    </best_practices>
+  </tool_usage>
+</refactor_instructions>

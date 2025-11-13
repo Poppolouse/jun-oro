@@ -6,20 +6,22 @@ Jun-Oro platformunu kullanırken karşılaşabileceğiniz yaygın sorunların ç
 
 ### En Yaygın Sorunlar ve Hızlı Çözümleri
 
-| Sorun | Hızlı Çözüm |
-|--------|-------------|
-| 📧 Giriş yapamıyorum | Şifrenizi sıfırlayın, tarayıcı önbelleğini temizleyin |
-| 🎮 Oyun eklenmiyor | İnternet bağlantınızı kontrol edin, Steam API durumunu kontrol edin |
-| 📊 İstatistikler görünmüyor | Sayfayı yenileyin, tarayıcınızı güncelleyin |
-| 🔔 Bildirimler gelmiyor | Bildirim izinlerinizi kontrol edin, spam klasörünü kontrol edin |
-| 📱 Mobil uygulama çöküyor | Uygulamayı güncelleyin, cihazınızı yeniden başlatın |
+| Sorun                       | Hızlı Çözüm                                                         |
+| --------------------------- | ------------------------------------------------------------------- |
+| 📧 Giriş yapamıyorum        | Şifrenizi sıfırlayın, tarayıcı önbelleğini temizleyin               |
+| 🎮 Oyun eklenmiyor          | İnternet bağlantınızı kontrol edin, Steam API durumunu kontrol edin |
+| 📊 İstatistikler görünmüyor | Sayfayı yenileyin, tarayıcınızı güncelleyin                         |
+| 🔔 Bildirimler gelmiyor     | Bildirim izinlerinizi kontrol edin, spam klasörünü kontrol edin     |
+| 📱 Mobil uygulama çöküyor   | Uygulamayı güncelleyin, cihazınızı yeniden başlatın                 |
 
 ## 🔐 Giriş ve Hesap Sorunları
 
 ### Şifre Unuttum
+
 **Sorun:** Hesabıma giriş yapamıyorum, şifremi unuttum.
 
 **Çözüm Adımları:**
+
 1. Giriş sayfasında **"Şifremi Unuttum"** bağlantısına tıklayın
 2. Kayıtlı e-posta adresinizi girin
 3. E-postanıza gelen sıfırlama linkine tıklayın (spam klasörünü kontrol edin)
@@ -27,15 +29,17 @@ Jun-Oro platformunu kullanırken karşılaşabileceğiniz yaygın sorunların ç
    - En az 8 karakter
    - Büyük ve küçük harf içermeli
    - Rakam içermeli
-   - Özel karakter içermeli (!@#$%^&*)
+   - Özel karakter içermeli (!@#$%^&\*)
 5. Yeni şifrenizle giriş yapmayı deneyin
 
 > ⏰ **İpucu:** Şifre sıfırlama linki 24 saat içinde geçerlidir.
 
 ### Hesap Aktivasyonu
+
 **Sorun:** Hesabımı aktive edemiyorum, aktivasyon kodu gelmiyor.
 
 **Çözüm Adımları:**
+
 1. E-posta adresinizin doğru yazıldığından emin olun
 2. Spam ve junk klasörlerinizi kontrol edin
 3. Aktivasyon e-postasını "Gelen Kutusu"na taşıyın
@@ -45,9 +49,11 @@ Jun-Oro platformunu kullanırken karşılaşabileceğiniz yaygın sorunların ç
 > 📧 **İpucu:** Gmail kullanıyorsanız, "Tüm Posta" klasörünü kontrol etmeyi unutmayın.
 
 ### İki Faktörlü Kimlik Doğrulama (2FA) Sorunları
+
 **Sorun:** 2FA kodunu giremiyorum veya doğrulama başarısız.
 
 **Çözüm Adımları:**
+
 1. **Zaman Eşitlemesi:** Telefonunuzdaki saat ile sunucu saatini eşitleyin
 2. **Yedek Kodlar:** Kurtarma kodlarınızdan birini kullanın
 3. **Authenticator Uygulaması:** Google Authenticator veya benzeri uygulamayı kontrol edin
@@ -59,9 +65,11 @@ Jun-Oro platformunu kullanırken karşılaşabileceğiniz yaygın sorunların ç
 ## 🎮 Oyun Kütüphanesi Sorunları
 
 ### Oyun Ekleme Hataları
+
 **Sorun:** Oyun ekleyemiyorum, "Oyun bulunamadı" hatası alıyorum.
 
 **Çözüm Adımları:**
+
 1. **Oyun Adını Kontrol Edin:**
    - Doğru yazımını kontrol edin
    - Türkçe karakter kullanmaktan kaçının
@@ -85,9 +93,11 @@ Jun-Oro platformunu kullanırken karşılaşabileceğiniz yaygın sorunların ç
 > 🔄 **İpucu:** 5 dakika bekleyip tekrar deneyin.
 
 ### Steam İçe Aktarma Hataları
+
 **Sorun:** Steam kütüphanemi içe aktaramıyorum.
 
 **Çözüm Adımları:**
+
 1. **Steam Profili Gizliliğini Kontrol Edin:**
    - Steam profilinizin herkese açık olduğundan emin olun
    - Steam ayarlarından "Oyun Detayları"nı herkese açık yapın
@@ -107,9 +117,11 @@ Jun-Oro platformunu kullanırken karşılaşabileceğiniz yaygın sorunların ç
 > ⏱️ **İpucu:** İçe aktarma işlemi 10-30 dakika sürebilir, sabırlı olun.
 
 ### Oyun Bilgileri Güncellenmiyor
+
 **Sorun:** Oyun bilgilerim eski kalmış, güncel bilgiler gelmiyor.
 
 **Çözüm Adımları:**
+
 1. **Manuel Güncelleme:**
    - Oyun kartına tıklayın
    - "Bilgileri Güncelle" butonuna basın
@@ -129,9 +141,11 @@ Jun-Oro platformunu kullanırken karşılaşabileceğiniz yaygın sorunların ç
 ## 📱 Mobil Uygulama Sorunları
 
 ### Uygulama Açılmıyor
+
 **Sorun:** Mobil uygulama açılmıyor veya aniden kapanıyor.
 
 **Çözüm Adımları:**
+
 1. **Uygulamayı Güncelleyin:**
    - App Store veya Google Play'den güncellemeyi kontrol edin
    - En son sürümü yükleyin
@@ -154,9 +168,11 @@ Jun-Oro platformunu kullanırken karşılaşabileceğiniz yaygın sorunların ç
 > 💾 **İpucu:** Verilerinizi yedeklemeyi unutmayın!
 
 ### Senkronizasyon Sorunları
+
 **Sorun:** Mobil uygulama ile web sürümü senkronize olmuyor.
 
 **Çözüm Adımları:**
+
 1. **İnternet Bağlantısını Kontrol Edin:**
    - Wi-Fi veya mobil verinin çalıştığından emin olun
    - Uçak modda olmadığınızdan emin olun
@@ -179,9 +195,11 @@ Jun-Oro platformunu kullanırken karşılaşabileceğiniz yaygın sorunların ç
 ## 📊 İstatistikler ve Veri Sorunları
 
 ### İstatistikler Görüntülenmiyor
+
 **Sorun:** İstatistikler sayfası boş görünüyor veya veriler yüklenmiyor.
 
 **Çözüm Adımları:**
+
 1. **Sayfayı Yenileyin:**
    - F5 tuşuna basın veya Ctrl+R (Windows/Linux)
    - Cmd+R (Mac)
@@ -201,9 +219,11 @@ Jun-Oro platformunu kullanırken karşılaşabileceğiniz yaygın sorunların ç
 > 🔍 **İpucu:** Geliştirici konsolunu (F12) açarak hataları kontrol edin.
 
 ### Veri Kayıp Sorunları
+
 **Sorun:** Oyun verilerim veya ilerlemem kayboldu.
 
 **Çözüm Adımları:**
+
 1. **Tarayıcı Geçmişini Kontrol Edin:**
    - Son 24 saatteki aktivitelerinizi kontrol edin
    - Başka bir cihazda giriş yapıp yapmadığınızı kontrol edin
@@ -225,9 +245,11 @@ Jun-Oro platformunu kullanırken karşılaşabileceğiniz yaygın sorunların ç
 ## 🔔 Bildirim Sorunları
 
 ### Bildirimler Gelmiyor
+
 **Sorun:** E-posta veya tarayıcı bildirimleri almıyorum.
 
 **Çözüm Adımları:**
+
 1. **Bildirim Ayarlarınızı Kontrol Edin:**
    - Ayarlar → Bildirimler → Tercihleri kontrol edin
    - İstediğiniz bildirim türlerinin açık olduğundan emin olun
@@ -248,9 +270,11 @@ Jun-Oro platformunu kullanırken karşılaşabileceğiniz yaygın sorunların ç
 > 🔔 **İpucu:** Bildirim testi göndererek ayarlarınızı kontrol edin.
 
 ### Fazla Bildirim Alıyorum
+
 **Sorun:** Çok fazla bildirim alıyorum, spam gibi.
 
 **Çözüm Adımları:**
+
 1. **Bildirim Sıklığını Azaltın:**
    - Ayarlar → Bildirimler → Sıklık ayarlarını değiştirin
    - Anlık yerine günlük veya haftalık özet seçin
@@ -272,9 +296,11 @@ Jun-Oro platformunu kullanırken karşılaşabileceğiniz yaygın sorunların ç
 ## 🌐 Bağlantı ve Performans Sorunları
 
 ### Yavaş Yükleme
+
 **Sorun:** Sayfalar çok yavaş yükleniyor.
 
 **Çözüm Adımları:**
+
 1. **İnternet Hızını Test Edin:**
    - Speedtest.net gibi sitelerle hızınızı ölçün
    - Minimum 5 Mbps download hızına ihtiyacınız var
@@ -295,9 +321,11 @@ Jun-Oro platformunu kullanırken karşılaşabileceğiniz yaygın sorunların ç
 > ⚡ **İpucu:** Daha hızlı bir internet bağlantısı kullanmayı düşünün.
 
 ### Bağlantı Kesintileri
+
 **Sorun:** Sürekli bağlantı kesintileri yaşıyorum.
 
 **Çözüm Adımları:**
+
 1. **İnternet Bağlantınızı Kontrol Edin:**
    - Diğer web sitelerine erişebildiğinizi test edin
    - Modeminizin ışıklarını kontrol edin
@@ -320,9 +348,11 @@ Jun-Oro platformunu kullanırken karşılaşabileceğiniz yaygın sorunların ç
 ## 🎨 Görünüm ve Arayüz Sorunları
 
 ### Görüntü Bozuklukları
+
 **Sorun:** Sayfa düzgün görünmüyor, elementler üst üste binmiş.
 
 **Çözüm Adımları:**
+
 1. **Tarayıcıyı Güncelleyin:**
    - Tarayıcınızın son sürümü kullandığından emin olun
    - Otomatik güncellemeleri açın
@@ -343,9 +373,11 @@ Jun-Oro platformunu kullanırken karşılaşabileceğiniz yaygın sorunların ç
 > 🖥️ **İpucu:** Farklı bir tarayıcı deneyerek sorunun devam edip etmediğini kontrol edin.
 
 ### Mobil Görünüm Sorunları
+
 **Sorun:** Mobil sitede görüntü bozuk.
 
 **Çözüm Adımları:**
+
 1. **Mobil Tarayıcıyı Kullanın:**
    - Chrome Mobile veya Safari Mobile kullanın
    - Masaüstü modundan kaçının
@@ -367,6 +399,7 @@ Jun-Oro platformunu kullanırken karşılaşabileceğiniz yaygın sorunların ç
 ## 🔧 Gelişmiş Sorun Giderme
 
 ### Geliştirici Konsolu Kullanımı
+
 Daha detaylı hata ayıklaması için geliştirici konsolunu kullanın:
 
 1. **Konsolu Açın:**
@@ -383,19 +416,23 @@ Daha detaylı hata ayıklaması için geliştirici konsolunu kullanın:
    - Network hatalarını (404, 500 vb.) kontrol edin
 
 ### Sistem Bilgileri Toplama
+
 Destek ekibine başvururken sistem bilgilerinizi hazırlayın:
 
 **Tarayıcı Bilgileri:**
+
 - Tarayıcı türü ve sürümü
 - İşletim sistemi
 - Ekran çözünürlüğü
 
 **Bağlantı Bilgileri:**
+
 - İnternet hızı
 - Bağlantı türü (Wi-Fi/Ethernet)
 - Konum
 
 **Cihaz Bilgileri:**
+
 - Mobil veya masaüstü
 - İşlemci ve RAM bilgileri
 - Depolama alanı
@@ -403,6 +440,7 @@ Destek ekibine başvururken sistem bilgilerinizi hazırlayın:
 ## 📞 Destek Ekibi İletişimi
 
 ### Ne Zaman Destek Almalısınız?
+
 Aşağıdaki durumlarda destek ekibimize başvurun:
 
 - ✅ **Hesap Güvenliği:** Şifre veya hesap erişim sorunları

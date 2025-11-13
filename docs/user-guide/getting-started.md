@@ -21,6 +21,7 @@ Hoş geldiniz! 🎮 Jun-Oro'ya ilk adımlarınızı atmak için bu rehber size y
    - Sağ üst köşedeki "Kayıt Ol" butonuna tıklayın 👤
 
 2. **Kayıt Formunu Doldurun**
+
    ```
    📧 E-posta Adresi: geçerli bir e-posta adresi girin
    👤 Kullanıcı Adı: benzersiz bir kullanıcı adı seçin
@@ -40,6 +41,7 @@ Hoş geldiniz! 🎮 Jun-Oro'ya ilk adımlarınızı atmak için bu rehber size y
    - Veya doğrudan [https://jun-oro.com/login](https://jun-oro.com/login) adresine gidin
 
 2. **Bilgilerinizi Girin**
+
    ```
    📧 E-posta: kayıtlı e-posta adresiniz
    🔒 Şifre: hesabınızın şifresi
@@ -66,6 +68,7 @@ Hoş geldiniz! 🎮 Jun-Oro'ya ilk adımlarınızı atmak için bu rehber size y
    - "Profil Ayarları" seçeneğini seçin ⚙️
 
 2. **Bilgilerinizi Düzenleyin**
+
    ```
    👤 Ad Soyad: gerçek adınızı ve soyadınızı girin
    📷️ Profil Resmi: avatarınızı yükleyin (isteğe bağlı)
@@ -98,6 +101,7 @@ Hoş geldiniz! 🎮 Jun-Oro'ya ilk adımlarınızı atmak için bu rehber size y
 Jun-Oro arayüzü dört ana bölümden oluşur:
 
 #### 📱 Sol Kenar Çubuğu
+
 - **🏠 Ana Sayfa**: Genel bakış ve hızlı erişim
 - **📚 Kütüphane**: Oyun koleksiyonunuz
 - **🎮 Oyun Oturumu**: Aktif oyun takibi
@@ -106,11 +110,13 @@ Jun-Oro arayüzü dört ana bölümden oluşur:
 - **⚙️ Ayarlar**: Hesap ve sistem ayarları
 
 #### 🎯 Ana İçerik Alanı
+
 - Oyun kartlarınızın görüntülendiği ana alan
 - Filtreleme ve arama seçenekleri
 - Oyun detayları ve işlem butonları
 
 #### 🔍 Üst Arama Çubuğu
+
 - Hızlı oyun arama
 - Platform filtreleri
 - Sıralama seçenekleri
@@ -144,6 +150,7 @@ Jun-Oro'ya oyun eklemenin üç yolu vardır:
    - Ana sayfadaki büyük "+" butonuna tıklayın ➕
 
 2. **Oyun Bilgilerini Girin**
+
    ```
    🎮 Oyun Adı: oyunun tam adı
    🎨 Türler: RPG, Aksiyon, Strateji vb.
@@ -204,6 +211,7 @@ Jun-Oro'ya oyun eklemenin üç yolu vardır:
 ### 🔍 Arama ve Filtreleme
 
 #### Oyun Arama
+
 1. **Arama Kutusunu Kullanın**
    - Sayfanın üstündeki arama kutusuna tıklayın 🔍
    - Aramak istediğiniz oyunun adını yazın
@@ -213,6 +221,7 @@ Jun-Oro'ya oyun eklemenin üç yolu vardır:
    - Sonuçlar arasında gezinmek için klavye oklarını kullanın
 
 #### Filtreleme Seçenekleri
+
 1. **Platform Filtresi**
    - "Platform" dropdown'ından istediğiniz platformu seçin
    - Birden fazla platform seçebilirsiniz
@@ -228,6 +237,7 @@ Jun-Oro'ya oyun eklemenin üç yolu vardır:
 ### 📱 Sayfalar Arasında Gezinme
 
 #### Sol Kenar Menüsü
+
 - **Ana Sayfa**: Genel bakış ve son aktiviteler
 - **Kütüphane**: Tüm oyunlarınızın listesi
 - **Oyun Oturumu**: Aktif oyun süresi takibi
@@ -236,6 +246,7 @@ Jun-Oro'ya oyun eklemenin üç yolu vardır:
 - **Ayarlar**: Hesap ve sistem ayarları
 
 #### Hızlı Navigasyon
+
 - **Klavye Kısayolları**:
   - `Ctrl + K`: Hızlı arama
   - `Ctrl + /`: Komut paleti
@@ -247,6 +258,7 @@ Jun-Oro'ya oyun eklemenin üç yolu vardır:
    - Herhangi bir oyun kartına tıklayarak detay sayfasını açın
 
 2. **Detay Bilgileri**
+
    ```
    📊 Oyun İstatistikleri
    📝 Notlar ve Etiketler
@@ -306,29 +318,37 @@ Başlangıç rehberini tamamladıktan sonra şu rehberleri inceleyebilirsiniz:
 ## ❓ Sıkça Sorulan Sorular
 
 ### 🔐 Giriş Yapamıyorum
+
 **Soru**: Şifrem doğru ama giriş yapamıyorum.
-**Çözüm**: 
+**Çözüm**:
+
 - Şifrenizi sıfırlamayı deneyin
 - Tarayıcı önbelleğini temizleyin
 - Caps Lock tuşunun kapalı olduğundan emin olun
 
 ### 📮 E-posta Doğrulaması Gelmiyor
+
 **Soru**: Kayıt oldum ama e-posta doğrulaması almadım.
 **Çözüm**:
+
 - Spam klasörünüzü kontrol edin
 - E-posta adresinizi doğru yazdığınızdan emin olun
 - "Yeniden Gönder" butonunu kullanın
 
 ### 🎮 Oyunumu Bulamıyorum
+
 **Soru**: Eklediğim oyunu kütüphanemde göremiyorum.
 **Çözüm**:
+
 - Sayfayı yenileyin (F5)
 - Filtrelerinizi kontrol edin
 - "Tüm Oyunlar" filtresini seçin
 
 ### 📱 Mobil Erişim
+
 **Soru**: Mobil cihazımdan nasıl erişebilirim?
 **Çözüm**:
+
 - Jun-Oro mobil uyumlu bir web sitesidir
 - Mobil tarayıcınızdan [jun-oro.com](https://jun-oro.com) adresine gidin
 - Gelecekte özel mobil uygulamamız olacak

@@ -31,6 +31,7 @@ Evet, Jun-Oro tamamen ücretsiz ve açık kaynaklı bir projedir. Hiçbir ücret
 ### Hangi platformları destekliyor?
 
 Jun-Oro şu anda web tabanlıdır ve tüm modern tarayıcılarda çalışır:
+
 - Chrome (v90+)
 - Firefox (v88+)
 - Safari (v14+)
@@ -57,12 +58,14 @@ Detaylı kurulum talimatları için [Getting Started](Getting-Started) sayfasın
 ### Sistem gereksinimleri nelerdir?
 
 **Minimum Gereksinimler:**
+
 - Node.js 18+
 - PostgreSQL 12+
 - 2GB RAM
 - 1GB disk alanı
 
 **Tavsiye Edilen:**
+
 - Node.js 20+
 - PostgreSQL 14+
 - 4GB RAM
@@ -283,10 +286,12 @@ Jun-Oro otomatik olarak verilerinizi görselleştirir:
 ### API limitleri nelerdir?
 
 **Steam API:**
+
 - 100,000 çağrı/gün
 - Rate limit: Aşırı kullanımda geçici blok
 
 **IGDB API:**
+
 - 4 istek/saniye
 - 8,000 istek/saat
 - Aylık limit: API planına bağlı

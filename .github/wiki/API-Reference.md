@@ -35,6 +35,7 @@ Content-Type: application/json
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -56,12 +57,14 @@ Content-Type: application/json
 ### 👤 Users API
 
 #### Tüm Kullanıcıları Getir
+
 ```http
 GET /api/users?page=1&limit=10
 Authorization: Bearer <token>
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -86,12 +89,14 @@ Authorization: Bearer <token>
 ```
 
 #### ID ile Kullanıcı Getir
+
 ```http
 GET /api/users/:id
 Authorization: Bearer <token>
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -110,6 +115,7 @@ Authorization: Bearer <token>
 ```
 
 #### Kullanıcı Güncelle
+
 ```http
 PUT /api/users/:id
 Authorization: Bearer <token>
@@ -123,6 +129,7 @@ Content-Type: application/json
 ```
 
 #### Kullanıcı Kayıt
+
 ```http
 POST /api/users/register
 Content-Type: application/json
@@ -137,12 +144,14 @@ Content-Type: application/json
 ```
 
 #### Kullanıcı Özetini Getir
+
 ```http
 GET /api/users/:id/summary
 Authorization: Bearer <token>
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -167,12 +176,14 @@ Authorization: Bearer <token>
 ```
 
 #### Kullanıcı Aktivitesini Güncelle
+
 ```http
 POST /api/users/:id/activity
 Authorization: Bearer <token>
 ```
 
 #### Kullanıcı Rolünü Güncelle
+
 ```http
 PUT /api/users/:id/role
 Authorization: Bearer <token>
@@ -184,12 +195,14 @@ Content-Type: application/json
 ```
 
 #### Bekleyen Kullanıcıyı Onayla
+
 ```http
 PUT /api/users/:id/approve
 Authorization: Bearer <token>
 ```
 
 #### Bekleyen Kullanıcıyı Reddet
+
 ```http
 DELETE /api/users/:id/reject
 Authorization: Bearer <token>
@@ -198,12 +211,14 @@ Authorization: Bearer <token>
 ### 🎮 Games API
 
 #### Oyunları Getir
+
 ```http
 GET /api/games?page=1&limit=10&search=Action&genre=RPG&platform=PC
 Authorization: Bearer <token>
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -212,14 +227,8 @@ Authorization: Bearer <token>
       "id": "550e8400-e29b-41d4-a716-446655440123",
       "name": "Test Game",
       "summary": "A test RPG game",
-      "genres": [
-        { "name": "RPG" },
-        { "name": "Adventure" }
-      ],
-      "platforms": [
-        { "name": "PC" },
-        { "name": "PlayStation" }
-      ],
+      "genres": [{ "name": "RPG" }, { "name": "Adventure" }],
+      "platforms": [{ "name": "PC" }, { "name": "PlayStation" }],
       "rating": 85,
       "category": 0,
       "cover": "https://example.com/cover.jpg",
@@ -252,12 +261,14 @@ Authorization: Bearer <token>
 ```
 
 #### ID ile Oyun Getir
+
 ```http
 GET /api/games/:id
 Authorization: Bearer <token>
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -265,14 +276,8 @@ Authorization: Bearer <token>
     "id": "550e8400-e29b-41d4-a716-446655440123",
     "name": "Test Game",
     "summary": "A test RPG game",
-    "genres": [
-      { "name": "RPG" },
-      { "name": "Adventure" }
-    ],
-    "platforms": [
-      { "name": "PC" },
-      { "name": "PlayStation" }
-    ],
+    "genres": [{ "name": "RPG" }, { "name": "Adventure" }],
+    "platforms": [{ "name": "PC" }, { "name": "PlayStation" }],
     "rating": 85,
     "category": 0,
     "cover": "https://example.com/cover.jpg",
@@ -316,6 +321,7 @@ Authorization: Bearer <token>
 ```
 
 #### Oyun Oluştur/Güncelle
+
 ```http
 POST /api/games
 Authorization: Bearer <token>
@@ -344,6 +350,7 @@ Content-Type: application/json
 ```
 
 #### Oyun Güncelle
+
 ```http
 PUT /api/games/:id
 Authorization: Bearer <token>
@@ -358,12 +365,14 @@ Content-Type: application/json
 ```
 
 #### Oyun Sil
+
 ```http
 DELETE /api/games/:id
 Authorization: Bearer <token>
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -372,12 +381,14 @@ Authorization: Bearer <token>
 ```
 
 #### Oyun İstatistikleri
+
 ```http
 GET /api/games/:id/stats
 Authorization: Bearer <token>
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -398,12 +409,14 @@ Authorization: Bearer <token>
 ```
 
 #### Oyun Arama Önerileri
+
 ```http
 GET /api/games/search/suggestions?q=Action
 Authorization: Bearer <token>
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -427,6 +440,7 @@ Authorization: Bearer <token>
 ```
 
 #### Toplu Oyun İşlemleri
+
 ```http
 POST /api/games/batch
 Authorization: Bearer <token>
@@ -449,6 +463,7 @@ Content-Type: application/json
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -476,12 +491,14 @@ Content-Type: application/json
 ### 📚 Library API
 
 #### Kullanıcı Kütüphanesi
+
 ```http
 GET /api/library/:userId?page=1&limit=10&status=playing&search=RPG
 Authorization: Bearer <token>
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -525,6 +542,7 @@ Authorization: Bearer <token>
 ```
 
 #### Kütüphaneye Oyun Ekle
+
 ```http
 POST /api/library/:userId/games
 Authorization: Bearer <token>
@@ -540,6 +558,7 @@ Content-Type: application/json
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -565,6 +584,7 @@ Content-Type: application/json
 ```
 
 #### Kütüphane Girişini Güncelle
+
 ```http
 PUT /api/library/:userId/games/:gameId
 Authorization: Bearer <token>
@@ -579,12 +599,14 @@ Content-Type: application/json
 ```
 
 #### Kütüphaneden Oyun Kaldır
+
 ```http
 DELETE /api/library/:userId/games/:gameId
 Authorization: Bearer <token>
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -593,12 +615,14 @@ Authorization: Bearer <token>
 ```
 
 #### Kütüphane İstatistikleri
+
 ```http
 GET /api/library/:userId/stats
 Authorization: Bearer <token>
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -644,6 +668,7 @@ Authorization: Bearer <token>
 ```
 
 #### Kütüphane İçe Aktar
+
 ```http
 POST /api/library/:userId/import
 Authorization: Bearer <token>
@@ -672,12 +697,14 @@ Content-Type: application/json
 ### ⏱️ Sessions API
 
 #### Kullanıcı Oturumları
+
 ```http
 GET /api/sessions/:userId?active=true
 Authorization: Bearer <token>
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -703,6 +730,7 @@ Authorization: Bearer <token>
 ```
 
 #### Yeni Oturum Oluştur
+
 ```http
 POST /api/sessions/:userId
 Authorization: Bearer <token>
@@ -717,6 +745,7 @@ Content-Type: application/json
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -741,6 +770,7 @@ Content-Type: application/json
 ```
 
 #### Oturum Güncelle
+
 ```http
 PUT /api/sessions/:sessionId
 Authorization: Bearer <token>
@@ -753,6 +783,7 @@ Content-Type: application/json
 ```
 
 #### Oturumu Bitir
+
 ```http
 POST /api/sessions/:sessionId/end
 Authorization: Bearer <token>
@@ -765,6 +796,7 @@ Content-Type: application/json
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -791,12 +823,14 @@ Content-Type: application/json
 ```
 
 #### Oturum Geçmişi
+
 ```http
 GET /api/sessions/:userId/history?page=1&limit=20
 Authorization: Bearer <token>
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -826,12 +860,14 @@ Authorization: Bearer <token>
 ```
 
 #### Oturum Sil
+
 ```http
 DELETE /api/sessions/:sessionId
 Authorization: Bearer <token>
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -842,12 +878,14 @@ Authorization: Bearer <token>
 ### 🏆 Campaigns API
 
 #### Oyun Kampanyaları
+
 ```http
 GET /api/campaigns?gameId=550e8400-e29b-41d4-a716-446655440123
 Authorization: Bearer <token>
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -881,6 +919,7 @@ Authorization: Bearer <token>
 ```
 
 #### Kampanya Oluştur
+
 ```http
 POST /api/campaigns
 Authorization: Bearer <token>
@@ -898,6 +937,7 @@ Content-Type: application/json
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -920,12 +960,14 @@ Content-Type: application/json
 ## 📊 Statistics API
 
 #### Kullanıcı İstatistikleri
+
 ```http
 GET /api/stats/:userId
 Authorization: Bearer <token>
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -960,12 +1002,14 @@ Authorization: Bearer <token>
 ```
 
 #### Genel İstatistikler
+
 ```http
 GET /api/stats/overview
 Authorization: Bearer <token>
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -1001,6 +1045,7 @@ Authorization: Bearer <token>
 Tüm API endpoint'leri standart error formatı kullanır:
 
 ### Validation Error (400)
+
 ```json
 {
   "success": false,
@@ -1010,6 +1055,7 @@ Tüm API endpoint'leri standart error formatı kullanır:
 ```
 
 ### Authentication Error (401)
+
 ```json
 {
   "success": false,
@@ -1019,6 +1065,7 @@ Tüm API endpoint'leri standart error formatı kullanır:
 ```
 
 ### Authorization Error (403)
+
 ```json
 {
   "success": false,
@@ -1028,6 +1075,7 @@ Tüm API endpoint'leri standart error formatı kullanır:
 ```
 
 ### Not Found Error (404)
+
 ```json
 {
   "success": false,
@@ -1037,6 +1085,7 @@ Tüm API endpoint'leri standart error formatı kullanır:
 ```
 
 ### Rate Limit Error (429)
+
 ```json
 {
   "success": false,
@@ -1046,6 +1095,7 @@ Tüm API endpoint'leri standart error formatı kullanır:
 ```
 
 ### Server Error (500)
+
 ```json
 {
   "success": false,
@@ -1073,10 +1123,12 @@ X-RateLimit-Reset: 1640995200
 List endpoint'leri pagination destekler:
 
 ### Query Parameters
+
 - `page`: Sayfa numarası (default: 1)
 - `limit`: Sayfa başına öğe sayısı (default: 10, max: 100)
 
 ### Response Format
+
 ```json
 {
   "success": true,
@@ -1093,16 +1145,19 @@ List endpoint'leri pagination destekler:
 ## 🔍 Search and Filtering
 
 ### Games Search
+
 ```http
 GET /api/games?search=Action&genre=RPG&platform=PC&rating_min=80&rating_max=100
 ```
 
 ### Library Filtering
+
 ```http
 GET /api/library/:userId?status=playing&rating_min=7&playtime_min=60
 ```
 
 ### Sessions Filtering
+
 ```http
 GET /api/sessions/:userId?active=true&date_from=2023-01-01&date_to=2023-01-31
 ```
@@ -1110,6 +1165,7 @@ GET /api/sessions/:userId?active=true&date_from=2023-01-01&date_to=2023-01-31
 ## 📁 File Upload
 
 ### Image Upload
+
 ```http
 POST /api/upload
 Authorization: Bearer <token>
@@ -1120,6 +1176,7 @@ type: avatar|game_cover|screenshot
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -1135,6 +1192,7 @@ type: avatar|game_cover|screenshot
 ## 🪝 Webhooks
 
 ### Game Data Updates
+
 External servislerden gelen veri için webhook endpoint'leri:
 
 ```http
@@ -1168,29 +1226,31 @@ Content-Type: application/json
 ## 📚 SDK ve Client Libraries
 
 ### JavaScript/TypeScript
+
 ```bash
 npm install @jun-oro/api-client
 ```
 
 ```javascript
-import { JunOroAPI } from '@jun-oro/api-client';
+import { JunOroAPI } from "@jun-oro/api-client";
 
 const api = new JunOroAPI({
-  baseURL: 'http://localhost:3001',
-  token: 'your-jwt-token'
+  baseURL: "http://localhost:3001",
+  token: "your-jwt-token",
 });
 
 // Kullanım örneği
 const games = await api.games.list({ page: 1, limit: 10 });
-const game = await api.games.get('game-id');
-const library = await api.library.getUserLibrary('user-id');
-const session = await api.sessions.create('user-id', {
-  gameId: 'game-id',
-  notes: 'Starting new session'
+const game = await api.games.get("game-id");
+const library = await api.library.getUserLibrary("user-id");
+const session = await api.sessions.create("user-id", {
+  gameId: "game-id",
+  notes: "Starting new session",
 });
 ```
 
 ### Python
+
 ```bash
 pip install jun-oro-api
 ```
@@ -1263,11 +1323,13 @@ API-Version: 1.0.0
 ## 📞 Destek
 
 ### Documentation
+
 - [Swagger UI](http://localhost:3001/api-docs)
 - [Developer Guide](Developer-Guide.md)
 - [Database Schema](Database-Schema.md)
 
 ### Contact
+
 - **API Support**: api-support@jun-oro.com
 - **Documentation Issues**: docs@jun-oro.com
 - **Bug Reports**: bugs@jun-oro.com
@@ -1278,4 +1340,4 @@ API-Version: 1.0.0
 
 ---
 
-*Son güncelleme: 10 Ocak 2025*
+_Son güncelleme: 10 Ocak 2025_

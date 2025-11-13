@@ -6,7 +6,10 @@ import {
   idParamSchema,
   paginationSchema,
 } from "../lib/validation.js";
-import { createLibraryEntryWithTransaction, updateGameWithTransaction } from "../middleware/transactionMiddleware.js";
+import {
+  createLibraryEntryWithTransaction,
+  updateGameWithTransaction,
+} from "../middleware/transactionMiddleware.js";
 
 const router = express.Router();
 
@@ -122,7 +125,10 @@ router.post("/:userId/games", async (req, res, next) => {
     const validatedData = addToLibrarySchema.parse(req.body);
 
     // Add game to library with transaction
-    const entry = await createLibraryEntryWithTransaction(userId, validatedData);
+    const entry = await createLibraryEntryWithTransaction(
+      userId,
+      validatedData,
+    );
 
     res.status(201).json({
       success: true,
@@ -310,46 +316,47 @@ router.get("/:userId/stats", async (req, res, next) => {
     const { id: userId } = idParamSchema.parse({ id: req.params.userId });
 
     // Optimized query with aggregation instead of fetching all entries
-    const [totalEntries, totalPlaytime, categoryStats, entriesWithGames] = await Promise.all([
-      prisma.libraryEntry.count({
-        where: { userId }
-      }),
-      prisma.libraryEntry.aggregate({
-        where: { userId },
-        _sum: { playtime: true }
-      }),
-      prisma.libraryEntry.groupBy({
-        by: ['category'],
-        where: { userId },
-        _count: { category: true }
-      }),
-      prisma.libraryEntry.findMany({
-        where: { userId },
-        select: {
-          rating: true,
-          lastPlayed: true,
-          addedAt: true,
-          playtime: true,
-          game: {
-            select: {
-              name: true,
-              genres: true,
-              platforms: true,
-              rating: true,
+    const [totalEntries, totalPlaytime, categoryStats, entriesWithGames] =
+      await Promise.all([
+        prisma.libraryEntry.count({
+          where: { userId },
+        }),
+        prisma.libraryEntry.aggregate({
+          where: { userId },
+          _sum: { playtime: true },
+        }),
+        prisma.libraryEntry.groupBy({
+          by: ["category"],
+          where: { userId },
+          _count: { category: true },
+        }),
+        prisma.libraryEntry.findMany({
+          where: { userId },
+          select: {
+            rating: true,
+            lastPlayed: true,
+            addedAt: true,
+            playtime: true,
+            game: {
+              select: {
+                name: true,
+                genres: true,
+                platforms: true,
+                rating: true,
+              },
             },
           },
-        },
-        orderBy: { addedAt: 'desc' },
-        take: 10 // Only fetch recent entries for detailed stats
-      })
-    ]);
+          orderBy: { addedAt: "desc" },
+          take: 10, // Only fetch recent entries for detailed stats
+        }),
+      ]);
 
     // Calculate statistics efficiently
     const stats = calculateOptimizedLibraryStats(
       totalEntries,
       totalPlaytime._sum.playtime || 0,
       categoryStats,
-      entriesWithGames
+      entriesWithGames,
     );
 
     res.json({
@@ -369,7 +376,12 @@ router.get("/:userId/stats", async (req, res, next) => {
  * @param {Array} recentEntries - Recent entries with game data
  * @returns {object} - Optimized library statistics
  */
-function calculateOptimizedLibraryStats(totalEntries, totalPlaytime, categoryStats, recentEntries) {
+function calculateOptimizedLibraryStats(
+  totalEntries,
+  totalPlaytime,
+  categoryStats,
+  recentEntries,
+) {
   // Calculate category distribution from grouped data
   const categoryDistribution = categoryStats.reduce((acc, stat) => {
     acc[stat.category] = stat._count.category;
@@ -397,9 +409,11 @@ function calculateOptimizedLibraryStats(totalEntries, totalPlaytime, categorySta
 
   // Calculate average rating from recent entries
   const entriesWithRating = recentEntries.filter((entry) => entry.rating);
-  const averageRating = entriesWithRating.length > 0
-    ? entriesWithRating.reduce((sum, entry) => sum + entry.rating, 0) / entriesWithRating.length
-    : 0;
+  const averageRating =
+    entriesWithRating.length > 0
+      ? entriesWithRating.reduce((sum, entry) => sum + entry.rating, 0) /
+        entriesWithRating.length
+      : 0;
 
   // Get recently added (already sorted by addedAt desc)
   const recentlyAdded = recentEntries.slice(0, 5).map((entry) => ({
@@ -467,7 +481,7 @@ async function processLibraryImport(userId, entries) {
   // Batch process in chunks to avoid overwhelming the database
   const BATCH_SIZE = 50;
   const results = [];
-  
+
   for (let i = 0; i < entries.length; i += BATCH_SIZE) {
     const batch = entries.slice(i, i + BATCH_SIZE);
     const batchResults = await Promise.allSettled(

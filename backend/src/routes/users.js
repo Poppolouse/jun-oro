@@ -321,21 +321,25 @@ router.post("/login", async (req, res, next) => {
     }
 
     // Create session
-    const sessionId = await createUserSession(user.id, req.ip, req.get('User-Agent'));
-    
+    const sessionId = await createUserSession(
+      user.id,
+      req.ip,
+      req.get("User-Agent"),
+    );
+
     // Create JWT token
     const token = await createJWTToken(user.id, sessionId);
-    
+
     // Update user activity and return response
     const userResponse = await updateUserActivityAndReturn(user);
-    
+
     res.json({
       success: true,
       data: {
         ...userResponse,
         token,
         sessionId,
-        expiresIn: '24h'
+        expiresIn: "24h",
       },
       message: "Giriş başarılı",
     });
@@ -371,10 +375,7 @@ function validateLoginCredentials(username, password, res) {
 async function findAndAuthenticateUser(username, password) {
   const user = await prisma.user.findFirst({
     where: {
-      OR: [
-        { username },
-        { email: username }
-      ]
+      OR: [{ username }, { email: username }],
     },
     select: {
       id: true,
@@ -417,9 +418,9 @@ function handleAuthenticationError(res) {
  * @returns {Promise<string>} - Session ID
  */
 async function createUserSession(userId, ipAddress, userAgent) {
-  const sessionId = require('@paralleldrive/cuid2').createId();
+  const sessionId = require("@paralleldrive/cuid2").createId();
   const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
-  
+
   await prisma.session.create({
     data: {
       id: sessionId,
@@ -430,7 +431,7 @@ async function createUserSession(userId, ipAddress, userAgent) {
       isActive: true,
     },
   });
-  
+
   return sessionId;
 }
 
@@ -446,11 +447,11 @@ async function createJWTToken(userId, sessionId) {
     sessionId,
     iat: Math.floor(Date.now() / 1000),
   };
-  
+
   return jwt.sign(payload, process.env.JWT_SECRET, {
-    expiresIn: '24h',
-    issuer: 'jun-oro-api',
-    audience: 'jun-oro-client',
+    expiresIn: "24h",
+    issuer: "jun-oro-api",
+    audience: "jun-oro-client",
   });
 }
 
@@ -491,8 +492,14 @@ router.post("/register", async (req, res, next) => {
     }
 
     // Create new user
-    const user = await createNewUser(username, email, password, firstName, lastName);
-    
+    const user = await createNewUser(
+      username,
+      email,
+      password,
+      firstName,
+      lastName,
+    );
+
     res.status(201).json({
       success: true,
       data: user,
@@ -543,8 +550,8 @@ async function checkUserExists(username, email) {
     prisma.user.findUnique({ where: { email } }),
   ]);
 
-  if (existingUsername) return { type: 'username', data: existingUsername };
-  if (existingEmail) return { type: 'email', data: existingEmail };
+  if (existingUsername) return { type: "username", data: existingUsername };
+  if (existingEmail) return { type: "email", data: existingEmail };
   return null;
 }
 
@@ -580,7 +587,8 @@ async function createNewUser(username, email, password, firstName, lastName) {
 
   return await prisma.user.create({
     data: {
-      name: firstName && lastName ? `${firstName} ${lastName}`.trim() : username,
+      name:
+        firstName && lastName ? `${firstName} ${lastName}`.trim() : username,
       username,
       email,
       password: hashedPassword,

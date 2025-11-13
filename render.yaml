@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: arkade-backend
+    env: node
+    plan: free
+    region: oregon
+    rootDir: backend
+    buildCommand: npm ci && npm run db:generate
+    startCommand: npm start
+    autoDeploy: true
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NODE_VERSION
+        value: "18"
+      - key: DATABASE_URL
+        fromSecret: DATABASE_URL
+      - key: JWT_SECRET
+        fromSecret: JWT_SECRET
+      - key: FRONTEND_URL
+        value: https://jun-oro.com
+      - key: CORS_ORIGINS
+        value: https://jun-oro.com,https://www.jun-oro.com

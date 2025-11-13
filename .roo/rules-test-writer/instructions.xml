@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="utf-8"?>
+<instructions>
+  <meta>
+    <slug>test-writer</slug>
+    <name>🧪 Test Yazarı</name>
+    <description>Unit test, integration test ve test coverage optimizasyonu</description>
+    <language>tr</language>
+  </meta>
+  <general_principles>
+    <test_pyramid>
+      <unit>70</unit>
+      <integration>20</integration>
+      <e2e>10</e2e>
+      <note>Her seviye dengeli olmalı</note>
+    </test_pyramid>
+    <aaa_pattern>
+      <arrange>Test verisi hazırlama, mock'lar</arrange>
+      <act>Test edilen fonksiyonu çalıştırma</act>
+      <assert>Sonucu kontrol etme</assert>
+      <note>Her test bu üç bölüme ayrılmalı</note>
+    </aaa_pattern>
+    <naming>
+      <format>[fonksiyon adı] - [senaryo] - [beklenen sonuç]</format>
+      <example>calculateDiscount - geçerli kupon kodu - yüzde 20 indirim uygulanır</example>
+    </naming>
+    <isolation>
+      <rule>Her test bağımsız çalışmalı</rule>
+      <tools>beforeEach/afterEach ile temizlik; mock'lar resetlenmeli</tools>
+    </isolation>
+    <turkish_requirement>
+      <rule>TÜM TEST AÇIKLAMALARI VE HATA MESAJLARI TÜRKÇE YAZILMALIDIR</rule>
+    </turkish_requirement>
+  </general_principles>
+  <file_structure>
+    <example><![CDATA[
+src/
+├── components/
+│   ├── Button.jsx
+│   └── Button.test.jsx
+├── hooks/
+│   ├── useApiCall.js
+│   └── useApiCall.test.js
+├── utils/
+│   ├── formatters.js
+│   └── formatters.test.js
+└── api/
+    ├── userService.js
+    └── userService.test.js
+
+tests/
+├── integration/
+│   ├── auth.test.js
+│   └── gameRating.test.js
+└── e2e/
+    ├── login.spec.js
+    └── settings.spec.js
+]]></example>
+  </file_structure>
+  <unit_test_templates>
+    <utility_function><![CDATA[
+ // filepath: src/utils/formatters.test.js
+
+ import { describe, it, expect } from 'vitest';
+ import { formatDate, formatCurrency, truncateText } from './formatters';
+
+ describe('formatDate', () => {
+   it('tarih ISO formatında verildiğinde - DD/MM/YYYY formatına dönüştürür', () => {
+     // Arrange
+     const isoDate = '2025-01-06T10:30:00Z';
+     
+     // Act
+     const result = formatDate(isoDate);
+     
+     // Assert
+     expect(result).toBe('06/01/2025');
+   });
+
+   it('geçersiz tarih verildiğinde - "Geçersiz Tarih" döner', () => {
+     const invalidDate = 'invalid-date';
+     const result = formatDate(invalidDate);
+     expect(result).toBe('Geçersiz Tarih');
+   });
+
+   it('tarih null olduğunda - boş string döner', () => {
+     const result = formatDate(null);
+     expect(result).toBe('');
+   });
+ });
+
+ describe('formatCurrency', () => {
+   it('pozitif sayı verildiğinde - TL sembolü ile formatlar', () => {
+     expect(formatCurrency(1500)).toBe('1.500,00 TL');
+   });
+ });
+]]></utility_function>
+    <component_test><![CDATA[
+ // filepath: src/components/Button.test.jsx
+
+ import { describe, it, expect, vi } from 'vitest';
+ import { render, screen, fireEvent } from '@testing-library/react';
+ import Button from './Button';
+
+ describe('Button bileşeni', () => {
+   it('label prop ile verildiğinde - buton metnini gösterir', () => {
+     render(<Button label="Kaydet" />);
+     expect(screen.getByText('Kaydet')).toBeInTheDocument();
+   });
+
+   it('onClick prop verildiğinde - tıklandığında çağrılır', () => {
+     const handleClick = vi.fn();
+     render(<Button label="Tıkla" onClick={handleClick} />);
+     fireEvent.click(screen.getByText('Tıkla'));
+     expect(handleClick).toHaveBeenCalledTimes(1);
+   });
+ });
+]]></component_test>
+    <hook_test><![CDATA[
+ // filepath: src/hooks/useApiCall.test.js
+
+ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+ import { renderHook, waitFor } from '@testing-library/react';
+ import useApiCall from './useApiCall';
+
+ describe('useApiCall hook', () => {
+   beforeEach(() => {
+     global.fetch = vi.fn();
+   });
+
+   afterEach(() => {
+     vi.clearAllMocks();
+   });
+
+   it('başarılı API çağrısı - data ve loading state doğru güncellenir', async () => {
+     const mockData = { users: [{ id: 1, name: 'Ahmet' }] };
+     global.fetch.mockResolvedValueOnce({ ok: true, json: async () => mockData });
+
+     const { result } = renderHook(() => useApiCall('/api/users'));
+
+     await waitFor(() => {
+       expect(result.current.loading).toBe(false);
+     });
+
+     expect(result.current.data).toEqual(mockData);
+   });
+ });
+]]></hook_test>
+    <api_service_test><![CDATA[
+ // filepath: src/api/userService.test.js
+
+ import { describe, it, expect, vi, beforeEach } from 'vitest';
+ import { createClient } from '@supabase/supabase-js';
+ import { getUsers, createUser } from './userService';
+
+ vi.mock('@supabase/supabase-js');
+
+ describe('userService', () => {
+   let mockSupabase;
+
+   beforeEach(() => {
+     mockSupabase = {
+       from: vi.fn().mockReturnThis(),
+       select: vi.fn().mockReturnThis(),
+       insert: vi.fn().mockReturnThis(),
+       update: vi.fn().mockReturnThis(),
+       delete: vi.fn().mockReturnThis(),
+       eq: vi.fn().mockReturnThis(),
+       single: vi.fn()
+     };
+     createClient.mockReturnValue(mockSupabase);
+   });
+
+   it('başarılı çağrı - kullanıcı listesi döner', async () => {
+     const mockUsers = [{ id: '1', name: 'Ahmet', email: 'ahmet@test.com' }];
+     mockSupabase.select.mockResolvedValueOnce({ data: mockUsers, error: null });
+     const result = await getUsers();
+     expect(result).toEqual(mockUsers);
+   });
+ });
+]]></api_service_test>
+  </unit_test_templates>
+  <integration_test_templates>
+    <api_integration><![CDATA[
+ // filepath: tests/integration/auth.test.js
+
+ import { describe, it, expect, beforeAll, afterAll } from 'vitest';
+ import request from 'supertest';
+ import app from '../../server/app';
+ import { createClient } from '@supabase/supabase-js';
+
+ describe('Auth API Integration', () => {
+   let supabase;
+   let testUserId;
+
+   beforeAll(async () => {
+     supabase = createClient(process.env.TEST_SUPABASE_URL, process.env.TEST_SUPABASE_KEY);
+   });
+
+   afterAll(async () => {
+     if (testUserId) {
+       await supabase.from('users').delete().eq('id', testUserId);
+     }
+   });
+
+   it('geçerli veri - yeni kullanıcı kaydedilir ve token döner', async () => {
+     const newUser = { email: 'test@example.com', password: 'SecurePass123!', name: 'Test Kullanıcı' };
+     const response = await request(app).post('/api/auth/register').send(newUser).expect(201);
+     expect(response.body.success).toBe(true);
+     testUserId = response.body.data.user.id;
+   });
+ });
+]]></api_integration>
+  </integration_test_templates>
+  <coverage_best_practices>
+    <critical_paths>
+      <item>Business logic: fiyat hesaplama, indirim, puan sistemi</item>
+      <item>Authentication/Authorization</item>
+      <item>Payment işlemleri</item>
+      <item>Data validation</item>
+    </critical_paths>
+    <edge_cases>
+      <item>Null/undefined</item>
+      <item>Boş array/object</item>
+      <item>Min/max değerler</item>
+      <item>Çok uzun stringler</item>
+    </edge_cases>
+    <error_handling>
+      <item>Try-catch blokları ve meaningful hata mesajları</item>
+      <item>API hataları (400, 401, 500) için beklenen davranış</item>
+    </error_handling>
+  </coverage_best_practices>
+  <common_errors_and_solutions>
+    <error>
+      <title>Test'ler birbirine bağımlı</title>
+      <solution>beforeEach/afterEach ile temizlik</solution>
+    </error>
+    <error>
+      <title>Async test'lerde await unutmak</title>
+      <solution>async/await veya waitFor kullan</solution>
+    </error>
+    <error>
+      <title>Mock'ları temizlememek</title>
+      <solution>afterEach(() => vi.clearAllMocks())</solution>
+    </error>
+    <error>
+      <title>Gerçek API çağrıları</title>
+      <solution>MUTLAKA mock kullan (jest.mock, vi.mock)</solution>
+    </error>
+  </common_errors_and_solutions>
+  <checklist>
+    <before>
+      <item>Hangi fonksiyon/bileşen test edilecek?</item>
+      <item>Happy path senaryosu nedir?</item>
+      <item>Edge case'ler listelendi mi?</item>
+    </before>
+    <during>
+      <item>describe bloğu oluşturuldu</item>
+      <item>beforeEach/afterEach eklendi</item>
+      <item>AAA pattern uygulandı</item>
+      <item>Mock'lar doğru yapılandırıldı</item>
+    </during>
+    <after>
+      <item>Test geçiyor mu? (npm test)</item>
+      <item>Coverage artmış mı? (npm run coverage)</item>
+      <item>Tüm branch'ler kapsandı mı?</item>
+    </after>
+  </checklist>
+  <diagrams>
+    <mermaid_pyramid><![CDATA[
+graph TD
+  A[E2E Tests 10%] --> B[Integration Tests 20%]
+  B --> C[Unit Tests 70%]
+  
+  style A fill:#ff6b6b
+  style B fill:#ffd93d
+  style C fill:#6bcf7f
+]]></mermaid_pyramid>
+    <mermaid_aaa><![CDATA[
+graph LR
+  A[Arrange: Test Verisi Hazırla] --> B[Act: Fonksiyonu Çalıştır]
+  B --> C[Assert: Sonucu Kontrol Et]
+]]></mermaid_aaa>
+  </diagrams>
+</instructions>

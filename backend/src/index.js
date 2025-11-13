@@ -22,12 +22,27 @@ import uploadRoutes from "./routes/upload.js";
 import changelogRoutes from "./routes/changelog.js";
 import igdbRoutes from "./routes/igdb.js";
 import r2Routes from "./routes/r2.js";
-import setupSwagger from "./routes/swagger.js";
+// Swagger importunu dinamik hale getiriyoruz; eksikse deploy çökmesin
+let setupSwaggerFn = null;
+const initSwagger = async (app) => {
+  try {
+    const mod = await import("./routes/swagger.js");
+    setupSwaggerFn = mod.default || mod.setupSwagger;
+    if (typeof setupSwaggerFn === "function") {
+      setupSwaggerFn(app);
+      console.log("📚 Swagger docs etkin: /api-docs, /api-docs.json");
+    } else {
+      console.warn("Swagger modülü yüklendi fakat beklenen fonksiyon bulunamadı.");
+    }
+  } catch (err) {
+    console.warn("Swagger dokümantasyonu devre dışı bırakıldı:", err?.message || err);
+  }
+};
 
 // Import middleware
 import { errorHandler } from "./middleware/errorHandler.js";
 import { notFound } from "./middleware/notFound.js";
-import { createCacheMiddleware, cleanupExpiredCache, getCacheStats } from "./middleware/cacheMiddleware.js";
+import { createCacheMiddleware } from "./middleware/cacheMiddleware.js";
 
 // Load environment variables
 dotenv.config();
@@ -38,7 +53,7 @@ const PORT = process.env.PORT || 5000;
 // Initialize cache middleware with optimized settings
 const cacheMiddleware = createCacheMiddleware(
   parseInt(process.env.CACHE_DEFAULT_TTL) || 300, // 5 minutes default
-  parseInt(process.env.CACHE_MAX_TTL) || 3600 // 1 hour max
+  parseInt(process.env.CACHE_MAX_TTL) || 3600, // 1 hour max
 );
 
 // Cache cleanup interval (every 10 minutes)
@@ -48,11 +63,11 @@ let cacheCleanupTimer = null;
 // Start cache cleanup timer
 function startCacheCleanup() {
   if (cacheCleanupTimer) clearInterval(cacheCleanupTimer);
-  
+
   cacheCleanupTimer = setInterval(() => {
     // Note: We need to access to cache instance from middleware
-    // This is a simplified approach - in production, you might want to expose the cache instance
-    console.log('🧹 Cache cleanup completed');
+    // This is a simplified approach - in production, you might want to expose cache instance
+    console.log("🧹 Cache cleanup completed");
   }, CACHE_CLEANUP_INTERVAL);
 }
 
@@ -100,7 +115,7 @@ app.use(limiter);
 
 // Apply cache middleware to GET requests
 app.use((req, res, next) => {
-  if (req.method === 'GET') {
+  if (req.method === "GET") {
     return cacheMiddleware(req, res, next);
   }
   next();
@@ -116,7 +131,7 @@ const allowedOrigins = [
   "http://localhost:3002",
   "http://localhost:3003",
   "http://localhost:5173",
-  'https://master.jun-oro-final.pages.dev'
+  "https://master.jun-oro-final.pages.dev",
 ].filter(Boolean);
 
 app.use(
@@ -213,8 +228,8 @@ app.use("/api/changelog", changelogRoutes);
 app.use("/api/igdb", igdbRoutes);
 app.use("/api/r2", r2Routes);
 
-// Setup Swagger documentation
-setupSwagger(app);
+// Setup Swagger documentation (dinamik import ile güvenli)
+initSwagger(app);
 
 // Error handling middleware
 app.use(notFound);
@@ -226,6 +241,9 @@ app.listen(PORT, () => {
   console.log(`📊 Environment: ${process.env.NODE_ENV || "development"}`);
   console.log(`🌐 CORS enabled for: ${allowedOrigins.join(", ")}`);
   console.log(`📝 Health check: http://localhost:${PORT}/health`);
+
+  // Start cache cleanup timer
+  startCacheCleanup();
 });
 
 export default app;

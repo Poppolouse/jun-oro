@@ -115,6 +115,7 @@ Birden fazla oyunu aynı anda düzenleyebilirsiniz:
 Kategoriler, oyunlarınızı mantıksal gruplara ayırmanıza yardımcı olur:
 
 **Varsayılan Kategoriler:**
+
 - **Aksiyon**: Hızlı tempolu, refleks gerektiren oyunlar
 - **RPG**: Karakter gelişimi ve hikaye odaklı oyunlar
 - **Strateji**: Planlama ve taktik gerektiren oyunlar
@@ -125,6 +126,7 @@ Kategoriler, oyunlarınızı mantıksal gruplara ayırmanıza yardımcı olur:
 - **Macera**: Keşif ve hikaye odaklı oyunlar
 
 **Özel Kategori Oluşturma:**
+
 1. **"Kategorileri Yönet"** butonuna tıklayın
 2. **"Yeni Kategori Ekle"** seçeneğini seçin
 3. Kategori adı ve açıklamasını girin
@@ -136,6 +138,7 @@ Kategoriler, oyunlarınızı mantıksal gruplara ayırmanıza yardımcı olur:
 Etiketler, kategorilerden daha esnek bir organizasyon sağlar:
 
 **Popüler Etiketler:**
+
 - `#tek-oyuncu` - Tek kişilik oyunlar
 - `#cok-oyuncu` - Çoklu oyuncu desteği olanlar
 - `#co-op` - İşbirliği modlu oyunlar
@@ -146,6 +149,7 @@ Etiketler, kategorilerden daha esnek bir organizasyon sağlar:
 - `#fps` - Birinci şahıs nişancı oyunlar
 
 **Etiket Ekleme:**
+
 1. Oyun düzenleme ekranını açın
 2. **"Etiketler"** bölümüne gelin
 3. Etiket yazmaya başlayın (örn: "#tek-oyuncu")
@@ -159,6 +163,7 @@ Etiketler, kategorilerden daha esnek bir organizasyon sağlar:
 Kütüphanenizdeki oyunları hızlıca bulmak için filtreleri kullanın:
 
 **Filtre Seçenekleri:**
+
 - **Platform**: PC, PlayStation, Xbox, Nintendo Switch
 - **Kategori**: Oyun türüne göre filtreleme
 - **Durum**: Oynanıyor, Tamamlandı, Bırakıldı, Planlanıyor
@@ -167,6 +172,7 @@ Kütüphanenizdeki oyunları hızlıca bulmak için filtreleri kullanın:
 - **Değerlendirme**: Verdiğiniz puanlara göre filtreleme
 
 **Filtre Kullanımı:**
+
 1. Kütüphane sayfasının üstündeki **"Filtrele"** butonuna tıklayın
 2. İstediğiniz filtreleri ayarlayın
 3. **"Uygula"** butonuna tıklayın
@@ -174,6 +180,7 @@ Kütüphanenizdeki oyunları hızlıca bulmak için filtreleri kullanın:
 
 **Filtreleri Kaydetme:**
 Sık kullandığınız filtre kombinasyonlarını kaydedebilirsiniz:
+
 1. Filtrelerinizi ayarlayın
 2. **"Filtreyi Kaydet"** butonuna tıklayın
 3. Filtre için bir isim verin (örn: "Tamamlanan RPG'ler")
@@ -184,11 +191,13 @@ Sık kullandığınız filtre kombinasyonlarını kaydedebilirsiniz:
 Hızlı arama ile oyunları kolayca bulun:
 
 **Basit Arama:**
+
 - Arama kutusuna oyun adının bir kısmını yazın
 - Sonuçlar anında görünecektir
 - Büyük/küçük harf duyarlı değildir
 
 **Gelişmiş Arama:**
+
 - **"Gelişmiş Arama"** butonuna tıklayın
 - Şu kriterlerle arama yapın:
   - Oyun adı
@@ -199,6 +208,7 @@ Hızlı arama ile oyunları kolayca bulun:
   - Kategori
 
 **Arama İpuçları:**
+
 - Oyun adını İngilizce aramak daha iyi sonuçlar verebilir
 - Eksik yazımlar için sistem öneriler sunar
 - Arama geçmişinizi görüntüleyebilirsiniz
@@ -208,6 +218,7 @@ Hızlı arama ile oyunları kolayca bulun:
 Kütüphanenizin genel durumunu hızlıca görün:
 
 **Ana İstatistikler:**
+
 - **Toplam Oyun Sayısı**: Kütüphanenizdeki oyunların toplamı
 - **Tamamlanan Oyunlar**: Bitirdiğiniz oyun sayısı
 - **Oynanan Oyunlar**: En az bir kez oynadığınız oyunlar
@@ -215,6 +226,7 @@ Kütüphanenizin genel durumunu hızlıca görün:
 - **En Çok Oynanan Platform**: Hangi platformda daha çok vakit geçirdiğiniz
 
 **Kategori Dağılımı:**
+
 - Hangi tür oyunlara daha çok ilgi duyduğunuzu gösterir
 - Pasta grafik ile görsel olarak sunulur
 - Her kategorideki oyun sayısını gösterir
@@ -226,11 +238,13 @@ Kütüphanenizin genel durumunu hızlıca görün:
 Kütüphanenizi kendi zevkinize göre özelleştirin:
 
 **Kart Görünümleri:**
+
 - **Büyük Kartlar**: Kapak görselleri büyük gösterilir
 - **Küçük Kartlar**: Daha fazla oyun aynı ekranda gösterilir
 - **Liste Görünümü**: Metin odaklı kompakt görünüm
 
 **Sıralama Seçenekleri:**
+
 - **Eklenme Tarihi**: En yeni eklenenler üstte
 - **Alfabetik**: A-Z sıralaması
 - **Oynama Süresi**: En çok oynananlar üstte
@@ -238,6 +252,7 @@ Kütüphanenizi kendi zevkinize göre özelleştirin:
 - **Son Oynanma**: En son oynadıklarınız üstte
 
 **Kişiselleştirme Adımları:**
+
 1. Kütüphane sayfasının sağ üstündeki **"Görünüm"** butonuna tıklayın
 2. İstediğiniz kart boyutunu seçin
 3. Sıralama tercihini belirleyin
@@ -248,12 +263,14 @@ Kütüphanenizi kendi zevkinize göre özelleştirin:
 ### Verimlilik İpuçları
 
 **Klavye Kısayolları:**
+
 - `Ctrl + N`: Yeni oyun ekle
 - `Ctrl + F`: Arama kutusuna odaklan
 - `Esc`: Filtreleri temizle
 - `Enter`: Seçili oyunu düzenle
 
 **Hızlı Eylemler:**
+
 - Oyun kartına çift tıklayarak hızlıca düzenleme moduna geçin
 - Sağ tıklayarak bağlam menüsünü açın
 - Sürükle-bırak ile oyunları yeniden sıralayın
@@ -261,11 +278,13 @@ Kütüphanenizi kendi zevkinize göre özelleştirin:
 ### Yedekleme ve Senkronizasyon
 
 **Veri Yedekleme:**
+
 1. **Ayarlar** → **Veri Yönetimi** menüsüne gidin
 2. **"Yedekle"** butonuna tıklayın
 3. Yedek dosyasını bilgisayarınıza indirin
 
 **Otomatik Yedekleme:**
+
 - Sistem her hafta otomatik olarak yedekleme yapar
 - Ayarlardan yedekleme sıklığını değiştirebilirsiniz
 

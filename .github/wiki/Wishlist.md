@@ -58,13 +58,13 @@ Jun-Oro platformunda istek listesi yönetimi hakkında detaylı rehber.
 
 ### Fiyat Takibi Özellikleri
 
-| Özellik | Açıklama |
-|---------|----------|
-| 📈 **Fiyat Geçmişi** | Oyun fiyatının geçmişteki değişimleri |
-| 🎯 **Hedef Fiyat** | Belirlediğiniz fiyata ulaştığında bildirim |
-| 📉 **İndirim Takibi** | İndirim oranlarını takip etme |
+| Özellik                  | Açıklama                                    |
+| ------------------------ | ------------------------------------------- |
+| 📈 **Fiyat Geçmişi**     | Oyun fiyatının geçmişteki değişimleri       |
+| 🎯 **Hedef Fiyat**       | Belirlediğiniz fiyata ulaştığında bildirim  |
+| 📉 **İndirim Takibi**    | İndirim oranlarını takip etme               |
 | 🌍 **Bölgesel Fiyatlar** | Farklı bölgelerdeki fiyatları karşılaştırma |
-| 📊 **Fiyat Trendleri** | Fiyat trend analizleri |
+| 📊 **Fiyat Trendleri**   | Fiyat trend analizleri                      |
 
 ### Fiyat Takibi Ayarları
 
@@ -92,12 +92,12 @@ Jun-Oro platformunda istek listesi yönetimi hakkında detaylı rehber.
 
 ### Bildirim Türleri
 
-| Bildirim Tipi | Açıklama | Ayarlar |
-|---------------|----------|---------|
-| 🎉 **İndirim Bildirimi** | İstek listenizdeki oyunlar indirimde | İndirim yüzdesi, minimum fiyat |
-| 🎯 **Hedef Fiyat Bildirimi** | Belirlediğiniz fiyata ulaştığında | Hedef fiyat, bildirim sıklığı |
-| 📢 **Yeni Oyun Bildirimi** | İlgilendiğiniz türde yeni oyunlar | Oyun türleri, bildirim sıklığı |
-| 🏷️ **Etiket Bildirimi** | Etiketlediğiniz oyunlarla ilgili haberler | Etiketler, bildirim türleri |
+| Bildirim Tipi                | Açıklama                                  | Ayarlar                        |
+| ---------------------------- | ----------------------------------------- | ------------------------------ |
+| 🎉 **İndirim Bildirimi**     | İstek listenizdeki oyunlar indirimde      | İndirim yüzdesi, minimum fiyat |
+| 🎯 **Hedef Fiyat Bildirimi** | Belirlediğiniz fiyata ulaştığında         | Hedef fiyat, bildirim sıklığı  |
+| 📢 **Yeni Oyun Bildirimi**   | İlgilendiğiniz türde yeni oyunlar         | Oyun türleri, bildirim sıklığı |
+| 🏷️ **Etiket Bildirimi**      | Etiketlediğiniz oyunlarla ilgili haberler | Etiketler, bildirim türleri    |
 
 ### Bildirim Ayarları
 
@@ -147,15 +147,15 @@ Jun-Oro platformunda istek listesi yönetimi hakkında detaylı rehber.
 
 ### Filtreleme Seçenekleri
 
-| Filtre | Seçenekler |
-|--------|------------|
-| 🏷️ **Etiketler** | Etiketlere göre filtreleme |
-| 📂 **Kategoriler** | Kategorilere göre filtreleme |
-| 💰 **Fiyat Aralığı** | Minimum ve maksimum fiyat |
-| 🎮 **Platform** | PC, PlayStation, Xbox, Nintendo |
-| 📅 **Tarih** | Eklenme tarihi, yayın tarihi |
-| 🎯 **Öncelik** | Yüksek, orta, düşük öncelik |
-| 📊 **Durum** | İzleniyor, bekleniyor, tamamlandı |
+| Filtre               | Seçenekler                        |
+| -------------------- | --------------------------------- |
+| 🏷️ **Etiketler**     | Etiketlere göre filtreleme        |
+| 📂 **Kategoriler**   | Kategorilere göre filtreleme      |
+| 💰 **Fiyat Aralığı** | Minimum ve maksimum fiyat         |
+| 🎮 **Platform**      | PC, PlayStation, Xbox, Nintendo   |
+| 📅 **Tarih**         | Eklenme tarihi, yayın tarihi      |
+| 🎯 **Öncelik**       | Yüksek, orta, düşük öncelik       |
+| 📊 **Durum**         | İzleniyor, bekleniyor, tamamlandı |
 
 ### Sıralama Seçenekleri
 
@@ -209,12 +209,12 @@ Sık kullandığınız filtreleri kaydedebilirsiniz:
 
 ### Yaygın Sorunlar ve Çözümleri
 
-| Sorun | Çözüm |
-|-------|--------|
-| Fiyat güncellenmiyor | İnternet bağlantınızı kontrol edin, sayfayı yenileyin |
-| Bildirim gelmiyor | Bildirim ayarlarınızı kontrol edin, tarayıcı izinlerini verin |
-| Oyun bulunamadı | Farklı arama terimleri deneyin, manuel ekleyin |
-| Senkronizasyon hatası | Çıkış yapıp tekrar giriş yapın, verileri senkronize edin |
+| Sorun                 | Çözüm                                                         |
+| --------------------- | ------------------------------------------------------------- |
+| Fiyat güncellenmiyor  | İnternet bağlantınızı kontrol edin, sayfayı yenileyin         |
+| Bildirim gelmiyor     | Bildirim ayarlarınızı kontrol edin, tarayıcı izinlerini verin |
+| Oyun bulunamadı       | Farklı arama terimleri deneyin, manuel ekleyin                |
+| Senkronizasyon hatası | Çıkış yapıp tekrar giriş yapın, verileri senkronize edin      |
 
 ### Desteğe İhtiyacınız Var mı?
 

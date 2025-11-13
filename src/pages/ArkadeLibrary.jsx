@@ -12,8 +12,8 @@ import { useActiveSession } from "../contexts/ActiveSessionContext";
 import { useAuth } from "../contexts/AuthContext";
 
 function ArkadeLibrary() {
-  const navigate = useNavigate();
-  const [showCampaignCards, setShowCampaignCards] = useState(false);
+  // const navigate = useNavigate();
+  const [showCampaignCards, setShowCampaignCards] = useState(true);
 
   return (
     <div
@@ -32,10 +32,7 @@ function ArkadeLibrary() {
           showCampaignCards={showCampaignCards}
           setShowCampaignCards={setShowCampaignCards}
         />
-        <LibraryRightSidebar
-          showCampaignCards={showCampaignCards}
-          setShowCampaignCards={setShowCampaignCards}
-        />
+        <LibraryRightSidebar />
       </div>
       <SiteFooter />
       <ElementSelector />
@@ -66,7 +63,7 @@ function LibraryContent({ showCampaignCards, setShowCampaignCards }) {
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(20);
   const listRef = useRef(null);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const { startSession, activeSession } = useActiveSession();
 
   // Campaign sayısı
@@ -482,7 +479,8 @@ function LibraryContent({ showCampaignCards, setShowCampaignCards }) {
                 // Campaign yoksa direkt başlat
                 const result = await startSession(gameData);
                 if (result?.success) {
-                  navigate("/arkade/session");
+                  // navigate kullanılmadığı için comment'e çevrildi
+                  // navigate("/arkade/session");
                 } else if (result?.requiresCampaign) {
                   // Campaign gerekiyorsa modal aç
                   setSelectedGameForCampaign(gameData);
@@ -580,12 +578,12 @@ function LibraryContent({ showCampaignCards, setShowCampaignCards }) {
     }
 
     // Seçim bilgileri (ileride kullanılabilir)
-    const allSelected =
-      filtered.length > 0 &&
-      filtered.every((f) => selectedIds.has(String(f.id)));
-    const selectedCount = Array.from(selectedIds).filter((id) =>
-      filtered.some((f) => String(f.id) === id),
-    ).length;
+    // const allSelected =
+    //   filtered.length > 0 &&
+    //   filtered.every((f) => selectedIds.has(String(f.id)));
+    // const selectedCount = Array.from(selectedIds).filter((id) =>
+    //   filtered.some((f) => String(f.id) === id),
+    // ).length;
 
     if (filtered.length === 0) {
       return <p className="text-gray-300">Sonuç bulunamadı.</p>;
@@ -716,7 +714,7 @@ function LibraryContent({ showCampaignCards, setShowCampaignCards }) {
                         aria-label={`Sayfa ${item}`}
                         className={`pagination-page-number min-w-[32px] px-2 py-1 rounded-md text-xs border ${isActive ? "bg-emerald-500/20 text-emerald-300 border-emerald-500/40" : "bg-white/5 text-white border-white/10 hover:bg-white/10"}`}
                         id={`pagination-page-btn-${item}`}
-                        data-registry="2.1.B1.2.3.3"
+                        data-registry="2.1.B1.2.3"
                         data-page={item}
                       >
                         {item}
@@ -1015,7 +1013,7 @@ function LibraryContent({ showCampaignCards, setShowCampaignCards }) {
       ) : (
         <LibraryCyclePlanner
           games={games}
-          onAdd={() => setIsAddOpen(true)}
+          // onAdd={() => setIsAddOpen(true)}
           renderCard={renderGameCard}
         />
       )}
@@ -1057,7 +1055,8 @@ function LibraryContent({ showCampaignCards, setShowCampaignCards }) {
           if (result?.success) {
             setShowCampaignModal(false);
             setSelectedGameForCampaign(null);
-            navigate("/arkade/session");
+            // navigate kullanılmadığı için comment'e çevrildi
+            // navigate("/arkade/session");
           } else {
             console.error("Oturum başlatılamadı:", result?.error);
           }
@@ -1106,7 +1105,7 @@ function LibraryContent({ showCampaignCards, setShowCampaignCards }) {
   );
 }
 
-function LibraryRightSidebar({ showCampaignCards, setShowCampaignCards }) {
+function LibraryRightSidebar() {
   return (
     <div className="w-80 p-6 bg-gradient-to-b from-[#1a1a2e]/80 to-[#0f0f23]/80 backdrop-blur-xl border-l border-[#00ff88]/20 min-h-[1600px]">
       {/* Tek Çok Yakında Kartı */}
@@ -1176,7 +1175,20 @@ function LibraryRightSidebar({ showCampaignCards, setShowCampaignCards }) {
 }
 
 function LibraryCyclePlanner({ games, onAdd, renderCard }) {
-  const { user, isAdmin } = useAuth();
+  // Hook'ları koşulsuz olarak en başta tanımla
+  const initialCycles = [
+    { name: "Cycle 1", status: "Planlandı", items: [] },
+    { name: "Cycle 2", status: "Planlandı", items: [] },
+    { name: "Cycle 3", status: "Aktif", items: [] },
+  ];
+
+  const [cycles, setCycles] = useState(initialCycles);
+  const [selectedIdx, setSelectedIdx] = useState(1);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [isPickerOpen, setIsPickerOpen] = useState(false);
+  const [pickerSelection, setPickerSelection] = useState(new Set());
+  const { isAdmin } = useAuth();
+  // const { user, isAdmin } = useAuth();
 
   // Admin kontrolü - admin olmayan kullanıcılar için uyarı göster
   if (!isAdmin()) {
@@ -1214,21 +1226,10 @@ function LibraryCyclePlanner({ games, onAdd, renderCard }) {
   }
 
   const total = games?.length || 0;
-  const completed =
-    games?.filter(
-      (g) => (g.libraryInfo?.category || g.category) === "completed",
-    ).length || 0;
-  const initialCycles = [
-    { name: "Cycle 1", status: "Planlandı", items: [] },
-    { name: "Cycle 2", status: "Planlandı", items: [] },
-    { name: "Cycle 3", status: "Aktif", items: [] },
-  ];
-
-  const [cycles, setCycles] = useState(initialCycles);
-  const [selectedIdx, setSelectedIdx] = useState(1);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [isPickerOpen, setIsPickerOpen] = useState(false);
-  const [pickerSelection, setPickerSelection] = useState(new Set());
+  // const completed =
+  //   games?.filter(
+  //     (g) => (g.libraryInfo?.category || g.category) === "completed",
+  //   ).length || 0;
 
   const getGameCategory = (g) =>
     g.libraryInfo?.category || g.category || "wishlist";

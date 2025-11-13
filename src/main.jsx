@@ -15,16 +15,16 @@ async function initializeApp() {
     const swResult = await initializeServiceWorker({
       autoRegister: true,
       showUpdatePrompt: true,
-      clearCacheOnUpdate: false
+      clearCacheOnUpdate: false,
     });
 
     if (swResult.success) {
-      console.log('🚀 Service Worker initialized successfully');
+      console.log("🚀 Service Worker initialized successfully");
     } else {
-      console.warn('⚠️ Service Worker initialization failed:', swResult.error);
+      console.warn("⚠️ Service Worker initialization failed:", swResult.error);
     }
   } catch (error) {
-    console.error('❌ Service Worker initialization error:', error);
+    console.error("❌ Service Worker initialization error:", error);
   }
 
   try {
@@ -32,12 +32,12 @@ async function initializeApp() {
     const perfMonitor = initializePerformanceMonitoring({
       onMetricReport: (metric) => {
         // Log performance metrics in development
-        if (process.env.NODE_ENV === 'development') {
-          console.log('📊 Performance Metric:', metric);
+        if (import.meta.env.MODE === "development") {
+          console.log("📊 Performance Metric:", metric);
         }
-        
+
         // Send to analytics service in production
-        if (process.env.NODE_ENV === 'production' && metric.value) {
+        if (import.meta.env.MODE === "production" && metric.value) {
           // You can send metrics to your analytics service here
           // Example: sendToAnalytics(metric);
         }
@@ -45,15 +45,15 @@ async function initializeApp() {
       enableMemoryMonitoring: true,
       enableNetworkMonitoring: true,
       memoryInterval: 10000, // Monitor memory every 10 seconds
-      analyticsEndpoint: process.env.PERFORMANCE_ANALYTICS_ENDPOINT || null
+      analyticsEndpoint: import.meta.env.VITE_PERFORMANCE_ANALYTICS_ENDPOINT || null,
     });
 
-    console.log('📊 Performance monitoring initialized');
-    
+    console.log("📊 Performance monitoring initialized");
+
     // Make performance monitor available globally for debugging
     window.performanceMonitor = perfMonitor;
   } catch (error) {
-    console.error('❌ Performance monitoring initialization error:', error);
+    console.error("❌ Performance monitoring initialization error:", error);
   }
 
   // Render the app

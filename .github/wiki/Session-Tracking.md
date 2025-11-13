@@ -18,15 +18,15 @@ Jun-Oro'nun oyun oturum özelliği, oyun geçmişinizi detaylı bir şekilde tak
 
 Oyun oturumu, belirli bir oyunu oynadığınız zaman dilimini ifade eder. Her oturum şu bilgileri içerir:
 
-| Bilgi | Açıklama |
-|-------|----------|
-| **Oyun Adı** | Hangi oyunu oynadığınız |
-| **Başlangıç Zamanı** | Oyuna başladığınız saat ve tarih |
-| **Bitiş Zamanı** | Oyunu bıraktığınız saat ve tarih |
-| **Toplam Süre** | Oturum süresi (saat:dakika:saniye formatında) |
-| **Notlar** | Oturum hakkında hatırlatıcılar |
-| **Platform** | Oyunu oynadığınız platform (PC, PlayStation, vb.) |
-| **Durum** | Oturumun durumu (aktif, tamamlandı, devam ediyor) |
+| Bilgi                | Açıklama                                          |
+| -------------------- | ------------------------------------------------- |
+| **Oyun Adı**         | Hangi oyunu oynadığınız                           |
+| **Başlangıç Zamanı** | Oyuna başladığınız saat ve tarih                  |
+| **Bitiş Zamanı**     | Oyunu bıraktığınız saat ve tarih                  |
+| **Toplam Süre**      | Oturum süresi (saat:dakika:saniye formatında)     |
+| **Notlar**           | Oturum hakkında hatırlatıcılar                    |
+| **Platform**         | Oyunu oynadığınız platform (PC, PlayStation, vb.) |
+| **Durum**            | Oturumun durumu (aktif, tamamlandı, devam ediyor) |
 
 ## 🚀 Oturum Oluşturma
 
@@ -77,12 +77,14 @@ Mevcut tüm aktif oturumlarınızı tek bir yerden yönetin:
 Oyun oynamaya ara verdiğinizde veya devam ettiğinizde:
 
 #### Duraklatmak için:
+
 1. Aktif oturumlar listesinde ilgili oyunu bulun
 2. **"⏸️ Duraklat"** butonuna tıklayın
 3. İsteğe bağlı olarak duraklatma notu ekleyin
 4. **"Duraklat"** butonuna tıklayın
 
 #### Devam ettirmek için:
+
 1. Duraklatılmış oturumlar listesine gidin
 2. Devam etmek istediğiniz oturumun yanındaki **"▶️ Devam Et"** butonuna tıklayın
 3. Sistem süreyi kaldığı yerden devam ettirir
@@ -131,14 +133,14 @@ Oluşturduğunuz kampanyaya oturumlar ekleyebilirsiniz:
 
 Her kampanya için detaylı istatistikler görüntüleyin:
 
-| İstatistik | Açıklama |
-|-----------|----------|
-| **Toplam Oturum Sayısı** | Kampanyadaki oturumlar |
-| **Toplam Oynama Süresi** | Kampanyanın tamamı |
-| **Ortalama Oturum Süresi** | Oturum başına ortalama süre |
-| **İlk Oturum** | Kampanyaya başlangıç tarihi |
-| **Son Oturum** | Son oynama tarihi |
-| **İlerleme Grafiği** | Zaman içindeki oynama yoğunluğu |
+| İstatistik                 | Açıklama                        |
+| -------------------------- | ------------------------------- |
+| **Toplam Oturum Sayısı**   | Kampanyadaki oturumlar          |
+| **Toplam Oynama Süresi**   | Kampanyanın tamamı              |
+| **Ortalama Oturum Süresi** | Oturum başına ortalama süre     |
+| **İlk Oturum**             | Kampanyaya başlangıç tarihi     |
+| **Son Oturum**             | Son oynama tarihi               |
+| **İlerleme Grafiği**       | Zaman içindeki oynama yoğunluğu |
 
 ## 📊 İstatistikler ve Raporlar
 
@@ -147,20 +149,22 @@ Jun-Oro, oyun alışkanlıklarınızı analiz etmeniz için zengin istatistikler
 ### Kişisel İstatistikler
 
 #### Genel Bakış
-| İstatistik | Açıklama |
-|-----------|----------|
-| **Toplam Oynama Süresi** | Tüm zamanlardaki toplam süre |
-| **Oturum Sayısı** | Toplam oturum sayınız |
-| **Ortalama Oturum Süresi** | Oturum başına ortalama |
-| **En Çok Oynanan Oyunlar** | Sıralı liste |
-| **Platform Dağılımı** | Hangi platformda ne kadar vakit geçirdiğiniz |
+
+| İstatistik                 | Açıklama                                     |
+| -------------------------- | -------------------------------------------- |
+| **Toplam Oynama Süresi**   | Tüm zamanlardaki toplam süre                 |
+| **Oturum Sayısı**          | Toplam oturum sayınız                        |
+| **Ortalama Oturum Süresi** | Oturum başına ortalama                       |
+| **En Çok Oynanan Oyunlar** | Sıralı liste                                 |
+| **Platform Dağılımı**      | Hangi platformda ne kadar vakit geçirdiğiniz |
 
 #### Günlük/Haftalık/Aylık İstatistikler
-| İstatistik | Açıklama |
-|-----------|----------|
-| **Oynama Günleri** | Hangi günlerde daha çok oynadığınız |
-| **Oynama Saatleri** | En aktif olduğunuz saat aralıkları |
-| **Trend Grafiği** | Zaman içindeki oynama alışkanlıklarınız |
+
+| İstatistik          | Açıklama                                |
+| ------------------- | --------------------------------------- |
+| **Oynama Günleri**  | Hangi günlerde daha çok oynadığınız     |
+| **Oynama Saatleri** | En aktif olduğunuz saat aralıkları      |
+| **Trend Grafiği**   | Zaman içindeki oynama alışkanlıklarınız |
 
 ### Oyun Bazında İstatistikler
 
@@ -182,22 +186,25 @@ Her oyun için detaylı analiz:
 İstatistiklerinizi farklı formatlarda dışa aktarabilirsiniz:
 
 #### Rapor Türleri
-| Rapor Türü | Açıklama |
-|-------------|----------|
-| **Özet Raporu** | Genel istatistiklerinizi içeren kısa rapor |
-| **Detaylı Rapor** | Tüm oturumlarınızın detaylı listesi |
-| **Kampanya Raporu** | Seçili kampanyanın detaylı analizi |
-| **Zaman Aralığı Raporu** | Belirli tarih aralığındaki aktiviteler |
+
+| Rapor Türü               | Açıklama                                   |
+| ------------------------ | ------------------------------------------ |
+| **Özet Raporu**          | Genel istatistiklerinizi içeren kısa rapor |
+| **Detaylı Rapor**        | Tüm oturumlarınızın detaylı listesi        |
+| **Kampanya Raporu**      | Seçili kampanyanın detaylı analizi         |
+| **Zaman Aralığı Raporu** | Belirli tarih aralığındaki aktiviteler     |
 
 #### Dışa Aktarma Formatları
-| Format | Açıklama |
-|--------|----------|
-| **PDF** | Yazdırılabilir, paylaşılabilir rapor |
+
+| Format    | Açıklama                                 |
+| --------- | ---------------------------------------- |
+| **PDF**   | Yazdırılabilir, paylaşılabilir rapor     |
 | **Excel** | Verileri analiz etmek için tablo formatı |
-| **JSON** | Programatik kullanım için veri formatı |
-| **CSV** | Diğer uygulamalara aktarmak için |
+| **JSON**  | Programatik kullanım için veri formatı   |
+| **CSV**   | Diğer uygulamalara aktarmak için         |
 
 #### Rapor Oluşturma Adımları
+
 1. **"İstatistikler"** sayfasına gidin
 2. **"Rapor Oluştur"** butonuna tıklayın
 3. Rapor türünü ve tarih aralığını seçin
@@ -220,23 +227,24 @@ Her oturuma özel notlar ekleyebilirsiniz:
 - **Duraklatma Notları**: Ara verdiğinizde neler yaptığınız
 
 #### Not Türleri
-| Not Türü | Örnek |
-|-----------|--------|
-| **İlerleme** | "Boss 2'yi yendim", "Bölüm 4 tamamlandı" |
-| **Gözlemler** | "Grafikler çok güzel", "Hikaye ilginçleşiyor" |
-| **Sorunlar** | "Bug nedeniyle ilerleyemiyorum", "Çok zorlu bölüm" |
-| **Fikirler** | "Sonraki sefer farklı strateji denemeliyim" |
+
+| Not Türü      | Örnek                                              |
+| ------------- | -------------------------------------------------- |
+| **İlerleme**  | "Boss 2'yi yendim", "Bölüm 4 tamamlandı"           |
+| **Gözlemler** | "Grafikler çok güzel", "Hikaye ilginçleşiyor"      |
+| **Sorunlar**  | "Bug nedeniyle ilerleyemiyorum", "Çok zorlu bölüm" |
+| **Fikirler**  | "Sonraki sefer farklı strateji denemeliyim"        |
 
 ### Kampanya Notları
 
 Kampanya genelinde notlar tutun:
 
-| Not Türü | Açıklama |
-|-----------|----------|
-| **Genel İzlenimler** | Oyun hakkında genel düşünceleriniz |
-| **Stratejiler** | Kullandığınız oyun stratejileri |
-| **Hedefler** | Kampanya için belirlediğiniz hedefler |
-| **Anılar** | Oyun sırasında yaşadığınız özel anılar |
+| Not Türü             | Açıklama                               |
+| -------------------- | -------------------------------------- |
+| **Genel İzlenimler** | Oyun hakkında genel düşünceleriniz     |
+| **Stratejiler**      | Kullandığınız oyun stratejileri        |
+| **Hedefler**         | Kampanya için belirlediğiniz hedefler  |
+| **Anılar**           | Oyun sırasında yaşadığınız özel anılar |
 
 ## 🔔 Hatırlatıcılar ve Bildirimler
 
@@ -245,20 +253,24 @@ Oyun alışkanlıklarınızı korumak için hatırlatıcılar ayarlayın:
 ### Oturum Hatırlatıcıları
 
 #### Uzun Süreli Oturumlar
+
 - Belirli bir süreden uzun süren oturumlar için bildirim
 - Örn: "2 saattir The Witcher 3 oynuyorsunuz, mola vermeyi düşünün"
 
 #### Unutulmuş Oturumlar
+
 - Aktif oturumu unuttuğunuzda hatırlatma
 - Örn: "Elden Ring oturumunuz hala devam ediyor!"
 
 ### Düzenli Oyun Hatırlatıcıları
 
 #### Günlük Hedefler
+
 - Her gün belirli bir süre oyun oynamayı hedefleyin
 - "Bugün hedefinize ulaştınız!" veya "1 saat daha oyun oynamalısınız"
 
 #### Haftalık Özetler
+
 - Her hafta oyun alışkanlıklarınızın özetini alın
 - "Bu hafta 15 saat oyun oynadınız, en çok The Witcher 3 oynadınız"
 
@@ -278,22 +290,26 @@ Bildirimleri kişiselleştirin:
 ### Oturum Otomasyonu
 
 #### Akıllı Oturum Tespiti
+
 - Steam entegrasyonu ile oyun başladığında otomatik oturum oluşturma
 - Discord aktivitesini izleyerek oyun tespiti
 - Manuel başlatma için klavye kısayolları
 
 #### Otomatik Duraklatma
+
 - Bilgisayar uyku moduna geçtiğinde oturumu otomatik duraklatma
 - Ekran kapandığında veya oyun kapandığında hatırlatma
 
 ### Veri Analizi
 
 #### Oyun Alışkanlık Analizi
+
 - En verimli olduğunuz oyun saatlerini belirleme
 - Tercih ettiğiniz oyun türlerini analiz etme
 - Oyun döngüsü (yeni oyun başlatma, bırakma) tespiti
 
 #### Kişisel Öneriler
+
 - Oynama alışkanlıklarınıza göre oyun önerileri
 - "Genellikle RPG oynuyorsanız, Baldur's Gate 3'ü denemelisiniz"
 - Kütüphanenizdeki oynamadığınız oyunlar için hatırlatmalar

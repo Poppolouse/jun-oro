@@ -1,0 +1,183 @@
+// Cloudflare API Prisma Schema
+// PostgreSQL backend ile uyumlu unified schema
+// Backend ile aynı database'i kullanacak
+
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// User model - Backend ile tam uyumlu
+model User {
+  id              String            @id @default(cuid())
+  name            String
+  email           String?           @unique
+  username        String?           @unique
+  password        String?
+  role            String            @default("user")
+  status          String            @default("pending")
+  profileImage    String?
+  profileImageKey String?
+  bio             String?
+  isActive        Boolean           @default(true)
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @default(now()) @updatedAt
+  lastActive      DateTime          @default(now())
+  lastLogin       DateTime?
+  
+  // Relations
+  sessions        Session[]
+  userGames       UserGame[]
+  reviews         Review[]
+  uploads         Upload[]
+
+  @@map("users")
+}
+
+// Session model - JWT + Session hybrid
+model Session {
+  id        String    @id @default(cuid())
+  userId    String
+  expiresAt DateTime  @default(now() + 24h)
+  createdAt DateTime  @default(now())
+  ipAddress String?
+  userAgent String?
+  isActive Boolean   @default(true)
+  
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+// Game model - Backend ile uyumlu
+model Game {
+  id               String            @id @default(cuid())
+  name             String
+  cover            String?
+  coverKey         String?
+  firstReleaseDate DateTime?
+  genres           Json?
+  platforms        Json?
+  summary          String?
+  description      String?
+  rating           Float?
+  developer        String?
+  developers       Json?
+  publisher        String?
+  publishers       Json?
+  steamData        Json?
+  igdbData         Json?
+  hltbData         Json?
+  metacriticData   Json?
+  
+  // Cloudflare API uyumlu alanlar
+  imageUrl         String?
+  trailerUrl       String?
+  steamUrl         String?
+  epicUrl          String?
+  gogUrl           String?
+  status           String            @default("active")
+  createdBy        String?
+  metadata         Json?
+  
+  cachedAt         DateTime          @default(now())
+  lastAccessed     DateTime          @default(now())
+  accessCount      Int               @default(1)
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  
+  // Relations
+  userGames       UserGame[]
+  reviews          Review[]
+  gameTags         GameTag[]
+
+  @@map("games")
+}
+
+// UserGame model - Cloudflare API'den gelen
+model UserGame {
+  id            Int       @id @default(autoincrement())
+  userId        String
+  gameId        String
+  status        String    @default("want_to_play")
+  rating        Float?
+  review        String?
+  playTimeHours Int       @default(0)
+  addedAt       DateTime  @default(now())
+  updatedAt     DateTime  @default(now()) @updatedAt
+  
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  game Game @relation(fields: [gameId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, gameId])
+  @@map("user_games")
+}
+
+// GameTag model - Cloudflare API'den gelen
+model GameTag {
+  id          String    @id @default(cuid())
+  name        String    @unique
+  description String?
+  color       String?
+  createdAt   DateTime  @default(now())
+  
+  games GameTagRelation[]
+
+  @@map("game_tags")
+}
+
+model GameTagRelation {
+  gameId String
+  tagId  String
+  
+  game Game @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  tag  GameTag @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([gameId, tagId])
+  @@map("game_tag_relations")
+}
+
+// Review model - Cloudflare API'den gelen
+model Review {
+  id           String    @id @default(cuid())
+  userId       String
+  gameId       String
+  rating       Float
+  title        String?
+  content      String?
+  isSpoiler    Boolean   @default(false)
+  isPublic     Boolean   @default(true)
+  helpfulCount Int       @default(0)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @default(now()) @updatedAt
+  
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  game Game @relation(fields: [gameId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, gameId])
+  @@map("reviews")
+}
+
+// Upload model - Cloudflare API'den gelen
+model Upload {
+  id               String    @id @default(cuid())
+  filename         String
+  originalFilename  String
+  fileSize         Int
+  mimeType         String
+  r2Key            String    @unique
+  publicUrl        String?
+  uploadedBy       String
+  uploadType       String    @default("general")
+  isActive         Boolean   @default(true)
+  createdAt        DateTime  @default(now())
+  
+  user User @relation(fields: [uploadedBy], references: [id])
+
+  @@map("uploads")
+}

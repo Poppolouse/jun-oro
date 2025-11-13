@@ -1,17 +1,13 @@
-import React, { useState, useEffect } from "react";
-import ReactMarkdown from "react-markdown";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { useHeaderComponent } from "../hooks/useHeaderComponent";
-import { userService } from "../data/users";
 import igdbApi from "../services/igdbApi";
-import steamApi from "../services/steamApi";
 import { apiKeyService } from "../services/apiKeys";
 import uploadService from "../services/uploadService";
 import SiteFooter from "../components/SiteFooter";
 import ElementSelector from "../components/Tutorial/ElementSelector";
 import UpdatesAdmin from "../components/Updates/UpdatesAdmin";
 import TutorialAdmin from "../components/Tutorial/TutorialAdmin";
-import ImageUpload from "../components/FileUpload/ImageUpload";
 import {
   AdminIntegrations,
   ProfileSettings,
@@ -23,7 +19,7 @@ import AdminSidebar from "../components/Settings/AdminSidebar";
 import useSettingsData from "../hooks/useSettingsData";
 
 // API Base URL configuration
-const API_BASE_URL = import.meta.env.VITE_API_URL || "${API_BASE_URL}";
+// const API_BASE_URL = import.meta.env.VITE_API_URL || "${API_BASE_URL}";
 
 function SettingsPage() {
   const { user, isAdmin, updateUser } = useAuth();
@@ -55,10 +51,11 @@ function SettingsPage() {
     settings?.userReadStats,
   ]);
 
-  const users = settings?.users || [];
-  const pendingUsers = settings?.pendingUsers || [];
-  const setUsers = settings?.setUsers || (() => {});
-  const setPendingUsers = settings?.setPendingUsers || (() => {});
+  const users = useMemo(() => settings?.users || [], [settings?.users]);
+  const pendingUsers = useMemo(
+    () => settings?.pendingUsers || [],
+    [settings?.pendingUsers],
+  );
   const [selectedUser, setSelectedUser] = useState(null);
   const [showUserModal, setShowUserModal] = useState(false);
 
@@ -70,12 +67,6 @@ function SettingsPage() {
   const [apiStats, setApiStats] = useState(null);
   const [connectionStatus, setConnectionStatus] = useState(null);
   const [isTestingConnection, setIsTestingConnection] = useState(false);
-
-  // Steam API state'leri
-  const [steamApiKey, setSteamApiKey] = useState("");
-  const [steamConnectionStatus, setSteamConnectionStatus] = useState(null);
-  const [isTestingSteamConnection, setIsTestingSteamConnection] =
-    useState(false);
 
   // API Key Management state'leri (data comes from hook)
   const apiKeys = settings?.apiKeys || [];
@@ -96,7 +87,6 @@ function SettingsPage() {
   const [notificationMessage, setNotificationMessage] = useState("");
   const [notificationType, setNotificationType] = useState("info");
   const [isSendingNotification, setIsSendingNotification] = useState(false);
-  const [notificationHistory, setNotificationHistory] = useState([]);
   const [selectedUsers, setSelectedUsers] = useState([]);
 
   // R2 Depolama state'leri (core data from hook)
@@ -135,15 +125,11 @@ function SettingsPage() {
   });
   const [isLoadingAuditLogs, setIsLoadingAuditLogs] = useState(false);
   const [auditLogsPage, setAuditLogsPage] = useState(1);
-  const [auditLogsPagination, setAuditLogsPagination] = useState({});
   const [auditLogsFilter, setAuditLogsFilter] = useState("all");
 
   // Profil resmi state'leri
   const [profileImage, setProfileImage] = useState(user?.profileImage || null);
   const [showImageCropper, setShowImageCropper] = useState(false);
-  const [selectedImageFile, setSelectedImageFile] = useState(null);
-  const [croppedImageUrl, setCroppedImageUrl] = useState(null);
-  const [isProfileImageExpanded, setIsProfileImageExpanded] = useState(false);
   const [isUploadingAvatar, setIsUploadingAvatar] = useState(false);
 
   // Expandable liste state'leri
@@ -151,7 +137,7 @@ function SettingsPage() {
 
   // Changelog yönetimi state'leri (list from hook; modals remain local)
   const changelogs = settings?.changelogs || [];
-  const [isLoadingChangelogs, setIsLoadingChangelogs] = useState(false);
+  const [isLoadingChangelogs] = useState(false);
   const [showChangelogModal, setShowChangelogModal] = useState(false);
   const [editingChangelog, setEditingChangelog] = useState(null);
   const [newChangelog, setNewChangelog] = useState({
@@ -242,7 +228,7 @@ function SettingsPage() {
         settings.loadR2Stats && settings.loadR2Stats();
       }
     }
-  }, [adminActiveTab, isAdmin, settings]);
+  }, [adminActiveTab, isAdmin, settings, loadNotificationStats]);
 
   // Notification history is managed by useSettingsData hook (loadNotificationHistory called inside the hook)
 
@@ -474,159 +460,17 @@ function SettingsPage() {
   };
 
   // Steam API fonksiyonları
-  const handleSaveSteamApiKey = async () => {
-    if (!steamApiKey.trim()) {
-      alert("Lütfen Steam API anahtarını girin");
-      return;
-    }
-
-    try {
-      // Database'e kaydet
-      await apiKeyService.setSteamApiKey(steamApiKey.trim());
-      setSteamConnectionStatus({
-        success: true,
-        message: "Steam API anahtarı database'e kaydedildi",
-      });
-    } catch (error) {
-      console.error("Failed to save Steam API key:", error);
-      setSteamConnectionStatus({
-        success: false,
-        message: "Steam API anahtarı kaydedilemedi: " + error.message,
-      });
-    }
-  };
-
-  const handleTestSteamConnection = async () => {
-    if (!steamApiKey.trim()) {
-      alert("Lütfen önce Steam API anahtarını kaydedin");
-      return;
-    }
-
-    setIsTestingSteamConnection(true);
-    setSteamConnectionStatus(null);
-
-    try {
-      const result = await steamApi.testConnection();
-      setSteamConnectionStatus(result);
-    } catch (error) {
-      setSteamConnectionStatus({ success: false, message: error.message });
-    } finally {
-      setIsTestingSteamConnection(false);
-    }
-  };
-
-  const handleClearSteamCredentials = async () => {
-    if (
-      window.confirm("Steam API anahtarını silmek istediğinizden emin misiniz?")
-    ) {
-      try {
-        await steamApi.clearApiKey();
-        setSteamApiKey("");
-        setSteamConnectionStatus(null);
-      } catch (error) {
-        console.error("Failed to clear Steam API key:", error);
-        alert("Steam API anahtarı silinirken hata oluştu: " + error.message);
-      }
-    }
-  };
-
-  // Supabase API fonksiyonları
-  const handleSaveSupabaseCredentials = async () => {
-    if (!supabaseUrl.trim() || !supabaseAnonKey.trim()) {
-      alert("Lütfen Supabase URL ve API anahtarını girin");
-      return;
-    }
-
-    try {
-      // Database'e kaydet
-      await apiKeyService.createApiKey({
-        serviceName: "supabase_url",
-        keyName: "Supabase Project URL",
-        keyValue: supabaseUrl.trim(),
-        description: "Supabase Project URL",
-        isGlobal: true,
-      });
-
-      await apiKeyService.createApiKey({
-        serviceName: "supabase_anon",
-        keyName: "Supabase Anon Public Key",
-        keyValue: supabaseAnonKey.trim(),
-        description: "Supabase Anon Public Key",
-        isGlobal: true,
-      });
-
-      setSupabaseConnectionStatus({
-        success: true,
-        message: "Supabase API anahtarları database'e kaydedildi",
-      });
-    } catch (error) {
-      console.error("Failed to save Supabase credentials:", error);
-      setSupabaseConnectionStatus({
-        success: false,
-        message: "Supabase API anahtarları kaydedilemedi: " + error.message,
-      });
-    }
-  };
-
-  const handleTestSupabaseConnection = async () => {
-    if (!supabaseUrl.trim() || !supabaseAnonKey.trim()) {
-      alert("Lütfen önce Supabase API anahtarlarını kaydedin");
-      return;
-    }
-
-    setIsTestingSupabaseConnection(true);
-    setSupabaseConnectionStatus(null);
-
-    try {
-      // Basit bir test isteği gönder
-      const response = await fetch(`${supabaseUrl.trim()}/rest/v1/`, {
-        headers: {
-          apikey: supabaseAnonKey.trim(),
-          Authorization: `Bearer ${supabaseAnonKey.trim()}`,
-        },
-      });
-
-      if (response.ok) {
-        setSupabaseConnectionStatus({
-          success: true,
-          message: "Supabase bağlantısı başarılı",
-        });
-      } else {
-        setSupabaseConnectionStatus({
-          success: false,
-          message: "Supabase bağlantısı başarısız",
-        });
-      }
-    } catch (error) {
-      setSupabaseConnectionStatus({
-        success: false,
-        message: `Bağlantı hatası: ${error.message}`,
-      });
-    } finally {
-      setIsTestingSupabaseConnection(false);
-    }
-  };
-
-  const handleClearSupabaseCredentials = () => {
-    if (
-      window.confirm(
-        "Supabase API anahtarlarını silmek istediğinizden emin misiniz?",
-      )
-    ) {
-      localStorage.removeItem("supabase_url");
-      localStorage.removeItem("supabase_anon_key");
-      setSupabaseUrl("");
-      setSupabaseAnonKey("");
-      setSupabaseConnectionStatus(null);
-    }
-  };
+  // Supabase API state'leri
 
   // API Key Management fonksiyonları
   const loadApiKeys = async () => {
     setIsLoadingApiKeys(true);
     try {
       const response = await apiKeyService.getApiKeys();
-      setApiKeys(response.data || []);
+      // API keys are managed by the hook, this function is for compatibility
+      if (settings && settings.loadApiKeys) {
+        settings.loadApiKeys();
+      }
     } catch (error) {
       console.error("Failed to load API keys:", error);
       setApiKeyOperationStatus({
@@ -642,13 +486,9 @@ function SettingsPage() {
   const loadR2Stats = async () => {
     setIsLoadingR2Stats(true);
     try {
-      const response = await fetch("${API_BASE_URL}/r2/stats");
-      const data = await response.json();
-
-      if (data.success) {
-        setR2Stats(data.data);
-      } else {
-        console.error("R2 istatistikleri alınamadı:", data.message);
+      // R2 stats are managed by the hook
+      if (settings && settings.loadR2Stats) {
+        settings.loadR2Stats();
       }
     } catch (error) {
       console.error("R2 istatistikleri yüklenirken hata:", error);
@@ -807,38 +647,6 @@ function SettingsPage() {
   };
 
   // Bildirim gönderme fonksiyonları - delegated to hook
-  const handleSendNotification = async () => {
-    if (!notificationTitle.trim() || !notificationMessage.trim()) {
-      alert("Başlık ve mesaj alanları zorunludur!");
-      return;
-    }
-    setIsSendingNotification(true);
-    try {
-      const res = await settings.sendNotification({
-        title: notificationTitle,
-        message: notificationMessage,
-        type: notificationType,
-        recipients: sendToAll ? "all" : selectedUsers,
-      });
-      if (res && res.success) {
-        settings.loadNotificationHistory && settings.loadNotificationHistory();
-        setNotificationTitle("");
-        setNotificationMessage("");
-        setNotificationType("info");
-        setSendToAll(true);
-        setSelectedUsers([]);
-        alert("Bildirim başarıyla gönderildi!");
-      } else {
-        alert(res?.error?.message || "Bildirim gönderilirken bir hata oluştu!");
-      }
-    } catch (err) {
-      console.error("Bildirim gönderme hatası (wrapper):", err);
-      alert("Bildirim gönderilirken bir hata oluştu!");
-    } finally {
-      setIsSendingNotification(false);
-    }
-  };
-
   const handleUserSelection = (userId) => {
     setSelectedUsers((prev) => {
       if (prev.includes(userId)) {
@@ -858,35 +666,14 @@ function SettingsPage() {
   };
 
   // Changelog yönetimi fonksiyonları - delegated to hook
-  const loadChangelogs = async () => {
-    setIsLoadingChangelogs(true);
-    try {
-      (await settings.loadChangelogs) && settings.loadChangelogs();
-      // hook effect will sync local changelogs
-    } catch (err) {
-      console.error("loadChangelogs (wrapper):", err);
-      setChangelogOperationStatus({
-        type: "error",
-        message: "Changelog'lar yüklenemedi",
-      });
-    } finally {
-      setIsLoadingChangelogs(false);
-    }
-  };
-
   // Admin denetim günlüğü fonksiyonları
   const loadAuditLogs = async () => {
     setIsLoadingAuditLogs(true);
     try {
-      const response = await fetch(
-        `${API_BASE_URL}/users/admin/audit-logs?page=${auditLogsPage}&limit=20`,
-      );
-      if (!response.ok) {
-        throw new Error("Denetim günlükleri yüklenemedi");
+      // Audit logs are managed by the hook
+      if (settings && settings.loadAuditLogs) {
+        settings.loadAuditLogs();
       }
-      const data = await response.json();
-      setAuditLogs(data.data.logs || []);
-      setAuditLogsPagination(data.data.pagination || {});
     } catch (error) {
       console.error("Denetim günlüğü yükleme hatası:", error);
     } finally {
@@ -1009,7 +796,7 @@ function SettingsPage() {
   };
 
   // Bildirim takip fonksiyonları
-  const loadNotificationStats = () => {
+  const loadNotificationStats = useCallback(() => {
     try {
       const notifications = JSON.parse(
         localStorage.getItem("notifications") || "[]",
@@ -1034,11 +821,14 @@ function SettingsPage() {
         };
       });
 
-      setNotificationStats(stats);
+      // Notification stats are managed by the hook
+      if (settings && settings.setNotificationStats) {
+        settings.setNotificationStats(stats);
+      }
     } catch (error) {
       console.error("Bildirim istatistikleri yüklenirken hata:", error);
     }
-  };
+  }, [users, settings]);
 
   const loadUserReadStats = (notificationId) => {
     try {
@@ -1062,68 +852,11 @@ function SettingsPage() {
   };
 
   // Trafik logları fonksiyonları
-  const generateMockTrafficLogs = () => {
-    const actions = [
-      "login",
-      "logout",
-      "page_view",
-      "game_add",
-      "game_remove",
-      "search",
-      "profile_update",
-    ];
-    const pages = [
-      "/",
-      "/arkade",
-      "/library",
-      "/settings",
-      "/stats",
-      "/wishlist",
-      "/gallery",
-    ];
-    const userAgents = [
-      "Chrome 120.0.0.0 Windows",
-      "Firefox 121.0 Windows",
-      "Safari 17.2 macOS",
-      "Edge 120.0.0.0 Windows",
-    ];
-
-    const logs = [];
-    const now = new Date();
-
-    for (let i = 0; i < 100; i++) {
-      const randomUser = users[Math.floor(Math.random() * users.length)];
-      const randomAction = actions[Math.floor(Math.random() * actions.length)];
-      const randomPage = pages[Math.floor(Math.random() * pages.length)];
-      const randomUserAgent =
-        userAgents[Math.floor(Math.random() * userAgents.length)];
-
-      // Son 7 gün içinde rastgele zaman
-      const randomTime = new Date(
-        now.getTime() - Math.random() * 7 * 24 * 60 * 60 * 1000,
-      );
-
-      logs.push({
-        id: i + 1,
-        userId: randomUser.id,
-        username: randomUser.username,
-        action: randomAction,
-        page: randomPage,
-        ip: `192.168.1.${Math.floor(Math.random() * 255)}`,
-        userAgent: randomUserAgent,
-        timestamp: randomTime.toISOString(),
-        sessionId: `sess_${Math.random().toString(36).substr(2, 9)}`,
-        duration: Math.floor(Math.random() * 300) + 10, // 10-310 saniye
-      });
-    }
-
-    return logs.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
-  };
-
   const loadTrafficLogs = () => {
-    // Gerçek uygulamada bu veriler backend'den gelecek
-    const logs = generateMockTrafficLogs();
-    setTrafficLogs(logs);
+    // Traffic logs are managed by the hook
+    if (settings && settings.loadTrafficLogs) {
+      settings.loadTrafficLogs();
+    }
   };
 
   const getFilteredTrafficLogs = () => {
@@ -1223,18 +956,8 @@ function SettingsPage() {
   };
 
   // Legacy functions - keeping for backward compatibility
-  const handleImageUpload = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      const formData = new FormData();
-      formData.append("avatar", file);
-      handleAvatarUpload(formData);
-    }
-  };
-
   const handleCropComplete = (croppedImage) => {
     setProfileImage(croppedImage);
-    setCroppedImageUrl(croppedImage);
     setShowImageCropper(false);
     saveProfileImage(croppedImage);
   };
@@ -3765,7 +3488,8 @@ function ImageCropperModal({ imageUrl, onCropComplete, onCancel }) {
       let newCropArea = { ...initialCropArea };
 
       switch (resizeHandle) {
-        case "se": // Güneydoğu (sağ alt)
+        case "se": {
+          // Güneydoğu (sağ alt)
           const newWidth = Math.max(
             minSize,
             Math.min(
@@ -3793,7 +3517,9 @@ function ImageCropperModal({ imageUrl, onCropComplete, onCancel }) {
             newCropArea.width = newCropArea.height;
           }
           break;
-        case "sw": // Güneybatı (sol alt)
+        }
+        case "sw": {
+          // Güneybatı (sol alt)
           const swNewWidth = Math.max(minSize, initialCropArea.width - deltaX);
           const swNewHeight = Math.max(
             minSize,
@@ -3819,7 +3545,9 @@ function ImageCropperModal({ imageUrl, onCropComplete, onCancel }) {
             );
           }
           break;
-        case "ne": // Kuzeydoğu (sağ üst)
+        }
+        case "ne": {
+          // Kuzeydoğu (sağ üst)
           const neNewWidth = Math.max(
             minSize,
             Math.min(
@@ -3848,7 +3576,9 @@ function ImageCropperModal({ imageUrl, onCropComplete, onCancel }) {
             );
           }
           break;
-        case "nw": // Kuzeybatı (sol üst)
+        }
+        case "nw": {
+          // Kuzeybatı (sol üst)
           const nwNewWidth = Math.max(minSize, initialCropArea.width - deltaX);
           const nwNewHeight = Math.max(
             minSize,
@@ -3866,6 +3596,7 @@ function ImageCropperModal({ imageUrl, onCropComplete, onCancel }) {
             initialCropArea.y + initialCropArea.height - nwSize,
           );
           break;
+        }
       }
 
       // Final sınır kontrolü

@@ -16,13 +16,13 @@ erDiagram
     User ||--o{ ApiKey : "kullanıcı API anahtarları"
     User ||--o{ Changelog : "kullanıcı değişiklikleri"
     User ||--o{ AdminAuditLog : "admin logları"
-    
+
     Game ||--o{ LibraryEntry : "oyun kütüphanesi"
     Game ||--o{ GameSession : "oyun oturumları"
     Game ||--o{ Campaign : "oyun kampanyaları"
-    
+
     Campaign ||--o{ Campaign : "alt kampanyalar"
-    
+
     User {
         string id PK
         string name
@@ -37,7 +37,7 @@ erDiagram
         datetime updatedAt
         datetime lastActive
     }
-    
+
     Game {
         string id PK
         string name
@@ -60,7 +60,7 @@ erDiagram
         datetime lastAccessed
         int accessCount
     }
-    
+
     LibraryEntry {
         string id PK
         string userId FK
@@ -77,7 +77,7 @@ erDiagram
         datetime addedAt
         datetime updatedAt
     }
-    
+
     GameSession {
         string id PK
         string userId FK
@@ -91,7 +91,7 @@ erDiagram
         string platform
         string status
     }
-    
+
     Campaign {
         string id PK
         string gameId FK
@@ -106,7 +106,7 @@ erDiagram
         json features
         datetime createdAt
     }
-    
+
     UserPreferences {
         string id PK
         string userId FK
@@ -121,7 +121,7 @@ erDiagram
         boolean autoLoadMetacritic
         boolean autoGenerateCampaigns
     }
-    
+
     UserStats {
         string id PK
         string userId FK
@@ -135,7 +135,7 @@ erDiagram
         json monthlyStats
         json achievements
     }
-    
+
     ApiKey {
         string id PK
         string userId FK
@@ -149,7 +149,7 @@ erDiagram
         datetime updatedAt
         datetime lastUsed
     }
-    
+
     Notification {
         string id PK
         string userId FK
@@ -162,7 +162,7 @@ erDiagram
         datetime createdAt
         datetime expiresAt
     }
-    
+
     Changelog {
         string id PK
         string title
@@ -176,7 +176,7 @@ erDiagram
         datetime updatedAt
         string authorId FK
     }
-    
+
     AdminAuditLog {
         string id PK
         string action
@@ -233,6 +233,7 @@ model User {
 ```
 
 **Alan Açıklamaları:**
+
 - `id`: CUID formatında benzersiz kullanıcı kimliği
 - `role`: Kullanıcı rolü ('user', 'admin', 'moderator')
 - `status`: Hesap durumu ('pending', 'active', 'suspended')
@@ -279,6 +280,7 @@ model Game {
 ```
 
 **Alan Açıklamaları:**
+
 - `id`: External API'lerden gelen oyun ID'si
 - `JSON` alanları: Esnek veri depolama için kullanılır (Steam, IGDB, HLTB verileri)
 - `cachedAt`: Verinin ne zaman önbelleğe alındığını takip eder
@@ -319,6 +321,7 @@ model LibraryEntry {
 ```
 
 **Alan Açıklamaları:**
+
 - `category`: 'wishlist', 'playing', 'completed', 'backlog' değerlerini alabilir
 - `priority`: 1 (yüksek) - 5 (düşük) öncelik skalası
 - `tags`: Etiketleme sistemi için JSON formatında veri
@@ -356,6 +359,7 @@ model GameSession {
 ```
 
 **Alan Açıklamaları:**
+
 - `isActive`: Aktif oturumları takip etmek için
 - `campaigns`: Oyun içindeki kampanya/hikaye ilerlemesi
 - `playtime`: Saniye cinsinden oyun süresi
@@ -387,6 +391,7 @@ model Campaign {
 ```
 
 **Alan Açıklamaları:**
+
 - `parentId`: Alt kampanyalar için hiyerarşik yapı
 - `isMainCampaign`: Ana hikaye kampanyası belirlemek için
 - `difficulty`: 'easy', 'normal', 'hard', 'nightmare' gibi zorluk seviyeleri
@@ -567,7 +572,7 @@ CREATE TYPE game_category AS ENUM (
   'other'
 );
 
-ALTER TABLE games 
+ALTER TABLE games
 ADD COLUMN category game_category DEFAULT 'other';
 
 -- Index ekle
@@ -588,15 +593,15 @@ npx prisma migrate resolve --rolled-back 20240101000000_add_game_categories
 
 ### Veri Tipleri
 
-| Alan Adı | Veri Tipi | Açıklama | Örnek |
-|----------|------------|-----------|--------|
-| id | String | CUID formatında benzersiz kimlik | `clx123abc456` |
-| name | String | String veri | "The Witcher 3" |
-| rating | Float | Ondalıklı sayı | 8.5 |
-| playtime | Int | Tam sayı (saniye) | 3600 |
-| createdAt | DateTime | Zaman damgası | `2024-01-01 12:00:00` |
-| isActive | Boolean | True/False | `true` |
-| genres | Json | JSON veri | `["RPG", "Adventure"]` |
+| Alan Adı  | Veri Tipi | Açıklama                         | Örnek                  |
+| --------- | --------- | -------------------------------- | ---------------------- |
+| id        | String    | CUID formatında benzersiz kimlik | `clx123abc456`         |
+| name      | String    | String veri                      | "The Witcher 3"        |
+| rating    | Float     | Ondalıklı sayı                   | 8.5                    |
+| playtime  | Int       | Tam sayı (saniye)                | 3600                   |
+| createdAt | DateTime  | Zaman damgası                    | `2024-01-01 12:00:00`  |
+| isActive  | Boolean   | True/False                       | `true`                 |
+| genres    | Json      | JSON veri                        | `["RPG", "Adventure"]` |
 
 ### Kısıtlamalar
 
@@ -639,6 +644,7 @@ CHECK (playtime >= 0) ON game_sessions
 Veritabanı performansını optimize etmek için aşağıdaki index'ler kullanılır:
 
 #### User Tablosu Index'leri
+
 ```sql
 CREATE INDEX idx_users_email ON users(email);
 CREATE INDEX idx_users_username ON users(username);
@@ -648,6 +654,7 @@ CREATE INDEX idx_users_role ON users(role);
 ```
 
 #### Game Tablosu Index'leri
+
 ```sql
 CREATE INDEX idx_games_name ON games(name);
 CREATE INDEX idx_games_release_date ON games(firstReleaseDate);
@@ -657,6 +664,7 @@ CREATE INDEX idx_games_access_count ON games(accessCount);
 ```
 
 #### LibraryEntry Tablosu Index'leri
+
 ```sql
 CREATE INDEX idx_library_user_id ON library_entries(userId);
 CREATE INDEX idx_library_game_id ON library_entries(gameId);
@@ -669,9 +677,10 @@ CREATE INDEX idx_library_is_public ON library_entries(isPublic);
 ### Sorgu Optimizasyonu
 
 #### Kütüphane Sorgusu
+
 ```sql
 -- Optimize edilmiş kütüphane sorgusu
-SELECT 
+SELECT
   le.id,
   le.category,
   le.playtime,
@@ -690,9 +699,10 @@ LIMIT 50;
 ```
 
 #### İstatistik Sorgusu
+
 ```sql
 -- Kullanıcı istatistikleri için optimize edilmiş sorgu
-SELECT 
+SELECT
   COUNT(DISTINCT le.gameId) as total_games,
   SUM(le.playtime) as total_playtime,
   COUNT(gs.id) as total_sessions,
@@ -708,32 +718,31 @@ WHERE le.userId = $1;
 
 ```javascript
 // backend/scripts/backup-database.js
-const { PrismaClient } = require('@prisma/client');
-const fs = require('fs');
-const path = require('path');
+const { PrismaClient } = require("@prisma/client");
+const fs = require("fs");
+const path = require("path");
 
 const prisma = new PrismaClient();
 
 async function backupDatabase() {
-  const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+  const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
   const backupPath = path.join(__dirname, `../backups/backup-${timestamp}.sql`);
-  
+
   try {
     // PostgreSQL backup komutu
-    const { execSync } = require('child_process');
+    const { execSync } = require("child_process");
     const dbUrl = process.env.DATABASE_URL;
-    
+
     execSync(`pg_dump "${dbUrl}" > "${backupPath}"`, {
-      stdio: 'inherit'
+      stdio: "inherit",
     });
-    
+
     console.log(`Backup oluşturuldu: ${backupPath}`);
-    
+
     // Cloudflare R2'e yükle
     await uploadToR2(backupPath);
-    
   } catch (error) {
-    console.error('Backup hatası:', error);
+    console.error("Backup hatası:", error);
   } finally {
     await prisma.$disconnect();
   }
@@ -746,8 +755,8 @@ backupDatabase();
 
 ```javascript
 // backend/scripts/restore-database.js
-const { PrismaClient } = require('@prisma/client');
-const fs = require('fs');
+const { PrismaClient } = require("@prisma/client");
+const fs = require("fs");
 
 const prisma = new PrismaClient();
 
@@ -756,24 +765,23 @@ async function restoreDatabase(backupFile) {
     // Veritabanını sıfırla
     await prisma.$executeRaw`DROP SCHEMA public CASCADE`;
     await prisma.$executeRaw`CREATE SCHEMA public`;
-    
+
     // Backup'tan geri yükle
-    const { execSync } = require('child_process');
+    const { execSync } = require("child_process");
     const dbUrl = process.env.DATABASE_URL;
-    
+
     execSync(`psql "${dbUrl}" < "${backupFile}"`, {
-      stdio: 'inherit'
+      stdio: "inherit",
     });
-    
+
     // Migration'ları yeniden uygula
-    execSync('npx prisma migrate deploy', {
-      stdio: 'inherit'
+    execSync("npx prisma migrate deploy", {
+      stdio: "inherit",
     });
-    
-    console.log('Veritabanı başarıyla geri yüklendi');
-    
+
+    console.log("Veritabanı başarıyla geri yüklendi");
   } catch (error) {
-    console.error('Restore hatası:', error);
+    console.error("Restore hatası:", error);
   } finally {
     await prisma.$disconnect();
   }
@@ -791,21 +799,21 @@ API anahtarları ve hassas veriler veritabanında şifreli olarak saklanır:
 
 ```javascript
 // API key'leri şifreleme
-const crypto = require('crypto');
+const crypto = require("crypto");
 
 function encryptApiKey(key) {
-  const algorithm = 'aes-256-gcm';
+  const algorithm = "aes-256-gcm";
   const secretKey = process.env.ENCRYPTION_KEY;
   const iv = crypto.randomBytes(16);
-  
+
   const cipher = crypto.createCipher(algorithm, secretKey, iv);
-  
-  let encrypted = cipher.update(key, 'utf8', 'hex');
-  encrypted += cipher.final('hex');
-  
+
+  let encrypted = cipher.update(key, "utf8", "hex");
+  encrypted += cipher.final("hex");
+
   return {
     encrypted,
-    iv: iv.toString('hex')
+    iv: iv.toString("hex"),
   };
 }
 ```
@@ -814,31 +822,33 @@ function encryptApiKey(key) {
 
 ```sql
 -- 1 yıldan eski inactive kullanıcıları sil
-DELETE FROM users 
-WHERE status = 'suspended' 
+DELETE FROM users
+WHERE status = 'suspended'
 AND lastActive < NOW() - INTERVAL '1 year';
 
 -- 6 aydır erişilmeyen oyun verilerini temizle
-DELETE FROM games 
+DELETE FROM games
 WHERE lastAccessed < NOW() - INTERVAL '6 months'
 AND id NOT IN (SELECT gameId FROM library_entries);
 
 -- 3 aydır aktif olmayan oturumları kapat
-UPDATE game_sessions 
+UPDATE game_sessions
 SET isActive = false, endTime = NOW()
-WHERE isActive = true 
+WHERE isActive = true
 AND startTime < NOW() - INTERVAL '3 days';
 ```
 
 ## 🔮 Gelecek Geliştirmeler
 
 ### Planlanan Özellikler
+
 - **Veri Arşivleme**: Eski verileri arşivleme sistemi
 - **Replication**: Okuma işlemleri için read replica
 - **Partitioning**: Büyük tablolar için horizontal partitioning
 - **Full-text Search**: Oyun araması için gelişmiş arama
 
 ### Performans İyileştirmeleri
+
 - **Connection Pooling**: PgBouncer entegrasyonu
 - **Query Caching**: Redis ile sorgu önbellekleme
 - **Materialized Views**: Raporlama için optimize edilmiş view'lar

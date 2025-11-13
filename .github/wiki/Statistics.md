@@ -32,13 +32,13 @@ Oyun sürelerinizi detaylı bir şekilde analiz edebilir ve farklı zaman diliml
 
 ### Süre Analizi Özellikleri
 
-| Özellik | Açıklama |
-|---------|----------|
-| 📊 **Günlük Süre** | Her gün oyun oynadığınız toplam süre |
-| 📅 **Haftalık Özet** | Haftalık oyun sürelerinizin dökümü |
-| 📈 **Aylık Trend** | Aylık oyun sürelerinizdeki artış/azalış |
-| 🎮 **Oyun Bazında** | Her oyun için harcadığınız toplam süre |
-| 🕐 **Oturum Bazında** | Ortalama oturum süreleriniz |
+| Özellik               | Açıklama                                |
+| --------------------- | --------------------------------------- |
+| 📊 **Günlük Süre**    | Her gün oyun oynadığınız toplam süre    |
+| 📅 **Haftalık Özet**  | Haftalık oyun sürelerinizin dökümü      |
+| 📈 **Aylık Trend**    | Aylık oyun sürelerinizdeki artış/azalış |
+| 🎮 **Oyun Bazında**   | Her oyun için harcadığınız toplam süre  |
+| 🕐 **Oturum Bazında** | Ortalama oturum süreleriniz             |
 
 ### Süre Filtreleme Seçenekleri
 
@@ -61,14 +61,14 @@ Oyun tamamlama alışkanlıklarınızı analiz edin ve kendinize yeni hedefler b
 
 ### Tamamlama Metrikleri
 
-| Metrik | Açıklama |
-|--------|----------|
-| ✅ **Tamamlama Oranı** | Başladığınız oyunları bitirme yüzdesi |
-| 🎮 **Toplam Oyun** | Kütüphanenizdeki toplam oyun sayısı |
-| 🏁 **Tamamlanan Oyun** | Bitirdiğiniz oyun sayısı |
-| ⏸️ **Devam Edenler** | Şu anda oynadığınız oyunlar |
-| 🚫 **Bırakılanlar** | Yarım bıraktığınız oyunlar |
-| 🔄 **Tekrar Oynananlar** | Birden fazla kez oynadığınız oyunlar |
+| Metrik                   | Açıklama                              |
+| ------------------------ | ------------------------------------- |
+| ✅ **Tamamlama Oranı**   | Başladığınız oyunları bitirme yüzdesi |
+| 🎮 **Toplam Oyun**       | Kütüphanenizdeki toplam oyun sayısı   |
+| 🏁 **Tamamlanan Oyun**   | Bitirdiğiniz oyun sayısı              |
+| ⏸️ **Devam Edenler**     | Şu anda oynadığınız oyunlar           |
+| 🚫 **Bırakılanlar**      | Yarım bıraktığınız oyunlar            |
+| 🔄 **Tekrar Oynananlar** | Birden fazla kez oynadığınız oyunlar  |
 
 ### Tamamlama Analizi
 
@@ -90,12 +90,12 @@ Oyun tercihlerinizi ve platform alışkanlıklarınızı detaylı bir şekilde a
 
 ### Platform Dağılımı
 
-| Platform | Özellikler |
-|----------|------------|
-| 💻 **PC** | Steam, Epic Games, GOG, İndie oyunlar |
-| 🎮 **PlayStation** | PS4, PS5, PlayStation Store |
-| 🟢 **Xbox** | Xbox One, Series X/S, Game Pass |
-- 🔴 **Nintendo** | Switch, eShop, Nintendo Online |
+| Platform           | Özellikler                            |
+| ------------------ | ------------------------------------- |
+| 💻 **PC**          | Steam, Epic Games, GOG, İndie oyunlar |
+| 🎮 **PlayStation** | PS4, PS5, PlayStation Store           |
+| 🟢 **Xbox**        | Xbox One, Series X/S, Game Pass       |
+| - 🔴 **Nintendo**  | Switch, eShop, Nintendo Online        |
 
 ### Tür Analizi
 
@@ -123,12 +123,13 @@ Oyun tercihlerinizi ve platform alışkanlıklarınızı detaylı bir şekilde a
 
 ### Grafik Türleri
 
-| Grafik | Kullanım Alanı |
-|---------|---------------|
-| 📊 **Çubuk Grafiği** | Kategorik veri karşılaştırması |
-| 📈 **Çizgi Grafiği** | Zaman içindeki değişim |
-| 🥧 **Pasta Grafiği** | Yüzde dağılımı |
-- 🎯 **Hedef Grafiği** | Hedef ve gerçek değer karşılaştırması
+| Grafik                 | Kullanım Alanı                        |
+| ---------------------- | ------------------------------------- |
+| 📊 **Çubuk Grafiği**   | Kategorik veri karşılaştırması        |
+| 📈 **Çizgi Grafiği**   | Zaman içindeki değişim                |
+| 🥧 **Pasta Grafiği**   | Yüzde dağılımı                        |
+| - 🎯 **Hedef Grafiği** | Hedef ve gerçek değer karşılaştırması |
+
 - 🗺️ **Harita Görselleştirme** - Coğrafi dağılım (varsa)
 
 ### İnteraktif Özellikler
@@ -193,10 +194,11 @@ Oyun tercihlerinizi ve platform alışkanlıklarınızı detaylı bir şekilde a
 
 ### Dışa Aktarma Formatları
 
-| Format | Açıklama | Kullanım Alanı |
-|--------|-----------|---------------|
-| 📄 **CSV** | Virgülle ayrılmış değerler | Excel, Google Sheets |
-| 📊 **JSON** | Yapılandırılmış veri | Programatik kullanım |
+| Format      | Açıklama                   | Kullanım Alanı       |
+| ----------- | -------------------------- | -------------------- |
+| 📄 **CSV**  | Virgülle ayrılmış değerler | Excel, Google Sheets |
+| 📊 **JSON** | Yapılandırılmış veri       | Programatik kullanım |
+
 - 📈 **PDF** - Rapor formatı - Yazdırma, paylaşma
 - 🗄️ **Excel** - Excel dosyası - Detaylı analiz
 
@@ -250,12 +252,12 @@ Oyun tercihlerinizi ve platform alışkanlıklarınızı detaylı bir şekilde a
 
 ### Yaygın Sorunlar ve Çözümleri
 
-| Sorun | Çözüm |
-|-------|--------|
-| İstatistikler güncellenmiyor | Sayfayı yenileyin, internet bağlantınızı kontrol edin |
-| Grafikler yüklenmiyor | Tarayıcı önbelleğini temizleyin, JavaScript'i etkinleştirin |
-| Veri dışa aktarılamıyor | Dosya izinlerini kontrol edin, farklı format deneyin |
-| Raporlar boş görünüyor | Tarih aralığını kontrol edin, veri varlığını doğrulayın |
+| Sorun                        | Çözüm                                                       |
+| ---------------------------- | ----------------------------------------------------------- |
+| İstatistikler güncellenmiyor | Sayfayı yenileyin, internet bağlantınızı kontrol edin       |
+| Grafikler yüklenmiyor        | Tarayıcı önbelleğini temizleyin, JavaScript'i etkinleştirin |
+| Veri dışa aktarılamıyor      | Dosya izinlerini kontrol edin, farklı format deneyin        |
+| Raporlar boş görünüyor       | Tarih aralığını kontrol edin, veri varlığını doğrulayın     |
 
 ### Performans İpuçları
 

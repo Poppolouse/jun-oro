@@ -33,7 +33,8 @@ function ProtectedRoute({ children }) {
     );
   }
 
-  return isAuthenticated() ? children : <Navigate to="/login" replace />;
+  // `isAuthenticated` is a boolean from AuthContext, not a function
+  return isAuthenticated ? children : <Navigate to="/login" replace />;
 }
 
 function AdminRoute({ children }) {
@@ -81,9 +82,7 @@ function AppRoutes() {
     <Routes>
       <Route
         path="/login"
-        element={
-          isAuthenticated() ? <Navigate to="/" replace /> : <LoginPage />
-        }
+        element={isAuthenticated ? <Navigate to="/" replace /> : <LoginPage />}
       />
       <Route
         path="/"

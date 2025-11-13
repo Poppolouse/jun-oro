@@ -1,0 +1,443 @@
+// Unified Jun-Oro Database Schema
+// PostgreSQL tabanlı, hem backend hem cloudflare API için uyumlu
+// Created: 2025-11-10
+// Purpose: Database Split Architecture sorununu çözmek için
+
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ===================================================================
+// USER MANAGEMENT - İki sistemin birleşimi
+// ===================================================================
+
+model User {
+  id              String            @id @default(cuid())
+  name            String
+  email           String?           @unique
+  username        String?           @unique
+  password        String?
+  role            String            @default("user")
+  status          String            @default("pending") // pending, active, suspended
+  profileImage    String?           // URL to profile image in R2
+  profileImageKey String?           // R2 object key for deletion
+  bio             String?           // Cloudflare API'den gelen
+  isActive        Boolean           @default(true) // Cloudflare API uyumluluğu
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @default(now()) @updatedAt
+  lastActive      DateTime          @default(now())
+  lastLogin       DateTime?         // Cloudflare API'den gelen
+  
+  // Relations
+  sessions        Session[]
+  notifications   Notification[]
+  pageVisits      PageVisit[]
+  preferences     UserPreferences?
+  userStats       UserStats?
+  libraryEntries  LibraryEntry[]
+  apiKeys         ApiKey[]
+  changelogs      Changelog[]
+  adminAuditLogs  AdminAuditLog[]
+  reviews         Review[]
+  uploads         Upload[]
+  userGames       UserGame[]        // Cloudflare API'den gelen
+
+  @@map("users")
+}
+
+// ===================================================================
+// AUTHENTICATION - JWT + Session hybrid
+// ===================================================================
+
+model Session {
+  id        String    @id @default(cuid())
+  userId    String
+  expiresAt DateTime  @default(now() + 24h)
+  createdAt DateTime  @default(now())
+  ipAddress String?
+  userAgent String?
+  isActive Boolean   @default(true)
+  
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+// ===================================================================
+// GAME MANAGEMENT - İki sistemin birleşimi
+// ===================================================================
+
+model Game {
+  id               String            @id @default(cuid())
+  name             String
+  cover            String?
+  coverKey         String?           // R2 object key for deletion
+  firstReleaseDate DateTime?
+  genres           Json?
+  platforms        Json?
+  summary          String?
+  description      String?           // Cloudflare API'den gelen
+  rating           Float?
+  developer        String?
+  developers       Json?
+  publisher        String?
+  publishers       Json?
+  steamData        Json?
+  igdbData         Json?
+  hltbData         Json?
+  metacriticData   Json?
+  
+  // Cloudflare API'den gelen ek alanlar
+  imageUrl         String?           // Cloudflare API uyumluluğu
+  trailerUrl       String?           // Cloudflare API uyumluluğu
+  steamUrl         String?           // Cloudflare API uyumluluğu
+  epicUrl          String?           // Cloudflare API uyumluluğu
+  gogUrl           String?           // Cloudflare API uyumluluğu
+  status           String            @default("active") // active, inactive, deleted
+  createdBy        String?           // Cloudflare API'den gelen
+  metadata         Json?             // Cloudflare API'den gelen
+  
+  cachedAt         DateTime          @default(now())
+  lastAccessed     DateTime          @default(now())
+  accessCount      Int               @default(1)
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  
+  // Relations
+  campaigns        Campaign[]
+  sessions         GameSession[]
+  libraryEntries   LibraryEntry[]
+  reviews          Review[]
+  gameTags         GameTag[]
+  userGames        UserGame[]        // Cloudflare API'den gelen
+
+  @@map("games")
+}
+
+// ===================================================================
+// LIBRARY MANAGEMENT - İki sistemin birleşimi
+// ===================================================================
+
+model LibraryEntry {
+  id         String    @id @default(cuid())
+  userId     String
+  gameId     String
+  category   String    @default("wishlist")
+  playtime   Int       @default(0)
+  rating     Float?
+  notes      String?
+  lastPlayed DateTime?
+  progress   Int       @default(0)
+  priority   Int       @default(3)
+  isPublic   Boolean   @default(false)
+  tags       Json?
+  addedAt    DateTime  @default(now())
+  updatedAt  DateTime  @default(now()) @updatedAt
+  
+  game       Game      @relation(fields: [gameId], references: [id])
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, gameId])
+  @@map("library_entries")
+}
+
+// Cloudflare API'den gelen user_games tablosu (geçiş dönemi için)
+model UserGame {
+  id            Int       @id @default(autoincrement())
+  userId        String
+  gameId        String
+  status        String    @default("want_to_play") // playing, completed, want_to_play, dropped
+  rating        Float?
+  review        String?
+  playTimeHours Int       @default(0)
+  addedAt       DateTime  @default(now())
+  updatedAt     DateTime  @default(now()) @updatedAt
+  
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  game Game @relation(fields: [gameId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, gameId])
+  @@map("user_games")
+}
+
+// ===================================================================
+// TAG SYSTEM - Cloudflare API'den gelen
+// ===================================================================
+
+model GameTag {
+  id          String    @id @default(cuid())
+  name        String    @unique
+  description String?
+  color       String?   // Hex color for UI
+  createdAt   DateTime  @default(now())
+  
+  games GameTagRelation[]
+
+  @@map("game_tags")
+}
+
+model GameTagRelation {
+  gameId String
+  tagId  String
+  
+  game Game @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  tag  GameTag @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([gameId, tagId])
+  @@map("game_tag_relations")
+}
+
+// ===================================================================
+// REVIEW SYSTEM - Cloudflare API'den gelen
+// ===================================================================
+
+model Review {
+  id           String    @id @default(cuid())
+  userId       String
+  gameId       String
+  rating       Float
+  title        String?
+  content      String?
+  isSpoiler    Boolean   @default(false)
+  isPublic     Boolean   @default(true)
+  helpfulCount Int       @default(0)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @default(now()) @updatedAt
+  
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  game Game @relation(fields: [gameId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, gameId])
+  @@map("reviews")
+}
+
+// ===================================================================
+// FILE UPLOAD SYSTEM - Cloudflare API'den gelen
+// ===================================================================
+
+model Upload {
+  id               String    @id @default(cuid())
+  filename         String
+  originalFilename  String
+  fileSize         Int
+  mimeType         String
+  r2Key            String    @unique
+  publicUrl        String?
+  uploadedBy       String
+  uploadType       String    @default("general") // profile_image, game_image, game_trailer, general
+  isActive         Boolean   @default(true)
+  createdAt        DateTime  @default(now())
+  
+  user User @relation(fields: [uploadedBy], references: [id])
+
+  @@map("uploads")
+}
+
+// ===================================================================
+// BACKEND SYSTEM MODELS (Mevcut yapı korunuyor)
+// ===================================================================
+
+model UserPreferences {
+  id                    String  @id @default(cuid())
+  userId                String  @unique
+  preferredPlatform     String?
+  preferredStatus       String  @default("Oynamak İstiyorum")
+  includeDLCs           Boolean @default(false)
+  selectedDLCs          Json?
+  selectedCampaigns     Json?
+  preferredVersion      String?
+  gameSpecificPrefs     Json?
+  autoLoadHLTB          Boolean @default(true)
+  autoLoadMetacritic    Boolean @default(true)
+  autoGenerateCampaigns Boolean @default(true)
+  user                  User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("user_preferences")
+}
+
+model GameSession {
+  id        String    @id @default(cuid())
+  userId    String
+  gameId    String
+  gameName  String
+  startTime DateTime  @default(now())
+  endTime   DateTime?
+  playtime  Int       @default(0)
+  isActive  Boolean   @default(true)
+  campaigns Json?
+  platform  String?
+  status    String?
+  game      Game      @relation(fields: [gameId], references: [id])
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("game_sessions")
+}
+
+model UserStats {
+  id             String    @id @default(cuid())
+  userId         String    @unique
+  totalPlayTime  Int       @default(0)
+  totalSessions  Int       @default(0)
+  gamesPlayed    Int       @default(0)
+  gamesCompleted Int       @default(0)
+  lastPlayedGame String?
+  lastPlayedAt   DateTime?
+  weeklyStats    Json?
+  monthlyStats   Json?
+  achievements   Json?
+  user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("user_stats")
+}
+
+model Campaign {
+  id               String     @id @default(cuid())
+  gameId           String
+  name             String
+  description      String?
+  averageDuration  String?
+  customProperties Json?
+  parentId         String?
+  isAutoGenerated  Boolean    @default(false)
+  isMainCampaign   Boolean    @default(false)
+  difficulty       String?
+  features         Json?
+  createdAt        DateTime   @default(now())
+  game             Game       @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  parent           Campaign?  @relation("CampaignHierarchy", fields: [parentId], references: [id])
+  children         Campaign[] @relation("CampaignHierarchy")
+
+  @@map("campaigns")
+}
+
+model PageVisit {
+  id        String   @id @default(cuid())
+  userId    String
+  page      String
+  visitedAt DateTime @default(now())
+  metadata  Json?
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("page_visits")
+}
+
+model Notification {
+  id        String    @id @default(cuid())
+  userId    String?
+  title     String
+  message   String
+  type      String    @default("info")
+  isRead    Boolean   @default(false)
+  isGlobal  Boolean   @default(false)
+  metadata  Json?
+  createdAt DateTime  @default(now())
+  expiresAt DateTime?
+  user      User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("notifications")
+}
+
+model ApiKey {
+  id          String    @id @default(cuid())
+  userId      String?
+  serviceName String    // 'steam', 'igdb', 'twitch', etc.
+  keyName     String    // Display name for the key
+  keyValue    String    // Encrypted API key value
+  isActive    Boolean   @default(true)
+  isGlobal    Boolean   @default(false) // Global keys for all users vs user-specific
+  metadata    Json?     // Additional configuration like client_id, endpoints, etc.
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  lastUsed    DateTime?
+  user        User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([serviceName, userId]) // One key per service per user
+  @@map("api_keys")
+}
+
+model SystemUpdate {
+  id          String              @id @default(cuid())
+  title       String
+  description String
+  version     String?
+  type        String              @default("feature")
+  status      String              @default("planned")
+  progress    Int                 @default(0)
+  priority    String              @default("medium")
+  category    String?
+  metadata    Json?
+  createdAt   DateTime            @default(now())
+  updatedAt   DateTime            @updatedAt
+  completedAt DateTime?
+  substeps    SystemUpdateStep[]
+
+  @@map("system_updates")
+}
+
+model SystemUpdateStep {
+  id          String       @id @default(cuid())
+  updateId    String
+  title       String
+  description String?
+  progress    Int          @default(0)
+  status      String       @default("pending")
+  order       Int          @default(0)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  completedAt DateTime?
+  update      SystemUpdate @relation(fields: [updateId], references: [id], onDelete: Cascade)
+
+  @@map("system_update_steps")
+}
+
+model Platform {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  logoUrl   String?  // URL to platform logo in R2
+  logoKey   String?  // R2 object key for deletion
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("platforms")
+}
+
+model Changelog {
+  id          String    @id @default(cuid())
+  title       String
+  content     String    @db.Text // Markdown content
+  version     String?   // Optional version number
+  type        String    @default("update") // update, feature, bugfix, etc.
+  isPublished Boolean   @default(true)
+  publishedAt DateTime? @default(now())
+  releaseDate DateTime? // Release date for the changelog
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  authorId    String
+  author      User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  @@map("changelogs")
+}
+
+model AdminAuditLog {
+  id          String   @id @default(cuid())
+  action      String   // CREATE, UPDATE, DELETE, LOGIN, LOGOUT, etc.
+  targetType  String   // USER, GAME, SYSTEM, etc.
+  targetId    String?  // ID of the affected resource
+  targetName  String?  // Name/title of the affected resource
+  details     Json?    // Additional details about the action
+  ipAddress   String?  // IP address of the admin
+  userAgent   String?  // Browser/client info
+  success     Boolean  @default(true)
+  errorMessage String? // If action failed
+  createdAt   DateTime @default(now())
+  adminId     String
+  admin       User     @relation(fields: [adminId], references: [id], onDelete: Cascade)
+
+  @@map("admin_audit_logs")
+}

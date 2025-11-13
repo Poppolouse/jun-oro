@@ -1,0 +1,458 @@
+<?xml version="1.0" encoding="utf-8"?>
+<instructions>
+  <overview>API Geliştirici modu için talimatlar. Express.js backend, RESTful endpoint ve güvenlik odaklı.</overview>
+
+  <general_principles>
+    <restful_standards>
+      <item>Endpoint isimlendirme: /api/resource (plural, lowercase)</item>
+      <item>HTTP metodları: GET (okuma), POST (oluşturma), PUT (tam güncelleme), PATCH (kısmi güncelleme), DELETE (silme)</item>
+      <item>Stateless olmalı: her request bağımsız</item>
+      <item>Idempotentlik: GET, PUT, DELETE idempotent olmalı</item>
+    </restful_standards>
+
+    <security_priorities>
+      <item>MUTLAKA authentication middleware ekle</item>
+      <item>Input validation ZORUNLU (Joi veya Zod)</item>
+      <item>SQL injection koruması: parameterized queries kullan</item>
+      <item>XSS koruması: input sanitization</item>
+      <item>CORS ayarları doğru yapılandırılmalı</item>
+      <item>Rate limiting ekle (abuse önleme)</item>
+      <item>Sensitive data log'a yazma (password, API key)</item>
+    </security_priorities>
+
+    <error_handling>
+      <item>MUTLAKA try-catch kullan</item>
+      <item>Anlamlı HTTP status kodları kullan</item>
+      <item>Kullanıcı dostu hata mesajları (Türkçe)</item>
+      <item>Stack trace production'da gösterme</item>
+      <item>Error logging: Winston, Morgan önerilir</item>
+    </error_handling>
+
+    <response_format>
+      <item>Standart format: { success: boolean, data: any, error: string, message: string }</item>
+      <item>Pagination: { data: [], total, page, limit, hasMore }</item>
+      <item>Başarılı örnek: { success: true, data: {...}, message: "İşlem başarılı" }</item>
+      <item>Hatalı örnek: { success: false, error: "VALIDATION_ERROR", message: "Email alanı gerekli" }</item>
+    </response_format>
+
+    <turkish_requirement>
+      <item>API response mesajları Türkçe</item>
+      <item>Hata mesajları Türkçe</item>
+      <item>Validation mesajları Türkçe</item>
+      <item>API dokümantasyonu Türkçe</item>
+      <item>Endpoint isimleri İngilizce kalabilir</item>
+    </turkish_requirement>
+  </general_principles>
+
+  <api_endpoint_templates>
+    <example name="user_management">
+      <description>User Management API örneği</description>
+      <code language="javascript"><![CDATA[
+ // filepath: server/routes/users.js
+
+ const express = require('express');
+ const router = express.Router();
+ const { validateRequest } = require('../middleware/validation');
+ const { authenticateToken, requireAdmin } = require('../middleware/auth');
+ const { userSchema } = require('../schemas/userSchema');
+
+ // GET /api/users - Tüm kullanıcıları listele
+ router.get('/',
+   authenticateToken,
+   requireAdmin,
+   async (req, res) => {
+     try {
+       const { page = 1, limit = 10 } = req.query;
+
+       const { data, error } = await supabase
+         .from('users')
+         .select('*', { count: 'exact' })
+         .range((page - 1) * limit, page * limit - 1);
+
+       if (error) throw error;
+
+       return res.status(200).json({
+         success: true,
+         data: data,
+         message: 'Kullanıcılar başarıyla getirildi'
+       });
+     } catch (error) {
+       console.error('User list error:', error);
+       return res.status(500).json({
+         success: false,
+         error: 'DATABASE_ERROR',
+         message: 'Kullanıcılar getirilirken hata oluştu'
+       });
+     }
+   }
+ );
+
+ // POST /api/users - Yeni kullanıcı oluştur
+ router.post('/',
+   authenticateToken,
+   requireAdmin,
+   validateRequest(userSchema),
+   async (req, res) => {
+     try {
+       const { email, name, role } = req.body;
+
+       // Email kontrolü
+       const { data: existing } = await supabase
+         .from('users')
+         .select('id')
+         .eq('email', email)
+         .single();
+
+       if (existing) {
+         return res.status(400).json({
+           success: false,
+           error: 'EMAIL_EXISTS',
+           message: 'Bu email adresi zaten kayıtlı'
+         });
+       }
+
+       // Kullanıcı oluştur
+       const { data, error } = await supabase
+         .from('users')
+         .insert([{ email, name, role }])
+         .select()
+         .single();
+
+       if (error) throw error;
+
+       return res.status(201).json({
+         success: true,
+         data: data,
+         message: 'Kullanıcı başarıyla oluşturuldu'
+       });
+     } catch (error) {
+       console.error('User creation error:', error);
+       return res.status(500).json({
+         success: false,
+         error: 'SERVER_ERROR',
+         message: 'Kullanıcı oluşturulurken hata oluştu'
+       });
+     }
+   }
+ );
+
+ module.exports = router;
+ ]]></code>
+    </example>
+  </api_endpoint_templates>
+
+  <middleware_templates>
+    <authentication>
+      <code language="javascript"><![CDATA[
+ // filepath: server/middleware/auth.js
+
+ const jwt = require('jsonwebtoken');
+
+ const authenticateToken = (req, res, next) => {
+   try {
+     const authHeader = req.headers['authorization'];
+     const token = authHeader && authHeader.split(' ')[1]; // Bearer TOKEN
+
+     if (!token) {
+       return res.status(401).json({
+         success: false,
+         error: 'NO_TOKEN',
+         message: 'Erişim token bulunamadı'
+       });
+     }
+
+     jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+       if (err) {
+         return res.status(403).json({
+           success: false,
+           error: 'INVALID_TOKEN',
+           message: 'Geçersiz veya süresi dolmuş token'
+         });
+       }
+
+       req.user = user;
+       next();
+     });
+   } catch (error) {
+     return res.status(500).json({
+       success: false,
+       error: 'AUTH_ERROR',
+       message: 'Kimlik doğrulama hatası'
+     });
+   }
+ };
+
+ const requireAdmin = (req, res, next) => {
+   if (req.user.role !== 'admin') {
+     return res.status(403).json({
+       success: false,
+       error: 'INSUFFICIENT_PERMISSIONS',
+       message: 'Bu işlem için yetkiniz yok'
+     });
+   }
+   next();
+ };
+
+ module.exports = { authenticateToken, requireAdmin };
+ ]]></code>
+    </authentication>
+
+    <validation>
+      <code language="javascript"><![CDATA[
+ // filepath: server/middleware/validation.js
+
+ const validateRequest = (schema) => {
+   return (req, res, next) => {
+     const { error } = schema.validate(req.body, { abortEarly: false });
+
+     if (error) {
+       const errors = error.details.map(detail => ({
+         field: detail.path[0],
+         message: detail.message
+       }));
+
+       return res.status(400).json({
+         success: false,
+         error: 'VALIDATION_ERROR',
+         message: 'Giriş doğrulama hatası',
+         errors: errors
+       });
+     }
+
+     next();
+   };
+ };
+
+ module.exports = { validateRequest };
+ ]]></code>
+    </validation>
+
+    <rate_limiter>
+      <code language="javascript"><![CDATA[
+ // filepath: server/middleware/rateLimiter.js
+
+ const rateLimit = require('express-rate-limit');
+
+ const apiLimiter = rateLimit({
+   windowMs: 15 * 60 * 1000, // 15 dakika
+   max: 100, // 100 request limit
+   message: {
+     success: false,
+     error: 'RATE_LIMIT_EXCEEDED',
+     message: 'Çok fazla istek gönderdiniz. Lütfen 15 dakika sonra tekrar deneyin.'
+   },
+   standardHeaders: true,
+   legacyHeaders: false
+ });
+
+ module.exports = { apiLimiter };
+ ]]></code>
+    </rate_limiter>
+  </middleware_templates>
+
+  <supabase_rls_policies>
+    <policy name="users_table">
+      <code language="sql"><![CDATA[
+ -- Kullanıcılar sadece kendi bilgilerini görebilir
+ CREATE POLICY "Users can view own profile"
+ ON users FOR SELECT
+ USING (auth.uid() = id);
+
+ -- Adminler tüm kullanıcıları görebilir
+ CREATE POLICY "Admins can view all users"
+ ON users FOR SELECT
+ USING (
+   EXISTS (
+     SELECT 1 FROM users
+     WHERE id = auth.uid() AND role = 'admin'
+   )
+ );
+
+ -- Kullanıcılar kendi bilgilerini güncelleyebilir
+ CREATE POLICY "Users can update own profile"
+ ON users FOR UPDATE
+ USING (auth.uid() = id)
+ WITH CHECK (auth.uid() = id);
+ ]]></code>
+    </policy>
+
+    <policy name="api_keys">
+      <code language="sql"><![CDATA[
+ -- Sadece API key sahibi görebilir
+ CREATE POLICY "Users can view own API keys"
+ ON api_keys FOR SELECT
+ USING (user_id = auth.uid());
+
+ -- Sadece admin oluşturabilir
+ CREATE POLICY "Admins can create API keys"
+ ON api_keys FOR INSERT
+ WITH CHECK (
+   EXISTS (
+     SELECT 1 FROM users
+     WHERE id = auth.uid() AND role = 'admin'
+   )
+ );
+ ]]></code>
+    </policy>
+  </supabase_rls_policies>
+
+  <http_status_codes>
+    <success_2xx>
+      <code_item>200 OK: Başarılı GET, PUT, DELETE</code_item>
+      <code_item>201 Created: Başarılı POST (yeni kaynak oluşturuldu)</code_item>
+      <code_item>204 No Content: Başarılı DELETE (response body yok)</code_item>
+    </success_2xx>
+    <client_error_4xx>
+      <code_item>400 Bad Request: Validation hatası, geçersiz input</code_item>
+      <code_item>401 Unauthorized: Authentication gerekli</code_item>
+      <code_item>403 Forbidden: Yetki yok (authenticated ama yetkisiz)</code_item>
+      <code_item>404 Not Found: Kaynak bulunamadı</code_item>
+      <code_item>409 Conflict: Duplicate, constraint ihlali</code_item>
+      <code_item>422 Unprocessable Entity: Semantic hatalar</code_item>
+      <code_item>429 Too Many Requests: Rate limit aşıldı</code_item>
+    </client_error_4xx>
+    <server_error_5xx>
+      <code_item>500 Internal Server Error: Beklenmeyen server hatası</code_item>
+      <code_item>502 Bad Gateway: Upstream service hatası</code_item>
+      <code_item>503 Service Unavailable: Geçici servis kesintisi</code_item>
+    </server_error_5xx>
+  </http_status_codes>
+
+  <validation_schemas>
+    <example name="userSchema">
+      <code language="javascript"><![CDATA[
+ // filepath: server/schemas/userSchema.js
+
+ const Joi = require('joi');
+
+ const userSchema = Joi.object({
+   email: Joi.string()
+     .email()
+     .required()
+     .messages({
+       'string.email': 'Geçerli bir email adresi girin',
+       'any.required': 'Email alanı zorunludur'
+     }),
+
+   name: Joi.string()
+     .min(2)
+     .max(50)
+     .required()
+     .messages({
+       'string.min': 'İsim en az 2 karakter olmalıdır',
+       'string.max': 'İsim en fazla 50 karakter olabilir',
+       'any.required': 'İsim alanı zorunludur'
+     }),
+
+   role: Joi.string()
+     .valid('admin', 'user', 'moderator')
+     .default('user')
+     .messages({
+       'any.only': 'Geçersiz rol. admin, user veya moderator olabilir'
+     }),
+
+   age: Joi.number()
+     .integer()
+     .min(18)
+     .max(120)
+     .optional()
+     .messages({
+       'number.min': 'Yaş en az 18 olmalıdır',
+       'number.max': 'Geçerli bir yaş girin'
+     })
+ });
+
+ module.exports = { userSchema };
+ ]]></code>
+    </example>
+  </validation_schemas>
+
+  <common_errors>
+    <error name="auth_missing">Authentication middleware unutmak -> Her protected endpoint'e authenticateToken ekle</error>
+    <error name="validation_missing">Input validation yapmamak -> MUTLAKA validateRequest middleware kullan</error>
+    <error name="sql_injection">SQL injection riski -> Parameterized queries kullan</error>
+    <error name="error_handling_missing">Error handling eksikliği -> Her route'da try-catch ve anlamlı status kodu</error>
+    <error name="rate_limit_missing">Rate limiting unutmak -> Public endpoint'lere apiLimiter ekle</error>
+    <error name="sensitive_logging">Sensitive data loglama -> Password, token, API key log'a yazma</error>
+  </common_errors>
+
+  <quality_checklist>
+    <before_creation>
+      <item>Endpoint ismi RESTful standartlara uygun mu? (/api/users)</item>
+      <item>HTTP metodu doğru mu? (GET/POST/PUT/DELETE)</item>
+      <item>Authentication gerekli mi?</item>
+      <item>Authorization seviyesi ne? (admin/user/public)</item>
+      <item>Input validation şeması hazır mı?</item>
+    </before_creation>
+
+    <during_creation>
+      <item>Route handler oluşturuldu</item>
+      <item>Authentication middleware eklendi</item>
+      <item>Validation middleware eklendi</item>
+      <item>Try-catch ile error handling yapıldı</item>
+      <item>HTTP status kodları doğru</item>
+      <item>Response formatı standart: { success, data, message }</item>
+      <item>Türkçe mesajlar yazıldı</item>
+    </during_creation>
+
+    <after_creation>
+      <item>Postman/Thunder Client ile test edildi</item>
+      <item>Hata senaryoları test edildi (401, 400, 500)</item>
+      <item>Rate limiting çalışıyor mu?</item>
+      <item>Supabase RLS policy ayarlandı mı?</item>
+      <item>API dokümantasyonu yazıldı mı?</item>
+      <item>Commit mesajı açıklayıcı (Türkçe)</item>
+    </after_creation>
+  </quality_checklist>
+
+  <scenarios>
+    <scenario name="user_profile_update">
+      <description>Kullanıcılar kendi profillerini güncelleyebilsin</description>
+      <steps>
+        <step>PATCH /api/users/:id endpoint oluştur</step>
+        <step>authenticateToken + requireSelf middleware</step>
+        <step>Validation: email, name, avatar</step>
+        <step>Supabase update query</step>
+        <step>RLS policy: users can update own profile</step>
+        <step>Test: başarılı güncelleme, yetkisiz erişim, validation hataları</step>
+      </steps>
+    </scenario>
+
+    <scenario name="game_rating">
+      <description>Kullanıcılar oyunlara puan verebilsin</description>
+      <steps>
+        <step>POST /api/games/:gameId/ratings endpoint</step>
+        <step>Authentication gerekli</step>
+        <step>Validation: rating (1-5), comment (optional)</step>
+        <step>Duplicate rating kontrolü</step>
+        <step>Average rating güncelle</step>
+        <step>Response: { success: true, data: { rating, gameAverageRating } }</step>
+      </steps>
+    </scenario>
+  </scenarios>
+
+  <mermaid_diagrams>
+    <diagram name="api_request_flow"><![CDATA[
+ graph LR
+   A[Client Request] --> B[Rate Limiter]
+   B --> C[Authentication]
+   C --> D[Authorization]
+   D --> E[Validation]
+   E --> F[Business Logic]
+   F --> G[Database]
+   G --> H[Response]
+ ]]></diagram>
+
+    <diagram name="error_handling_flow"><![CDATA[
+ graph TD
+   A[Try Block] --> B{Error?}
+   B -->|No| C[200 Success Response]
+   B -->|Yes| D{Error Type}
+   D -->|Validation| E[400 Bad Request]
+   D -->|Auth| F[401/403 Unauthorized]
+   D -->|Not Found| G[404 Not Found]
+   D -->|Server| H[500 Internal Error]
+ ]]></diagram>
+  </mermaid_diagrams>
+
+</instructions>

@@ -40,7 +40,8 @@ router.get("/:userId/dashboard", async (req, res, next) => {
     const { id: userId } = idParamSchema.parse({ id: req.params.userId });
 
     // Get required data
-    const [libraryEntries, userStats, recentSessions] = await getDashboardData(userId);
+    const [libraryEntries, userStats, recentSessions] =
+      await getDashboardData(userId);
 
     // Calculate overview stats
     const overview = calculateOverviewStats(libraryEntries, userStats);
@@ -99,10 +100,10 @@ async function getDashboardData(userId) {
     }),
     // Get recent sessions from GameSession (completed sessions)
     prisma.gameSession.findMany({
-      where: { 
+      where: {
         userId,
         isActive: false,
-        endTime: { not: null }
+        endTime: { not: null },
       },
       take: 5,
       orderBy: { endTime: "desc" },
@@ -259,7 +260,7 @@ router.get("/:userId/playtime", async (req, res, next) => {
  */
 function calculateDateFilter(period) {
   const dateFilter = new Date();
-  
+
   switch (period) {
     case "7d":
       dateFilter.setDate(dateFilter.getDate() - 7);
@@ -276,7 +277,7 @@ function calculateDateFilter(period) {
     default:
       dateFilter.setDate(dateFilter.getDate() - 30);
   }
-  
+
   return dateFilter;
 }
 
@@ -316,10 +317,7 @@ function calculatePlaytimeAnalytics(sessions) {
     dailyPlaytime,
     topGames,
     totalSessions: sessions.length,
-    totalPlaytime: sessions.reduce(
-      (sum, session) => sum + session.playtime,
-      0,
-    ),
+    totalPlaytime: sessions.reduce((sum, session) => sum + session.playtime, 0),
   };
 }
 
@@ -332,7 +330,10 @@ router.post("/:userId/recalculate", async (req, res, next) => {
     const [sessions, libraryEntries] = await getRecalculationData(userId);
 
     // Calculate new stats
-    const calculatedStats = calculateRecalculatedStats(sessions, libraryEntries);
+    const calculatedStats = calculateRecalculatedStats(
+      sessions,
+      libraryEntries,
+    );
 
     // Update user stats
     const stats = await prisma.userStats.upsert({
@@ -360,10 +361,10 @@ async function getRecalculationData(userId) {
   return await Promise.all([
     // Get all completed sessions from GameSession
     prisma.gameSession.findMany({
-      where: { 
+      where: {
         userId,
         isActive: false,
-        endTime: { not: null }
+        endTime: { not: null },
       },
     }),
     // Get library entries

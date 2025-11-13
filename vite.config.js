@@ -11,30 +11,32 @@ export default defineConfig({
         // Optimize chunk splitting for better caching
         manualChunks: (id) => {
           // Vendor chunks for third-party libraries
-          if (id.includes('node_modules')) {
-            if (id.includes('react')) return 'react-vendor';
-            if (id.includes('react-router')) return 'router-vendor';
-            if (id.includes('lucide')) return 'icons-vendor';
-            return 'vendor';
+          if (id.includes("node_modules")) {
+            if (id.includes("react")) return "react-vendor";
+            if (id.includes("react-router")) return "router-vendor";
+            if (id.includes("lucide")) return "icons-vendor";
+            return "vendor";
           }
-          
+
           // Feature-based chunks
-          if (id.includes('pages/')) return 'pages';
-          if (id.includes('components/')) return 'components';
-          if (id.includes('hooks/')) return 'hooks';
-          if (id.includes('services/')) return 'services';
-          if (id.includes('utils/')) return 'utils';
-          
-          return 'index';
+          if (id.includes("pages/")) return "pages";
+          if (id.includes("components/")) return "components";
+          if (id.includes("hooks/")) return "hooks";
+          if (id.includes("services/")) return "services";
+          if (id.includes("utils/")) return "utils";
+
+          return "index";
         },
         // Optimize chunk size
         chunkFileNames: (chunkInfo) => {
-          const facadeModuleId = chunkInfo.facadeModuleId ? `facade-${chunkInfo.facadeModuleId}` : 'chunk';
+          const facadeModuleId = chunkInfo.facadeModuleId
+            ? `facade-${chunkInfo.facadeModuleId}`
+            : "chunk";
           return `assets/js/[name]-[hash].js`;
         },
         entryFileNames: `assets/js/[name]-[hash].js`,
         assetFileNames: (assetInfo) => {
-          const extType = assetInfo.name.split('.').pop();
+          const extType = assetInfo.name.split(".").pop();
           if (/\.(mp4|webm|ogg|mp3|wav|flac|aac)$/.test(assetInfo.name)) {
             return `assets/media/[name]-[hash][extname]`;
           }
@@ -54,7 +56,12 @@ export default defineConfig({
       compress: {
         drop_console: true,
         drop_debugger: true,
-        pure_funcs: ['console.log', 'console.info', 'console.debug', 'console.warn'],
+        pure_funcs: [
+          "console.log",
+          "console.info",
+          "console.debug",
+          "console.warn",
+        ],
       },
       mangle: {
         properties: {
@@ -82,19 +89,19 @@ export default defineConfig({
   publicDir: "public",
   // Enable dependency pre-bundling
   optimizeDeps: {
-    include: ['react', 'react-dom', 'react-router-dom'],
+    include: ["react", "react-dom", "react-router-dom"],
   },
   // Enable experimental features for better performance
   // Note: renderBuiltUrl is deprecated in current Vite version
   // Resolve aliases for cleaner imports
   resolve: {
     alias: {
-      '@': '/src',
-      '@components': '/src/components',
-      '@hooks': '/src/hooks',
-      '@services': '/src/services',
-      '@utils': '/src/utils',
-      '@pages': '/src/pages',
+      "@": "/src",
+      "@components": "/src/components",
+      "@hooks": "/src/hooks",
+      "@services": "/src/services",
+      "@utils": "/src/utils",
+      "@pages": "/src/pages",
     },
   },
 });

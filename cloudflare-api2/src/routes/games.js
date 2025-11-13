@@ -35,7 +35,7 @@ export async function handleGetGames(request, env) {
     if (search) {
       where.OR = [
         { name: { contains: search, mode: "insensitive" } },
-        { description: { contains: search, mode: "insensitive" } }
+        { description: { contains: search, mode: "insensitive" } },
       ];
     }
 
@@ -48,7 +48,12 @@ export async function handleGetGames(request, env) {
     }
 
     // Add sorting
-    const allowedSortFields = ["name", "firstReleaseDate", "rating", "createdAt"];
+    const allowedSortFields = [
+      "name",
+      "firstReleaseDate",
+      "rating",
+      "createdAt",
+    ];
     const sortField = allowedSortFields.includes(sortBy) ? sortBy : "name";
 
     // Get games with pagination
@@ -61,22 +66,22 @@ export async function handleGetGames(request, env) {
         include: {
           gameTags: {
             include: {
-              tag: true
-            }
-          }
-        }
+              tag: true,
+            },
+          },
+        },
       }),
-      prisma.game.count({ where })
+      prisma.game.count({ where }),
     ]);
 
     // Transform data for backward compatibility
-    const transformedGames = games.map(game => ({
+    const transformedGames = games.map((game) => ({
       ...game,
       title: game.name,
       genre: game.genres?.[0] || null,
       platforms: game.platforms?.[0] || null,
       image_url: game.cover,
-      tags: game.gameTags?.map(gt => gt.tag.name) || []
+      tags: game.gameTags?.map((gt) => gt.tag.name) || [],
     }));
 
     return successResponse("Games retrieved successfully", {
@@ -112,10 +117,10 @@ export async function handleGetGame(request, env) {
       include: {
         gameTags: {
           include: {
-            tag: true
-          }
-        }
-      }
+            tag: true,
+          },
+        },
+      },
     });
 
     if (!game) {
@@ -129,10 +134,12 @@ export async function handleGetGame(request, env) {
       genre: game.genres?.[0] || null,
       platforms: game.platforms?.[0] || null,
       image_url: game.cover,
-      tags: game.gameTags?.map(gt => gt.tag.name) || []
+      tags: game.gameTags?.map((gt) => gt.tag.name) || [],
     };
 
-    return successResponse("Game retrieved successfully", { game: transformedGame });
+    return successResponse("Game retrieved successfully", {
+      game: transformedGame,
+    });
   } catch (error) {
     console.error("Get game error:", error);
     return serverErrorResponse("Failed to retrieve game");
@@ -249,7 +256,7 @@ export async function handleUpdateGame(request, env) {
       where: {
         id: gameId,
       },
-      select: { id: true }
+      select: { id: true },
     });
 
     if (!existingGame) {
@@ -276,7 +283,9 @@ export async function handleUpdateGame(request, env) {
           description: gameData.description,
           genres: gameData.genre ? [gameData.genre] : [],
           platforms: gameData.platforms ? [gameData.platforms] : [],
-          firstReleaseDate: gameData.release_date ? new Date(gameData.release_date) : undefined,
+          firstReleaseDate: gameData.release_date
+            ? new Date(gameData.release_date)
+            : undefined,
           developer: gameData.developer,
           publisher: gameData.publisher,
           rating: gameData.rating,
@@ -293,13 +302,13 @@ export async function handleUpdateGame(request, env) {
       if (gameData.tags && Array.isArray(gameData.tags)) {
         // Remove existing tag relations
         await tx.gameTagRelation.deleteMany({
-          where: { gameId }
+          where: { gameId },
         });
 
         for (const tagName of gameData.tags) {
           // Get or create tag
           let tag = await tx.gameTag.findUnique({
-            where: { name: tagName }
+            where: { name: tagName },
           });
 
           if (!tag) {
@@ -307,7 +316,7 @@ export async function handleUpdateGame(request, env) {
               data: {
                 id: crypto.randomUUID(),
                 name: tagName,
-              }
+              },
             });
           }
 
@@ -316,7 +325,7 @@ export async function handleUpdateGame(request, env) {
             data: {
               gameId,
               tagId: tag.id,
-            }
+            },
           });
         }
       }
@@ -330,10 +339,10 @@ export async function handleUpdateGame(request, env) {
       include: {
         gameTags: {
           include: {
-            tag: true
-          }
-        }
-      }
+            tag: true,
+          },
+        },
+      },
     });
 
     // Transform for backward compatibility
@@ -343,10 +352,12 @@ export async function handleUpdateGame(request, env) {
       genre: updatedGameWithTags.genres?.[0] || null,
       platforms: updatedGameWithTags.platforms?.[0] || null,
       image_url: updatedGameWithTags.cover,
-      tags: updatedGameWithTags.gameTags?.map(gt => gt.tag.name) || []
+      tags: updatedGameWithTags.gameTags?.map((gt) => gt.tag.name) || [],
     };
 
-    return successResponse("Game updated successfully", { game: transformedGame });
+    return successResponse("Game updated successfully", {
+      game: transformedGame,
+    });
   } catch (error) {
     console.error("Update game error:", error);
     return serverErrorResponse("Failed to update game");
@@ -373,7 +384,7 @@ export async function handleDeleteGame(request, env) {
       where: {
         id: gameId,
       },
-      select: { id: true }
+      select: { id: true },
     });
 
     if (!existingGame) {

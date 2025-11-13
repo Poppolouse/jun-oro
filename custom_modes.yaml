@@ -1,0 +1,82 @@
+customModes:
+  - slug: api-dev
+    name: Api Dev
+    type: custom
+    source: .roo/rules-api-dev
+  - slug: architect
+    name: Architect
+    type: custom
+    source: .roo/rules-architect
+  - slug: code
+    name: Code
+    type: custom
+    source: .roo/rules-code
+  - slug: database
+    name: Database
+    type: custom
+    source: .roo/rules-database
+  - slug: docs-writer
+    name: Docs Writer
+    type: custom
+    source: .roo/rules-docs-writer
+  - slug: merge-resolver
+    name: Merge Resolver
+    type: custom
+    source: .roo/rules-merge-resolver
+  - slug: mode-writer
+    name: Mode Writer
+    type: custom
+    source: .roo/rules-mode-writer
+  - slug: patron
+    name: Patron
+    type: custom
+    source: .roo/rules-patron
+  - slug: refactor
+    name: Refactor
+    type: custom
+    source: .roo/rules-refactor
+  - slug: test-writer
+    name: Test Writer
+    type: custom
+    source: .roo/rules-test-writer
+modes:
+  - slug: api-dev
+    name: Api Dev
+    type: custom
+    source: .roo/rules-api-dev
+  - slug: architect
+    name: Architect
+    type: custom
+    source: .roo/rules-architect
+  - slug: code
+    name: Code
+    type: custom
+    source: .roo/rules-code
+  - slug: database
+    name: Database
+    type: custom
+    source: .roo/rules-database
+  - slug: docs-writer
+    name: Docs Writer
+    type: custom
+    source: .roo/rules-docs-writer
+  - slug: merge-resolver
+    name: Merge Resolver
+    type: custom
+    source: .roo/rules-merge-resolver
+  - slug: mode-writer
+    name: Mode Writer
+    type: custom
+    source: .roo/rules-mode-writer
+  - slug: patron
+    name: Patron
+    type: custom
+    source: .roo/rules-patron
+  - slug: refactor
+    name: Refactor
+    type: custom
+    source: .roo/rules-refactor
+  - slug: test-writer
+    name: Test Writer
+    type: custom
+    source: .roo/rules-test-writer

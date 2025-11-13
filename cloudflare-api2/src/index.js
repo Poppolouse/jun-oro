@@ -4,10 +4,8 @@
  */
 
 import { corsMiddleware, handleOptions } from "./middleware/cors.js";
-import {
-  errorResponse,
-  serverErrorResponse,
-} from "./utils/response.js";
+import { errorResponse, serverErrorResponse } from "./utils/response.js";
+import { checkDatabaseHealth } from "./utils/database.js";
 
 // Import route handlers
 import {
@@ -53,7 +51,7 @@ export default {
       if (path === "/health" && method === "GET") {
         // Check database connection
         const dbHealthy = await checkDatabaseHealth(env);
-        
+
         return new Response(
           JSON.stringify({
             status: dbHealthy ? "healthy" : "unhealthy",

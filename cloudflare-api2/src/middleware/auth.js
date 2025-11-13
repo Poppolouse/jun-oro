@@ -34,9 +34,9 @@ export async function authMiddleware(request, env) {
             email: true,
             role: true,
             isActive: true,
-          }
-        }
-      }
+          },
+        },
+      },
     });
 
     if (!session) {
@@ -104,9 +104,9 @@ export async function optionalAuthMiddleware(request, env) {
             email: true,
             role: true,
             isActive: true,
-          }
-        }
-      }
+          },
+        },
+      },
     });
 
     if (session && session.user.isActive) {

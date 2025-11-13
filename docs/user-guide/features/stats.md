@@ -13,6 +13,7 @@ Jun-Oro platformunda oyun istatistiklerinizi detaylı bir şekilde inceleyebilir
 ## 📈 Genel Bakış Paneli
 
 ### Ana İstatistikler
+
 İstatistikler sayfasının üst kısmında genel oyun verilerinizi özetleyen kartlar bulunur:
 
 - 🎮 **Toplam Oyun Sayısı**: Kütüphanenizdeki toplam oyun miktarı
@@ -24,6 +25,7 @@ Jun-Oro platformunda oyun istatistiklerinizi detaylı bir şekilde inceleyebilir
 > 💡 **İpucu**: Bu kartlara tıklayarak ilgili detaylara hızlıca ulaşabilirsiniz!
 
 ### Zaman Dilimi Filtreleri
+
 İstatistiklerinizi farklı zaman aralıklarında görüntüleyebilirsiniz:
 
 - 📅 **Tüm Zamanlar**: Hesabınızı oluşturduğunuz günden bugüne tüm veriler
@@ -35,9 +37,11 @@ Jun-Oro platformunda oyun istatistiklerinizi detaylı bir şekilde inceleyebilir
 ## 🎮 Oyun İstatistikleri
 
 ### Oyun Dağılımı
+
 Oyunlarınızın farklı kategorilere göre dağılımını görsel olarak inceleyin:
 
 #### Platform Dağılımı
+
 - 🖥️ **PC**: Bilgisayarınızda oynadığınız oyunlar
 - 🎮 **PlayStation**: PlayStation platformlarındaki oyunlar
 - 🎯 **Xbox**: Xbox ekosistemindeki oyunlar
@@ -45,6 +49,7 @@ Oyunlarınızın farklı kategorilere göre dağılımını görsel olarak incel
 - 🎲 **Diğer**: Diğer platformlardaki oyunlar
 
 #### Tür Dağılımı
+
 - 🎯 **Aksiyon**: Aksiyon oyunlarınızın sayısı ve yüzdesi
 - 🎭 **RPG**: Rol yapma oyunlarınız
 - 🧩 **Bulmaca**: Zeka ve bulmaca oyunlarınız
@@ -55,7 +60,9 @@ Oyunlarınızın farklı kategorilere göre dağılımını görsel olarak incel
 > 📊 **Bilgi**: Pasta grafiklere tıklayarak dilimleri büyütebilir ve detayları görebilirsiniz.
 
 ### Oynama Süreleri
+
 #### En Çok Oynanan Oyunlar
+
 En çok zaman harcadığınız oyunların listesi:
 
 1. **Oyun Adı** - Toplam süre - Son oynama tarihi
@@ -65,6 +72,7 @@ En çok zaman harcadığınız oyunların listesi:
 > 🕐 **İpucu**: Oyun adına tıklayarak oyun detay sayfasına ulaşabilirsiniz.
 
 #### Oynama Grafiği
+
 Zaman içindeki oynama alışkanlıklarınızı gösteren çizgi grafik:
 
 - **X Ekseni**: Zaman (gün/hafta/ay)
@@ -72,6 +80,7 @@ Zaman içindeki oynama alışkanlıklarınızı gösteren çizgi grafik:
 - **Renkli Çizgiler**: Farklı oyunların oynama süreleri
 
 Grafiği etkileşimli olarak kullanabilir:
+
 - 🖱️ **Imleç üzerine getirme**: O anki detayları gösterir
 - 🔍 **Yakınlaştırma**: Belirli bir zaman dilimine odaklanma
 - 📷 **Ekran görüntüsü**: Grafiği kaydetme
@@ -79,21 +88,26 @@ Grafiği etkileşimli olarak kullanabilir:
 ## 🏆 Başarı ve Tamamlama İstatistikleri
 
 ### Tamamlama Oranları
+
 Oyunlarınızın tamamlama durumlarını farklı açılardan inceleyin:
 
 #### Genel Tamamlama Grafiği
+
 - ✅ **Tamamlandı**: Bitirdiğiniz oyunlar
 - 🎮 **Devam Ediyor**: Şu anda oynadığınız oyunlar
 - ⏸️ **Bırakıldı**: Yarıda bıraktığınız oyunlar
 - 📋 **Planlandı**: Oynamayı planladığınız oyunlar
 
 #### Platform Bazında Tamamlama
+
 Her platformdaki tamamlama oranlarınız:
+
 - PC: %75 tamamlama oranı
 - PlayStation: %60 tamamlama oranı
 - Xbox: %85 tamamlama oranı
 
 ### Başarı Rozetleri
+
 Kazandığınız başarıları kategorilere göre görüntüleyin:
 
 - 🏅 **Bronz Başarılar**: Temel başarılar
@@ -107,7 +121,9 @@ Kazandığınız başarıları kategorilere göre görüntüleyin:
 ## 📅 Zaman Analizi
 
 ### Oynama Alışkanlıkları
+
 #### Haftalık Analiz
+
 Haftanın günlerine göre oynama dağılımınız:
 
 - **Pazartesi**: 2.5 saat
@@ -121,13 +137,17 @@ Haftanın günlerine göre oynama dağılımınız:
 > 📊 **Bilgi**: En çok hafta sonu oynadığınızı görüyoruz. Bu bilgiyi oyun planlamanızda kullanabilirsiniz!
 
 #### Aylık Analiz
+
 Son 12 aydaki oynama trendleriniz:
+
 - 📈 **Artış Trendi**: Oynama sürenizin arttığı aylar
 - 📉 **Düşüş Trendi**: Daha az oyun oynadığınız aylar
 - 📊 **Kararlı**: Benzer seviyede kaldığınız aylar
 
 ### Gün İçi Analiz
+
 Günün saatlerine göre oynama dağılımınız:
+
 - 🌅 **Sabah (06:00-12:00)**: Genellikle az oynama
 - 🌞 **Öğleden Sonra (12:00-18:00)**: Orta seviye oynama
 - 🌆 **Akşam (18:00-24:00)**: En çok oynanan zaman dilimi
@@ -136,20 +156,24 @@ Günün saatlerine göre oynama dağılımınız:
 ## 🎯 Kişisel Hedefler
 
 ### Hedef Oluşturma
+
 Kendinize oyun hedefleri belirleyin ve takibini yapın:
 
 #### Aylık Hedefler
+
 - 📚 **Oyun Sayısı**: Bu ay 5 yeni oyun bitirme
 - ⏱️ **Oynama Süresi**: Ayda 40 saat oyun oynama
 - 🏆 **Başarı**: 50 yeni başarı kazanma
 - 🎮 **Tür Çeşitliliği**: 3 farklı türde oyun oynama
 
 #### Yıllık Hedefler
+
 - 📊 **Backlog Temizleme**: Kütüphanedeki %20 oyunu bitirme
 - 🌟 **Yeni Deneyimler**: 10 yeni türde oyun deneme
 - 💰 **Bütçe Kontrolü**: Oyun harcamalarını limit altında tutma
 
 ### Hedef Takibi
+
 Belirlediğiniz hedeflerin ilerlemesini gerçek zamanlı olarak takip edin:
 
 - ✅ **Tamamlandı**: Hedefe ulaştınız
@@ -162,19 +186,23 @@ Belirlediğiniz hedeflerin ilerlemesini gerçek zamanlı olarak takip edin:
 ## 📊 Veri Dışa Aktarma
 
 ### Rapor Oluşturma
+
 İstatistik verilerinizi farklı formatlarda dışa aktarabilirsiniz:
 
 #### PDF Raporu
+
 - 📄 **Özet Rapor**: Temel istatistiklerinizi içeren 1 sayfalık rapor
 - 📊 **Detaylı Rapor**: Tüm analizleri içeren kapsamlı rapor
 - 📈 **Görsel Rapor**: Grafikler ve görsellerle zenginleştirilmiş rapor
 
 #### Veri Dosyaları
+
 - 📊 **Excel (.xlsx)**: Tablo formatında detaylı veriler
 - 📈 **CSV**: Analiz için ham veriler
 - 📋 **JSON**: Programatik kullanım için yapılandırılmış veriler
 
 ### Otomatik Raporlar
+
 Periyodik olarak otomatik raporlar alabilirsiniz:
 
 - 📧 **E-posta ile**: Haftalık/aylık özet raporları
@@ -184,19 +212,23 @@ Periyodik olarak otomatik raporlar alabilirsiniz:
 ## 🔍 Detaylı Analiz Araçları
 
 ### Karşılaştırma Modülü
+
 Farklı zaman dilimlerini veya oyunları karşılaştırın:
 
 #### Zaman Karşılaştırması
+
 - Bu ay vs geçen ay oynama süreleri
 - Bu yıl vs geçen yıl tamamlama oranları
 - Son 3 ay vs önceki 3 ay trend analizi
 
 #### Oyun Karşılaştırması
+
 - İki oyunun oynama sürelerini karşılaştırma
 - Aynı türdeki oyunların tamamlama süreleri
 - Farklı platformlardaki performans analizi
 
 ### Tahminleme Sistemi
+
 Mevcut verilerinize dayanarak gelecek tahminleri:
 
 - 📈 **Tamamlama Tahmini**: Mevcut oyunlarınızı ne zaman bitireceğiniz
@@ -206,19 +238,23 @@ Mevcut verilerinize dayanarak gelecek tahminleri:
 ## 🎨 Kişiselleştirme
 
 ### Görünüm Ayarları
+
 İstatistikler sayfasını kendi zevkinize göre özelleştirin:
 
 #### Tema Seçenekleri
+
 - 🌞 **Açık Tema**: Parlak ve ferah görünüm
 - 🌙 **Karanlık Tema**: Göz yormayan karanlık mod
 - 🎨 **Özel Tema**: Kendi renk paletinizi oluşturun
 
 #### Grafik Stilleri
+
 - 📊 **Modern**: Şık ve minimalist grafikler
 - 🎮 **Oyun Temalı**: Oyun estetiğine uygun grafikler
 - 📈 **Profesyonel**: İş odaklı analitik grafikler
 
 ### Widget Yönetimi
+
 İstediğiniz istatistik widget'larını sayfada düzenleyin:
 
 - ➕ **Widget Ekle**: Yeni istatistik bileşeni ekleme

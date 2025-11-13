@@ -36,11 +36,8 @@ export async function handleRegister(request, env) {
     // Check if username or email already exists
     const existingUser = await prisma.user.findFirst({
       where: {
-        OR: [
-          { username: userData.username },
-          { email: userData.email }
-        ]
-      }
+        OR: [{ username: userData.username }, { email: userData.email }],
+      },
     });
 
     if (existingUser) {
@@ -78,7 +75,11 @@ export async function handleRegister(request, env) {
       });
 
       // Create JWT token
-      const token = await createJWT({ userId: user.id, sessionId }, env.JWT_SECRET, "24h");
+      const token = await createJWT(
+        { userId: user.id, sessionId },
+        env.JWT_SECRET,
+        "24h",
+      );
 
       return {
         user: {
@@ -114,10 +115,7 @@ export async function handleLogin(request, env) {
     // Find user
     const user = await prisma.user.findFirst({
       where: {
-        OR: [
-          { username: loginData.username },
-          { email: loginData.username }
-        ]
+        OR: [{ username: loginData.username }, { email: loginData.username }],
       },
       select: {
         id: true,
@@ -126,7 +124,7 @@ export async function handleLogin(request, env) {
         password: true,
         role: true,
         isActive: true,
-      }
+      },
     });
 
     if (!user) {
@@ -252,7 +250,7 @@ export async function handleVerify(request, env) {
         isActive: true,
         createdAt: true,
         lastLogin: true,
-      }
+      },
     });
 
     if (!user) {
@@ -285,7 +283,7 @@ export async function handleMe(request, env) {
         email: true,
         role: true,
         createdAt: true,
-      }
+      },
     });
 
     if (!user) {

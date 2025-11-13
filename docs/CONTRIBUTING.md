@@ -16,12 +16,14 @@ Jun-Oro gaming platformuna katkıda bulunmak için bu rehberi izleyin. Her türl
 ## 🔄 Katılım Süreci
 
 ### 1. Başlarken
+
 - [ ] Bu rehberi dikkatlice oku
 - [ ] [Code of Conduct](./CODE_OF_CONDUCT.md)'ı kabul et
 - [ ] Mevcut [issues](https://github.com/Poppolouse/jun-oro/issues)'ı kontrol et
 - [ ] [discussions](https://github.com/Poppolouse/jun-oro/discussions)'ı incele
 
 ### 2. Hazırlık
+
 ```bash
 # Fork yap
 https://github.com/Poppolouse/jun-oro/fork
@@ -38,12 +40,14 @@ git checkout -b feature/your-feature-name
 ```
 
 ### 3. Geliştirme
+
 - [ ] Kodlama standartlarına uyun
 - [ ] Test yazın
 - [ ] Dokümantasyon güncelleyin
 - [ ] Değişiklikleri küçük tutun
 
 ### 4. Test Etme
+
 ```bash
 # Lint kontrolü
 npm run lint
@@ -56,6 +60,7 @@ npm run build
 ```
 
 ### 5. Pull Request
+
 - [ ] PR oluşturun
 - [ ] Description doldurun
 - [ ] Review bekleyin
@@ -64,6 +69,7 @@ npm run build
 ## 🔍 Code Review Kuralları
 
 ### Reviewer İçin
+
 - [ ] Kod kalitesini kontrol et
 - [ ] Test coverage'ı kontrol et
 - [ ] Performans etkisini değerlendir
@@ -71,12 +77,14 @@ npm run build
 - [ ] Dokümantasyonu kontrol et
 
 ### Review Süreci
+
 1. **Otomatik Kontroller**: CI/CD pipeline'ı çalışır
 2. **Kod İncelemesi**: Manuel review yapılır
 3. **Test Onayı**: Tüm testler geçmeli
 4. **Merge Kararı**: Maintainer onayı gerekir
 
 ### Review Checklist'i
+
 ```markdown
 - [ ] Kodlama standartlarına uygun
 - [ ] Testler yazılmış ve geçiyor
@@ -89,11 +97,13 @@ npm run build
 ## 🌿 Branch Stratejisi
 
 ### Main Branch'ler
+
 - `main`: Production-ready kod
 - `develop`: Geliştirme için ana branch
 - `staging`: Pre-production testleri
 
 ### Feature Branch'leri
+
 ```bash
 # Format: type/description
 feature/user-authentication
@@ -105,12 +115,14 @@ release/v1.2.0
 ```
 
 ### Branch Kuralları
+
 1. **Main'den branch oluştur**: `git checkout -b feature/name main`
 2. **Küçük değişiklikler**: Bir feature per branch
 3. **Descriptive isimler**: Ne yaptığını anlatan isimler
 4. **Sık sync**: `git pull upstream main` düzenli yap
 
 ### Branch Merge Süreci
+
 ```bash
 # 1. Main'i güncelle
 git checkout main
@@ -131,6 +143,7 @@ git push origin develop
 ## 📝 Commit Message Formatı
 
 ### Conventional Commits
+
 ```bash
 <type>[optional scope]: <description>
 
@@ -140,6 +153,7 @@ git push origin develop
 ```
 
 ### Type'ler
+
 - `feat`: Yeni feature
 - `fix`: Bug düzeltmesi
 - `docs`: Dokümantasyon değişikliği
@@ -149,6 +163,7 @@ git push origin develop
 - `chore`: Build process, dependency güncellemesi
 
 ### Örnekler
+
 ```bash
 feat(auth): add JWT token refresh mechanism
 
@@ -166,6 +181,7 @@ BREAKING CHANGE: The search endpoint now returns paginated results.
 ```
 
 ### Commit Kuralları
+
 1. **Present tense**: "add" değil "added"
 2. **Lowercase**: "Fix" değil "fix"
 3. **No period**: Subject nokta ile bitmez
@@ -175,34 +191,42 @@ BREAKING CHANGE: The search endpoint now returns paginated results.
 ## 📄 Pull Request Template
 
 ### PR Başlığı
+
 ```markdown
 type(scope): brief description
 ```
 
 ### PR Description
+
 ```markdown
 ## 📋 Açıklama
+
 Bu PR neyi değiştiriyor? Kısa ve net bir açıklama.
 
 ## 🔄 Değişiklikler
+
 - [ ] Yeni feature eklendi
 - [ ] Bug düzeltildi
 - [ ] Dokümantasyon güncellendi
 - [ ] Testler eklendi
 
 ## 🧪 Testler
+
 - [ ] Unit testler yazıldı
 - [ ] Integration testler yazıldı
 - [ ] Manual test yapıldı
 - [ ] Cross-browser test yapıldı
 
 ## 📸 Ekran Görüntüleri (varsa)
+
 Değişikliklerin öncesi/sonrası ekran görüntüleri.
 
 ## 🔗 İlgili Issue'lar
+
 Closes #123, #456
 
 ## ✅ Checklist
+
 - [ ] Kodlama standartlarına uyuyorum
 - [ ] Kendi kodumu review ettim
 - [ ] Testler geçiyor
@@ -211,6 +235,7 @@ Closes #123, #456
 ```
 
 ### PR Kategorileri
+
 - **Feature**: Yeni özellik ekler
 - **Bug**: Hata düzeltir
 - **Enhancement**: Mevcut özelliği geliştirir
@@ -221,59 +246,75 @@ Closes #123, #456
 ## 🐛 Issue Reporting Kuralları
 
 ### Bug Report
+
 ```markdown
 ## 🐛 Bug Açıklaması
+
 Kısa ve net bir açıklama.
 
 ## 🔄 Tekrarlama Adımları
+
 1. '...' butonuna tıkla
 2. Formu doldur
 3. Submit butonuna bas
 4. Hata mesajı görünür
 
 ## 🎯 Beklenen Davranış
+
 Ne olması gerektiğini açıkla.
 
 ## 📱 Ortam Bilgileri
+
 - **OS**: Windows 11 / macOS 13.0 / Ubuntu 22.04
 - **Browser**: Chrome 108 / Firefox 107 / Safari 16
 - **Version**: v1.2.3
 
 ## 📸 Ekran Görüntüsü/GIF
+
 Hatanın gösterildiği ekran görüntüsü.
 
 ## 📋 Ek Bilgiler
+
 - Console hataları
 - Network request'ler
 - Kullanıcı verileri (sadece test verileri)
 
 ## 🔗 Ek Bilgiler
+
 - İlgili issue'lar
 - Benzer issue'lar
 ```
 
 ### Feature Request
+
 ```markdown
 ## 🚀 Feature Açıklaması
+
 Eklenmesini istediğiniz özellik.
 
 ## 💡 Motivasyon
+
 Bu özellik neden önemli? Hangi sorunu çözüyor?
 
 ## 📝 Önerilen Çözüm
+
 Nasıl implemente edilebileceğine dair fikirleriniz.
 
 ## 🔄 Alternatifler
+
 Düşündüğünüz diğer çözüm yöntemleri.
 
 ## 📸 Ekran Görüntüleri/Tasarım
+
 Tasarım mock'ları veya örnekler.
 
 ## 🔗 İlgili Kaynaklar
+
 Benzer projeler, referanslar, dokümanlar.
 ```
 
 ### Issue Kuralları
+
 1. **Ara önce**: Mevcut issue'ları kontrol et
 2. **Tek issue**: Bir issue'da tek sorun
 3. **Net başlık**: Ne olduğunu anlatan başlık
@@ -283,12 +324,14 @@ Benzer projeler, referanslar, dokümanlar.
 ## 📏 Kodlama Standartları
 
 ### Genel Kurallar
+
 - **JavaScript/JSX**: ES6+ syntax kullan
 - **React**: Functional components ve hooks
 - **CSS**: Tailwind CSS utility classes
 - **Naming**: [Naming Conventions](./CODING_STANDARDS.md)'a uyun
 
 ### Dosya Organizasyonu
+
 ```
 src/
 ├── components/          # Reusable components
@@ -315,10 +358,11 @@ backend/
 ```
 
 ### Component Yapısı
+
 ```jsx
 // Component structure
-import React from 'react';
-import { ComponentName } from './ComponentName';
+import React from "react";
+import { ComponentName } from "./ComponentName";
 
 /**
  * Component açıklaması
@@ -329,21 +373,18 @@ import { ComponentName } from './ComponentName';
  */
 export default function ComponentName({ title, onClick }) {
   // Component logic
-  
-  return (
-    <div className="component-name">
-      {/* JSX content */}
-    </div>
-  );
+
+  return <div className="component-name">{/* JSX content */}</div>;
 }
 ```
 
 ### API Endpoint Yapısı
+
 ```javascript
 // Route structure
-import { Router } from 'express';
-import { z } from 'zod';
-import { validateRequest } from '../middleware/validation.js';
+import { Router } from "express";
+import { z } from "zod";
+import { validateRequest } from "../middleware/validation.js";
 
 const router = Router();
 
@@ -357,14 +398,14 @@ const schema = z.object({
  * @route GET /api/users/profile
  * @access Private
  */
-router.get('/profile', authenticateToken, async (req, res) => {
+router.get("/profile", authenticateToken, async (req, res) => {
   try {
     // Business logic
     const user = await getUserById(req.user.id);
-    
+
     res.json({
       success: true,
-      data: user
+      data: user,
     });
   } catch (error) {
     next(error);
@@ -375,13 +416,14 @@ router.get('/profile', authenticateToken, async (req, res) => {
 ## 🧪 Test Kuralları
 
 ### Test Structure
+
 ```javascript
 // Test file structure
-import { describe, it, expect, beforeEach, afterEach } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
-import ComponentName from './ComponentName';
+import { describe, it, expect, beforeEach, afterEach } from "vitest";
+import { render, screen, fireEvent } from "@testing-library/react";
+import ComponentName from "./ComponentName";
 
-describe('ComponentName', () => {
+describe("ComponentName", () => {
   beforeEach(() => {
     // Setup before each test
   });
@@ -390,24 +432,25 @@ describe('ComponentName', () => {
     // Cleanup after each test
   });
 
-  it('should render correctly', () => {
+  it("should render correctly", () => {
     render(<ComponentName title="Test Title" />);
-    
-    expect(screen.getByText('Test Title')).toBeInTheDocument();
+
+    expect(screen.getByText("Test Title")).toBeInTheDocument();
   });
 
-  it('should handle click events', () => {
+  it("should handle click events", () => {
     const handleClick = vi.fn();
     render(<ComponentName title="Test" onClick={handleClick} />);
-    
-    fireEvent.click(screen.getByRole('button'));
-    
+
+    fireEvent.click(screen.getByRole("button"));
+
     expect(handleClick).toHaveBeenCalledTimes(1);
   });
 });
 ```
 
 ### Test Kuralları
+
 1. **Arrange-Act-Assert**: AAA pattern'ını kullan
 2. **Descriptive tests**: Ne test ettiğini anlatan isimler
 3. **One assertion**: Test başına bir assertion (mümkünse)
@@ -415,6 +458,7 @@ describe('ComponentName', () => {
 5. **Coverage**: %80+ coverage hedefi
 
 ### Test Komutları
+
 ```bash
 # Tüm testleri çalıştır
 npm test
@@ -432,6 +476,7 @@ npm test ComponentName.test.jsx
 ## 🚀 Deployment Kuralları
 
 ### Pre-deployment Checklist
+
 - [ ] Tüm testler geçiyor
 - [ ] Build başarılı
 - [ ] Lint hataları yok
@@ -439,6 +484,7 @@ npm test ComponentName.test.jsx
 - [ ] Performance testleri geçiyor
 
 ### Deployment Process
+
 1. **Staging'e deploy**: Önce test ortamına
 2. **Manual test**: Staging'de manuel test
 3. **Production'a deploy**: Onaydan sonra
@@ -448,6 +494,7 @@ npm test ComponentName.test.jsx
 ## 🏆 Katkı Türleri
 
 ### Kod Katkıları
+
 - **Bug fixes**: Hata düzeltmeleri
 - **Features**: Yeni özellikler
 - **Refactoring**: Kod iyileştirmeleri
@@ -455,6 +502,7 @@ npm test ComponentName.test.jsx
 - **Documentation**: Dokümantasyon güncellemeleri
 
 ### Kod Dışı Katkılar
+
 - **Bug reports**: Detaylı hata raporları
 - **Feature requests**: Well-researched öneriler
 - **Documentation**: Dokümantasyon iyileştirmeleri
@@ -465,6 +513,7 @@ npm test ComponentName.test.jsx
 ## 🎖️ Ödüller ve Takdir
 
 ### Katkı Seviyeleri
+
 - **🌱 First Timer**: İlk katkı
 - **🐛 Bug Hunter**: Bug düzeltmeleri
 - **✨ Feature Master**: Yeni özellikler
@@ -474,6 +523,7 @@ npm test ComponentName.test.jsx
 - **🎨 Design Expert**: Tasarım katkıları
 
 ### Takdir Kriterleri
+
 - **Kalite**: Kod kalitesi ve test coverage
 - **Etki**: Proje üzerindeki etkisi
 - **Süreklilik**: Sürekli katkılar
@@ -483,11 +533,13 @@ npm test ComponentName.test.jsx
 ## 📞 İletişim ve Destek
 
 ### Sorular İçin
+
 - **GitHub Discussions**: Genel sorular ve fikirler
 - **Issues**: Spesifik sorunlar ve öneriler
 - **Email**: [maintainer@jun-oro.com](mailto:maintainer@jun-oro.com)
 
 ### Topluluk
+
 - **Discord**: [Jun-Oro Discord](https://discord.gg/jun-oro)
 - **Twitter**: [@JunOroDev](https://twitter.com/JunOroDev)
 - **Blog**: [Jun-Oro Blog](https://blog.jun-oro.com)
@@ -495,12 +547,14 @@ npm test ComponentName.test.jsx
 ## 📚 Ek Kaynaklar
 
 ### Öğrenme Kaynakları
+
 - [React Documentation](https://react.dev/)
 - [Node.js Best Practices](https://nodejs.org/en/docs/guides)
 - [PostgreSQL Tutorial](https://www.postgresqltutorial.com/)
 - [Prisma Documentation](https://www.prisma.io/docs/)
 
 ### Araçlar
+
 - **VS Code**: Tavsiye edilen IDE
 - **Git**: Version control
 - **ESLint**: Code linting

@@ -16,6 +16,7 @@
 ## 1. Sistem Gereksinimleri
 
 ### 🔧 Minimum Gereksinimler
+
 - **İşletim Sistemi**: Windows 10+, macOS 10.15+, Ubuntu 20.04+
 - **Node.js**: 18.0 veya üzeri
 - **PostgreSQL**: 14.0 veya üzeri
@@ -23,6 +24,7 @@
 - **Depolama**: 2GB boş alan
 
 ### 🌐 Tarayıcı Desteği
+
 - **Chrome**: 90+
 - **Firefox**: 88+
 - **Safari**: 14+
@@ -84,6 +86,7 @@ npm run db:generate  # Prisma client'ını oluştur
 ### 🔑 Environment Değişkenleri
 
 Frontend `.env` dosyası:
+
 ```env
 VITE_API_URL=http://localhost:3000
 VITE_APP_NAME=Jun-Oro
@@ -91,6 +94,7 @@ VITE_APP_VERSION=1.0.0
 ```
 
 Backend `.env` dosyası:
+
 ```env
 # Veritabanı
 DATABASE_URL="postgresql://username:password@localhost:5432/junoro"
@@ -115,6 +119,7 @@ R2_ENDPOINT=your-r2-endpoint
 PostgreSQL kurulumu için:
 
 **Windows:**
+
 ```bash
 # Chocolatey ile
 choco install postgresql
@@ -124,6 +129,7 @@ choco install postgresql
 ```
 
 **macOS:**
+
 ```bash
 # Homebrew ile
 brew install postgresql
@@ -134,6 +140,7 @@ brew services start postgresql
 ```
 
 **Linux (Ubuntu):**
+
 ```bash
 # Apt ile
 sudo apt update
@@ -149,12 +156,14 @@ sudo systemctl enable postgresql
 ### 🚀 Geliştirme Modu
 
 Terminal 1 - Frontend:
+
 ```bash
 # Ana dizinde
 npm run dev
 ```
 
 Terminal 2 - Backend:
+
 ```bash
 # Backend dizininde
 npm run dev
@@ -194,14 +203,14 @@ npm run dev
 
 ### 🎮 Temel Kullanım
 
-| Özellik | Nasıl Kullanılır? |
-|---------|-----------------|
-| **Oyun Arama** | Üstteki arama çubuğunu kullanın |
-| **Filtreleme** | Platform ve tür filtrelerini kullanın |
-| **Oyun Ekleme** | "+" butonuna tıklayın |
-| **Süre Takibi** | Oyun kartlarındaki başlat/durdur butonları |
-| **İstatistikler** | Sol menüden "İstatistikler" seçeneği |
-| **Ayarlar** | Sağ üst köşedeki profil ikonu |
+| Özellik           | Nasıl Kullanılır?                          |
+| ----------------- | ------------------------------------------ |
+| **Oyun Arama**    | Üstteki arama çubuğunu kullanın            |
+| **Filtreleme**    | Platform ve tür filtrelerini kullanın      |
+| **Oyun Ekleme**   | "+" butonuna tıklayın                      |
+| **Süre Takibi**   | Oyun kartlarındaki başlat/durdur butonları |
+| **İstatistikler** | Sol menüden "İstatistikler" seçeneği       |
+| **Ayarlar**       | Sağ üst köşedeki profil ikonu              |
 
 ---
 
@@ -210,6 +219,7 @@ npm run dev
 ### 🔧 Yaygın Kurulum Sorunları
 
 #### ❌ "npm install" Hatası
+
 ```bash
 # Çözüm: Node.js sürümünü kontrol edin
 node --version  # 18+ olmalı
@@ -221,6 +231,7 @@ node --version  # 18+ olmalı
 ```
 
 #### 🗄️ Veritabanı Bağlantı Hatası
+
 ```bash
 # PostgreSQL'in çalıştığını kontrol edin
 pg_isready
@@ -233,6 +244,7 @@ brew services start postgresql
 ```
 
 #### 🌐 Port Çakışması
+
 ```bash
 # Portların kullanımını kontrol edin
 netstat -an | grep :3000  # Backend portu
@@ -246,6 +258,7 @@ netstat -an | grep :5173  # Frontend portu
 ### 🐛 Çalışma Zamanı Sorunları
 
 #### 🔴 Backend Başlatılamıyor
+
 ```bash
 # Bağımlılıkları kontrol edin
 cd backend && npm list
@@ -258,6 +271,7 @@ cat .env
 ```
 
 #### 🟡 Frontend Hata Veriyor
+
 ```bash
 # Cache'i temizleyin
 rm -rf node_modules package-lock.json
@@ -268,6 +282,7 @@ npm install
 ```
 
 #### 🟡 API Bağlantı Hatası
+
 - Backend'in çalıştığından emin olun
 - Frontend `.env` dosyasındaki `VITE_API_URL`'nin doğru olduğundan emin olun
 - CORS ayarlarını kontrol edin
@@ -277,16 +292,19 @@ npm install
 ## 📚 Ek Kaynaklar
 
 ### 📖 Dokümantasyon
+
 - **[Ana Wiki Sayfası](Home.md)** - Tüm dokümantasyon
 - **[Kullanıcı Rehberi](User-Guide.md)** - Detaylı kullanım talimatları
 - **[Geliştirici Rehberi](Developer-Guide.md)** - Teknik dokümantasyon
 
 ### 🎥 Video Eğitimler
+
 - [Kurulum Videosu](https://youtube.com/watch?v=jun-oro-setup)
 - [İlk Kullanım Videosu](https://youtube.com/watch?v=jun-oro-first-steps)
 - [Özellik Tanıtımı](https://youtube.com/watch?v=jun-oro-features)
 
 ### 🤝 Topluluk
+
 - **Discord**: [Sunucumuza katılın](https://discord.gg/jun-oro)
 - **GitHub**: [Issue bildirin](https://github.com/Poppolouse/jun-oro/issues)
 - **Forum**: [Tartışmalara katılın](https://forum.jun-oro.com)
@@ -296,12 +314,14 @@ npm install
 ## ✅ Kurulum Kontrol Listesi
 
 ### 📋 Ön Kurulum
+
 - [ ] Node.js 18+ yüklü mü?
 - [ ] PostgreSQL 14+ yüklü mü?
 - [ ] Git yüklü mü?
 - [ ] Yeterli disk alanı var mı?
 
 ### 📦 Kurulum
+
 - [ ] Proje klonlandı mı?
 - [ ] Frontend bağımlılıkları yüklendi mi?
 - [ ] Backend bağımlılıkları yüklendi mi?
@@ -309,6 +329,7 @@ npm install
 - [ ] Veritabanı migrasyonları çalıştırıldı mı?
 
 ### 🚀 Test
+
 - [ ] Frontend çalışıyor mu? (http://localhost:5173)
 - [ ] Backend çalışıyor mu? (http://localhost:3000)
 - [ ] API dokümantasyonu erişilebilir mi?
@@ -321,6 +342,7 @@ npm install
 Jun-Oro'yu başarıyla kurduğunuza göre! Artık oyun kütüphanenizi yönetmeye, oyun sürelerinizi takip etmeye ve oyun alışkanlıklarınızı analiz etmeye hazırsınız.
 
 ### 📈 Sonraki Adımlar
+
 1. **[Kullanıcı Rehberi](User-Guide.md)**'ni inceleyin
 2. **[Oyun Kütüphanesi Yönetimi](Library-Management.md)**'ni öğrenin
 3. **[Oyun Oturumları](Session-Tracking.md)**'ni keşfedin
@@ -332,5 +354,5 @@ Jun-Oro'yu başarıyla kurduğunuza göre! Artık oyun kütüphanenizi yönetmey
 
 ---
 
-*Son güncelleme: 10 Kasım 2025*
-*İlgili sayfalar: [Home](Home.md) • [User-Guide](User-Guide.md) • [Troubleshooting](Troubleshooting.md)*
+_Son güncelleme: 10 Kasım 2025_
+_İlgili sayfalar: [Home](Home.md) • [User-Guide](User-Guide.md) • [Troubleshooting](Troubleshooting.md)_

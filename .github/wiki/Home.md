@@ -5,23 +5,27 @@
 ## 📋 İçindekiler
 
 ### 🚀 Hızlı Başlangıç
+
 - **[Getting Started](Getting-Started.md)** - Kurulum ve ilk adımlar
 - **[User Guide](User-Guide.md)** - Kullanım rehberi
 - **[FAQ](FAQ.md)** - Sıkça sorulan sorular
 
 ### 🎮 Özellikler
+
 - **[Library Management](Library-Management.md)** - Oyun kütüphanesi yönetimi
 - **[Session Tracking](Session-Tracking.md)** - Oyun süreleri takibi
 - **[Wishlist](Wishlist.md)** - İstek listesi yönetimi
 - **[Statistics](Statistics.md)** - Oyun istatistikleri ve analiz
 
 ### 👨‍💻 Geliştiriciler İçin
+
 - **[Developer Guide](Developer-Guide.md)** - Geliştirici rehberi
 - **[API Reference](API-Reference.md)** - API dokümantasyonu
 - **[Database Schema](Database-Schema.md)** - Veritabanı yapısı
 - **[Deployment](Deployment.md)** - Deployment rehberi
 
 ### 🛠️ Destek
+
 - **[Troubleshooting](Troubleshooting.md)** - Sorun giderme
 - **[Contributing](../CONTRIBUTING.md)** - Katkıda bulunma
 
@@ -45,6 +49,7 @@ Jun-Oro, oyuncular için tasarlanmış modern bir oyun kütüphanesi yönetim pl
 ## 🚀 Hızlı Başlangıç
 
 ### 1. Kurulum
+
 ```bash
 # Projeyi klonlayın
 git clone https://github.com/Poppolouse/jun-oro.git
@@ -65,6 +70,7 @@ npm run db:generate
 ```
 
 ### 2. Çalıştırma
+
 ```bash
 # Terminal 1 - Frontend
 npm run dev
@@ -75,6 +81,7 @@ npm run dev
 ```
 
 ### 3. Erişim
+
 - **Uygulama**: http://localhost:5173
 - **API Dokümantasyonu**: http://localhost:3000/api-docs
 - **Veritabanı Yönetimi**: `npm run db:studio`
@@ -83,13 +90,13 @@ npm run dev
 
 ## 📊 Proje İstatistikleri
 
-| Kategori | Bilgi |
-|----------|--------|
-| 🎮 Desteklenen Platformlar | Steam, IGDB, Epic Games, PlayStation, Xbox |
-| 📱 Tarayıcı Desteği | Chrome 90+, Firefox 88+, Safari 14+ |
-| 🌍 Dil Desteği | Türkçe, İngilizce |
-| 📊 Veri Analizi | Oyun süreleri, tamamlama oranları, tür dağılımı |
-| 🔒 Güvenlik | JWT authentication, HTTPS, Veri şifreleme |
+| Kategori                   | Bilgi                                           |
+| -------------------------- | ----------------------------------------------- |
+| 🎮 Desteklenen Platformlar | Steam, IGDB, Epic Games, PlayStation, Xbox      |
+| 📱 Tarayıcı Desteği        | Chrome 90+, Firefox 88+, Safari 14+             |
+| 🌍 Dil Desteği             | Türkçe, İngilizce                               |
+| 📊 Veri Analizi            | Oyun süreleri, tamamlama oranları, tür dağılımı |
+| 🔒 Güvenlik                | JWT authentication, HTTPS, Veri şifreleme       |
 
 ---
 
@@ -107,16 +114,19 @@ Jun-Oro, modern ve tutarlı bir tasarım dili kullanır:
 ## 🔗 Önemli Linkler
 
 ### 📚 Dokümantasyon
+
 - [Ana Proje Dokümantasyonu](../../docs/)
 - [Kullanıcı Rehberi](../../docs/user-guide/)
 - [Geliştirici Dokümantasyonu](../../docs/developer/)
 
 ### 🌐 Platformlar
+
 - [GitHub Deposu](https://github.com/Poppolouse/jun-oro)
 - [Canlı Demo](https://jun-oro.com)
 - [API Dokümantasyonu](https://api.jun-oro.com)
 
 ### 🤝 Topluluk
+
 - [Discord Sunucusu](https://discord.gg/jun-oro)
 - [Twitter](https://twitter.com/JunOroDev)
 - [Blog](https://blog.jun-oro.com)
@@ -126,11 +136,13 @@ Jun-Oro, modern ve tutarlı bir tasarım dili kullanır:
 ## 🆘 Yardım Alın
 
 ### 💬 Anlık Destek
+
 - **Discord**: [Sunucumuza katılın](https://discord.gg/jun-oro)
 - **GitHub Issues**: [Sorun bildirin](https://github.com/Poppolouse/jun-oro/issues)
 - **E-posta**: [support@jun-oro.com](mailto:support@jun-oro.com)
 
 ### 📖 Öğrenme Kaynakları
+
 - [Video Eğitimler](https://youtube.com/jun-oro)
 - [Blog Makaleleri](https://blog.jun-oro.com)
 - [API Örnekleri](API-Reference.md)
@@ -140,12 +152,15 @@ Jun-Oro, modern ve tutarlı bir tasarım dili kullanır:
 ## 🏷️ Etiketler
 
 ### Kategoriler
+
 `#kullanıcı-rehberi` `#geliştirici` `#api` `#veritabanı` `#deployment`
 
 ### Seviyeler
+
 `#başlangıç` `#orta` `#ileri` `#expert`
 
 ### Özellikler
+
 `#oyun-kütüphanesi` `#süre-takibi` `#istatistikler` `#entegrasyon` `#güvenlik`
 
 ---
@@ -153,12 +168,14 @@ Jun-Oro, modern ve tutarlı bir tasarım dili kullanır:
 ## 📈 Yol Haritası
 
 ### 🚀 Gelecek Özellikler
+
 - 📱 **Mobil Uygulamalar** - iOS ve Android
 - 🤝 **Sosyal Özellikler** - Arkadaş ekleme, paylaşım
 - 🤖 **AI Destekli Öneriler** - Kişiselleştirilmiş oyun önerileri
 - 🎯 **Başım Sistemi** - Oyun başarımları ve rozetler
 
 ### 🛠️ Teknik İyileştirmeler
+
 - ⚡ **Performans Optimizasyonu** - Daha hızlı yükleme süreleri
 - 🔍 **Gelişmiş Arama** - Akıllı arama ve filtreleme
 - 🔄 **Real-time Senkronizasyon** - Anlık veri senkronizasyonu
@@ -171,6 +188,7 @@ Jun-Oro, modern ve tutarlı bir tasarım dili kullanır:
 Bu projeye katkıda bulunan tüm geliştiricilere, tasarımcılara ve kullanıcılara teşekkür ederiz!
 
 ### 🌟 Öne Çıkan Katkılar
+
 - **Bug Düzeltmeleri**: Hata raporları ve düzeltmeleri
 - **Feature Önerileri**: Yeni özellik fikirleri ve implementasyonları
 - **Dokümantasyon**: Rehberlerin ve dokümantasyonun iyileştirilmesi
@@ -182,5 +200,5 @@ Bu projeye katkıda bulunan tüm geliştiricilere, tasarımcılara ve kullanıc�
 
 ---
 
-*Son güncelleme: 10 Kasım 2025*
-*Lisans: [MIT](../../LICENSE)*
+_Son güncelleme: 10 Kasım 2025_
+_Lisans: [MIT](../../LICENSE)_

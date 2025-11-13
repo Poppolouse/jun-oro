@@ -161,7 +161,7 @@ router.post("/:sessionId/end", async (req, res, next) => {
     const { endDateTime, finalPlaytime } = calculateFinalPlaytime(
       currentSession,
       endTime,
-      providedPlaytime
+      providedPlaytime,
     );
 
     // End the session
@@ -264,7 +264,7 @@ async function updateSessionRelatedData(session, endDateTime, finalPlaytime) {
       },
       data: {
         playtime: { increment: finalPlaytime },
-        lastPlayed: new Date(endTime),
+        lastPlayed: new Date(endDateTime),
       },
     }),
   ]);

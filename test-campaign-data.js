@@ -1,13 +1,14 @@
+import userLibraryService from "./src/services/userLibrary.js";
+import gameCacheService from "./src/services/gameCache.js";
+
 // Test script to add campaign data to Total War: Warhammer III
 console.log("🔍 Checking current game data...");
 
 // Get current user library
-const userLibraryService = new UserLibraryService();
 const library = userLibraryService.getUserLibrary();
 console.log("Current library:", library);
 
 // Get game cache
-const gameCacheService = new GameCacheService();
 const cache = gameCacheService.getCache();
 console.log("Current cache:", cache);
 

@@ -63,6 +63,7 @@ Listelerinize oyun eklemenin birden çok yolu vardır:
 Dijital mağazalardan direkt oyun ekleyin:
 
 **Steam Entegrasyonu:**
+
 1. **"Steam'den Ekle"** butonuna tıklayın
 2. Steam hesabınızla bağlantı kurun
 3. İstek listenize eklemek istediğiniz oyunları seçin
@@ -74,6 +75,7 @@ Dijital mağazalardan direkt oyun ekleyin:
 5. **"Seçilenleri Ekle"** butonuna tıklayın
 
 **Diğer Mağazalar:**
+
 - **Epic Games Store**
 - **GOG Galaxy**
 - **PlayStation Store**
@@ -121,6 +123,7 @@ Artık istemediğiniz oyunları listeden çıkarın:
 Jun-Oro, istek listenizdeki oyunların fiyatlarını otomatik olarak takip eder:
 
 **Takip Edilen Bilgiler:**
+
 - **Mevcut Fiyat**: Güncel satış fiyatı
 - **En Düşük Fiyat**: Gözlemeye başladığınızdan beri en düşük fiyat
 - **Fiyat Geçmişi**: Son 30 gün içindeki fiyat değişimleri
@@ -128,6 +131,7 @@ Jun-Oro, istek listenizdeki oyunların fiyatlarını otomatik olarak takip eder:
 - **Tahmini Fiyat**: Gelecekteki fiyat tahminleri
 
 **Fiyat Grafiği:**
+
 - Her oyun için detaylı fiyat grafiği
 - Zaman içindeki fiyat değişimlerini görsel olarak takip edin
 - İndirim dönemlerini kolayca tespit edin
@@ -137,12 +141,14 @@ Jun-Oro, istek listenizdeki oyunların fiyatlarını otomatik olarak takip eder:
 Kaçırılmaması gereken fırsatlar için bildirimler alın:
 
 **Bildirim Türleri:**
+
 - **İndirim Başlangıcı**: "The Witcher 3 %50 indirimde!"
 - **Fiyat Düşüşü**: "Elden Ring fiyatı düştü: 59.99₺ → 39.99₺"
 - **Hedef Fiyata Ulaştı**: "Cyberpunk 2077 hedef fiyatınızda!"
 - **Sınırlı Süreli İndirim**: "Steam Yaz İndirimleri son 3 gün!"
 
 **Bildirim Ayarları:**
+
 1. **Ayarlar** → **Bildirimler** menüsüne gidin
 2. **İstek Listesi Bildirimleri** bölümünü açın
 3. Şu ayarları yapılandırın:
@@ -161,6 +167,7 @@ Kaçırılmaması gereken fırsatlar için bildirimler alın:
 İstek listenizin mali durumunu takip edin:
 
 **Bütçe Göstergeleri:**
+
 - **Toplam Bütçe**: Listenin toplam bütçesi
 - **Kullanılan Bütçe**: Alınan oyunlar için harcanan tutar
 - **Kalan Bütçe**: Harcama için kalan tutar
@@ -168,6 +175,7 @@ Kaçırılmaması gereken fırsatlar için bildirimler alın:
 - **En Yüksek/En Düşük Fiyat**: Fiyat aralığı
 
 **Bütçe Grafiği:**
+
 - Zaman içindeki bütçe kullanımını gösterir
 - Hangi aylarda daha çok harcama yaptığınızı analiz eder
 - Gelecek harcamalarınızı tahmin etmenize yardımcı olur
@@ -177,12 +185,14 @@ Kaçırılmaması gereken fırsatlar için bildirimler alın:
 İstek listenizin yapısını analiz edin:
 
 **Kategori Dağılımı:**
+
 - **Tür Dağılımı**: Hangi oyun türlerini daha çok istediğiniz
 - **Platform Dağılımı**: Hangi platformlar için oyun planladığınız
 - **Öncelik Dağılımı**: Yüksek/orta/düşük öncelikli oyunların oranı
 - **Fiyat Aralığı**: Fiyat segmentlerine göre dağılım
 
 **Zaman Analizi:**
+
 - **Eklenme Tarihi**: Oyunları ne zaman listeye eklediğiniz
 - **Ortalama Bekleme Süresi**: Listedeki oyunların ortalama ne kadar kaldığı
 - **Alım Oranları**: Listeye eklenen oyunların ne kadarının alındığı
@@ -192,6 +202,7 @@ Kaçırılmaması gereken fırsatlar için bildirimler alın:
 İstek listenizin etkinliğini ölçün:
 
 **Verimlilik Metrikleri:**
+
 - **Alım Oranı**: Listeye eklenen oyunların yüzde kaçının alındığı
 - **Bütçe Verimliliği**: Bütçenize ne kadar sadık kaldınız
 - **İndirim Yakalama**: Kaç indirim fırsatını değerlendirdiğiniz
@@ -204,6 +215,7 @@ Kaçırılmaması gereken fırsatlar için bildirimler alın:
 Jun-Oro, oyun alışkanlıklarınıza göre öneriler sunar:
 
 **Öneri Türleri:**
+
 - **Benzer Oyunlar**: "The Witcher 3'ü seviyorsunuz, Cyberpunk 2077'yi denemelisiniz"
 - **Tercih Edilen Türler**: "Genellikle RPG oynuyorsunuz, Baldur's Gate 3 çıktı"
 - **Fiyat Tabanlı**: "Bütçenize uygun yeni oyunlar: 5 oyun 200₺ altında"
@@ -214,6 +226,7 @@ Jun-Oro, oyun alışkanlıklarınıza göre öneriler sunar:
 İstek listenizi akıllı şekilde yönetin:
 
 **Filtreleme Seçenekleri:**
+
 - **Öncelik**: Sadece yüksek öncelikli oyunları göster
 - **Fiyat Aralığı**: Belirli fiyat aralığındaki oyunlar
 - **Platform**: Sadece belirli platformdaki oyunlar
@@ -221,6 +234,7 @@ Jun-Oro, oyun alışkanlıklarınıza göre öneriler sunar:
 - **İndirim Durumu**: İndirimdeki oyunlar
 
 **Sıralama Seçenekleri:**
+
 - **Öncelik**: En önemli oyunlar üstte
 - **Fiyat**: En ucuzdan en pahalıya
 - **İndirim Oranı**: En çok indirimi olanlar üstte
@@ -232,11 +246,13 @@ Jun-Oro, oyun alışkanlıklarınıza göre öneriler sunar:
 İstek listenizi otomatik olarak temiz tutun:
 
 **Temizleme Kuralları:**
+
 - **Çıkmış Oyunları Kaldır**: 6 aydır çıkış yapmamış oyunları otomatik çıkar
 - **Aşırı Süreli Oyunlar**: 2 yıldan uzun süredir listede kalan oyunları uyar
 - **Tekrarlayan Oyunlar**: Aynı oyunu birden fazla kez eklediyseniz uyar
 
 **Temizleme Ayarları:**
+
 1. **Ayarlar** → **İstek Listesi** → **Otomatik Temizleme** menüsüne gidin
 2. Temizleme kurallarını yapılandırın:
    - **Çıkış Kontrolü**: Ne kadar süre sonra çıkış yapmamış oyunlar çıkarılacak
@@ -250,12 +266,14 @@ Jun-Oro, oyun alışkanlıklarınıza göre öneriler sunar:
 İstek listenizi başkalarıyla paylaşın:
 
 **Paylaşım Seçenekleri:**
+
 - **Herkese Açık**: Herkesin görebileceği public liste
 - **Arkadaşlarla Paylaş**: Sadece belirli arkadaşlarınızın görebileceği liste
 - **Aile Linki**: Aile üyelerinin katkıda bulunabileceği liste
 - **Geçici Link**: Belirli süre için geçerli paylaşım linki
 
 **Paylaşım Adımları:**
+
 1. İstek listenizi açın
 2. Sağ üstteki **"Paylaş"** butonuna tıklayın
 3. Paylaşım türünü seçin
@@ -271,12 +289,14 @@ Jun-Oro, oyun alışkanlıklarınıza göre öneriler sunar:
 Arkadaşlarınızla ortak istek listeleri oluşturun:
 
 **Ortak Liste Özellikleri:**
+
 - **Çoklu Sahiplik**: Birden fazla kişinin yönetebileceği liste
 - **Katkı Hedefleri**: Herkesin ne kadar katkıda bulunacağı
 - **Oyun Oylama**: Hangi oyunların öncelikli olacağına oylama
 - **Bütçe Havuzu**: Herkesin katkıda bulunduğu ortak bütçe
 
 **Ortak Liste Oluşturma:**
+
 1. **"Ortak Liste Oluştur"** butonuna tıklayın
 2. Katılımcıları davet edin (e-posta veya kullanıcı adı ile)
 3. Liste kurallarını belirleyin
@@ -287,12 +307,14 @@ Arkadaşlarınızla ortak istek listeleri oluşturun:
 Sosyal medya hesaplarınızla bağlantı kurun:
 
 **Desteklenen Platformlar:**
+
 - **Steam**: Steam istek listenizle senkronizasyon
 - **Discord**: İstek listenizdeki değişiklikler için Discord bildirimleri
 - **Twitter**: Oyun alımlarınızı otomatik tweet'leme
 - **Reddit**: Gaming subreddit'lerinde istek listenizi paylaşma
 
 **Bağlantı Adımları:**
+
 1. **Ayarlar** → **Sosyal Entegrasyon** menüsüne gidin
 2. Bağlamak istediğiniz platformu seçin
 3. Gerekli izinleri verin ve hesabınızla bağlantı kurun
@@ -305,12 +327,14 @@ Sosyal medya hesaplarınızla bağlantı kurun:
 İstek listenizi mobil cihazınızdan yönetin:
 
 **Mobil Özellikler:**
+
 - **Anlık Senkronizasyon**: Masaüstü ve mobil arasında anında senkronizasyon
 - **Çevrimdışı Mod**: İnternet olmadan istek listenizi görüntüleme
 - **Push Bildirimleri**: Mobil cihazınızda indirim bildirimleri alma
 - **Hızlı Ekleme**: Mağaza uygulamalarından direkt oyun ekleme
 
 **Mobil Kurulum:**
+
 1. App Store veya Google Play'den "Jun-Oro" uygulamasını indirin
 2. Mevcut hesabınızla giriş yapın
 3. İstek listeleriniz otomatik olarak senkronize edilecek
@@ -320,11 +344,13 @@ Sosyal medya hesaplarınızla bağlantı kurun:
 Mağazalarda QR kod ile hızlıca oyun ekleyin:
 
 **QR Kod Özellikleri:**
+
 - **Mağaza QR Kodları**: Fiziksel mağazalardaki oyunları hızlıca ekleme
 - **Oyun Kartı QR**: Arkadaşlarınızın oyun kartını QR ile paylaşma
 - **İstek Listesi QR**: Tüm istek listenizi tek QR kod olarak paylaşma
 
 **Kullanım Adımları:**
+
 1. Mobil uygulamada **"QR Tara"** özelliğini açın
 2. Mağazadaki veya arkadaşınızdaki QR kodu taratın
 3. Oyun bilgileri otomatik olarak algılanır
@@ -337,12 +363,14 @@ Mağazalarda QR kod ile hızlıca oyun ekleyin:
 Daha verimli oyun alışverişi için:
 
 **Zamanlama Stratejileri:**
+
 - **Yaz İndirimleri**: Büyük indirim dönemlerini bekleyin
 - **Yeni Çıkan Oyunlar**: İlk haftalarda fiyat düşüşleri takip edin
 - **Sezon Sonları**: Mevsim sonu indirimlerini değerlendirin
 - **Black Friday/Cyber Monday**: Yılın en büyük indirimlerini kaçırmayın
 
 **Bütçe Yönetimi:**
+
 - **Aylık Bütçe**: Her ay için oyun bütçesi belirleyin
 - **Esnek Bütçe**: %70'i planlı oyunlar, %30'i sürpriz fırsatlar
 - **Fiyat Takibi**: İstek listenizdeki oyunların fiyat grafiklerini düzenli kontrol edin
@@ -353,11 +381,13 @@ Daha verimli oyun alışverişi için:
 Listenizi daha etkili hale getirin:
 
 **Liste Boyutu:**
+
 - **Optimal Boyut**: 10-15 oyun arasında tutun (daha fazlası yönetimi zorlaştırır)
 - **Öncelik Sıralaması**: En çok istediğiniz oyunlar üstte olsun
 - **Düzenli Temizlik**: Ayda bir liste gözden geçir ve güncel tutun
 
 **Oyun Seçimi:**
+
 - **Gerçekçi Olun**: Gerçekten oynayacağınız oyunları ekleyin
 - **Fiyat/Değer Oranı**: Pahalı ama çok oynayacağınız oyunlara öncelik verin
 - **Platform Tutarlılığı**: Sadece sahip olduğunuz platformlar için oyun ekleyin

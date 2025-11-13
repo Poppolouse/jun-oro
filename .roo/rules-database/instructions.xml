@@ -1,0 +1,533 @@
+<?xml version="1.0" encoding="utf-8"?>
+<instructions>
+  <metadata>
+    <slug>database</slug>
+    <name>💾 Veritabanı Mimarı</name>
+    <description>Supabase şeması, migration, RLS policy ve sorgu optimizasyonu</description>
+    <language>tr</language>
+  </metadata>
+
+  <overview>Supabase PostgreSQL için şema, migration, RLS, index ve performans kuralları. Tüm tablo isimleri ve açıklamalar Türkçe olacak.</overview>
+
+  <general_principles>
+    <principle name="naming_conventions">
+      <title>İsimlendirme</title>
+      <details>
+        Tablo isimleri: snake_case, plural (ör. users, game_ratings, api_keys).
+        Kolon isimleri: snake_case, açıklayıcı (created_at, user_id, is_active).
+        Primary key: id uuid DEFAULT gen_random_uuid().
+        Timestamps: created_at timestamptz DEFAULT now(), updated_at timestamptz.
+        Soft delete: deleted_at timestamptz NULLABLE.
+      </details>
+    </principle>
+
+    <principle name="rls_required">
+      <title>RLS Zorunluluğu</title>
+      <details>
+        Her tablo için MUTLAKA RLS aktif edilmeli: ALTER TABLE [table] ENABLE ROW LEVEL SECURITY;
+        SELECT, INSERT, UPDATE, DELETE için açık ve anlaşılır policy'ler yazılmalı.
+        Admin bypass gerekiyorsa explicit policy ile tanımla.
+      </details>
+    </principle>
+
+    <principle name="security_privacy">
+      <title>Güvenlik ve Gizlilik</title>
+      <details>
+        Sensitive kolonlar (email, password_hash, api_keys) RLS ile korunmalı.
+        Audit trail için created_by, updated_by kolonları ekle.
+        GDPR uyumu: user_data silinebilir/anonimleştirilebilir olmalı.
+      </details>
+    </principle>
+
+    <principle name="performance_indexing">
+      <title>Performans ve İndeksleme</title>
+      <details>
+        Foreign key kolonları index'lenmeli.
+        WHERE, ORDER BY, JOIN kullanılan kolonlar index'lenmeli.
+        JSONB için GIN index; full-text için tsvector index kullan.
+        Composite index gerektiğinde oluşturulmalı.
+      </details>
+    </principle>
+
+    <principle name="turkish_requirements">
+      <title>Türkçe Zorunluluğu</title>
+      <details>
+        Tablo ve kolon açıklamaları Türkçe olacak (COMMENT ON TABLE/COLUMN).
+        Migration yorumları Türkçe olacak.
+      </details>
+    </principle>
+  </general_principles>
+
+  <table_templates>
+    <example name="users_table">
+      <title>Kullanıcılar tablosu</title>
+      <code language="sql"><![CDATA[
+-- filepath: supabase/migrations/20250106000001_create_users_table.sql
+
+-- Kullanıcılar tablosu
+CREATE TABLE users (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+
+  -- Kimlik bilgileri
+  email text UNIQUE NOT NULL,
+  username text UNIQUE,
+  password_hash text, -- Supabase Auth kullanıyorsak null olabilir
+
+  -- Profil bilgileri
+  full_name text NOT NULL,
+  avatar_url text,
+  bio text,
+
+  -- Yetkilendirme
+  role text NOT NULL DEFAULT 'user' CHECK (role IN ('admin', 'moderator', 'user', 'guest')),
+  is_active boolean DEFAULT true,
+  email_verified boolean DEFAULT false,
+
+  -- Metadata
+  last_login_at timestamptz,
+  preferences jsonb DEFAULT '{}',
+
+  -- Timestamps
+  created_at timestamptz DEFAULT now(),
+  updated_at timestamptz DEFAULT now(),
+  deleted_at timestamptz
+);
+
+-- Açıklamalar
+COMMENT ON TABLE users IS 'Uygulama kullanıcıları';
+COMMENT ON COLUMN users.email IS 'Kullanıcı email adresi (unique)';
+COMMENT ON COLUMN users.role IS 'Kullanıcı yetki seviyesi';
+COMMENT ON COLUMN users.preferences IS 'JSON formatında kullanıcı tercihleri';
+
+-- İndeksler
+CREATE INDEX idx_users_email ON users(email);
+CREATE INDEX idx_users_username ON users(username);
+CREATE INDEX idx_users_role ON users(role);
+CREATE INDEX idx_users_created_at ON users(created_at DESC);
+CREATE INDEX idx_users_active ON users(is_active) WHERE deleted_at IS NULL;
+
+-- Trigger: updated_at otomatik güncelleme
+CREATE OR REPLACE FUNCTION update_updated_at_column()
+RETURNS TRIGGER AS $$
+BEGIN
+  NEW.updated_at = now();
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER update_users_updated_at
+  BEFORE UPDATE ON users
+  FOR EACH ROW
+  EXECUTE FUNCTION update_updated_at_column();
+
+-- Row Level Security
+ALTER TABLE users ENABLE ROW LEVEL SECURITY;
+
+-- Policy: Kullanıcılar kendi profillerini görebilir
+CREATE POLICY "users_view_own_profile"
+  ON users FOR SELECT
+  USING (auth.uid() = id);
+
+-- Policy: Adminler tüm kullanıcıları görebilir
+CREATE POLICY "admins_view_all_users"
+  ON users FOR SELECT
+  USING (
+    EXISTS (
+      SELECT 1 FROM users
+      WHERE id = auth.uid() AND role = 'admin'
+    )
+  );
+
+-- Policy: Kullanıcılar kendi profillerini güncelleyebilir
+CREATE POLICY "users_update_own_profile"
+  ON users FOR UPDATE
+  USING (auth.uid() = id)
+  WITH CHECK (
+    auth.uid() = id AND
+    role = OLD.role
+  );
+
+-- Policy: Sadece adminler kullanıcı oluşturabilir
+CREATE POLICY "admins_create_users"
+  ON users FOR INSERT
+  WITH CHECK (
+    EXISTS (
+      SELECT 1 FROM users
+      WHERE id = auth.uid() AND role = 'admin'
+    )
+  );
+
+-- Policy: Soft delete - kullanıcılar kendi hesaplarını silebilir
+CREATE POLICY "users_soft_delete_own"
+  ON users FOR UPDATE
+  USING (auth.uid() = id)
+  WITH CHECK (
+    auth.uid() = id AND
+    deleted_at IS NOT NULL
+  );
+]]></code>
+    </example>
+
+    <example name="game_ratings_table">
+      <title>Game Ratings (One-to-Many)</title>
+      <code language="sql"><![CDATA[
+-- filepath: supabase/migrations/20250106000002_create_game_ratings_table.sql
+
+CREATE TABLE game_ratings (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+
+  -- Foreign Keys
+  user_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  game_id bigint NOT NULL,
+
+  -- Rating bilgileri
+  rating integer NOT NULL CHECK (rating BETWEEN 1 AND 5),
+  review text,
+  playtime_hours integer,
+
+  -- Metadata
+  is_public boolean DEFAULT true,
+  helpful_count integer DEFAULT 0,
+
+  -- Timestamps
+  created_at timestamptz DEFAULT now(),
+  updated_at timestamptz DEFAULT now(),
+
+  -- Constraints
+  UNIQUE(user_id, game_id)
+);
+
+COMMENT ON TABLE game_ratings IS 'Kullanıcıların oyun puanları ve yorumları';
+
+-- İndeksler
+CREATE INDEX idx_game_ratings_user_id ON game_ratings(user_id);
+CREATE INDEX idx_game_ratings_game_id ON game_ratings(game_id);
+CREATE INDEX idx_game_ratings_rating ON game_ratings(rating);
+CREATE INDEX idx_game_ratings_created_at ON game_ratings(created_at DESC);
+CREATE INDEX idx_game_ratings_game_rating ON game_ratings(game_id, rating DESC);
+
+-- RLS
+ALTER TABLE game_ratings ENABLE ROW LEVEL SECURITY;
+
+-- Herkes public rating'leri görebilir
+CREATE POLICY "public_view_public_ratings"
+  ON game_ratings FOR SELECT
+  USING (is_public = true);
+
+-- Kullanıcılar kendi rating'lerini görebilir
+CREATE POLICY "users_view_own_ratings"
+  ON game_ratings FOR SELECT
+  USING (auth.uid() = user_id);
+
+-- Kullanıcılar rating ekleyebilir
+CREATE POLICY "users_create_ratings"
+  ON game_ratings FOR INSERT
+  WITH CHECK (auth.uid() = user_id);
+
+-- Kullanıcılar kendi rating'lerini güncelleyebilir
+CREATE POLICY "users_update_own_ratings"
+  ON game_ratings FOR UPDATE
+  USING (auth.uid() = user_id)
+  WITH CHECK (auth.uid() = user_id);
+
+-- Kullanıcılar kendi rating'lerini silebilir
+CREATE POLICY "users_delete_own_ratings"
+  ON game_ratings FOR DELETE
+  USING (auth.uid() = user_id);
+]]></code>
+    </example>
+
+    <example name="user_game_collections">
+      <title>User Game Collections (Many-to-Many)</title>
+      <code language="sql"><![CDATA[
+-- filepath: supabase/migrations/20250106000003_create_user_game_collections.sql
+
+CREATE TABLE user_game_collections (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+
+  -- Foreign Keys
+  user_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  game_id bigint NOT NULL,
+
+  -- Collection tipi
+  collection_type text NOT NULL CHECK (
+    collection_type IN ('wishlist', 'playing', 'completed', 'dropped', 'backlog')
+  ),
+
+  -- Metadata
+  notes text,
+  priority integer CHECK (priority BETWEEN 1 AND 5),
+
+  -- Timestamps
+  added_at timestamptz DEFAULT now(),
+  updated_at timestamptz DEFAULT now(),
+
+  -- Constraints
+  UNIQUE(user_id, game_id, collection_type)
+);
+
+COMMENT ON TABLE user_game_collections IS 'Kullanıcıların oyun koleksiyonları';
+
+-- İndeksler
+CREATE INDEX idx_collections_user_id ON user_game_collections(user_id);
+CREATE INDEX idx_collections_game_id ON user_game_collections(game_id);
+CREATE INDEX idx_collections_type ON user_game_collections(collection_type);
+CREATE INDEX idx_collections_user_type ON user_game_collections(user_id, collection_type);
+
+-- RLS
+ALTER TABLE user_game_collections ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "users_manage_own_collections"
+  ON user_game_collections
+  FOR ALL
+  USING (auth.uid() = user_id)
+  WITH CHECK (auth.uid() = user_id);
+]]></code>
+    </example>
+
+    <example name="game_cache_jsonb">
+      <title>JSONB ve cache örneği</title>
+      <code language="sql"><![CDATA[
+-- filepath: supabase/migrations/20250106000004_create_game_cache_table.sql
+
+CREATE TABLE game_cache (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  igdb_id bigint UNIQUE NOT NULL,
+  game_data jsonb NOT NULL,
+  fetched_at timestamptz DEFAULT now(),
+  expires_at timestamptz,
+  created_at timestamptz DEFAULT now()
+);
+
+COMMENT ON TABLE game_cache IS 'IGDB API cache - oyun bilgileri';
+
+CREATE INDEX idx_game_cache_data ON game_cache USING GIN (game_data);
+CREATE INDEX idx_game_cache_name ON game_cache ((game_data->>'name'));
+CREATE INDEX idx_game_cache_genres ON game_cache USING GIN ((game_data->'genres'));
+
+-- RLS: Herkes okuyabilir
+ALTER TABLE game_cache ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "public_read_game_cache"
+  ON game_cache FOR SELECT
+  USING (true);
+
+CREATE POLICY "service_write_game_cache"
+  ON game_cache FOR ALL
+  USING (auth.role() = 'service_role');
+]]></code>
+    </example>
+  </table_templates>
+
+  <full_text_search>
+    <title>Full-Text Search (Türkçe destekli)</title>
+    <code language="sql"><![CDATA[
+-- filepath: supabase/migrations/20250106000005_fulltext_search.sql
+
+ALTER TABLE game_cache ADD COLUMN search_vector tsvector;
+
+CREATE OR REPLACE FUNCTION update_game_search_vector()
+RETURNS TRIGGER AS $$
+BEGIN
+  NEW.search_vector :=
+    setweight(to_tsvector('english', coalesce(NEW.game_data->>'name', '')), 'A') ||
+    setweight(to_tsvector('english', coalesce(NEW.game_data->>'summary', '')), 'B') ||
+    setweight(to_tsvector('english', coalesce(NEW.game_data->>'storyline', '')), 'C');
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER update_game_cache_search
+  BEFORE INSERT OR UPDATE ON game_cache
+  FOR EACH ROW
+  EXECUTE FUNCTION update_game_search_vector();
+
+CREATE INDEX idx_game_cache_search ON game_cache USING GIN (search_vector);
+]]></code>
+  </full_text_search>
+
+  <migration_best_practices>
+    <up_example>
+      <code language="sql"><![CDATA[
+-- filepath: supabase/migrations/20250106000006_add_user_badges.sql
+
+BEGIN;
+
+CREATE TABLE user_badges (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  badge_type text NOT NULL,
+  earned_at timestamptz DEFAULT now()
+);
+
+CREATE INDEX idx_user_badges_user ON user_badges(user_id);
+
+ALTER TABLE user_badges ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "users_view_all_badges"
+  ON user_badges FOR SELECT
+  USING (true);
+
+COMMIT;
+]]></code>
+    </up_example>
+
+    <down_example>
+      <code language="sql"><![CDATA[
+-- filepath: supabase/migrations/20250106000006_add_user_badges_down.sql
+
+BEGIN;
+
+DROP POLICY IF EXISTS "users_view_all_badges" ON user_badges;
+DROP TABLE IF EXISTS user_badges CASCADE;
+
+COMMIT;
+]]></code>
+    </down_example>
+  </migration_best_practices>
+
+  <common_errors_and_solutions>
+    <error name="rls_missing">
+      <problem>RLS aktif etmeden policy yazmak</problem>
+      <solution>MUTLAKA ALTER TABLE [table] ENABLE ROW LEVEL SECURITY;</solution>
+    </error>
+
+    <error name="fk_index_missing">
+      <problem>Foreign key index unutmak</problem>
+      <solution>Her foreign key için CREATE INDEX idx_[table]_[fk] ON [table]([fk]);</solution>
+    </error>
+
+    <error name="cascade_delete_missing">
+      <problem>Cascade delete kullanılmadan silme</problem>
+      <solution>ON DELETE CASCADE veya ON DELETE SET NULL belirle</solution>
+    </error>
+
+    <error name="updated_at_trigger_missing">
+      <problem>updated_at trigger unutmak</problem>
+      <solution>Her tabloya update_updated_at_column trigger ekle</solution>
+    </error>
+
+    <error name="jsonb_index_missing">
+      <problem>JSONB index unutmak</problem>
+      <solution>GIN index kullan: CREATE INDEX ... USING GIN (jsonb_column);</solution>
+    </error>
+
+    <error name="soft_delete_policy">
+      <problem>Soft delete policy hatası</problem>
+      <solution>WHERE deleted_at IS NULL koşulu ekle</solution>
+    </error>
+  </common_errors_and_solutions>
+
+  <quality_checklist>
+    <before_migration>
+      <item>Tablo ismi snake_case ve plural mı?</item>
+      <item>Primary Key (id uuid) var mı?</item>
+      <item>created_at, updated_at kolonları var mı?</item>
+      <item>Foreign key'ler doğru tanımlı mı?</item>
+      <item>Constraint'ler (CHECK, UNIQUE) gerekli mi?</item>
+      <item>Soft delete gerekli mi (deleted_at)?</item>
+    </before_migration>
+
+    <migration_steps>
+      <item>CREATE TABLE komutu yazıldı</item>
+      <item>COMMENT ON TABLE/COLUMN eklendi (Türkçe)</item>
+      <item>İndeksler oluşturuldu (FK, WHERE, ORDER BY kolonları)</item>
+      <item>updated_at trigger eklendi</item>
+      <item>RLS aktif edildi</item>
+      <item>Policy'ler yazıldı (SELECT, INSERT, UPDATE, DELETE)</item>
+      <item>BEGIN/COMMIT ile transaction wrapper</item>
+    </migration_steps>
+
+    <post_migration>
+      <item>Supabase Studio'da tablo görünüyor mu?</item>
+      <item>RLS policy'ler çalışıyor mu?</item>
+      <item>İndeksler oluştu mu? (pg_indexes kontrol)</item>
+      <item>Foreign key ilişkileri doğru mu?</item>
+      <item>Down migration hazır mı?</item>
+      <item>Git commit mesajı açıklayıcı (Türkçe)</item>
+    </post_migration>
+  </quality_checklist>
+
+  <scenarios>
+    <scenario name="user_follows">
+      <description>Social features - user_follows tablosu</description>
+      <notes>
+        Tablo: user_follows (follower_id, following_id, created_at)
+        Constraint: UNIQUE(follower_id, following_id), CHECK(follower_id != following_id)
+        Index: Composite index (follower_id, created_at), (following_id, created_at)
+        RLS: Herkes okuyabilir, sadece kendi follow'ları ekleyebilir/silebilir
+      </notes>
+    </scenario>
+
+    <scenario name="audit_logs">
+      <description>Audit logs for admin actions</description>
+      <notes>
+        Tablo: audit_logs (id, user_id, action, table_name, record_id, old_data jsonb, new_data jsonb, created_at)
+        Index: user_id, table_name, created_at DESC
+        RLS: Sadece adminler okuyabilir
+        Trigger: Her UPDATE/DELETE işleminde otomatik log
+      </notes>
+    </scenario>
+  </scenarios>
+
+  <diagrams>
+    <mermaid name="schema"><![CDATA[
+erDiagram
+  users ||--o{ game_ratings : rates
+  users ||--o{ user_game_collections : collects
+  users ||--o{ user_follows : follows
+
+  users {
+    uuid id PK
+    text email UK
+    text role
+    timestamptz created_at
+  }
+
+  game_ratings {
+    uuid id PK
+    uuid user_id FK
+    bigint game_id
+    integer rating
+    timestamptz created_at
+  }
+
+  user_game_collections {
+    uuid id PK
+    uuid user_id FK
+    bigint game_id
+    text collection_type
+  }
+]]></mermaid>
+
+    <mermaid name="rls_flow"><![CDATA[
+graph TD
+  A[Query Request] --> B{RLS Enabled?}
+  B -->|No| C[Full Access]
+  B -->|Yes| D{Policy Match?}
+  D -->|No| E[Access Denied]
+  D -->|Yes| F{USING Condition}
+  F -->|True| G[Read Access]
+  F -->|False| E
+  D -->|Insert/Update| H{WITH CHECK Condition}
+  H -->|True| I[Write Access]
+  H -->|False| E
+]]></mermaid>
+  </diagrams>
+
+  <tool_usage>
+    <note>Bu instruction dosyası apply_diff, write_to_file ve read_file ile kullanılmak üzere tasarlandı.</note>
+    <best_practices>
+      <item>Read files before using apply_diff to ensure exact matches</item>
+      <item>Index foreign keys and frequently filtered columns</item>
+      <item>Test RLS policies with representative users and admin accounts</item>
+      <item>Include Turkish comments in migrations and commit messages</item>
+    </best_practices>
+  </tool_usage>
+
+  <final_notes>
+    <item>Tüm SQL örnekleri ve açıklamalar Türkçe yazıldı.</item>
+    <item>Bu dosya, Veritabanı Mimarı mode'unun davranış kurallarını ve şablonlarını içerir.</item>
+  </final_notes>
+
+</instructions>

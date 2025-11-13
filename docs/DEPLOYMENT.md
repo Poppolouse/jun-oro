@@ -7,18 +7,21 @@ Bu rehber, Jun-Oro gaming platformunu development ve production ortamlarına nas
 ## 🛠️ Development Ortamı Kurulumu
 
 ### Ön Gereksinimler
-- **Node.js** 18+ 
+
+- **Node.js** 18+
 - **PostgreSQL** 14+
 - **Git**
 - **VS Code** (tavsiye edilen)
 
 ### 1. Projeyi Klonlama
+
 ```bash
 git clone https://github.com/Poppolouse/jun-oro.git
 cd jun-oro
 ```
 
 ### 2. Frontend Kurulumu
+
 ```bash
 # Ana dizinde
 npm install
@@ -28,6 +31,7 @@ cp .env.example .env
 ```
 
 #### Frontend Environment Değişkenleri
+
 ```env
 # API Configuration
 VITE_API_URL=http://localhost:3000
@@ -43,6 +47,7 @@ VITE_STEAM_BASE_URL=https://store.steampowered.com/api
 ```
 
 ### 3. Backend Kurulumu
+
 ```bash
 # Backend dizinine geç
 cd backend
@@ -55,6 +60,7 @@ cp .env.example .env
 ```
 
 #### Backend Environment Değişkenleri
+
 ```env
 # Database
 DATABASE_URL=postgresql://username:password@localhost:5432/jun_oro_dev
@@ -89,6 +95,7 @@ SMTP_PASS=your-app-password
 ```
 
 ### 4. Veritabanı Kurulumu
+
 ```bash
 # PostgreSQL servisini başlat
 sudo systemctl start postgresql
@@ -107,6 +114,7 @@ npm run db:generate
 ```
 
 ### 5. Development Sunucularını Başlatma
+
 ```bash
 # Terminal 1 - Backend
 cd backend
@@ -117,6 +125,7 @@ npm run dev
 ```
 
 Uygulamalar şu adreslerde çalışacaktır:
+
 - Frontend: http://localhost:5173
 - Backend API: http://localhost:3000
 - API Dokümantasyonu: http://localhost:3000/api-docs
@@ -126,13 +135,17 @@ Uygulamalar şu adreslerde çalışacaktır:
 ### Platform Seçenekleri
 
 #### 1. VPS (DigitalOcean, Vultr, Linode)
+
 #### 2. PaaS (Heroku, Railway, Render)
+
 #### 3. Container (Docker + Kubernetes)
+
 #### 4. Serverless (Vercel + Cloudflare Workers)
 
 ### VPS Deployment (Örnek: Ubuntu 22.04)
 
 #### 1. Sunucu Hazırlığı
+
 ```bash
 # Sistemi güncelle
 sudo apt update && sudo apt upgrade -y
@@ -155,6 +168,7 @@ sudo ufw enable
 ```
 
 #### 2. PostgreSQL Kurulumu
+
 ```bash
 # PostgreSQL kur ve yapılandır
 sudo apt install -y postgresql postgresql-contrib
@@ -177,6 +191,7 @@ sudo systemctl restart postgresql
 ```
 
 #### 3. Uygulama Dağıtımı
+
 ```bash
 # Repo'yu klonla
 cd /var/www
@@ -195,26 +210,27 @@ npm run db:generate
 ```
 
 #### 4. PM2 Configuration
+
 ```javascript
 // ecosystem.config.js
 module.exports = {
   apps: [
     {
-      name: 'jun-oro-backend',
-      script: './backend/src/index.js',
-      cwd: '/var/www/jun-oro',
-      instances: 'max',
-      exec_mode: 'cluster',
+      name: "jun-oro-backend",
+      script: "./backend/src/index.js",
+      cwd: "/var/www/jun-oro",
+      instances: "max",
+      exec_mode: "cluster",
       env: {
-        NODE_ENV: 'production',
-        PORT: 3000
+        NODE_ENV: "production",
+        PORT: 3000,
       },
-      error_file: './logs/backend-error.log',
-      out_file: './logs/backend-out.log',
-      log_file: './logs/backend-combined.log',
-      time: true
-    }
-  ]
+      error_file: "./logs/backend-error.log",
+      out_file: "./logs/backend-out.log",
+      log_file: "./logs/backend-combined.log",
+      time: true,
+    },
+  ],
 };
 ```
 
@@ -226,24 +242,25 @@ pm2 startup
 ```
 
 #### 5. Nginx Configuration
+
 ```nginx
 # /etc/nginx/sites-available/jun-oro
 server {
     listen 80;
     server_name your-domain.com www.your-domain.com;
-    
+
     # Frontend static files
     location / {
         root /var/www/jun-oro/dist;
         try_files $uri $uri/ /index.html;
-        
+
         # Cache static assets
         location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg)$ {
             expires 1y;
             add_header Cache-Control "public, immutable";
         }
     }
-    
+
     # Backend API
     location /api {
         proxy_pass http://localhost:3000;
@@ -267,6 +284,7 @@ sudo systemctl restart nginx
 ```
 
 #### 6. SSL Sertifikası (Let's Encrypt)
+
 ```bash
 # Certbot kur
 sudo apt install -y certbot python3-certbot-nginx
@@ -282,6 +300,7 @@ sudo crontab -e
 ### Docker Deployment
 
 #### 1. Dockerfile (Frontend)
+
 ```dockerfile
 # Dockerfile.frontend
 FROM node:18-alpine AS builder
@@ -302,6 +321,7 @@ CMD ["nginx", "-g", "daemon off;"]
 ```
 
 #### 2. Dockerfile (Backend)
+
 ```dockerfile
 # Dockerfile.backend
 FROM node:18-alpine
@@ -322,9 +342,10 @@ CMD ["npm", "start"]
 ```
 
 #### 3. Docker Compose
+
 ```yaml
 # docker-compose.yml
-version: '3.8'
+version: "3.8"
 
 services:
   postgres:
@@ -372,6 +393,7 @@ docker-compose up -d --build
 ### PaaS Deployment (Railway)
 
 #### 1. Railway CLI Kurulumu
+
 ```bash
 # Railway CLI kur
 npm install -g @railway/cli
@@ -381,6 +403,7 @@ railway login
 ```
 
 #### 2. Project Oluşturma
+
 ```bash
 # Project oluştur
 railway init
@@ -398,6 +421,7 @@ railway up
 ```
 
 #### 3. Environment Variables
+
 ```bash
 # Environment değişkenlerini ayarla
 railway variables set JWT_SECRET=your-jwt-secret
@@ -410,35 +434,36 @@ railway variables set IGDB_CLIENT_SECRET=your-igdb-secret
 
 ### Zorunlu Değişkenler
 
-| Değişken | Açıklama | Örnek |
-|-----------|------------|--------|
+| Değişken       | Açıklama                     | Örnek                                 |
+| -------------- | ---------------------------- | ------------------------------------- |
 | `DATABASE_URL` | PostgreSQL bağlantı string'i | `postgresql://user:pass@host:5432/db` |
-| `JWT_SECRET` | JWT token imzalama anahtarı | `super-secret-key-123` |
-| `NODE_ENV` | Ortam tipi | `development`, `production` |
-| `PORT` | Backend port numarası | `3000` |
+| `JWT_SECRET`   | JWT token imzalama anahtarı  | `super-secret-key-123`                |
+| `NODE_ENV`     | Ortam tipi                   | `development`, `production`           |
+| `PORT`         | Backend port numarası        | `3000`                                |
 
 ### External API Değişkenleri
 
-| Değişken | Açıklama | Gerekli |
-|-----------|------------|----------|
-| `IGDB_CLIENT_ID` | IGDB API client ID | Evet |
-| `IGDB_CLIENT_SECRET` | IGDB API client secret | Evet |
-| `STEAM_API_KEY` | Steam API anahtarı | İsteğe bağlı |
-| `HLTB_API_KEY` | HowLongToBeat API anahtarı | İsteğe bağlı |
+| Değişken             | Açıklama                   | Gerekli      |
+| -------------------- | -------------------------- | ------------ |
+| `IGDB_CLIENT_ID`     | IGDB API client ID         | Evet         |
+| `IGDB_CLIENT_SECRET` | IGDB API client secret     | Evet         |
+| `STEAM_API_KEY`      | Steam API anahtarı         | İsteğe bağlı |
+| `HLTB_API_KEY`       | HowLongToBeat API anahtarı | İsteğe bağlı |
 
 ### Cloudflare R2 Değişkenleri
 
-| Değişken | Açıklama | Örnek |
-|-----------|------------|--------|
-| `R2_ACCOUNT_ID` | Cloudflare hesap ID'si | `1234567890abcdef` |
-| `R2_ACCESS_KEY_ID` | R2 erişim anahtarı | `access-key-id` |
-| `R2_SECRET_ACCESS_KEY` | R2 gizli anahtar | `secret-access-key` |
-| `R2_BUCKET_NAME` | R2 bucket adı | `jun-oro-assets` |
-| `R2_PUBLIC_URL` | R2 public URL | `https://assets.jun-oro.com` |
+| Değişken               | Açıklama               | Örnek                        |
+| ---------------------- | ---------------------- | ---------------------------- |
+| `R2_ACCOUNT_ID`        | Cloudflare hesap ID'si | `1234567890abcdef`           |
+| `R2_ACCESS_KEY_ID`     | R2 erişim anahtarı     | `access-key-id`              |
+| `R2_SECRET_ACCESS_KEY` | R2 gizli anahtar       | `secret-access-key`          |
+| `R2_BUCKET_NAME`       | R2 bucket adı          | `jun-oro-assets`             |
+| `R2_PUBLIC_URL`        | R2 public URL          | `https://assets.jun-oro.com` |
 
 ## 🔄 Build ve Deployment Süreçleri
 
 ### Frontend Build Süreci
+
 ```bash
 # Development build
 npm run build
@@ -451,6 +476,7 @@ npm run build -- --analyze
 ```
 
 ### Backend Build Süreci
+
 ```bash
 # Dependencies kurulumu
 npm ci --only=production
@@ -479,18 +505,18 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
-          node-version: '18'
-      
+          node-version: "18"
+
       - name: Install dependencies
         run: |
           npm ci
           cd backend && npm ci
-      
+
       - name: Run tests
         run: |
           npm run test
           cd backend && npm run test
-      
+
       - name: Build application
         run: |
           npm run build
@@ -501,7 +527,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      
+
       - name: Deploy to server
         uses: appleboy/ssh-action@v0.1.5
         with:
@@ -522,6 +548,7 @@ jobs:
 ## 🐳 Docker Kullanımı
 
 ### Geliştirme için Docker
+
 ```bash
 # Development container'ı başlat
 docker-compose -f docker-compose.dev.yml up
@@ -534,6 +561,7 @@ docker-compose logs -f backend
 ```
 
 ### Production için Docker
+
 ```bash
 # Production build
 docker-compose -f docker-compose.prod.yml build
@@ -546,6 +574,7 @@ docker-compose pull && docker-compose up -d
 ```
 
 ### Docker Optimizasyonları
+
 ```dockerfile
 # Multi-stage build
 FROM node:18-alpine AS builder
@@ -567,6 +596,7 @@ HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
 ## ☁️ Cloudflare R2 Entegrasyonu
 
 ### R2 Bucket Oluşturma
+
 ```bash
 # Wrangler CLI kur
 npm install -g wrangler
@@ -582,12 +612,13 @@ wrangler r2 bucket list
 ```
 
 ### File Upload Implementation
+
 ```javascript
 // backend/src/lib/cloudflareR2.js
-import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
+import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 
 const r2Client = new S3Client({
-  region: 'auto',
+  region: "auto",
   endpoint: `https://${process.env.R2_ACCOUNT_ID}.r2.cloudflarestorage.com`,
   credentials: {
     accessKeyId: process.env.R2_ACCESS_KEY_ID,
@@ -604,12 +635,13 @@ export async function uploadToR2(file, key) {
   });
 
   await r2Client.send(command);
-  
+
   return `${process.env.R2_PUBLIC_URL}/${key}`;
 }
 ```
 
 ### Public Access Ayarları
+
 ```bash
 # Custom domain ayarla
 wrangler r2 bucket configure jun-oro-assets --public-url=https://assets.jun-oro.com
@@ -627,35 +659,37 @@ wrangler r2 bucket put-cors jun-oro-assets --cors-configuration='[
 ## 🔍 Monitoring ve Debugging
 
 ### Health Check Endpoint
+
 ```javascript
 // backend/src/routes/health.js
-app.get('/health', async (req, res) => {
+app.get("/health", async (req, res) => {
   try {
     // Database bağlantısı kontrolü
     await prisma.$queryRaw`SELECT 1`;
-    
+
     // External API'ler kontrolü
     const igdbStatus = await checkIGDBHealth();
-    
+
     res.json({
-      status: 'healthy',
+      status: "healthy",
       timestamp: new Date().toISOString(),
       services: {
-        database: 'connected',
+        database: "connected",
         igdb: igdbStatus,
-        r2: 'connected'
-      }
+        r2: "connected",
+      },
     });
   } catch (error) {
     res.status(503).json({
-      status: 'unhealthy',
-      error: error.message
+      status: "unhealthy",
+      error: error.message,
     });
   }
 });
 ```
 
 ### Log Management
+
 ```bash
 # PM2 logları
 pm2 logs jun-oro-backend
@@ -669,16 +703,19 @@ sudo journalctl -u nginx -f
 ```
 
 ### Performance Monitoring
+
 ```javascript
 // Performance middleware
 app.use((req, res, next) => {
   const start = Date.now();
-  
-  res.on('finish', () => {
+
+  res.on("finish", () => {
     const duration = Date.now() - start;
-    console.log(`${req.method} ${req.path} - ${res.statusCode} - ${duration}ms`);
+    console.log(
+      `${req.method} ${req.path} - ${res.statusCode} - ${duration}ms`,
+    );
   });
-  
+
   next();
 });
 ```
@@ -688,6 +725,7 @@ app.use((req, res, next) => {
 ### Yaygın Sorunlar
 
 #### 1. Database Connection Error
+
 ```bash
 # PostgreSQL durumunu kontrol et
 sudo systemctl status postgresql
@@ -700,6 +738,7 @@ sudo netstat -tlnp | grep 5432
 ```
 
 #### 2. Port Already in Use
+
 ```bash
 # Port kullanan process'i bul
 sudo lsof -i :3000
@@ -709,6 +748,7 @@ sudo kill -9 <PID>
 ```
 
 #### 3. Permission Errors
+
 ```bash
 # Dosya izinlerini düzelt
 sudo chown -R www-data:www-data /var/www/jun-oro
@@ -716,6 +756,7 @@ sudo chmod -R 755 /var/www/jun-oro
 ```
 
 #### 4. SSL Certificate Issues
+
 ```bash
 # Sertifika durumunu kontrol et
 sudo certbot certificates
@@ -728,6 +769,7 @@ sudo nginx -t
 ```
 
 ### Debug Mode
+
 ```bash
 # Backend debug modu
 DEBUG=* npm run dev
@@ -739,6 +781,7 @@ VITE_ENABLE_DEBUG=true npm run dev
 ## 📈 Performance Optimizasyonu
 
 ### Frontend Optimizasyonu
+
 ```javascript
 // vite.config.js
 export default {
@@ -746,23 +789,24 @@ export default {
     rollupOptions: {
       output: {
         manualChunks: {
-          vendor: ['react', 'react-dom'],
-          router: ['react-router-dom'],
-          ui: ['lucide-react']
-        }
-      }
+          vendor: ["react", "react-dom"],
+          router: ["react-router-dom"],
+          ui: ["lucide-react"],
+        },
+      },
     },
-    chunkSizeWarningLimit: 1000
+    chunkSizeWarningLimit: 1000,
   },
   server: {
     hmr: {
-      overlay: false
-    }
-  }
+      overlay: false,
+    },
+  },
 };
 ```
 
 ### Backend Optimizasyonu
+
 ```javascript
 // Connection pooling
 const prisma = new PrismaClient({
@@ -771,7 +815,10 @@ const prisma = new PrismaClient({
       url: process.env.DATABASE_URL,
     },
   },
-  log: process.env.NODE_ENV === 'development' ? ['query', 'info', 'warn', 'error'] : ['error'],
+  log:
+    process.env.NODE_ENV === "development"
+      ? ["query", "info", "warn", "error"]
+      : ["error"],
 });
 
 // Compression middleware
@@ -779,6 +826,7 @@ app.use(compression());
 ```
 
 ### Nginx Optimizasyonu
+
 ```nginx
 # gzip compression
 gzip on;
@@ -796,16 +844,19 @@ location ~* \.(jpg|jpeg|png|gif|ico|css|js)$ {
 ## 🔮 Gelecek Geliştirmeler
 
 ### Otomatik Scaling
+
 - **Horizontal Pod Autoscaler**: Kubernetes için
 - **Load Balancer**: Multi-instance deployment
 - **CDN Integration**: Global content delivery
 
 ### Monitoring ve Alerting
+
 - **Prometheus + Grafana**: Metrics collection
 - **ELK Stack**: Log aggregation
 - **Uptime Monitoring**: Service availability
 
 ### Security İyileştirmeleri
+
 - **Rate Limiting**: API abuse prevention
 - **WAF**: Web Application Firewall
 - **Security Headers**: HTTP security headers

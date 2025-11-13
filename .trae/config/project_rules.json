@@ -1,0 +1,77 @@
+{
+  "criticalRules": [
+    {
+      "id": "no_user_deletion",
+      "description": "Do not delete users except with explicit request and confirmation",
+      "enforcement": "always",
+      "target": "backend",
+      "actions": ["block", "audit"],
+      "audit_message": "Attempt to delete user blocked by project rules"
+    },
+    {
+      "id": "element_registry_must_be_committed",
+      "description": "elementRegistry.json must be present and committed to repository",
+      "enforcement": "always",
+      "target": ["repo", "ci"],
+      "actions": ["audit", "fail_ci"],
+      "auto_fix": false,
+      "audit_message": "elementRegistry.json missing or dirty. Commit element registry before merging."
+    },
+    {
+      "id": "max_file_lines",
+      "description": "Files must not exceed configured maximum lines (enforced by CI and linting)",
+      "enforcement": "warn",
+      "target": ["ci", "dev"],
+      "actions": ["warn", "fail_ci_if_over_threshold"],
+      "threshold": 1200,
+      "auto_fix": false,
+      "audit_message": "File exceeds max lines; consider refactoring into smaller modules."
+    }
+  ],
+  "elementRegistry": {
+    "format": "[Page].[Subpage].[Zone][Element]",
+    "zones": {
+      "H": "Header",
+      "L": "Left Sidebar",
+      "R": "Right Sidebar",
+      "B": "Body",
+      "F": "Footer"
+    },
+    "storage": "elementRegistry.json",
+    "required": true
+  },
+  "fileOrganization": {
+    "strategy": "feature-based",
+    "naming": { "components": "PascalCase", "files": "kebab-case" },
+    "barrelExports": true,
+    "enforcement": "informational"
+  },
+  "components": {
+    "singleResponsibility": true,
+    "maxLines": 200,
+    "propsDestructuring": true,
+    "propTypesPreferred": true
+  },
+  "styling": {
+    "prefer": "tailwind",
+    "customClassesAllowed": true
+  },
+  "hooksState": {
+    "customHooksRequired": true,
+    "stateLocationPolicy": "nearest",
+    "useEffectDependencyStrict": true
+  },
+  "codeStyle": {
+    "maxFileLines": 1200,
+    "preferConst": true,
+    "arrowFunctions": true
+  },
+  "last_checks": [
+    {
+      "time": "2025-11-06T21:01:09.041Z",
+      "action": "dev_server_start",
+      "result": "ready",
+      "url": "http://localhost:3000/"
+    }
+  ]
+}

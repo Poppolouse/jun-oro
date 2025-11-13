@@ -9,6 +9,7 @@ Jun-Oro, oyuncular için tek bir merkezde oyun kütüphanelerini yönetme, oyun 
 ## 🛠️ Kullanılan Teknolojiler
 
 ### Frontend
+
 - **React 18** - Modern UI bileşenleri için
 - **Vite** - Hızlı geliştirme ve build süreci
 - **Tailwind CSS** - Utility-first CSS framework
@@ -17,6 +18,7 @@ Jun-Oro, oyuncular için tek bir merkezde oyun kütüphanelerini yönetme, oyun 
 - **React DnD** - Drag and drop functionality
 
 ### Backend
+
 - **Node.js** - JavaScript runtime
 - **Express.js** - Web framework
 - **Prisma** - Modern database toolkit
@@ -26,15 +28,18 @@ Jun-Oro, oyuncular için tek bir merkezde oyun kütüphanelerini yönetme, oyun 
 - **Bcrypt** - Password hashing
 
 ### External APIs
+
 - **IGDB API** - Oyun verileri
 - **Steam API** - Steam entegrasyonu
 - **HowLongToBeat API** - Oyun süreleri
 - **Metacritic API** - Oyun puanları
 
 ### Storage
+
 - **Cloudflare R2** - Dosya depolama
 
 ### Testing
+
 - **Vitest** - Unit testing
 - **Playwright** - E2E testing
 - **Jest** - Backend testing
@@ -42,17 +47,20 @@ Jun-Oro, oyuncular için tek bir merkezde oyun kütüphanelerini yönetme, oyun 
 ## 🚀 Kurulum Adımları
 
 ### Ön Gereksinimler
-- Node.js 18+ 
+
+- Node.js 18+
 - PostgreSQL 14+
 - Git
 
 ### 1. Projeyi Klonlama
+
 ```bash
 git clone https://github.com/Poppolouse/jun-oro.git
 cd jun-oro
 ```
 
 ### 2. Frontend Kurulumu
+
 ```bash
 # Ana dizinde
 npm install
@@ -63,6 +71,7 @@ cp .env.example .env
 ```
 
 ### 3. Backend Kurulumu
+
 ```bash
 # Backend dizinine geçiş
 cd backend
@@ -76,6 +85,7 @@ cp .env.example .env
 ```
 
 ### 4. Veritabanı Kurulumu
+
 ```bash
 # Backend dizininde
 npm run db:migrate
@@ -83,6 +93,7 @@ npm run db:generate
 ```
 
 ### 5. Uygulamayı Çalıştırma
+
 ```bash
 # Terminal 1 - Frontend
 npm run dev
@@ -126,6 +137,7 @@ jun-oro/
 ## 📋 Mevcut Komutlar
 
 ### Frontend Komutları
+
 ```bash
 npm run dev              # Geliştirme sunucusunu başlat
 npm run build            # Production build oluştur
@@ -136,6 +148,7 @@ npm run test:coverage    # Test coverage raporu
 ```
 
 ### Backend Komutları
+
 ```bash
 npm run dev              # Geliştirme sunucusunu başlat
 npm run start            # Production sunucusunu başlat
@@ -164,6 +177,7 @@ Projeye katkıda bulunmak için lütfen aşağıdaki dokümanları inceleyin:
 ## 🤝 Destek
 
 Sorularınız veya önerileriniz için:
+
 - GitHub Issues üzerinden issue oluşturun
 - [FAQ](docs/FAQ.md) sayfasını inceleyin
 

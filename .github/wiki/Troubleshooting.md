@@ -24,6 +24,7 @@ Jun-Oro projesini kullanırken karşılaşabileceğiniz yaygın sorunların çö
 **Sorun:** `Unsupported Node.js version` hatası alıyorum.
 
 **Çözüm:**
+
 ```bash
 # Node.js sürümünü kontrol et
 node --version
@@ -40,6 +41,7 @@ nvm use 18
 **Sorun:** `npm install` sırasında hata alıyorum.
 
 **Çözümler:**
+
 ```bash
 # 1. Cache'i temizle
 npm cache clean --force
@@ -57,6 +59,7 @@ npm install --force
 **Sorun:** `Port 3000 is already in use` hatası.
 
 **Çözümler:**
+
 ```bash
 # 1. Farklı port kullan
 npm run dev -- --port 3001
@@ -79,6 +82,7 @@ lsof -ti:3000 | xargs kill -9
 **Sorun:** Frontend backend'e bağlanamıyor.
 
 **Çözümler:**
+
 ```bash
 # 1. Backend'in çalıştığını kontrol et
 curl http://localhost:5000/api/health
@@ -91,17 +95,18 @@ cat backend/.env
 ```
 
 **Frontend proxy ayarı (vite.config.js):**
+
 ```javascript
 export default defineConfig({
   server: {
     proxy: {
-      '/api': {
-        target: 'http://localhost:5000',
-        changeOrigin: true
-      }
-    }
-  }
-})
+      "/api": {
+        target: "http://localhost:5000",
+        changeOrigin: true,
+      },
+    },
+  },
+});
 ```
 
 ### API Rate Limiting
@@ -109,6 +114,7 @@ export default defineConfig({
 **Sorun:** `Too Many Requests` hatası alıyorum.
 
 **Çözümler:**
+
 - API çağrılarını azalt
 - Request'leri batch yap
 - Cache kullan
@@ -123,6 +129,7 @@ export default defineConfig({
 **Sorun:** Database connection failed.
 
 **Çözümler:**
+
 ```bash
 # 1. PostgreSQL'in çalıştığını kontrol et
 pg_isready -h localhost -p 5432
@@ -142,6 +149,7 @@ npx prisma migrate reset
 **Sorun:** Migration sırasında hata alıyorum.
 
 **Çözümler:**
+
 ```bash
 # 1. Migration durumunu kontrol et
 npx prisma migrate status
@@ -161,6 +169,7 @@ npx prisma db push
 **Sorun:** `PrismaClient is unable to run` hatası.
 
 **Çözümler:**
+
 ```bash
 # 1. Client'i yeniden oluştur
 npx prisma generate
@@ -180,6 +189,7 @@ npx prisma generate
 **Sorun:** Uygulama açılıyor ama beyaz ekran görüyorum.
 
 **Çözümler:**
+
 ```bash
 # 1. Console'u kontrol et (F12)
 # JavaScript hatalarını kontrol et
@@ -192,6 +202,7 @@ npm run dev
 ```
 
 **Browser console'da kontrol et:**
+
 - JavaScript hataları
 - Network hataları
 - Console log'ları
@@ -201,6 +212,7 @@ npm run dev
 **Sorun:** Stiller düzgün yüklenmiyor.
 
 **Çözümler:**
+
 ```bash
 # 1. CSS import'larını kontrol et
 # src/index.css dosyasının import edildiğinden emin ol
@@ -217,13 +229,14 @@ npm run build
 **Sorun:** Component render hatası alıyorum.
 
 **Çözümler:**
+
 ```javascript
 // 1. Error boundary kullan
-import { ErrorBoundary } from 'react-error-boundary';
+import { ErrorBoundary } from "react-error-boundary";
 
 <ErrorBoundary fallback={<div>Something went wrong</div>}>
   <YourComponent />
-</ErrorBoundary>
+</ErrorBoundary>;
 
 // 2. PropTypes veya TypeScript kontrol et
 // Props'un doğru geçtiğinden emin ol
@@ -238,6 +251,7 @@ import { ErrorBoundary } from 'react-error-boundary';
 **Sorun:** Uygulama yavaş yükleniyor.
 
 **Çözümler:**
+
 ```bash
 # 1. Bundle boyutunu kontrol et
 npm run build
@@ -256,20 +270,21 @@ const LazyComponent = lazy(() => import('./Component'));
 **Sorun:** Sayfa değiştirdikçe RAM kullanımı artıyor.
 
 **Çözümler:**
+
 ```javascript
 // 1. useEffect cleanup'ları kontrol et
 useEffect(() => {
   const timer = setInterval(() => {}, 1000);
-  
+
   return () => clearInterval(timer); // Cleanup
 }, []);
 
 // 2. Event listener'ları temizle
 useEffect(() => {
   const handleResize = () => {};
-  window.addEventListener('resize', handleResize);
-  
-  return () => window.removeEventListener('resize', handleResize);
+  window.addEventListener("resize", handleResize);
+
+  return () => window.removeEventListener("resize", handleResize);
 }, []);
 ```
 
@@ -282,6 +297,7 @@ useEffect(() => {
 **Sorun:** Eklediğim oyunları göremiyorum.
 
 **Çözümler:**
+
 ```bash
 # 1. Database'i kontrol et
 npx prisma studio
@@ -299,6 +315,7 @@ curl -H "Authorization: Bearer <token>" \
 **Sorun:** Oyun kapak görselleri görünmüyor.
 
 **Çözümler:**
+
 ```bash
 # 1. Cloudflare R2 ayarlarını kontrol et
 # CORS ayarlarını kontrol et
@@ -319,6 +336,7 @@ curl -H "Authorization: Bearer <token>" \
 **Sorun:** Steam API key çalışmıyor.
 
 **Çözümler:**
+
 ```bash
 # 1. API key'i kontrol et
 echo $STEAM_API_KEY
@@ -335,6 +353,7 @@ echo $STEAM_API_KEY
 **Sorun:** Steam kütüphanesi import edilemiyor.
 
 **Çözümler:**
+
 ```bash
 # 1. Profile URL'sini kontrol et
 # https://steamcommunity.com/profiles/<steamid>/games
@@ -355,6 +374,7 @@ curl "https://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=$STEA
 **Sorun:** IGDB API key çalışmıyor.
 
 **Çözümler:**
+
 ```bash
 # 1. Client ID ve Secret'i kontrol et
 echo $IGDB_CLIENT_ID
@@ -373,6 +393,7 @@ curl -d "grant_type=client_credentials&client_id=$IGDB_CLIENT_ID&client_secret=$
 **Sorun:** IGDB'de oyun arama sonuçları boş geliyor.
 
 **Çözümler:**
+
 ```bash
 # 1. Search query'sini kontrol et
 # Minimum 3 karakter gerekli
@@ -393,6 +414,7 @@ curl -d "grant_type=client_credentials&client_id=$IGDB_CLIENT_ID&client_secret=$
 **Sorun:** Fiyat düşüşü bildirimlerini almıyorum.
 
 **Çözümler:**
+
 ```bash
 # 1. Notification settings'i kontrol et
 # User preferences'de bildirimlerin açık olduğundan emin ol
@@ -409,9 +431,10 @@ curl -d "grant_type=client_credentials&client_id=$IGDB_CLIENT_ID&client_secret=$
 **Sorun:** Browser bildirimleri görünmüyor.
 
 **Çözümler:**
+
 ```javascript
 // 1. Permission kontrol et
-Notification.requestPermission().then(permission => {
+Notification.requestPermission().then((permission) => {
   console.log(permission);
 });
 
@@ -431,6 +454,7 @@ Notification.requestPermission().then(permission => {
 **Sorun:** Testler başarısız oluyor.
 
 **Çözümler:**
+
 ```bash
 # 1. Test environment'ını kontrol et
 npm test -- --run
@@ -447,6 +471,7 @@ npm test -- --coverage
 **Sorun:** ESLint hataları alıyorum.
 
 **Çözümler:**
+
 ```bash
 # 1. Auto-fix
 npm run lint -- --fix
@@ -463,6 +488,7 @@ npm run lint -- --fix
 **Sorun:** TypeScript derleme hataları.
 
 **Çözümler:**
+
 ```bash
 # 1. Type check
 tsc --noEmit
@@ -481,31 +507,34 @@ tsc --noEmit
 ### Log'lama
 
 **Backend log'ları:**
+
 ```javascript
 // Structured logging kullan
 console.log({
   timestamp: new Date().toISOString(),
-  level: 'info',
-  message: 'User login attempt',
+  level: "info",
+  message: "User login attempt",
   userId: user.id,
-  ip: req.ip
+  ip: req.ip,
 });
 ```
 
 **Frontend log'ları:**
+
 ```javascript
 // Development'de detaylı log
-if (process.env.NODE_ENV === 'development') {
-  console.log('Debug info:', data);
+if (process.env.NODE_ENV === "development") {
+  console.log("Debug info:", data);
 }
 
 // Error boundary'de log
-console.error('Component error:', error, errorInfo);
+console.error("Component error:", error, errorInfo);
 ```
 
 ### Network Debugging
 
 **Browser DevTools:**
+
 1. Network tab'ı aç
 2. API request'lerini filtrele
 3. Request/Response'ları incele
@@ -513,6 +542,7 @@ console.error('Component error:', error, errorInfo);
 5. Headers'ları kontrol et
 
 **cURL komutları:**
+
 ```bash
 # GET request
 curl -v -H "Authorization: Bearer <token>" \
@@ -528,11 +558,13 @@ curl -v -X POST -H "Content-Type: application/json" \
 ### Database Debugging
 
 **Prisma Studio:**
+
 ```bash
 npx prisma studio
 ```
 
 **Raw SQL:**
+
 ```bash
 # PostgreSQL console
 psql -h localhost -U username -d database
@@ -546,13 +578,16 @@ SELECT * FROM "Game" LIMIT 10;
 ## 📞 Destek Kanalları
 
 ### Yardım İçin:
+
 1. **GitHub Issues:** [Proje Issues](https://github.com/username/jun-oro/issues)
 2. **Discord:** [Jun-Oro Community](https://discord.gg/jun-oro)
 3. **Documentation:** [Wiki Ana Sayfa](Home)
 4. **FAQ:** [Sıkça Sorulan Sorular](FAQ)
 
 ### Hata Raporlama:
+
 Hata raporu gönderirken şu bilgileri ekleyin:
+
 - Operating System ve sürümü
 - Node.js sürümü
 - Browser ve sürümü

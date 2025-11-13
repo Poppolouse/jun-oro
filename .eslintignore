@@ -1,0 +1,11 @@
+dist/
+dist/**
+ogit/
+ogit/**
+cloudflare-api2/.wrangler/
+cloudflare-api2/.wrangler/**
+cloudflare-api/
+.wrangler/
+*.min.js
+dist/**/*.js
+dist/**/*.css

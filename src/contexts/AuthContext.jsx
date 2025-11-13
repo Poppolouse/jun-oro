@@ -1,141 +1,219 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState, useEffect, useMemo } from "react";
 import { userService } from "../data/users";
 
-// API Base URL configuration
-const API_BASE_URL =
-  import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+/**
+ * @typedef {object} User
+ * @property {string} id - The user's ID.
+ * @property {string} username - The user's username.
+ * @property {string} email - The user's email.
+ * @property {string} role - The user's role (e.g., 'admin', 'user').
+ * @property {string} [profilePicture] - URL for the user's profile picture.
+ */
 
-const AuthContext = createContext();
+/**
+ * @typedef {object} AuthContextType
+ * @property {User|null} user - The currently authenticated user object, or null if not logged in.
+ * @property {boolean} isLoading - True while the initial user authentication check is in progress.
+ * @property {boolean} isAuthenticated - True if a user is authenticated.
+ * @property {boolean} isAdmin - True if the authenticated user has the 'admin' role.
+ * @property {(username, password) => Promise<{success: boolean, message?: string}>} login - Function to log in a user.
+ * @property {(userData) => Promise<{success: boolean, message?: string}>} register - Function to register a new user.
+ * @property {() => void} logout - Function to log out the current user.
+ * @property {(userData: Partial<User>) => void} updateUser - Function to update the current user's data in the context.
+ * @property {() => Promise<{success: boolean, user?: User}>} refreshUser - Function to refresh user data from the backend.
+ */
 
+/**
+ * Authentication context for managing user session and data.
+ * @type {import("react").Context<AuthContextType|undefined>}
+ */
+const AuthContext = createContext(undefined);
+
+/**
+ * Custom hook to access the authentication context.
+ *
+ * Throws an error if used outside of an AuthProvider.
+ * @returns {AuthContextType} The authentication context value.
+ */
 export const useAuth = () => {
   const context = useContext(AuthContext);
-  if (!context) {
+  if (context === undefined) {
     throw new Error("useAuth must be used within an AuthProvider");
   }
   return context;
 };
 
+/**
+ * Provides authentication state and actions to its children.
+ *
+ * Manages user authentication, session persistence in localStorage,
+ * and provides functions for login, logout, and registration.
+ * @param {object} props - The component props.
+ * @param {import("react").ReactNode} props.children - The child components to be wrapped by the provider.
+ * @returns {JSX.Element} The AuthProvider component.
+ */
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Sayfa yüklendiğinde localStorage'dan kullanıcı bilgilerini kontrol et
   useEffect(() => {
-    const savedUser = localStorage.getItem("arkade_user");
-    if (savedUser) {
+    /**
+     * Initializes the user session from localStorage on component mount.
+     */
+    const initializeAuth = async () => {
+      let savedUser = null;
       try {
-        const parsedUser = JSON.parse(savedUser);
-        setUser(parsedUser);
-        // Backend'den güncel kullanıcı verilerini çek
-        setTimeout(async () => {
-          try {
-            const response = await fetch(
-              `${API_BASE_URL}/users/${parsedUser.id}`,
-            );
-            const data = await response.json();
-            if (response.ok && data.success) {
-              const updatedUser = data.data;
-              setUser(updatedUser);
-              localStorage.setItem("arkade_user", JSON.stringify(updatedUser));
-            }
-          } catch (error) {
-            console.error("Error refreshing user data on startup:", error);
-          }
-        }, 100);
+        const userJson = localStorage.getItem("arkade_user");
+        if (userJson) {
+          savedUser = JSON.parse(userJson);
+        }
       } catch (error) {
-        console.error("Kullanıcı bilgileri parse edilemedi:", error);
+        console.error("Failed to parse user data from localStorage:", error);
         localStorage.removeItem("arkade_user");
       }
-    }
-    setIsLoading(false);
+
+      if (savedUser?.id) {
+        setUser(savedUser);
+        // Immediately try to refresh user data from the backend for consistency.
+        try {
+          const response = await fetch(
+            `${import.meta.env.VITE_API_URL}/users/${savedUser.id}`,
+          );
+          const data = await response.json();
+          if (response.ok && data.success) {
+            const updatedUser = data.data;
+            setUser(updatedUser);
+            localStorage.setItem("arkade_user", JSON.stringify(updatedUser));
+          } else {
+            // If the user is no longer valid on the backend, log them out.
+            logout();
+          }
+        } catch (error) {
+          console.error("Error refreshing user data on startup:", error);
+          // Potentially offline, proceed with stale data.
+        }
+      }
+      setIsLoading(false);
+    };
+
+    initializeAuth();
   }, []);
 
+  /**
+   * Logs in a user with the given credentials.
+   * @param {string} username - The user's username.
+   * @param {string} password - The user's password.
+   * @returns {Promise<{success: boolean, message?: string}>} An object indicating success or failure.
+   */
   const login = async (username, password) => {
     try {
       const result = await userService.login(username, password);
-
-      if (result.success) {
+      if (result.success && result.user) {
         setUser(result.user);
         localStorage.setItem("arkade_user", JSON.stringify(result.user));
-        // Login sonrası kullanıcıyı backend'den tazele (profil görselleri vb.)
-        try {
-          await refreshUser();
-        } catch {}
+        await refreshUser(); // Refresh to get latest data post-login.
         return { success: true };
-      } else {
-        return { success: false, message: result.message };
       }
+      return { success: false, message: result.message || "Invalid credentials." };
     } catch (error) {
-      return { success: false, message: "Giriş sırasında bir hata oluştu" };
+      console.error("Login error:", error);
+      return {
+        success: false,
+        message: error.message || "An unexpected error occurred during login.",
+      };
     }
   };
 
+  /**
+   * Registers a new user.
+   * Note: Does not automatically log the user in, as admin approval might be required.
+   * @param {object} userData - The new user's data.
+   * @returns {Promise<{success: boolean, message?: string}>} An object indicating success or failure.
+   */
   const register = async (userData) => {
     try {
       const result = await userService.register(userData);
-
-      if (result.success) {
-        // Admin onayı sistemi - kullanıcıyı otomatik login yapmıyoruz
-        // setUser(result.user)
-        // localStorage.setItem('arkade_user', JSON.stringify(result.user))
-        return { success: true, message: result.message };
-      } else {
-        return { success: false, message: result.message };
-      }
+      return {
+        success: result.success,
+        message: result.message,
+      };
     } catch (error) {
-      return { success: false, message: "Kayıt sırasında bir hata oluştu" };
+      console.error("Registration error:", error);
+      return {
+        success: false,
+        message: error.message || "An unexpected error occurred during registration.",
+      };
     }
   };
 
+  /**
+   * Logs out the current user and clears their session data.
+   */
   const logout = () => {
     setUser(null);
-    localStorage.removeItem("arkade_user");
+    try {
+      localStorage.removeItem("arkade_user");
+    } catch (error) {
+      console.error("Failed to remove user from localStorage:", error);
+    }
   };
 
-  const updateUser = (userData) => {
-    const updatedUser = { ...user, ...userData };
+  /**
+   * Updates the authenticated user's data in the context and localStorage.
+   * @param {Partial<User>} newUserData - An object with the user properties to update.
+   */
+  const updateUser = (newUserData) => {
+    if (!user) return;
+    const updatedUser = { ...user, ...newUserData };
     setUser(updatedUser);
-    localStorage.setItem("arkade_user", JSON.stringify(updatedUser));
+    try {
+      localStorage.setItem("arkade_user", JSON.stringify(updatedUser));
+    } catch (error) {
+      console.error("Failed to save updated user to localStorage:", error);
+    }
   };
 
+  /**
+   * Fetches the latest user data from the backend and updates the context.
+   * @returns {Promise<{success: boolean, user?: User}>} An object indicating success and containing the updated user.
+   */
   const refreshUser = async () => {
-    if (!user?.id) return;
+    if (!user?.id) {
+      return { success: false };
+    }
 
     try {
-      const response = await fetch(`${API_BASE_URL}/users/${user.id}`);
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/users/${user.id}`,
+      );
       const data = await response.json();
 
       if (response.ok && data.success) {
-        const updatedUser = data.data;
-        setUser(updatedUser);
-        localStorage.setItem("arkade_user", JSON.stringify(updatedUser));
-        return { success: true, user: updatedUser };
+        updateUser(data.data);
+        return { success: true, user: data.data };
       }
+      return { success: false };
     } catch (error) {
       console.error("Error refreshing user data:", error);
+      return { success: false };
     }
-    return { success: false };
   };
 
-  const isAdmin = () => {
-    return user?.role === "admin";
-  };
-
-  const isAuthenticated = () => {
-    return !!user;
-  };
-
-  const value = {
-    user,
-    isLoading,
-    login,
-    register,
-    logout,
-    updateUser,
-    refreshUser,
-    isAdmin,
-    isAuthenticated,
-  };
+  // Memoize the context value to prevent unnecessary re-renders of consumers.
+  const value = useMemo(
+    () => ({
+      user,
+      isLoading,
+      isAuthenticated: !!user,
+      isAdmin: user?.role === "admin",
+      login,
+      register,
+      logout,
+      updateUser,
+      refreshUser,
+    }),
+    [user, isLoading],
+  );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

@@ -5,6 +5,7 @@
 ### Varsayım Yapma (Assumption Gate)
 
 **Her zaman sor:**
+
 - Config/credentials (Database URL, API keys)
 - Dil sayısı (1 mi, çoklu mu?)
 - Belirsiz tasarım kararları
@@ -12,6 +13,7 @@
 - Feature scope belirsizse
 
 **Sorma (dokümanlarda var):**
+
 - DESIGN-SYSTEM.md'de tanımlı değerler
 - DESIGN-PREFERENCES.md'de kayıtlı tercihler
 - Mevcut pattern'ler ve conventions
@@ -21,6 +23,7 @@
 ## 📚 Context Loading
 
 ### Her session başında otomatik oku:
+
 - docs/DESIGN-SYSTEM.md
 - docs/DESIGN-PREFERENCES.md
 - docs/CODING-STANDARDS.md
@@ -29,6 +32,7 @@
 - package.json
 
 ### İhtiyaç olursa oku:
+
 - Benzer component'ler (tasarım tutarlılığı için)
 - Mevcut API routes (yeni endpoint eklerken)
 - İlgili utility fonksiyonlar
@@ -38,10 +42,12 @@
 ## 📏 Coding Standards
 
 ### Dosya ve Fonksiyon Boyutları
+
 - **Dosya:** Max 300 satır (ideal), 500+ refactor gerekli
 - **Fonksiyon:** Max 50 satır (ideal), 100+ refactor gerekli
 
 ### Naming Conventions
+
 - **Değişkenler:** camelCase, açıklayıcı
 - **Fonksiyonlar:** camelCase, fiil ile başla (getUserById, handleClick)
 - **Boolean'lar:** Soru şeklinde (isActive, hasPermission)
@@ -54,9 +60,9 @@
 ```javascript
 /**
  * Fonksiyonun ne yaptığını tek cümle ile açıkla
- * 
+ *
  * Detay gerekirse buraya
- * 
+ *
  * @param {type} name - açıklama
  * @returns {type} açıklama
  */
@@ -67,12 +73,14 @@
 - TODO ve FIXME kullan
 
 ### Clean Code Prensipleri
+
 - **DRY:** Kod tekrarı yapma, fonksiyona çıkar
 - **Single Responsibility:** Bir fonksiyon bir şey yapsın
 - **Early Return:** Guard clauses kullan, iç içe if'lerden kaçın
 - **Magic Numbers:** Constant'a çevir
 
 ### Error Handling
+
 - Her async fonksiyonda try-catch
 - Log'a detaylı, kullanıcıya basit mesaj
 - Input validation her zaman (frontend + backend)
@@ -82,9 +90,11 @@
 ## 🔢 ERS (Element Registry System)
 
 ### Format
+
 `PAGE.SECTION.CONTAINER.ELEMENT`
 
 Örnek: `1.3.1.2`
+
 - 1: HomePage
 - 3: Body section
 - 1: GameGrid container
@@ -95,20 +105,19 @@
 ```jsx
 <div data-ers="1.3.1" className="game-grid">
   {games.map((game, i) => (
-    <GameCard
-      data-ers={`1.3.1.${i+1}`}
-      {...game}
-    />
+    <GameCard data-ers={`1.3.1.${i + 1}`} {...game} />
   ))}
 </div>
 ```
 
 ### Registry Güncelleme
+
 - Her yeni element → docs/ERS-REGISTRY.md'ye kaydet
 - Element silindi → güncelle
 - Hiyerarşi değişti → düzelt
 
 ### Kayıt İçeriği
+
 - ERS kodu
 - Element adı ve açıklama
 - Dosya yolu ve satır numarası
@@ -121,6 +130,7 @@
 ## 🎨 Design System
 
 ### Renk Paleti (Claude-inspired)
+
 - Background: `#F5F3EE` (warm cream)
 - Card: `#EEEAE4` (light beige)
 - Text Primary: `#2D2A26` (dark brown)
@@ -128,31 +138,37 @@
 - Accent: `#D97757` (warm terracotta)
 
 ### Neumorphism Shadows
+
 - Outer: `5px 5px 10px rgba(0,0,0,0.1), -5px -5px 10px rgba(255,255,255,0.7)`
 - Inset: `inset 2px 2px 5px rgba(255,255,255,0.5), inset -2px -2px 5px rgba(0,0,0,0.1)`
 
 ### Spacing Scale
+
 - Base: 8px
 - Standard: 16px, 24px, 32px
 - Large: 48px, 64px
 
 ### Border Radius
+
 - Default: 16-20px
 - Buttons: 12px
 - Small elements: 8px
 
 ### Typography
+
 - Font: Inter
 - Title: 20-24px, weight 600
 - Body: 14-16px, weight 400
 - Line height: 1.5
 
 ### Animation
+
 - Duration: 300-500ms (subtle animations preferred)
 - Easing: ease-in-out
 - Hover: Lift (-4px) + Glow
 
 ### Desktop Only Resolutions
+
 - 1920x1080 (base)
 - 2560x1440
 - 2560x1080 (ultrawide)
@@ -163,6 +179,7 @@
 ## 📱 Command Kuralları
 
 ### Çalıştırabilirsin (Sonlu)
+
 - `npm run lint`
 - `npm run lint -- --fix`
 - `tsc --noEmit`
@@ -172,6 +189,7 @@
 - `prettier --write .`
 
 ### Çalıştıramazsın (Sonsuz)
+
 - `npm run dev` → "Terminal'de manuel çalıştır" de
 - `npm start`
 - `node server.js`
@@ -182,25 +200,27 @@
 ## 📝 Docs Standartları
 
 ### User Guide
+
 - Senli benli dil
 - Kod yok, sadece kullanım talimatları
 - Adım adım rehber
 - Her seviyeden kullanıcı anlayabilir
 
 ### Developer Docs
+
 - Teknik ama anlaşılır
 - Yeni başlayan öğrenciler hedef kitle
 - Code examples bol
 - Mermaid diagrams kullan
 - Bölümler:
-  * Overview
-  * Architecture (diagram)
-  * Database Schema
-  * API Reference
-  * Frontend Components
-  * Algorithms (varsa)
-  * Testing
-  * ERS Mapping
+  - Overview
+  - Architecture (diagram)
+  - Database Schema
+  - API Reference
+  - Frontend Components
+  - Algorithms (varsa)
+  - Testing
+  - ERS Mapping
 
 ---
 
@@ -237,23 +257,27 @@
 ## WORKFLOW 1: Feature Development
 
 ### Trigger
+
 Yeni feature isteği geldiğinde
 
 ### Steps
 
 #### 1. Task Parçalama
+
 - Büyük task'ı mantıksal parçalara böl
 - Her parça 5-10 dakika olsun
 - Tüm adımları listele
 - Tahmini süreleri belirt
 
 #### 2. Database (Varsa)
+
 - prisma/schema.prisma kontrol et
 - Model gerekli mi?
 - Model ekle/güncelle
 - Migration talimatı ver
 
 #### 3. API Endpoints (Backend gerekirse)
+
 - .env config kontrolü
 - Eksik değişken varsa iste
 - Route/controller yaz
@@ -261,23 +285,28 @@ Yeni feature isteği geldiğinde
 - Error handling
 
 #### 4. Tasarım (UI gerekirse)
+
 → WORKFLOW 2: Design çalıştır
 
 #### 5. Frontend Implementation
+
 - Component'leri oluştur
 - State management (Zustand)
 - API integration
 - ERS kodlarını ekle
 
 #### 6. Testing
+
 - Kullanıcı test etsin (npm run dev)
 - Hata varsa düzelt
 - Onay al
 
 #### 7. Dokümantasyon
+
 → WORKFLOW 6: Documentation çalıştır
 
 #### 8. Progress Tracking
+
 - Markdown checklist oluştur
 - Her adımda güncelle
 - Timestamp ekle
@@ -287,44 +316,48 @@ Yeni feature isteği geldiğinde
 ## WORKFLOW 2: Design
 
 ### Trigger
+
 Yeni UI component veya page isteği
 
 ### Steps
 
 #### 1. Coherence Check (Tutarlılık)
+
 - Mevcut component'leri/sayfaları tara
 - Pattern'leri çıkar:
-  * Renkler
-  * Spacing
-  * Shadows
-  * Layouts
-  * Animations
+  - Renkler
+  - Spacing
+  - Shadows
+  - Layouts
+  - Animations
 - Uyumsuzluk varsa uyar
 - Tutarlı tasarım öner
 
 #### 2. Preference Learning
+
 - docs/DESIGN-PREFERENCES.md oku
 - Geçmiş tercihleri analiz et
 - Güven seviyesine göre karar ver:
-  * 0-10 seçim: 3 seçenek sun
-  * 10-20 seçim: 2 seçenek sun
-  * 20+ seçim: 1 öneri sun (emin ol)
+  - 0-10 seçim: 3 seçenek sun
+  - 10-20 seçim: 2 seçenek sun
+  - 20+ seçim: 1 öneri sun (emin ol)
 
 #### 3. Visual Preview Oluştur
+
 - `docs/design-archive/preview-[name].html` oluştur
 - Her seçenek için:
-  * Gerçek görünüm
-  * Hover çalışır halde
-  * Artı/eksi listesi
+  - Gerçek görünüm
+  - Hover çalışır halde
+  - Artı/eksi listesi
 - Design Playground ekle:
-  * **BASIC:** Her zaman görünür
+  - **BASIC:** Her zaman görünür
     - Width, height, padding
     - Colors (background, text, accent)
     - Shadow intensity
     - Border radius
     - Typography (title/body size)
     - Animation (type, speed)
-  * **ADVANCED:** Toggle ile aç
+  - **ADVANCED:** Toggle ile aç
     - Detailed shadows (offset, blur, opacity)
     - Individual corners
     - Transform (skew)
@@ -337,26 +370,30 @@ Yeni UI component veya page isteği
 - "Use These Settings" butonu
 
 #### 4. Seçim & Tweak
+
 - Kullanıcı seçsin
 - İsterse playground'da oynasın
 - Onayladıktan sonra implement et
 
 #### 5. Preference Kaydet
+
 - docs/DESIGN-PREFERENCES.md güncelle
 - Seçilen ve reddedilen seçenekler
 - Sebepleri kaydet (varsa)
 - Pattern'leri çıkar:
-  * Renk tercihi (warm/cool)
-  * Layout tercihi (grid/list)
-  * Animation hızı (fast/slow)
-  * Spacing (tight/spacious)
+  - Renk tercihi (warm/cool)
+  - Layout tercihi (grid/list)
+  - Animation hızı (fast/slow)
+  - Spacing (tight/spacious)
 
 #### 6. Implement
+
 - Seçilen tasarımı kodla
 - ERS kodlarını ekle
 - DESIGN-SYSTEM.md'ye uygun ol
 
 #### 7. Real Test
+
 - npm run dev talimatı ver
 - Preview ile gerçeği karşılaştır
 - Hata/tweak varsa düzelt
@@ -366,6 +403,7 @@ Yeni UI component veya page isteği
 ## WORKFLOW 3: Error Fixing
 
 ### Trigger
+
 - Build hataları
 - Lint hataları
 - TypeScript hataları
@@ -374,6 +412,7 @@ Yeni UI component veya page isteği
 ### Steps
 
 #### 1. Hata Tarama
+
 Sırayla çalıştır:
 
 ```bash
@@ -383,7 +422,9 @@ npm run build
 ```
 
 #### 2. Kategorize
+
 Hataları grupla:
+
 - **Critical:** Build fails
 - **TypeScript Errors:** Type issues
 - **ESLint Warnings:** Code style
@@ -394,14 +435,17 @@ Hataları grupla:
 📊 Hata Raporu:
 
 ## Critical (1)
+
 - src/api/games.js:42 - Syntax error
 
 ## TypeScript Errors (5)
+
 - src/components/GameCard.tsx:15 - Type error
 
 ...
 
 ## ESLint Warnings (8)
+
 - src/utils/helpers.js:10 - Unused variable
 
 ...
@@ -416,6 +460,7 @@ prettier --write .
 ```
 
 #### 5. Manuel Fix
+
 - TypeScript errors düzelt
 - Import errors düzelt
 - Syntax errors düzelt
@@ -431,6 +476,7 @@ npm test
 #### 7. Rapor
 
 ✅ Düzeltme Tamamlandı!
+
 - 8 ESLint (auto-fix)
 - 5 TypeScript (manuel)
 - 1 Syntax (manuel)
@@ -443,36 +489,40 @@ Tests: ✅ Pass
 ## WORKFLOW 4: Testing
 
 ### Trigger
+
 Manuel istek: "Test yaz"
 
 ### Steps
 
 #### 1. Scope Belirle
+
 - Hangi fonksiyon/component?
 - Unit mi, integration mi?
 
 #### 2. Test Dosyası Oluştur
+
 - `[name].test.js` veya `[name].test.jsx`
 - Test framework: Vitest
 
 #### 3. Test Senaryoları Yaz
+
 - **Happy path:** Normal kullanım
-- **Edge cases:** 
-  * Boş input
-  * Null/undefined
-  * Çok büyük/küçük değerler
+- **Edge cases:**
+  - Boş input
+  - Null/undefined
+  - Çok büyük/küçük değerler
 - **Error cases:**
-  * Invalid input
-  * Network errors
-  * Validation failures
+  - Invalid input
+  - Network errors
+  - Validation failures
 
 #### 4. Test Yaz
 
 ```javascript
-describe('functionName', () => {
-  it('normal kullanım - beklenen sonuç');
-  it('boş input - uygun davranış');
-  it('invalid input - hata fırlatır');
+describe("functionName", () => {
+  it("normal kullanım - beklenen sonuç");
+  it("boş input - uygun davranış");
+  it("invalid input - hata fırlatır");
 });
 ```
 
@@ -483,12 +533,14 @@ npm test
 ```
 
 #### 6. Coverage Kontrol
+
 - Public fonksiyonlar %100 hedef
 - Component'ler critical path'ler
 
 #### 7. Rapor
 
 ✅ Test Tamamlandı!
+
 - 12 tests written
 - 12/12 passed
 - Coverage: 95%
@@ -498,36 +550,42 @@ npm test
 ## WORKFLOW 5: Refactoring
 
 ### Trigger
+
 Manuel istek: "Refactor et" veya dosya 300+ satır
 
 ### Steps
 
 #### 1. Analiz
+
 - Dosya/component'i oku
 - Code smell'leri tespit et:
-  * Uzun dosya (300+ satır)
-  * Uzun fonksiyon (50+ satır)
-  * Duplicate code
-  * Deep nesting (3+)
-  * Magic numbers
-  * Poor naming
-  * God functions
+  - Uzun dosya (300+ satır)
+  - Uzun fonksiyon (50+ satır)
+  - Duplicate code
+  - Deep nesting (3+)
+  - Magic numbers
+  - Poor naming
+  - God functions
 
 #### 2. Refactoring Planı
+
 - Neyi nereye taşıyacağız?
 - Hangi fonksiyonları böleceğiz?
 - Hangi code'u extract edeceğiz?
 
 #### 3. Onay Al
+
 Planı sun, onay al
 
 #### 4. Refactor (Küçük Adımlar)
+
 - Bir değişiklik yap
 - Test et (functionality korunmalı)
 - Commit et
 - Sonraki adım
 
 #### 5. Verify
+
 - Tüm testler pass ediyor mu?
 - Build başarılı mı?
 - Functionality aynı mı?
@@ -539,17 +597,20 @@ Planı sun, onay al
 ## WORKFLOW 6: Documentation
 
 ### Trigger
+
 Task tamamlandığında: "Docs güncelleyeyim mi?"
 
 ### Steps
 
 #### 1. Scope Belirle
+
 - Hangi feature eklendi/değişti?
 - User guide gerekli mi?
 - Developer docs gerekli mi?
 - ERS registry güncelleme gerekli mi?
 
 #### 2. User Guide Güncelle
+
 Dosya: `docs/user-guide/[category]/[feature].md`
 
 Format:
@@ -559,17 +620,20 @@ Format:
 ## WORKFLOW 6: Documentation
 
 ### Trigger
+
 Task tamamlandığında: "Docs güncelleyeyim mi?"
 
 ### Steps
 
 #### 1. Scope Belirle
+
 - Hangi feature eklendi/değişti?
 - User guide gerekli mi?
 - Developer docs gerekli mi?
 - ERS registry güncelleme gerekli mi?
 
 #### 2. User Guide Güncelle
+
 Dosya: `docs/user-guide/[category]/[feature].md`
 
 Format:
@@ -577,6 +641,7 @@ Format:
 ---
 
 #### 3. Developer Docs Güncelle
+
 Dosya: `docs/developer/features/[feature].md`
 
 Format:
@@ -584,40 +649,50 @@ Format:
 # Feature Adı
 
 ## Overview
+
 Kısa açıklama
 
 ## Architecture
+
 [Mermaid diagram]
 
 ## Database Schema
+
 Prisma model + açıklama
 
 ## API Reference
+
 - Endpoint list
 - Request/response
 - Validation rules
 
 ## Frontend Components
+
 - ERS kodları
 - Props
 - State
 - Behavior
 
 ## Algorithms (varsa)
+
 - Pseudocode
 - Complexity
 - Edge cases
 
 ## Testing
+
 Test stratejisi
 
 ## ERS Mapping
+
 Tablo
 
 #### 4. ERS Registry Güncelle
+
 Dosya: `docs/ERS-REGISTRY.md`
 
 Her yeni element için:
+
 - ERS kodu
 - Element adı
 - Dosya yolu
@@ -627,9 +702,11 @@ Her yeni element için:
 - Preview link
 
 #### 5. Design Preferences Güncelle (Varsa)
+
 Dosya: `docs/DESIGN-PREFERENCES.md`
 
 Tasarım seçimi yapıldıysa:
+
 - Seçilen seçenek
 - Reddedilen seçenekler
 - Pattern güncellemesi
@@ -663,10 +740,11 @@ Her workflow birbirini çağırabilir, modüler yapı.
 ### Frontend Standartları
 
 #### Component Yapısı
+
 ```jsx
 // Component şablonu
-import React from 'react';
-import { useState, useEffect } from 'react';
+import React from "react";
+import { useState, useEffect } from "react";
 
 /**
  * Component açıklaması
@@ -675,28 +753,25 @@ import { useState, useEffect } from 'react';
  */
 export default function ComponentName({ prop1, prop2 }) {
   const [state, setState] = useState(initialValue);
-  
+
   useEffect(() => {
     // Side effect logic
   }, [dependency]);
-  
+
   // Early return pattern
   if (!condition) {
     return null;
   }
-  
-  return (
-    <div className="component-name">
-      {/* JSX content */}
-    </div>
-  );
+
+  return <div className="component-name">{/* JSX content */}</div>;
 }
 ```
 
 #### Hook Yapısı
+
 ```jsx
 // Custom hook şablonu
-import { useState, useCallback } from 'react';
+import { useState, useCallback } from "react";
 
 /**
  * Hook açıklaması
@@ -705,19 +780,20 @@ import { useState, useCallback } from 'react';
  */
 export function useCustomHook(param) {
   const [state, setState] = useState(initialState);
-  
+
   const action = useCallback(() => {
     // Action logic
   }, [dependencies]);
-  
+
   return [state, action];
 }
 ```
 
 #### API Service Yapısı
+
 ```javascript
 // Service şablonu
-import api from './api.js';
+import api from "./api.js";
 
 /**
  * Service açıklaması
@@ -726,10 +802,10 @@ import api from './api.js';
  */
 export async function serviceFunction(data) {
   try {
-    const response = await api.post('/endpoint', data);
+    const response = await api.post("/endpoint", data);
     return response.data;
   } catch (error) {
-    console.error('Service error:', error);
+    console.error("Service error:", error);
     throw error;
   }
 }
@@ -738,12 +814,13 @@ export async function serviceFunction(data) {
 ### Backend Standartları
 
 #### Route Yapısı
+
 ```javascript
 // Route şablonu
-import { Router } from 'express';
-import { z } from 'zod';
-import { validateRequest } from '../middleware/validation.js';
-import { authenticateToken } from '../middleware/auth.js';
+import { Router } from "express";
+import { z } from "zod";
+import { validateRequest } from "../middleware/validation.js";
+import { authenticateToken } from "../middleware/auth.js";
 
 const router = Router();
 
@@ -757,28 +834,30 @@ const schema = z.object({
  * @route POST /api/endpoint
  * @access Private
  */
-router.post('/endpoint', 
+router.post(
+  "/endpoint",
   authenticateToken,
   validateRequest(schema),
   async (req, res, next) => {
     try {
       // Business logic
       const result = await processRequest(req.body);
-      
+
       res.json({
         success: true,
-        data: result
+        data: result,
       });
     } catch (error) {
       next(error);
     }
-  }
+  },
 );
 
 export default router;
 ```
 
 #### Middleware Yapısı
+
 ```javascript
 // Middleware şablonu
 /**
@@ -789,11 +868,11 @@ export default router;
  */
 export function middlewareFunction(req, res, next) {
   // Middleware logic
-  
+
   if (error) {
     return next(error);
   }
-  
+
   next();
 }
 ```
@@ -801,6 +880,7 @@ export function middlewareFunction(req, res, next) {
 ### Database Standartları
 
 #### Prisma Model Yapısı
+
 ```prisma
 // Model şablonu
 model ModelName {
@@ -810,7 +890,7 @@ model ModelName {
   field3    DateTime  @default(now())
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
-  
+
   @@map("table_name")
   @@index([field1])
   @@unique([field2, field3])
@@ -818,10 +898,11 @@ model ModelName {
 ```
 
 #### Migration Yapısı
+
 ```sql
 -- Migration şablonu
 -- Migration: add_new_feature
-ALTER TABLE table_name 
+ALTER TABLE table_name
 ADD COLUMN new_column VARCHAR(255) DEFAULT NULL;
 
 -- Index ekle
@@ -831,13 +912,14 @@ CREATE INDEX idx_table_new_column ON table_name(new_column);
 ### Test Standartları
 
 #### Test Dosyası Yapısı
+
 ```javascript
 // Test şablonu
-import { describe, it, expect, beforeEach, afterEach } from 'vitest';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import ComponentName from './ComponentName';
+import { describe, it, expect, beforeEach, afterEach } from "vitest";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import ComponentName from "./ComponentName";
 
-describe('ComponentName', () => {
+describe("ComponentName", () => {
   beforeEach(() => {
     // Setup before each test
   });
@@ -846,20 +928,20 @@ describe('ComponentName', () => {
     // Cleanup after each test
   });
 
-  it('should render correctly', () => {
+  it("should render correctly", () => {
     render(<ComponentName />);
-    
-    expect(screen.getByTestId('component-element')).toBeInTheDocument();
+
+    expect(screen.getByTestId("component-element")).toBeInTheDocument();
   });
 
-  it('should handle user interactions', async () => {
+  it("should handle user interactions", async () => {
     render(<ComponentName />);
-    
-    const button = screen.getByRole('button');
+
+    const button = screen.getByRole("button");
     await fireEvent.click(button);
-    
+
     await waitFor(() => {
-      expect(screen.getByText('Expected text')).toBeInTheDocument();
+      expect(screen.getByText("Expected text")).toBeInTheDocument();
     });
   });
 });
@@ -868,6 +950,7 @@ describe('ComponentName', () => {
 ### Dosya Organizasyonu Kuralları
 
 #### Frontend Dosya Yapısı
+
 ```
 src/
 ├── components/
@@ -885,6 +968,7 @@ src/
 ```
 
 #### Backend Dosya Yapısı
+
 ```
 backend/src/
 ├── routes/                # API routes
@@ -901,6 +985,7 @@ backend/src/
 ## 🔧 Geliştirme Araçları ve Kuralları
 
 ### VS Code Extension'ları
+
 - ES7+ React/Redux/React-Native snippets
 - Prettier - Code formatter
 - ESLint - JavaScript/React linter
@@ -910,6 +995,7 @@ backend/src/
 - Thunder Client (for API testing)
 
 ### Git Kuralları
+
 ```bash
 # Branch naming
 feature/feature-name
@@ -927,6 +1013,7 @@ docs(readme): update installation guide
 ```
 
 ### Performance Optimizasyonu
+
 - React.memo kullanım
 - useMemo ve useCallback kullanımı
 - Lazy loading
@@ -939,6 +1026,7 @@ docs(readme): update installation guide
 ## 📊 Kod Kalitesi ve Metrikler
 
 ### Kalite Metrikleri
+
 - **Test Coverage**: %80+ hedef
 - **Code Complexity**: Cyclomatic complexity < 10
 - **Duplicate Code**: < 3% hedef
@@ -946,6 +1034,7 @@ docs(readme): update installation guide
 - **Performance**: Lighthouse skoru > 90
 
 ### Review Checklist'i
+
 - [ ] Kod okunabilir mi?
 - [ ] Test coverage yeterli mi?
 - [ ] Performans etkisi kabul edilebilir mi?
@@ -958,18 +1047,21 @@ docs(readme): update installation guide
 ## 🚨 Güvenlik Standartları
 
 ### Input Validation
+
 - Frontend: Form validation
 - Backend: Zod schema validation
 - API: Request/response validation
 - Database: Constraint validation
 
 ### Authentication & Authorization
+
 - JWT token kullanımı
 - Role-based access control
 - API rate limiting
 - Session management
 
 ### Veri Güvenliği
+
 - Hassas veri şifreleme
 - SQL injection önleme
 - XSS koruması
@@ -980,12 +1072,14 @@ docs(readme): update installation guide
 ## 📈 Performans Standartları
 
 ### Frontend Performans
+
 - Bundle size < 1MB (gzipped)
 - First Contentful Paint < 1.5s
 - Largest Contentful Paint < 2.5s
 - Time to Interactive < 3s
 
 ### Backend Performans
+
 - API response time < 500ms
 - Database query time < 100ms
 - Memory usage < 512MB
@@ -996,12 +1090,14 @@ docs(readme): update installation guide
 ## 🔍 Debugging Standartları
 
 ### Logging
+
 - Structured logging kullan
 - Log seviyeleri (error, warn, info, debug)
 - Sensitive verileri log'a ekleme
 - Performance logging
 
 ### Error Handling
+
 - Global error handler
 - Graceful degradation
 - User-friendly error messages
@@ -1012,12 +1108,14 @@ docs(readme): update installation guide
 ## 📝 Dokümantasyon Standartları
 
 ### Kod Dokümantasyonu
+
 - JSDoc comments
 - API documentation (Swagger)
 - README güncel tutma
 - Inline comments for complex logic
 
 ### README Yapısı
+
 - Proje açıklaması
 - Kurulum talimatları
 - Kullanım örnekleri
@@ -1027,3 +1125,5 @@ docs(readme): update installation guide
 ---
 
 Bu kurallar, Jun-Oro projesinin tutarlı, kaliteli ve bakımı kolay bir kod tabanı oluşturmak için tasarlanmıştır. Tüm geliştiricilerin bu standartlara uyması beklenir.
+
+Powershell üzerinden komut çalıştırırken && yerine powershell için uygun bir şey kullan. ; kullanabilirsin

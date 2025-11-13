@@ -9,6 +9,7 @@ Jun-Oro platformu, veritabanı yönetimi için **PostgreSQL** ve **Prisma ORM** 
 ### Temel Modeller
 
 #### User Modeli
+
 ```sql
 CREATE TABLE users (
   id              TEXT PRIMARY KEY,
@@ -27,12 +28,14 @@ CREATE TABLE users (
 ```
 
 **Açıklama:**
+
 - `id`: CUID formatında benzersiz kullanıcı kimliği
 - `role`: 'user', 'admin', 'moderator' değerlerini alabilir
 - `status`: 'pending', 'active', 'suspended' durumlarını takip eder
 - `profileImageKey`: Cloudflare R2'deki dosya silmek için kullanılır
 
 #### Game Modeli
+
 ```sql
 CREATE TABLE games (
   id               TEXT PRIMARY KEY,
@@ -56,12 +59,14 @@ CREATE TABLE games (
 ```
 
 **Açıklama:**
+
 - `id`: External API'lerden gelen oyun ID'si
 - `JSONB` alanları: Esnek veri depolama için kullanılır
 - `cachedAt`: Verinin ne zaman önbelleğe alındığını takip eder
 - `accessCount`: Popüler oyunları belirlemek için kullanılır
 
 #### LibraryEntry Modeli
+
 ```sql
 CREATE TABLE library_entries (
   id         TEXT PRIMARY KEY,
@@ -83,6 +88,7 @@ CREATE TABLE library_entries (
 ```
 
 **Açıklama:**
+
 - `category`: 'wishlist', 'playing', 'completed', 'backlog' değerlerini alabilir
 - `priority`: 1 (yüksek) - 5 (düşük) öncelik skalası
 - `tags`: Etiketleme sistemi için JSON formatında veri
@@ -90,6 +96,7 @@ CREATE TABLE library_entries (
 ### İlişkisel Modeller
 
 #### GameSession Modeli
+
 ```sql
 CREATE TABLE game_sessions (
   id        TEXT PRIMARY KEY,
@@ -107,11 +114,13 @@ CREATE TABLE game_sessions (
 ```
 
 **Açıklama:**
+
 - `isActive`: Aktif oturumları takip etmek için
 - `campaigns`: Oyun içindeki kampanya/hikaye ilerlemesi
 - `playtime`: Saniye cinsinden oyun süresi
 
 #### Campaign Modeli
+
 ```sql
 CREATE TABLE campaigns (
   id               TEXT PRIMARY KEY,
@@ -130,6 +139,7 @@ CREATE TABLE campaigns (
 ```
 
 **Açıklama:**
+
 - `parentId`: Alt kampanyalar için hiyerarşik yapı
 - `isMainCampaign`: Ana hikaye kampanyası belirlemek için
 - `difficulty': 'easy', 'normal', 'hard', 'nightmare' gibi zorluk seviyeleri
@@ -137,6 +147,7 @@ CREATE TABLE campaigns (
 ### Destek Modelleri
 
 #### UserPreferences Modeli
+
 ```sql
 CREATE TABLE user_preferences (
   id                    TEXT PRIMARY KEY,
@@ -155,6 +166,7 @@ CREATE TABLE user_preferences (
 ```
 
 #### UserStats Modeli
+
 ```sql
 CREATE TABLE user_stats (
   id             TEXT PRIMARY KEY,
@@ -174,6 +186,7 @@ CREATE TABLE user_stats (
 ## 🔗 Tablo İlişkileri
 
 ### İlişki Diyagramı
+
 ```
 Users (1) ──────── (N) LibraryEntries
   │                        │
@@ -199,33 +212,33 @@ Games (1) ──────── (N) Campaigns
 
 ```sql
 -- LibraryEntry -> User
-ALTER TABLE library_entries 
-ADD CONSTRAINT fk_library_user 
+ALTER TABLE library_entries
+ADD CONSTRAINT fk_library_user
 FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE;
 
 -- LibraryEntry -> Game
-ALTER TABLE library_entries 
-ADD CONSTRAINT fk_library_game 
+ALTER TABLE library_entries
+ADD CONSTRAINT fk_library_game
 FOREIGN KEY (gameId) REFERENCES games(id) ON DELETE CASCADE;
 
 -- GameSession -> User
-ALTER TABLE game_sessions 
-ADD CONSTRAINT fk_session_user 
+ALTER TABLE game_sessions
+ADD CONSTRAINT fk_session_user
 FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE;
 
 -- GameSession -> Game
-ALTER TABLE game_sessions 
-ADD CONSTRAINT fk_session_game 
+ALTER TABLE game_sessions
+ADD CONSTRAINT fk_session_game
 FOREIGN KEY (gameId) REFERENCES games(id) ON DELETE CASCADE;
 
 -- Campaign -> Game
-ALTER TABLE campaigns 
-ADD CONSTRAINT fk_campaign_game 
+ALTER TABLE campaigns
+ADD CONSTRAINT fk_campaign_game
 FOREIGN KEY (gameId) REFERENCES games(id) ON DELETE CASCADE;
 
 -- Campaign -> Campaign (self-referencing)
-ALTER TABLE campaigns 
-ADD CONSTRAINT fk_campaign_parent 
+ALTER TABLE campaigns
+ADD CONSTRAINT fk_campaign_parent
 FOREIGN KEY (parentId) REFERENCES campaigns(id);
 ```
 
@@ -233,19 +246,20 @@ FOREIGN KEY (parentId) REFERENCES campaigns(id);
 
 ### Veri Tipleri
 
-| Alan Adı | Veri Tipi | Açıklama | Örnek |
-|----------|------------|-----------|--------|
-| id | TEXT | CUID formatında benzersiz kimlik | `clx123abc456` |
-| name | TEXT | String veri | "The Witcher 3" |
-| rating | FLOAT | Ondalıklı sayı | 8.5 |
-| playtime | INTEGER | Tam sayı (saniye) | 3600 |
-| createdAt | TIMESTAMP | Zaman damgası | `2024-01-01 12:00:00` |
-| isActive | BOOLEAN | True/False | `true` |
-| genres | JSONB | JSON veri | `["RPG", "Adventure"]` |
+| Alan Adı  | Veri Tipi | Açıklama                         | Örnek                  |
+| --------- | --------- | -------------------------------- | ---------------------- |
+| id        | TEXT      | CUID formatında benzersiz kimlik | `clx123abc456`         |
+| name      | TEXT      | String veri                      | "The Witcher 3"        |
+| rating    | FLOAT     | Ondalıklı sayı                   | 8.5                    |
+| playtime  | INTEGER   | Tam sayı (saniye)                | 3600                   |
+| createdAt | TIMESTAMP | Zaman damgası                    | `2024-01-01 12:00:00`  |
+| isActive  | BOOLEAN   | True/False                       | `true`                 |
+| genres    | JSONB     | JSON veri                        | `["RPG", "Adventure"]` |
 
 ### Kısıtlamalar
 
 #### Unique Kısıtlamaları
+
 ```sql
 -- Her kullanıcının her oyun için sadece bir kütüphane girişi olabilir
 UNIQUE(userId, gameId) ON library_entries
@@ -261,6 +275,7 @@ UNIQUE(name) ON platforms
 ```
 
 #### Check Kısıtlamaları
+
 ```sql
 -- Rating değerleri 0-10 arasında olmalı
 CHECK (rating >= 0 AND rating <= 10) ON games
@@ -278,6 +293,7 @@ CHECK (playtime >= 0) ON game_sessions
 ## 🔄 Migration Süreci
 
 ### Migration Oluşturma
+
 ```bash
 # Yeni migration oluştur
 npx prisma migrate dev --name add_new_feature
@@ -290,6 +306,7 @@ npx prisma migrate deploy
 ```
 
 ### Migration Örneği
+
 ```sql
 -- Migration: 20240101000000_add_game_categories
 CREATE TYPE game_category AS ENUM (
@@ -305,7 +322,7 @@ CREATE TYPE game_category AS ENUM (
   'other'
 );
 
-ALTER TABLE games 
+ALTER TABLE games
 ADD COLUMN category game_category DEFAULT 'other';
 
 -- Index ekle
@@ -313,6 +330,7 @@ CREATE INDEX idx_games_category ON games(category);
 ```
 
 ### Migration Geri Alma
+
 ```bash
 # Son migration'u geri al
 npx prisma migrate reset
@@ -324,6 +342,7 @@ npx prisma migrate resolve --rolled-back 20240101000000_add_game_categories
 ## 📈 Performans Optimizasyonu
 
 ### Index'ler
+
 ```sql
 -- User tablosu index'leri
 CREATE INDEX idx_users_email ON users(email);
@@ -355,9 +374,10 @@ CREATE INDEX idx_sessions_is_active ON game_sessions(isActive);
 ### Sorgu Optimizasyonu
 
 #### Kütüphane Sorgusu
+
 ```sql
 -- Optimize edilmiş kütüphane sorgusu
-SELECT 
+SELECT
   le.id,
   le.category,
   le.playtime,
@@ -376,9 +396,10 @@ LIMIT 50;
 ```
 
 #### İstatistik Sorgusu
+
 ```sql
 -- Kullanıcı istatistikleri için optimize edilmiş sorgu
-SELECT 
+SELECT
   COUNT(DISTINCT le.gameId) as total_games,
   SUM(le.playtime) as total_playtime,
   COUNT(gs.id) as total_sessions,
@@ -391,34 +412,34 @@ WHERE le.userId = $1;
 ## 💾 Backup ve Restore Prosedürleri
 
 ### Backup Script
+
 ```javascript
 // backend/scripts/backup-database.js
-const { PrismaClient } = require('@prisma/client');
-const fs = require('fs');
-const path = require('path');
+const { PrismaClient } = require("@prisma/client");
+const fs = require("fs");
+const path = require("path");
 
 const prisma = new PrismaClient();
 
 async function backupDatabase() {
-  const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+  const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
   const backupPath = path.join(__dirname, `../backups/backup-${timestamp}.sql`);
-  
+
   try {
     // PostgreSQL backup komutu
-    const { execSync } = require('child_process');
+    const { execSync } = require("child_process");
     const dbUrl = process.env.DATABASE_URL;
-    
+
     execSync(`pg_dump "${dbUrl}" > "${backupPath}"`, {
-      stdio: 'inherit'
+      stdio: "inherit",
     });
-    
+
     console.log(`Backup oluşturuldu: ${backupPath}`);
-    
+
     // Cloudflare R2'e yükle
     await uploadToR2(backupPath);
-    
   } catch (error) {
-    console.error('Backup hatası:', error);
+    console.error("Backup hatası:", error);
   } finally {
     await prisma.$disconnect();
   }
@@ -428,10 +449,11 @@ backupDatabase();
 ```
 
 ### Restore Script
+
 ```javascript
 // backend/scripts/restore-database.js
-const { PrismaClient } = require('@prisma/client');
-const fs = require('fs');
+const { PrismaClient } = require("@prisma/client");
+const fs = require("fs");
 
 const prisma = new PrismaClient();
 
@@ -440,24 +462,23 @@ async function restoreDatabase(backupFile) {
     // Veritabanını sıfırla
     await prisma.$executeRaw`DROP SCHEMA public CASCADE`;
     await prisma.$executeRaw`CREATE SCHEMA public`;
-    
+
     // Backup'tan geri yükle
-    const { execSync } = require('child_process');
+    const { execSync } = require("child_process");
     const dbUrl = process.env.DATABASE_URL;
-    
+
     execSync(`psql "${dbUrl}" < "${backupFile}"`, {
-      stdio: 'inherit'
+      stdio: "inherit",
     });
-    
+
     // Migration'ları yeniden uygula
-    execSync('npx prisma migrate deploy', {
-      stdio: 'inherit'
+    execSync("npx prisma migrate deploy", {
+      stdio: "inherit",
     });
-    
-    console.log('Veritabanı başarıyla geri yüklendi');
-    
+
+    console.log("Veritabanı başarıyla geri yüklendi");
   } catch (error) {
-    console.error('Restore hatası:', error);
+    console.error("Restore hatası:", error);
   } finally {
     await prisma.$disconnect();
   }
@@ -468,6 +489,7 @@ restoreDatabase(process.argv[2]);
 ```
 
 ### Otomatik Backup
+
 ```bash
 # Cron job ile günlük backup
 0 2 * * * cd /path/to/jun-oro/backend && npm run db:backup
@@ -479,61 +501,64 @@ restoreDatabase(process.argv[2]);
 ## 🔐 Veri Güvenliği
 
 ### Hassas Veri Şifreleme
+
 ```javascript
 // API key'leri şifreleme
-const crypto = require('crypto');
+const crypto = require("crypto");
 
 function encryptApiKey(key) {
-  const algorithm = 'aes-256-gcm';
+  const algorithm = "aes-256-gcm";
   const secretKey = process.env.ENCRYPTION_KEY;
   const iv = crypto.randomBytes(16);
-  
+
   const cipher = crypto.createCipher(algorithm, secretKey, iv);
-  
-  let encrypted = cipher.update(key, 'utf8', 'hex');
-  encrypted += cipher.final('hex');
-  
+
+  let encrypted = cipher.update(key, "utf8", "hex");
+  encrypted += cipher.final("hex");
+
   return {
     encrypted,
-    iv: iv.toString('hex')
+    iv: iv.toString("hex"),
   };
 }
 ```
 
 ### Veri Temizleme Politikası
+
 ```sql
 -- 1 yıldan eski inactive kullanıcıları sil
-DELETE FROM users 
-WHERE status = 'suspended' 
+DELETE FROM users
+WHERE status = 'suspended'
 AND lastActive < NOW() - INTERVAL '1 year';
 
 -- 6 aydır erişilmeyen oyun verilerini temizle
-DELETE FROM games 
+DELETE FROM games
 WHERE lastAccessed < NOW() - INTERVAL '6 months'
 AND id NOT IN (SELECT gameId FROM library_entries);
 
 -- 3 aydır aktif olmayan oturumları kapat
-UPDATE game_sessions 
+UPDATE game_sessions
 SET isActive = false, endTime = NOW()
-WHERE isActive = true 
+WHERE isActive = true
 AND startTime < NOW() - INTERVAL '3 days';
 ```
 
 ## 📊 Monitoring ve Bakım
 
 ### Veritabanı Sağlık Kontrolü
+
 ```sql
 -- Tablo boyutları
-SELECT 
+SELECT
   schemaname,
   tablename,
   pg_size_pretty(pg_total_relation_size(schemaname||'.'||tablename)) as size
-FROM pg_tables 
+FROM pg_tables
 WHERE schemaname = 'public'
 ORDER BY pg_total_relation_size(schemaname||'.'||tablename) DESC;
 
 -- Index kullanımı
-SELECT 
+SELECT
   schemaname,
   tablename,
   indexname,
@@ -544,7 +569,7 @@ FROM pg_stat_user_indexes
 ORDER BY idx_scan DESC;
 
 -- Yavaş sorgular
-SELECT 
+SELECT
   query,
   calls,
   total_time,
@@ -556,6 +581,7 @@ LIMIT 10;
 ```
 
 ### Bakım Script'leri
+
 ```bash
 #!/bin/bash
 # maintenance.sh
@@ -575,12 +601,14 @@ echo "Veritabanı bakımı tamamlandı"
 ## 🔮 Gelecek Geliştirmeler
 
 ### Planlanan Özellikler
+
 - **Veri Arşivleme**: Eski verileri arşivleme sistemi
 - **Replication**: Okuma işlemleri için read replica
 - **Partitioning**: Büyük tablolar için horizontal partitioning
 - **Full-text Search**: Oyun araması için gelişmiş arama
 
 ### Performans İyileştirmeleri
+
 - **Connection Pooling**: PgBouncer entegrasyonu
 - **Query Caching**: Redis ile sorgu önbellekleme
 - **Materialized Views**: Raporlama için optimize edilmiş view'lar

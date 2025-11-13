@@ -85,7 +85,7 @@ Jun-Oro, state management için React Context API ve custom hooks kullanır:
 - **AuthContext**: Kullanıcı kimlik doğrulama durumu
 - **NavigationContext**: Sayfa navigasyon durumu
 - **ActiveSessionContext**: Aktif oyun oturumu bilgileri
-- **Custom Hooks**: 
+- **Custom Hooks**:
   - `useAuth()`: Authentication işlemleri
   - `useLibrary()`: Kütüphane verileri
   - `useSettings()`: Kullanıcı ayarları
@@ -192,6 +192,7 @@ Timer Start → Real-time Update → /api/sessions/end → Database Save
 ## 🎯 Design Pattern'ler
 
 ### 1. Repository Pattern
+
 Veritabanı işlemlerini soyutlamak için kullanılır:
 
 ```javascript
@@ -199,7 +200,7 @@ class GameRepository {
   async findById(id) {
     return await prisma.game.findUnique({ where: { id } });
   }
-  
+
   async create(data) {
     return await prisma.game.create({ data });
   }
@@ -207,21 +208,26 @@ class GameRepository {
 ```
 
 ### 2. Factory Pattern
+
 API servisleri oluşturmak için kullanılır:
 
 ```javascript
 class ApiServiceFactory {
   static create(type) {
-    switch(type) {
-      case 'igdb': return new IGDBService();
-      case 'steam': return new SteamService();
-      case 'hltb': return new HLTBService();
+    switch (type) {
+      case "igdb":
+        return new IGDBService();
+      case "steam":
+        return new SteamService();
+      case "hltb":
+        return new HLTBService();
     }
   }
 }
 ```
 
 ### 3. Observer Pattern
+
 Real-time güncellemeler için kullanılır:
 
 ```javascript
@@ -234,12 +240,13 @@ class SessionObserver {
 ```
 
 ### 4. Strategy Pattern
+
 Farklı platform entegrasyonları için kullanılır:
 
 ```javascript
 class PlatformStrategy {
   import() {
-    throw new Error('Method must be implemented');
+    throw new Error("Method must be implemented");
   }
 }
 
@@ -253,12 +260,14 @@ class SteamStrategy extends PlatformStrategy {
 ## 🔐 Güvenlik Mimarisi
 
 ### Authentication & Authorization
+
 - **JWT Token**: Stateless authentication
 - **Role-based Access Control**: Admin/User rolleri
 - **API Key Management**: External API güvenliği
 - **Rate Limiting**: API abuse önleme
 
 ### Veri Güvenliği
+
 - **Input Validation**: Zod schema validation
 - **SQL Injection Prevention**: Prisma ORM
 - **XSS Protection**: Input sanitization
@@ -267,12 +276,14 @@ class SteamStrategy extends PlatformStrategy {
 ## 📊 Performans Optimizasyonu
 
 ### Frontend Optimizasyonları
+
 - **Code Splitting**: Lazy loading
 - **Component Caching**: React.memo
 - **Image Optimization**: LazyImage component
 - **Bundle Analysis**: Vite analyzer
 
 ### Backend Optimizasyonları
+
 - **Database Indexing**: Prisma indexes
 - **API Caching**: Redis/memory cache
 - **Connection Pooling**: PostgreSQL
@@ -281,6 +292,7 @@ class SteamStrategy extends PlatformStrategy {
 ## 🔧 Monitoring ve Logging
 
 ### Error Handling
+
 - **Centralized Error Handler**: Global error middleware
 - **Audit Logging**: Admin action tracking
 - **Performance Monitoring**: Response time tracking
@@ -289,12 +301,14 @@ class SteamStrategy extends PlatformStrategy {
 ## 🚀 Ölçeklenebilirlik
 
 ### Horizontal Scaling
+
 - **Stateless Design**: Load balancing friendly
 - **Database Replication**: Read replicas
 - **CDN Integration**: Static asset delivery
 - **Microservice Ready**: Modular architecture
 
 ### Vertical Scaling
+
 - **Resource Optimization**: Memory/CPU usage
 - **Database Optimization**: Query performance
 - **Caching Strategy**: Multi-level caching
@@ -303,12 +317,14 @@ class SteamStrategy extends PlatformStrategy {
 ## 🔮 Gelecek Geliştirmeler
 
 ### Planlanan Özellikler
+
 - **Real-time Multiplayer**: WebSocket integration
 - **Mobile Application**: React Native
 - **AI Recommendations**: Machine learning
 - **Social Features**: Friends and sharing
 
 ### Teknoloji Yükseltmeleri
+
 - **GraphQL API**: More efficient data fetching
 - **Event Sourcing**: Audit trail improvement
 - **Microservices**: Service decomposition
