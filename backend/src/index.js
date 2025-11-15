@@ -122,20 +122,46 @@ app.use((req, res, next) => {
   next();
 });
 
-// CORS configuration (allow all origins temporarily for debugging)
-app.use(
-  cors({
-    origin: true, // Allow all origins
-    credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
-    exposedHeaders: ["Content-Range", "X-Content-Range"],
-    maxAge: 600, // Cache preflight for 10 minutes
-  }),
-);
+// CORS configuration - Cloud-first architecture
+// Frontend always connects to Render backend (api.jun-oro.com)
+const corsOptions = {
+  origin: (origin, callback) => {
+    // Allowed origins
+    const allowedOrigins = [
+      'http://localhost:3000',  // Development frontend (local Vite dev server)
+      'https://jun-oro.com',     // Production frontend
+      'https://www.jun-oro.com', // Production frontend (www)
+      'https://api.jun-oro.com', // Backend itself (for internal calls)
+    ];
+
+    // Allow requests with no origin (mobile apps, Postman, curl, etc.)
+    if (!origin) return callback(null, true);
+
+    if (allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      console.warn(`⚠️ CORS blocked origin: ${origin}`);
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true, // Allow cookies/auth headers
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: [
+    'Content-Type',
+    'Authorization',
+    'X-Requested-With',
+    'Accept',
+    'Origin',
+  ],
+  exposedHeaders: ['Content-Range', 'X-Content-Range', 'X-Total-Count'],
+  maxAge: 600, // Cache preflight for 10 minutes
+  optionsSuccessStatus: 204, // Some legacy browsers choke on 204
+};
+
+app.use(cors(corsOptions));
 
 // Explicit OPTIONS handler for all routes
-app.options("*", cors());
+app.options("*", cors(corsOptions));
 
 // Body parsing middleware
 app.use(express.json({ limit: "10mb" }));
@@ -230,7 +256,7 @@ app.use(errorHandler);
 app.listen(PORT, () => {
   console.log(`🚀 Arkade Backend API running on port ${PORT}`);
   console.log(`📊 Environment: ${process.env.NODE_ENV || "development"}`);
-  console.log(`🌐 CORS enabled for: all origins (temporarily)`);
+  console.log(`🌐 CORS enabled for: localhost:3000, jun-oro.com`);
   console.log(`📝 Health check: http://localhost:${PORT}/health`);
 
   // Start cache cleanup timer

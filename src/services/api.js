@@ -1,22 +1,51 @@
 // API Base Configuration
 const API_BASE_URL =
-  import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+  import.meta.env.VITE_API_URL || "https://api.jun-oro.com/api";
 
 class ApiClient {
   constructor() {
     this.baseURL = API_BASE_URL;
+    this.cache = new Map();
+  }
+
+  getCachedData(endpoint) {
+    const cached = this.cache.get(endpoint);
+    if (!cached) return null;
+    
+    const age = Date.now() - cached.timestamp;
+    // Cache valid for 5 minutes
+    if (age > 5 * 60 * 1000) {
+      this.cache.delete(endpoint);
+      return null;
+    }
+    
+    return cached.data;
+  }
+
+  setCachedData(endpoint, data) {
+    this.cache.set(endpoint, {
+      data,
+      timestamp: Date.now()
+    });
   }
 
   async request(endpoint, options = {}) {
     const url = `${this.baseURL}${endpoint}`;
 
     const config = {
+      credentials: 'include', // Include cookies and auth credentials
       headers: {
         "Content-Type": "application/json",
         ...options.headers,
       },
       ...options,
     };
+
+    // Add Authorization header if token exists
+    const token = localStorage.getItem('arkade_token');
+    if (token) {
+      config.headers['Authorization'] = `Bearer ${token}`;
+    }
 
     if (config.body && typeof config.body === "object") {
       config.body = JSON.stringify(config.body);
@@ -28,9 +57,25 @@ class ApiClient {
 
       if (!response.ok) {
         let errorMessage = `HTTP error! status: ${response.status}`;
+        
+        // Handle CORS errors
+        if (response.type === 'opaque' || response.status === 0) {
+          throw new Error('CORS hatası: Backend erişilebilir değil. API URL kontrolü gerekli.');
+        }
+        
+        // Handle 503 Service Unavailable - try cached data
+        if (response.status === 503) {
+          const cachedData = this.getCachedData(endpoint);
+          if (cachedData) {
+            console.warn(`⚠️ Backend geçici olarak kullanılamıyor, cache'den yükleniyor: ${endpoint}`);
+            return cachedData;
+          }
+          throw new Error('No cached data available');
+        }
+        
         if (contentType.includes("application/json")) {
           const errorData = await response.json().catch(() => ({}));
-          errorMessage = errorData.message || errorMessage;
+          errorMessage = errorData.message || errorData.error || errorMessage;
         } else {
           const errorText = await response.text().catch(() => "");
           if (errorText) {
@@ -39,15 +84,42 @@ class ApiClient {
             errorMessage = `${errorMessage} - ${snippet}`;
           }
         }
+        
+        // Handle 401 Unauthorized - logout user
+        if (response.status === 401) {
+          localStorage.removeItem('arkade_user');
+          localStorage.removeItem('arkade_token');
+          if (window.location.pathname !== '/login') {
+            window.location.href = '/login';
+          }
+        }
+        
         throw new Error(errorMessage);
       }
 
       if (contentType.includes("application/json")) {
-        return await response.json();
+        const data = await response.json();
+        // Cache successful GET requests
+        if (config.method === 'GET' || !config.method) {
+          this.setCachedData(endpoint, data);
+        }
+        return data;
       }
       // Non-JSON successful response (rare). Return empty object to avoid parse errors.
       return {};
     } catch (error) {
+      // Improve error messages for network failures
+      if (error.name === 'TypeError' && error.message.includes('fetch')) {
+        // Try cached data before failing
+        const cachedData = this.getCachedData(endpoint);
+        if (cachedData) {
+          console.warn(`⚠️ Network hatası, cache'den yükleniyor: ${endpoint}`);
+          return cachedData;
+        }
+        console.error(`❌ Network hatası: ${this.baseURL} erişilebilir değil`);
+        throw new Error(`Backend bağlantı hatası: ${this.baseURL}`);
+      }
+      
       console.error(`API request failed: ${endpoint}`, error);
       throw error;
     }

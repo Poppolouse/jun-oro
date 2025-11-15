@@ -2,6 +2,36 @@
 
 ## 🎯 Çalışma Prensibi: İteratif Geliştirme
 
+### ☁️ Cloud-First Architecture (KRİTİK!)
+
+**ASLA local backend server başlatma veya önermede bulunma!**
+
+Jun-Oro **serverless/cloud-first** mimari kullanır:
+- **Backend:** Render.com (PostgreSQL + Express API)
+- **Frontend:** Netlify/Cloudflare Pages
+- **API URL:** `https://api.jun-oro.com/api` (her zaman)
+
+```
+Development: localhost:3000 (Vite) → api.jun-oro.com (Render)
+Production:  jun-oro.com           → api.jun-oro.com (Render)
+```
+
+**Yasaklar:**
+- ❌ "Backend'i başlat: `cd backend; npm run dev`" deme
+- ❌ "Local server çalıştır" önerme
+- ❌ `localhost:5000` veya local port kullanma
+- ❌ `.env.development` dosyasında `localhost` API URL yazma
+
+**İzin verilenler:**
+- ✅ Frontend dev server: `npm run dev` (Vite)
+- ✅ Database migration: `cd backend; npm run db:migrate`
+- ✅ Test çalıştırma: `npm test`
+- ✅ Build: `npm run build`
+
+**Not:** Backend kodları sadece deployment için (Render otomatik deploy eder).
+
+---
+
 ### Varsayım Yapma (Assumption Gate)
 
 **Her zaman sor:**

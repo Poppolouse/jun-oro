@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useAuth } from './AuthContext';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://api.jun-oro.com/api';
 
 const CyclesContext = createContext();
 
@@ -32,11 +32,13 @@ export const CyclesProvider = ({ children }) => {
 
     try {
       setLoading(true);
-      console.log('Döngüler yükleniyor:', `${API_BASE_URL}/cycles`);
+      console.log('Döngüler yükleniy or:', `${API_BASE_URL}/cycles`);
       
       const response = await fetch(`${API_BASE_URL}/cycles`, {
+        credentials: 'include',
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('arkade_token')}`
         }
       });
 
@@ -60,9 +62,10 @@ export const CyclesProvider = ({ children }) => {
     } catch (err) {
       console.error('Döngüler yüklenirken hata:', err);
       
-      // Network hatası vs. detaylı mesaj
-      if (err.message.includes('fetch')) {
-        setError(`Backend bağlantı hatası: ${API_BASE_URL} erişilebilir değil`);
+      // Network hatası vs. detaylı mesaj - silent fail, kullanıcıya gösterme
+      if (err.message.includes('fetch') || err.message.includes('Failed to fetch')) {
+        // Backend erişilebilir değil, boş döngü listesiyle devam et
+        setError(null); // Error state'i temizle
       } else {
         setError(err.message);
       }
@@ -77,8 +80,10 @@ export const CyclesProvider = ({ children }) => {
     try {
       const response = await fetch(`${API_BASE_URL}/cycles`, {
         method: 'POST',
+        credentials: 'include',
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('arkade_token')}`,
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(cycleData)
@@ -101,10 +106,11 @@ export const CyclesProvider = ({ children }) => {
   const updateCycle = async (cycleId, updates) => {
     try {
       const response = await fetch(`${API_BASE_URL}/cycles/${cycleId}`, {
-        method: 'PATCH',
+        method: 'PUT',
+        credentials: 'include',
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('arkade_token')}`
         },
         body: JSON.stringify(updates)
       });
@@ -129,8 +135,9 @@ export const CyclesProvider = ({ children }) => {
     try {
       const response = await fetch(`${API_BASE_URL}/cycles/${cycleId}`, {
         method: 'DELETE',
+        credentials: 'include',
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
+          'Authorization': `Bearer ${localStorage.getItem('arkade_token')}`
         }
       });
 

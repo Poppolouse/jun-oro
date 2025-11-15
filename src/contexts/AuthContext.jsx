@@ -78,18 +78,33 @@ export const AuthProvider = ({ children }) => {
         try {
           const response = await fetch(
             `${import.meta.env.VITE_API_URL}/users/${savedUser.id}`,
+            {
+              credentials: 'include',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('arkade_token')}`
+              }
+            }
           );
+          
+          // Handle CORS errors gracefully
+          if (!response || response.type === 'opaque') {
+            console.warn('⚠️ Backend erişilebilir değil, offline modda devam ediliyor');
+            setIsLoading(false);
+            return;
+          }
+          
           const data = await response.json();
           if (response.ok && data.success) {
             const updatedUser = data.data;
             setUser(updatedUser);
             localStorage.setItem("arkade_user", JSON.stringify(updatedUser));
-          } else {
+          } else if (response.status === 401) {
             // If the user is no longer valid on the backend, log them out.
             logout();
           }
         } catch (error) {
-          console.error("Error refreshing user data on startup:", error);
+          console.warn("⚠️ Backend bağlantı hatası - offline modda devam:", error.message);
           // Potentially offline, proceed with stale data.
         }
       }
@@ -97,7 +112,12 @@ export const AuthProvider = ({ children }) => {
     };
 
     initializeAuth();
-  }, []);
+    
+    // Cleanup to prevent double calls in StrictMode
+    return () => {
+      // No cleanup needed for this effect
+    };
+  }, []); // Empty dependency array ensures this runs only once
 
   /**
    * Logs in a user with the given credentials.
@@ -111,6 +131,12 @@ export const AuthProvider = ({ children }) => {
       if (result.success && result.user) {
         setUser(result.user);
         localStorage.setItem("arkade_user", JSON.stringify(result.user));
+        
+        // Save JWT token if provided
+        if (result.token) {
+          localStorage.setItem("arkade_token", result.token);
+        }
+        
         await refreshUser(); // Refresh to get latest data post-login.
         return { success: true };
       }

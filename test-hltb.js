@@ -1,7 +1,7 @@
-import { HowLongToBeatService } from 'howlongtobeat';
+import { HowLongToBeatService } from 'hltb-js';
 
 async function testHltb() {
-  console.log('HowLongToBeat servisi test ediliyor...');
+  console.log('Yeni HLTB servisi (hltb-js) test ediliyor...');
   const hltbService = new HowLongToBeatService();
   const gameNameToSearch = 'Elden Ring';
 

@@ -60,7 +60,7 @@ export const USER_STATUS = {
 
 // API Base URL configuration
 const API_BASE_URL =
-  import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+  import.meta.env.VITE_API_URL || "https://api.jun-oro.com/api";
 
 // Kullanıcı işlemleri
 export const userService = {
@@ -69,6 +69,7 @@ export const userService = {
     try {
       const response = await fetch(`${API_BASE_URL}/users/login`, {
         method: "POST",
+        credentials: 'include',
         headers: {
           "Content-Type": "application/json",
         },
@@ -87,12 +88,18 @@ export const userService = {
       if (response.ok && data.success) {
         // Token ve sessionId'yi localStorage'a kaydet
         if (data.data.token) {
-          localStorage.setItem('token', data.data.token);
+          localStorage.setItem('arkade_token', data.data.token);
         }
         if (data.data.sessionId) {
           localStorage.setItem('sessionId', data.data.sessionId);
         }
-        return { success: true, user: data.data };
+        
+        // Return user data with token for AuthContext
+        return { 
+          success: true, 
+          user: data.data,
+          token: data.data.token
+        };
       } else {
         return { success: false, message: data.message || "Giriş başarısız" };
       }

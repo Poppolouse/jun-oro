@@ -78,12 +78,12 @@ export default defineConfig({
   server: {
     port: 3000,
     open: true,
-    proxy: {
-      "/api": {
-        target: "http://localhost:5000",
-        changeOrigin: true,
-        secure: false,
-      },
+    // No proxy needed - frontend directly connects to api.jun-oro.com
+    hmr: {
+      protocol: 'ws',
+      host: 'localhost',
+      port: 3000,
+      clientPort: 3000,
     },
   },
   publicDir: "public",

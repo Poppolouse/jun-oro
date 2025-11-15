@@ -1,9 +1,10 @@
 /*
   Seed API keys into the backend database via /api/api-keys.
   Run with: node scripts/seedApiKeys.js
+  Note: Always uses production backend (Render)
 */
 
-const endpoint = "http://localhost:5000/api/api-keys";
+const endpoint = "https://api.jun-oro.com/api/api-keys";
 
 // Values provided by user
 const IGDB_CLIENT_ID = "h9uple668oa0ugvi78noi1baopi3e3";

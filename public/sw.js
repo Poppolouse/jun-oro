@@ -15,14 +15,12 @@ const CACHE_DURATIONS = {
   images: 24 * 60 * 60, // 24 hours for images
 };
 
-// URLs to cache on install
+// URLs to cache on install - only essential files that exist
 const STATIC_ASSETS = [
   "/",
   "/index.html",
-  "/manifest.json",
-  "/src/main.jsx",
-  "/src/index.css",
-  // Add other critical static assets
+  // Other static assets will be cached dynamically on first request
+  // Manifest and build artifacts are not included here as they may not exist yet
 ];
 
 // API endpoints to cache
@@ -50,7 +48,11 @@ self.addEventListener("install", (event) => {
       .open(STATIC_CACHE_NAME)
       .then((cache) => {
         console.log("📦 Caching static assets");
-        return cache.addAll(STATIC_ASSETS);
+        // Gracefully handle failures - some assets may not exist yet
+        return cache.addAll(STATIC_ASSETS).catch(err => {
+          console.warn("⚠️ Some static assets failed to cache:", err.message);
+          return Promise.resolve();
+        });
       })
       .then(() => self.skipWaiting()),
   );
@@ -224,7 +226,9 @@ async function handleStaticRequest(request) {
       return caches.match("/");
     }
 
-    throw error;
+    // Silent fail for cross-origin/network errors to prevent console spam
+    // These are expected when offline or when external resources fail
+    return new Response(null, { status: 503, statusText: 'Service Unavailable' });
   }
 }
 

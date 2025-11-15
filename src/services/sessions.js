@@ -1,8 +1,8 @@
 // API Base URL configuration
 const API_BASE_URL =
-  import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+  import.meta.env.VITE_API_URL || "https://api.jun-oro.com/api";
 
-class SessionsService {
+class SessionService {
   // Kullanıcının aktif oturumlarını al
   async getActiveSessions(userId) {
     try {
@@ -22,8 +22,10 @@ class SessionsService {
     try {
       const response = await fetch(`${API_BASE_URL}/sessions/${userId}`, {
         method: "POST",
+        credentials: 'include',
         headers: {
           "Content-Type": "application/json",
+          'Authorization': `Bearer ${localStorage.getItem('arkade_token')}`
         },
         body: JSON.stringify({
           gameId: sessionData.gameId || sessionData.appid,
@@ -51,8 +53,10 @@ class SessionsService {
     try {
       const response = await fetch(`${API_BASE_URL}/sessions/${sessionId}`, {
         method: "PUT",
+        credentials: 'include',
         headers: {
           "Content-Type": "application/json",
+          'Authorization': `Bearer ${localStorage.getItem('arkade_token')}`
         },
         body: JSON.stringify(updateData),
       });
@@ -75,8 +79,10 @@ class SessionsService {
         `${API_BASE_URL}/sessions/${sessionId}/end`,
         {
           method: "POST",
+          credentials: 'include',
           headers: {
             "Content-Type": "application/json",
+            'Authorization': `Bearer ${localStorage.getItem('arkade_token')}`
           },
           body: JSON.stringify({
             endTime: endData.endTime,
@@ -105,6 +111,13 @@ class SessionsService {
     try {
       const response = await fetch(
         `${API_BASE_URL}/sessions/${userId}/history?page=${page}&limit=${limit}`,
+        {
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('arkade_token')}`
+          }
+        }
       );
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -121,6 +134,11 @@ class SessionsService {
     try {
       const response = await fetch(`${API_BASE_URL}/sessions/${sessionId}`, {
         method: "DELETE",
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('arkade_token')}`
+        }
       });
 
       if (!response.ok) {

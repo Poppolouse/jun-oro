@@ -1,4 +1,4 @@
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://api.jun-oro.com/api';
 
 class UploadService {
   constructor() {
@@ -15,7 +15,10 @@ class UploadService {
       const response = await fetch(`${this.baseURL}/avatar`, {
         method: 'POST',
         body: formData,
-        credentials: 'include'
+        credentials: 'include',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('arkade_token')}`
+        }
       });
 
       const result = await response.json();
@@ -41,7 +44,10 @@ class UploadService {
       const response = await fetch(`${this.baseURL}/platform-logo`, {
         method: 'POST',
         body: formData,
-        credentials: 'include'
+        credentials: 'include',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('arkade_token')}`
+        }
       });
 
       const result = await response.json();
@@ -67,7 +73,10 @@ class UploadService {
       const response = await fetch(`${this.baseURL}/game-cover`, {
         method: 'POST',
         body: formData,
-        credentials: 'include'
+        credentials: 'include',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('arkade_token')}`
+        }
       });
 
       const result = await response.json();
