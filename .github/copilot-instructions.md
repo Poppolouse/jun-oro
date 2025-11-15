@@ -145,31 +145,38 @@ npx prisma migrate deploy      # Apply migrations (production)
 ```
 
 ### ⚠️ CRITICAL: Render Backend Deployment
-**Render CANNOT auto-run `prisma generate`** - Her schema değişikliğinden sonra manuel çalıştır:
+**Render üzerinde Prisma CLI ÇALIŞTIRILMAYACAK**
+
+- Render konteynerinde `prisma` / `npx prisma` / `./node_modules/.bin/prisma` gibi komutlar permission hatası veriyor.
+- Bu yüzden **Render build veya pre-deploy aşamasında hiçbir şekilde Prisma CLI çalıştırmayacağız**.
+- `backend/package.json` içinde **`postinstall` veya başka bir script üzerinden Prisma komutu KOYMAYIN`**.
+- `render.yaml` içinde **`preDeployCommand` ile migrate/generate çalıştırmayın**.
+
+#### Doğru workflow (manuel Prisma generate)
 
 1. **Schema değiştirildiyse** (`backend/prisma/schema.prisma`):
-   ```powershell
-   cd backend
-   npx prisma generate
-   git add .
-   git commit -m "fix(backend): Regenerate Prisma Client after schema change"
-   git push
-   ```
+  ```powershell
+  cd backend
+  npx prisma generate
+  git add .
+  git commit -m "fix(backend): Regenerate Prisma Client after schema change"
+  git push
+  ```
 
-2. **Backend 503 hatası alınıyorsa**:
-   - Neden: Prisma Client eski schema ile oluşturulmuş
-   - Çözüm: Yukarıdaki adımları uygula ve Render'da yeniden deploy et
+2. **Backend 503 hatası alınıyorsa** ve sebep schema değişikliği ise:
+  - Neden: Prisma Client eski schema ile oluşturulmuş olabilir.
+  - Çözüm: Lokal ortamda yukarıdaki adımları uygula, güncel Prisma Client'ı repoya dahil et ve yeniden push et.
 
-3. **Her deploy öncesi kontrol**:
-   - `backend/node_modules/.prisma/client/` klasörü güncel mi?
-   - Son schema değişikliğinden sonra `prisma generate` çalıştırıldı mı?
+3. **Her schema değişikliğinde kontrol**:
+  - `backend/node_modules/.prisma/client/` klasörü güncel mi?
+  - Son schema değişikliğinden sonra lokal ortamda `npx prisma generate` çalıştırıldı mı?
 
-**Render deployment workflow:**
+#### Render deployment workflow
 ```
-Schema Change → prisma generate (local) → git push → Render auto-deploy
+Schema Change → prisma generate (local) → git push → Render auto-deploy (CLI yok)
 ```
 
-**NOT**: `postinstall` script'i Render'da çalışmıyor, bu yüzden lokal generate zorunlu!
+> Özet: Prisma generate ve migrate işlemleri sadece lokal ortamda çalıştırılacak. Render sadece **hazır Prisma Client** ile ayağa kalkacak, deployment sırasında Prisma CLI'ya hiç dokunulmayacak.
 
 ### Testing Strategy
 - **Unit tests**: `tests/unit/**/*.test.jsx` (Vitest + jsdom)
