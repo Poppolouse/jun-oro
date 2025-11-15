@@ -5,7 +5,8 @@ services:
     plan: free
     region: oregon
     rootDir: backend
-    buildCommand: npm ci && npm run db:migrate:deploy && npm run db:generate
+    buildCommand: npm install --production=false
+    preDeployCommand: npx prisma generate && npx prisma migrate deploy
     startCommand: npm start
     autoDeploy: true
     healthCheckPath: /health
