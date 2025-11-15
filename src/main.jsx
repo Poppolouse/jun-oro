@@ -28,27 +28,22 @@ async function initializeApp() {
   }
 
   try {
-    // Initialize performance monitoring
+    // Initialize performance monitoring (silently - no console logs)
     const perfMonitor = initializePerformanceMonitoring({
       onMetricReport: (metric) => {
-        // Log performance metrics in development
-        if (import.meta.env.MODE === "development") {
-          console.log("📊 Performance Metric:", metric);
-        }
-
-        // Send to analytics service in production
+        // Send to analytics service in production only
         if (import.meta.env.MODE === "production" && metric.value) {
           // You can send metrics to your analytics service here
           // Example: sendToAnalytics(metric);
         }
       },
-      enableMemoryMonitoring: true,
-      enableNetworkMonitoring: true,
-      memoryInterval: 10000, // Monitor memory every 10 seconds
+      enableMemoryMonitoring: false, // Disable memory monitoring to reduce noise
+      enableNetworkMonitoring: false, // Disable network monitoring to reduce noise
+      memoryInterval: 10000,
       analyticsEndpoint: import.meta.env.VITE_PERFORMANCE_ANALYTICS_ENDPOINT || null,
     });
 
-    console.log("📊 Performance monitoring initialized");
+    // Silently initialized - no console log
 
     // Make performance monitor available globally for debugging
     window.performanceMonitor = perfMonitor;
