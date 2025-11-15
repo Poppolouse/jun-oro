@@ -515,4 +515,56 @@ async function processLibraryImport(userId, entries) {
   };
 }
 
+// PATCH /api/library/:gameId/status - Update game status
+router.patch("/:gameId/status", async (req, res, next) => {
+  try {
+    const { id: gameId } = idParamSchema.parse({ id: req.params.gameId });
+    const { status } = req.body;
+    const userId = req.user?.id;
+
+    if (!userId) {
+      return res.status(401).json({ error: 'Kullanıcı kimliği doğrulanamadı' });
+    }
+
+    if (!status || !['backlog', 'playing', 'completed'].includes(status)) {
+      return res.status(400).json({ error: 'Geçersiz durum değeri' });
+    }
+
+    // Kütüphane kaydını bul
+    const entry = await prisma.libraryEntry.findFirst({
+      where: {
+        userId,
+        gameId
+      }
+    });
+
+    if (!entry) {
+      return res.status(404).json({ error: 'Oyun kütüphanede bulunamadı' });
+    }
+
+    // Status'u güncelle
+    const updatedEntry = await prisma.libraryEntry.update({
+      where: { id: entry.id },
+      data: { 
+        status,
+        lastPlayed: status === 'playing' ? new Date() : entry.lastPlayed
+      },
+      include: {
+        game: {
+          select: {
+            id: true,
+            name: true,
+            cover: true
+          }
+        }
+      }
+    });
+
+    res.json(updatedEntry);
+  } catch (error) {
+    console.error('Oyun durumu güncellenemedi:', error);
+    next(error);
+  }
+});
+
 export default router;
