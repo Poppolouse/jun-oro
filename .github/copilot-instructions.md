@@ -144,6 +144,33 @@ npx prisma migrate dev --name description_of_change
 npx prisma migrate deploy      # Apply migrations (production)
 ```
 
+### ⚠️ CRITICAL: Render Backend Deployment
+**Render CANNOT auto-run `prisma generate`** - Her schema değişikliğinden sonra manuel çalıştır:
+
+1. **Schema değiştirildiyse** (`backend/prisma/schema.prisma`):
+   ```powershell
+   cd backend
+   npx prisma generate
+   git add .
+   git commit -m "fix(backend): Regenerate Prisma Client after schema change"
+   git push
+   ```
+
+2. **Backend 503 hatası alınıyorsa**:
+   - Neden: Prisma Client eski schema ile oluşturulmuş
+   - Çözüm: Yukarıdaki adımları uygula ve Render'da yeniden deploy et
+
+3. **Her deploy öncesi kontrol**:
+   - `backend/node_modules/.prisma/client/` klasörü güncel mi?
+   - Son schema değişikliğinden sonra `prisma generate` çalıştırıldı mı?
+
+**Render deployment workflow:**
+```
+Schema Change → prisma generate (local) → git push → Render auto-deploy
+```
+
+**NOT**: `postinstall` script'i Render'da çalışmıyor, bu yüzden lokal generate zorunlu!
+
 ### Testing Strategy
 - **Unit tests**: `tests/unit/**/*.test.jsx` (Vitest + jsdom)
 - **Integration tests**: `tests/integration/**/*.test.jsx`
