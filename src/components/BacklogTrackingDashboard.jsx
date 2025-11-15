@@ -20,11 +20,14 @@ const BacklogTrackingDashboard = () => {
     );
   }
 
-  const { activeCycle, cycles, loading, error, activateCycle, updateGameStatus } = contextData || {};
+  const { activeCycle, cycles, loading, error, activateCycle, updateGameStatus, createCycle } = contextData || {};
   const { startSession } = useActiveSession();
   const [cycleGames, setCycleGames] = useState([]);
   const [selectedGame, setSelectedGame] = useState(null);
   const [loadingGames, setLoadingGames] = useState(false);
+  const [showCreateModal, setShowCreateModal] = useState(false);
+  const [newCycleName, setNewCycleName] = useState('');
+  const [newCycleDescription, setNewCycleDescription] = useState('');
 
   // Aktif döngünün oyunlarını yükle
   useEffect(() => {
@@ -94,6 +97,31 @@ const BacklogTrackingDashboard = () => {
       console.error('Oturum başlatma hatası:', err);
     }
   };
+
+  // Yeni döngü oluştur
+  const handleCreateCycle = async (e) => {
+    e.preventDefault();
+    
+    if (!newCycleName.trim()) {
+      return;
+    }
+
+    try {
+      await createCycle({
+        name: newCycleName.trim(),
+        description: newCycleDescription.trim() || null,
+        gameIds: []
+      });
+      
+      setNewCycleName('');
+      setNewCycleDescription('');
+      setShowCreateModal(false);
+    } catch (err) {
+      console.error('Döngü oluşturma hatası:', err);
+      alert('Döngü oluşturulamadı: ' + err.message);
+    }
+  };
+
 
   // Tamamlanan oyun sayısı
   const completedCount = cycleGames.filter(g => g.status === 'completed').length;
@@ -171,8 +199,18 @@ const BacklogTrackingDashboard = () => {
         data-ers="backlog-tracking.no-active-cycle"
       >
         <div className="text-gray-400 text-center mb-6">
-          Henüz aktif bir döngü yok. Döngü yönetiminden yeni bir döngü oluşturun.
+          Henüz aktif bir döngü yok. Yeni bir döngü oluşturun veya mevcut döngülerden birini aktif edin.
         </div>
+        
+        {/* Yeni Döngü Oluştur Butonu */}
+        <button
+          onClick={() => setShowCreateModal(true)}
+          className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg mb-6 transition-colors font-semibold"
+          data-ers="backlog-tracking.create-cycle-button"
+        >
+          + Yeni Döngü Oluştur
+        </button>
+        
         {cycles.length > 0 && (
           <div className="bg-gray-800/50 rounded-lg p-4 w-full max-w-md">
             <h3 className="text-white font-bold mb-3">Planlanmış Döngüler</h3>
@@ -430,6 +468,74 @@ const BacklogTrackingDashboard = () => {
           )}
         </div>
       </div>
+
+      {/* Yeni Döngü Oluşturma Modal */}
+      {showCreateModal && (
+        <div 
+          className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50"
+          onClick={() => setShowCreateModal(false)}
+          data-ers="backlog-tracking.create-modal.overlay"
+        >
+          <div 
+            className="bg-gray-800 rounded-xl p-8 max-w-md w-full mx-4 shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+            data-ers="backlog-tracking.create-modal"
+          >
+            <h2 className="text-2xl font-bold text-white mb-6">Yeni Döngü Oluştur</h2>
+            
+            <form onSubmit={handleCreateCycle}>
+              <div className="mb-4">
+                <label className="block text-gray-400 text-sm mb-2" htmlFor="cycle-name">
+                  Döngü Adı *
+                </label>
+                <input
+                  id="cycle-name"
+                  type="text"
+                  value={newCycleName}
+                  onChange={(e) => setNewCycleName(e.target.value)}
+                  placeholder="Örn: Yaz 2024 Döngüsü"
+                  className="w-full bg-gray-700/50 border border-gray-600 rounded-lg px-4 py-2 text-white placeholder-gray-500 focus:outline-none focus:border-green-500"
+                  required
+                  data-ers="backlog-tracking.create-modal.name-input"
+                />
+              </div>
+              
+              <div className="mb-6">
+                <label className="block text-gray-400 text-sm mb-2" htmlFor="cycle-description">
+                  Açıklama (Opsiyonel)
+                </label>
+                <textarea
+                  id="cycle-description"
+                  value={newCycleDescription}
+                  onChange={(e) => setNewCycleDescription(e.target.value)}
+                  placeholder="Bu döngü hakkında kısa bir açıklama..."
+                  rows="3"
+                  className="w-full bg-gray-700/50 border border-gray-600 rounded-lg px-4 py-2 text-white placeholder-gray-500 focus:outline-none focus:border-green-500 resize-none"
+                  data-ers="backlog-tracking.create-modal.description-input"
+                />
+              </div>
+              
+              <div className="flex gap-3">
+                <button
+                  type="button"
+                  onClick={() => setShowCreateModal(false)}
+                  className="flex-1 bg-gray-700 hover:bg-gray-600 text-white py-2 rounded-lg transition-colors"
+                  data-ers="backlog-tracking.create-modal.cancel-button"
+                >
+                  İptal
+                </button>
+                <button
+                  type="submit"
+                  className="flex-1 bg-green-600 hover:bg-green-700 text-white py-2 rounded-lg transition-colors font-semibold"
+                  data-ers="backlog-tracking.create-modal.submit-button"
+                >
+                  Oluştur
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
