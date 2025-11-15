@@ -1,35 +1,32 @@
-// test-hltb.js
-import howlongtobeat from "howlongtobeat-api";
+import { HowLongToBeatService } from 'howlongtobeat';
 
-async function test() {
+async function testHltb() {
+  console.log('HowLongToBeat servisi test ediliyor...');
+  const hltbService = new HowLongToBeatService();
+  const gameNameToSearch = 'Elden Ring';
+
   try {
-    console.log("🔍 Elden Ring aranıyor...\n");
+    console.log(`'${gameNameToSearch}' için arama yapılıyor...`);
+    const result = await hltbService.search(gameNameToSearch);
 
-    const results = await howlongtobeat.find({ search: "Elden Ring" });
-
-    if (!results.data || results.data.length === 0) {
-      console.log("❌ Sonuç bulunamadı!");
-      return;
+    if (result && result.length > 0) {
+      console.log('Başarılı! Sonuçlar bulundu:');
+      // Sadece en alakalı ilk sonucu ve bizim için önemli olan alanları gösterelim.
+      const game = result[0];
+      const relevantData = {
+        name: game.name,
+        imageUrl: game.imageUrl,
+        gameplayMain: game.gameplayMain,
+        gameplayMainExtra: game.gameplayMainExtra,
+        gameplayCompletionist: game.gameplayCompletionist,
+      };
+      console.log(JSON.stringify(relevantData, null, 2));
+    } else {
+      console.log('Sonuç bulunamadı.');
     }
-
-    console.log(
-      `✅ ${results.total} toplam sonuç, ${results.data.length} tanesi gösteriliyor!\n`,
-    );
-
-    // İlk 3 sonucu göster
-    results.data.slice(0, 3).forEach((game, index) => {
-      console.log(`\n🎮 ${index + 1}. ${game.name}`);
-      console.log(`   ID: ${game.id}`);
-      console.log(`   Ana Hikaye: ${game.main || "N/A"}`);
-      console.log(`   Ana + Extra: ${game.mainExtra || "N/A"}`);
-      console.log(`   Completionist: ${game.completionist || "N/A"}`);
-      console.log(`   Platform: ${game.platforms || "N/A"}`);
-      console.log(`   Yıl: ${game.releaseDate || "N/A"}`);
-    });
   } catch (error) {
-    console.error("❌ Hata:", error.message);
-    console.error("Stack:", error.stack);
+    console.error('HLTB verisi çekilirken bir hata oluştu:', error);
   }
 }
 
-test();
+testHltb();

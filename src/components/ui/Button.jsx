@@ -4,7 +4,7 @@ import React from "react";
  * Reusable Button component aligned with Design System.
  * Supports variants, sizes, loading, disabled, and full width.
  * @param {object} props
- * @param {"primary"|"secondary"|"ghost"|"danger"} [props.variant]
+ * @param {"primary"|"secondary"|"ghost"|"danger"|"success"|"danger_ghost"} [props.variant]
  * @param {"sm"|"md"|"lg"} [props.size]
  * @param {boolean} [props.disabled]
  * @param {boolean} [props.loading]
@@ -44,19 +44,23 @@ export default function Button({
 
   // Neumorphism shadows (outer + hover glow). Tailwind supports arbitrary values.
   const outerShadow =
-    "shadow-[5px_5px_10px_rgba(0,0,0,0.1),_-5px_-5px_10px_rgba(255,255,255,0.7)]";
+    "shadow-[5px_5px_10px_rgba(0,0,0,0.3),_-5px_-5px_10px_rgba(0,0,0,0.2)]";
   const hoverLift = "hover:-translate-y-[4px] hover:shadow-lg";
 
   // Variants map using design system colors
   const variantClasses = {
     primary:
-      "bg-[#D97757] text-[#2D2A26] hover:bg-[#c56e51] active:bg-[#b6664c]",
+      "bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800",
     secondary:
-      "bg-[#EEEAE4] text-[#2D2A26] hover:bg-[#e6e2dc] active:bg-[#dedad4]",
+      "bg-slate-700 text-white hover:bg-slate-800 active:bg-slate-900",
     ghost:
-      "bg-transparent text-[#2D2A26] hover:bg-[#EEEAE4] active:bg-[#e6e2dc] border border-[#EEEAE4]",
+      "bg-transparent text-white hover:bg-slate-700 active:bg-slate-800 border border-slate-600",
     danger:
-      "bg-[#B91C1C] text-white hover:bg-[#991b1b] active:bg-[#7f1d1d]",
+      "bg-red-600 text-white hover:bg-red-700 active:bg-red-800",
+    success:
+      "bg-green-600 text-white hover:bg-green-700 active:bg-green-800",
+    danger_ghost:
+      "bg-transparent text-red-400 hover:bg-red-900/20 active:bg-red-900/30 border border-red-800/50",
   }[variant];
 
   const widthClass = fullWidth ? "w-full" : "";

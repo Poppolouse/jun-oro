@@ -85,31 +85,59 @@ export async function jwtAuthMiddleware(req, res, next) {
       });
     }
 
-    // Session'ı database'de doğrula
+    // Session kontrolü - optional (DB'de session tablosu yoksa userId'den devam et)
+    let user = null;
     const session = await validateSessionInDB(payload.sessionId);
-    if (!session) {
-      return res.status(401).json({
-        success: false,
-        message: "Invalid or expired session",
-      });
-    }
-
-    // User status kontrolü
-    if (!session.user.isActive) {
-      return res.status(401).json({
-        success: false,
-        message: "User account is inactive",
-      });
+    
+    if (session) {
+      // Session varsa user bilgisini session'dan al
+      user = session.user;
+      
+      // User status kontrolü
+      if (!user.isActive) {
+        return res.status(401).json({
+          success: false,
+          message: "User account is inactive",
+        });
+      }
+    } else {
+      // Session yoksa direkt userId ile user'ı çek
+      try {
+        user = await prisma.user.findUnique({
+          where: { id: payload.userId },
+          select: {
+            id: true,
+            username: true,
+            email: true,
+            role: true,
+            status: true,
+            isActive: true,
+          },
+        });
+        
+        if (!user || !user.isActive) {
+          return res.status(401).json({
+            success: false,
+            message: "User not found or inactive",
+          });
+        }
+      } catch (err) {
+        console.error('User lookup error:', err);
+        return res.status(401).json({
+          success: false,
+          message: "Invalid user",
+        });
+      }
     }
 
     // Request'e user bilgisini ekle
     req.user = {
-      id: session.user.id,
-      username: session.user.username,
-      email: session.user.email,
-      role: session.user.role,
-      status: session.user.status,
-      sessionId: session.id,
+      id: user.id,
+      username: user.username,
+      email: user.email,
+      role: user.role,
+      status: user.status,
+      sessionId: session?.id || payload.sessionId,
     };
 
     next();

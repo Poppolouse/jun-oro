@@ -3,8 +3,15 @@ import { Suspense, lazy } from "react";
 import { AuthProvider, useAuth } from "./contexts/AuthContext";
 import { NavigationProvider } from "./contexts/NavigationContext";
 import { ActiveSessionProvider } from "./contexts/ActiveSessionContext";
+import { CyclesProvider } from "./contexts/CyclesContext";
+import { DesignEditorProvider } from "./contexts/DesignEditorContext";
 import TutorialOverlay from "./components/Tutorial/TutorialOverlay";
 import ElementSelector from "./components/Tutorial/ElementSelector";
+import EventOverlay from "./components/design-editor/EventOverlay";
+import Highlighter from "./components/design-editor/Highlighter";
+import Dock from "./components/design-editor/Dock";
+import InfoBox from "./components/design-editor/InfoBox";
+import ToastNotification from "./components/design-editor/ToastNotification";
 import ErrorBoundary from "./components/ErrorBoundary";
 import HomePage from "./pages/HomePage";
 import FAQPage from "./pages/FAQPage";
@@ -29,7 +36,7 @@ function ProtectedRoute({ children }) {
   if (isLoading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 flex items-center justify-center">
-        <div className="text-white text-xl">Yükleniyor...</div>
+        <div className="text-white text-xl">YÃ¼kleniyor...</div>
       </div>
     );
   }
@@ -44,7 +51,7 @@ function AdminRoute({ children }) {
   if (isLoading) {
     return (
       <div className="min-h-screen bg-gray-900 flex items-center justify-center">
-        <div className="text-white">Yükleniyor...</div>
+        <div className="text-white">YÃ¼kleniyor...</div>
       </div>
     );
   }
@@ -57,15 +64,15 @@ function AdminRoute({ children }) {
     return (
       <div className="min-h-screen bg-gray-900 flex items-center justify-center">
         <div className="text-white text-center">
-          <h2 className="text-2xl font-bold mb-4">Erişim Reddedildi</h2>
+          <h2 className="text-2xl font-bold mb-4">EriÅŸim Reddedildi</h2>
           <p className="text-gray-400 mb-4">
-            Bu sayfaya erişim için admin yetkisi gereklidir.
+            Bu sayfaya eriÅŸim iÃ§in admin yetkisi gereklidir.
           </p>
           <button
             onClick={() => window.history.back()}
             className="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded"
           >
-            Geri Dön
+            Geri DÃ¶n
           </button>
         </div>
       </div>
@@ -189,27 +196,38 @@ function AppRoutes() {
 function App() {
   return (
     <AuthProvider>
-      <NavigationProvider>
-        <ActiveSessionProvider>
-          <div className="App">
-            <ErrorBoundary>
-              <Suspense
-                fallback={
-                  <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 flex items-center justify-center">
-                    <div className="text-white text-xl">İçerik yükleniyor...</div>
-                  </div>
-                }
-              >
-                <AppRoutes />
-              </Suspense>
-            </ErrorBoundary>
-            <TutorialOverlay />
-            <ElementSelector />
-          </div>
-        </ActiveSessionProvider>
-      </NavigationProvider>
+      <DesignEditorProvider>
+        <NavigationProvider>
+          <ActiveSessionProvider>
+            <CyclesProvider>
+              <div className="App">
+                <ErrorBoundary>
+                  <Suspense
+                    fallback={
+                      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 flex items-center justify-center">
+                        <div className="text-white text-xl">İçerik yükleniyor...</div>
+                      </div>
+                    }
+                  >
+                    <AppRoutes />
+                  </Suspense>
+                </ErrorBoundary>
+                <TutorialOverlay />
+                <ElementSelector />
+                <EventOverlay />
+                <Highlighter />
+                <Dock />
+                <InfoBox />
+                <ToastNotification />
+              </div>
+            </CyclesProvider>
+          </ActiveSessionProvider>
+        </NavigationProvider>
+      </DesignEditorProvider>
     </AuthProvider>
   );
 }
 
 export default App;
+
+

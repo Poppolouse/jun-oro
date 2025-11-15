@@ -71,7 +71,7 @@ export default function AuditLogsSection({
           <select
             value={filter}
             onChange={(e) => setFilter(e.target.value)}
-            className="bg-gray-700 text-white px-3 py-2 rounded-lg border border-gray-600 text-sm"
+            className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white text-sm"
           >
             <option value="all">Tüm Eylemler</option>
             <option value="create">Oluşturma</option>

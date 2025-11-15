@@ -158,7 +158,7 @@ export default function R2StorageSection() {
           >
             <div className="text-2xl mb-2">{isTestingR2Connection ? "⏳" : "🧪"}</div>
             <div className="font-medium">{isTestingR2Connection ? "Test Ediliyor..." : "Bağlantı Testi"}</div>
-            <div className="text-sm text-[#6B6661] mt-1">R2 bağlantısını test et</div>
+            <div className="text-sm text-slate-400 mt-1">R2 bağlantısını test et</div>
           </Button>
 
           <Button
@@ -171,13 +171,13 @@ export default function R2StorageSection() {
           >
             <div className="text-2xl mb-2">{isLoadingR2Stats ? "⏳" : "🔄"}</div>
             <div className="font-medium">{isLoadingR2Stats ? "Yenileniyor..." : "İstatistikleri Yenile"}</div>
-            <div className="text-sm text-[#6B6661] mt-1">Depolama verilerini güncelle</div>
+            <div className="text-sm text-slate-400 mt-1">Depolama verilerini güncelle</div>
           </Button>
 
           <Button fullWidth variant="ghost" className="text-left" data-ers="settings.r2-storage.quick-actions.clear-cache">
             <div className="text-2xl mb-2">🔄</div>
             <div className="font-medium">Cache Temizle</div>
-            <div className="text-sm text-[#6B6661] mt-1">R2 cache'ini temizle</div>
+            <div className="text-sm text-slate-400 mt-1">R2 cache'ini temizle</div>
           </Button>
         </div>
       </div>

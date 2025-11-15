@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { Button } from "../ui";
 
 export default function AdminUsers({
   users = [],
@@ -46,20 +47,20 @@ export default function AdminUsers({
                   </div>
                 </div>
                 <div className="flex gap-2">
-                  <button
-                    type="button"
+                  <Button
+                    size="sm"
+                    variant="success"
                     onClick={() => onApproveUser(u.id)}
-                    className="bg-green-500 text-white px-3 py-1 rounded"
                   >
-                    ✓ Onayla
-                  </button>
-                  <button
-                    type="button"
+                    Onayla
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant="danger"
                     onClick={() => onRejectUser(u.id)}
-                    className="bg-red-500 text-white px-3 py-1 rounded"
                   >
-                    ✗ Reddet
-                  </button>
+                    Reddet
+                  </Button>
                 </div>
               </div>
             ))}
@@ -69,13 +70,12 @@ export default function AdminUsers({
 
       <div className="flex justify-between items-center">
         <h4 className="text-lg font-semibold text-white">Kullanıcı Yönetimi</h4>
-        <button
-          type="button"
+        <Button
+          variant="success"
           onClick={onAddNewUser}
-          className="bg-green-500 text-white px-4 py-2 rounded-lg"
         >
           + Yeni Kullanıcı
-        </button>
+        </Button>
       </div>
 
       <div className="overflow-x-auto bg-gray-800/50 rounded-xl p-4">
@@ -134,38 +134,38 @@ export default function AdminUsers({
                   </td>
                   <td className="py-3 px-3">
                     <div className="flex gap-2">
-                      <button
-                        type="button"
+                      <Button
+                        size="sm"
+                        variant="ghost"
                         onClick={() => onEditUser(u)}
-                        className="text-blue-400 text-sm"
                       >
                         Düzenle
-                      </button>
+                      </Button>
                       {u.id !== 1 && (
-                        <button
-                          type="button"
+                        <Button
+                          size="sm"
+                          variant="danger_ghost"
                           onClick={() => onDeleteUser(u.id)}
-                          className="text-red-400 text-sm"
                         >
                           Sil
-                        </button>
+                        </Button>
                       )}
-                      <button
-                        type="button"
+                      <Button
+                        size="sm"
+                        variant="ghost"
                         aria-label="Security details"
                         onClick={() => toggleDetail(u.id, "security")}
-                        className="text-sm text-gray-400"
                       >
                         🔒
-                      </button>
-                      <button
-                        type="button"
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="ghost"
                         aria-label="Usage details"
                         onClick={() => toggleDetail(u.id, "data")}
-                        className="text-sm text-gray-400"
                       >
                         📊
-                      </button>
+                      </Button>
                     </div>
                   </td>
                 </tr>
@@ -183,14 +183,14 @@ export default function AdminUsers({
                               {showPasswords[u.id] ? u.password : "••••••••"}
                             </div>
                           </div>
-                          <button
-                            type="button"
+                          <Button
+                            size="sm"
+                            variant="ghost"
                             aria-label="Toggle password visibility"
                             onClick={() => togglePasswordVisibility(u.id)}
-                            className="px-3 py-1 bg-blue-500/20 text-blue-400 rounded"
                           >
                             👁️
-                          </button>
+                          </Button>
                         </div>
                       </div>
                     </td>

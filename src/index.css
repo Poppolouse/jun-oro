@@ -192,3 +192,20 @@
   color: white;
   mix-blend-mode: difference;
 }
+
+[data-design-editor-selected="true"],
+[data-design-editor-selected="true"]:hover {
+  transform: none !important;
+  transition: none !important;
+  animation: none !important;
+}
+
+/* Design Editor - Child Move Pulse Animation */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}

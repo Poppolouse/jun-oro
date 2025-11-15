@@ -173,11 +173,13 @@ function HomePage() {
               className="text-center mb-8 main-clock"
               id="main-clock"
               data-registry="1.0.B2"
+              data-ers="home-page.body.main-clock"
             >
               <div
                 className="text-6xl md:text-8xl font-bold text-white mb-2 font-mono tracking-wider"
                 id="clock-time"
                 data-registry="1.0.B2.1"
+                data-ers="home-page.body.main-clock.time-display"
               >
                 {formatTime(currentTime)}
               </div>
@@ -185,6 +187,7 @@ function HomePage() {
                 className="text-xl text-gray-400 capitalize"
                 id="clock-date"
                 data-registry="1.0.B2.2"
+                data-ers="home-page.body.main-clock.date-display"
               >
                 {formatDate(currentTime)}
               </div>
@@ -195,6 +198,7 @@ function HomePage() {
               className="mb-12 search-bar"
               id="search-section"
               data-registry="1.0.B3"
+              data-ers="home-page.body.search-section"
             >
               <div className="relative max-w-2xl mx-auto">
                 <div className="relative">
@@ -205,6 +209,7 @@ function HomePage() {
                     disabled
                     id="search-input"
                     data-registry="1.0.B3.1"
+                    data-ers="home-page.body.search-section.input"
                   />
                   <div className="absolute right-4 top-1/2 transform -translate-y-1/2">
                     <span
@@ -219,10 +224,11 @@ function HomePage() {
             </div>
 
             {/* Uygulamalar */}
-            <div className="mb-8" id="apps-section" data-registry="1.0.B4">
+            <div className="mb-8" id="apps-section" data-registry="1.0.B4" data-ers="home-page.body.apps-section">
               <h2
                 className="text-2xl font-bold text-white mb-6 text-center"
                 data-registry="1.0.B4.1"
+                data-ers="home-page.body.apps-section.title"
               >
                 🚀 Tüm Uygulamalar
               </h2>
@@ -230,10 +236,12 @@ function HomePage() {
                 className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8 apps-grid"
                 id="apps-grid"
                 data-registry="1.0.B4.2"
+                data-ers="home-page.body.apps-section.grid"
               >
                 {currentApps.map((app) => (
                   <div
                     key={app.id}
+                    data-ers={`home-page.body.apps-section.app-card.${app.id}`}
                     className={`relative rounded-2xl p-6 border transition-all duration-300 group ${
                       app.status === "active"
                         ? "bg-slate-800/50 border-slate-600/50 hover:border-slate-500 cursor-pointer hover:scale-105"
@@ -246,16 +254,23 @@ function HomePage() {
                     data-registry={`1.0.B4.2.${app.id}`}
                   >
                     {app.status === "coming_soon" && (
-                      <div className="absolute top-4 right-4 z-10">
+                      <div 
+                        className="absolute top-4 right-4 z-10"
+                        data-ers={`home-page.body.apps-section.app-card.${app.id}.coming-soon-badge-container`}
+                      >
                         <span
                           className="text-xs px-2 py-1 rounded-full bg-slate-700/80 text-slate-300 border border-slate-600/50"
                           data-registry={`1.0.B4.2.${app.id}.1`}
+                          data-ers={`home-page.body.apps-section.app-card.${app.id}.coming-soon-badge`}
                         >
                           Çok Yakında
                         </span>
                       </div>
                     )}
-                    <div className="text-center">
+                    <div 
+                      className="text-center"
+                      data-ers={`home-page.body.apps-section.app-card.${app.id}.content`}
+                    >
                       <div
                         className={`w-16 h-16 mx-auto rounded-2xl flex items-center justify-center text-3xl shadow-lg mb-4 transition-transform ${
                           app.status === "active"
@@ -263,18 +278,23 @@ function HomePage() {
                             : "bg-slate-700/50"
                         }`}
                         data-registry={`1.0.B4.2.${app.id}.2`}
+                        data-ers={`home-page.body.apps-section.app-card.${app.id}.content.icon-container`}
                       >
-                        {app.icon}
+                        <span data-ers={`home-page.body.apps-section.app-card.${app.id}.content.icon-container.icon`}>
+                          {app.icon}
+                        </span>
                       </div>
                       <h3
                         className="text-lg font-bold text-white mb-2"
                         data-registry={`1.0.B4.2.${app.id}.3`}
+                        data-ers={`home-page.body.apps-section.app-card.${app.id}.content.title`}
                       >
                         {app.name}
                       </h3>
                       <p
                         className="text-gray-400 text-sm mb-4 leading-relaxed"
                         data-registry={`1.0.B4.2.${app.id}.4`}
+                        data-ers={`home-page.body.apps-section.app-card.${app.id}.content.description`}
                       >
                         {app.description}
                       </p>
@@ -286,6 +306,7 @@ function HomePage() {
                         }`}
                         disabled={app.status !== "active"}
                         data-registry={`1.0.B4.2.${app.id}.5`}
+                        data-ers={`home-page.body.apps-section.app-card.${app.id}.content.action-button`}
                       >
                         {app.status === "active"
                           ? "Uygulamayı Aç"

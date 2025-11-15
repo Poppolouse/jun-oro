@@ -85,6 +85,13 @@ export const userService = {
       const data = await response.json();
 
       if (response.ok && data.success) {
+        // Token ve sessionId'yi localStorage'a kaydet
+        if (data.data.token) {
+          localStorage.setItem('token', data.data.token);
+        }
+        if (data.data.sessionId) {
+          localStorage.setItem('sessionId', data.data.sessionId);
+        }
         return { success: true, user: data.data };
       } else {
         return { success: false, message: data.message || "Giriş başarısız" };

@@ -153,6 +153,8 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
     try {
       localStorage.removeItem("arkade_user");
+      localStorage.removeItem("token"); // JWT token'ı da temizle
+      localStorage.removeItem("sessionId"); // Session ID'yi de temizle
     } catch (error) {
       console.error("Failed to remove user from localStorage:", error);
     }

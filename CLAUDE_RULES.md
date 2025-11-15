@@ -726,8 +726,3 @@ docs/DESIGN-PREFERENCES.md (varsa)
 - Task bittiğinde → WORKFLOW 6
 
 Her workflow birbirini çağırabilir, modüler yapı.
-
-
--------------
-
-her plan uyguladığında adımların [ ] kısımlarını güncelle ki kullanıcı bilsin ne değişti. [ ] - [X] şeklinde.

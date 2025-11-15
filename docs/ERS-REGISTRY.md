@@ -137,6 +137,14 @@ Bu dosya Jun-Oro projesindeki tüm UI element'lerini ve ERS kodlarını içerir.
 4. **Hiyerarşi**: Parent-child ilişkisi korunur, alt elementler parent kodunu içerir
 5. **Component Yapısı**: Her component kendi dosyasında yer alır ve ilgili ERS kodlarını içerir
 
+## Header Component'leri
+
+Tasarım moduna ait admin toggle’lar kaldırılmıştır. Header bileşeninde ERS kaydı gerektiren özel admin toggle alanı bulunmamaktadır.
+
+## Design Editor UI
+
+Bu proje sürümünde canlı Tasarım Editörü bulunmamaktadır. İlgili ERS kayıtları ve UI elemanları kaldırılmıştır.
+
 ## FAQPage Component'leri
 
 ### Ana Sayfa
@@ -237,7 +245,50 @@ Bu dosya Jun-Oro projesindeki tüm UI element'lerini ve ERS kodlarını içerir.
 
 - 10.11.2025: AddGameModal component'leri ERS ile entegre edildi
 - 10.11.2025: Tüm component'lere ERS attribute'leri eklendi ve registry güncellendi
- - 11.11.2025: FAQPage component'leri ERS ile entegre edildi
+- 11.11.2025: FAQPage component'leri ERS ile entegre edildi
+- 15.11.2025: BacklogTrackingDashboard component'leri ERS ile entegre edildi
+
+## BacklogTrackingDashboard Component'leri
+
+### Ana Konteyner
+- `backlog-tracking.dashboard` - Ana dashboard konteyner
+- `backlog-tracking.loading` - Yükleniyor durumu
+- `backlog-tracking.error` - Hata durumu
+- `backlog-tracking.no-active-cycle` - Aktif döngü yok mesajı
+
+### Sol Panel (Oyun Kartları)
+- `backlog-tracking.main-panel` - Sol panel ana konteyner
+- `backlog-tracking.main-panel.header` - Panel başlığı
+- `backlog-tracking.main-panel.game-grid` - Oyun kartları grid
+- `backlog-tracking.game-card.{n}` - Oyun kartı (n: 0-99)
+- `backlog-tracking.game-card.{n}.cover` - Oyun kapak resmi
+- `backlog-tracking.game-card.{n}.no-cover` - Kapak yok placeholder
+- `backlog-tracking.game-card.{n}.status-icon` - Durum ikonu
+- `backlog-tracking.game-card.{n}.hover-overlay` - Hover overlay
+- `backlog-tracking.game-card.{n}.start-button` - Oturumu başlat butonu
+- `backlog-tracking.game-card.{n}.info` - Oyun bilgileri
+
+### Sağ Panel (Döngü Yönetimi)
+- `backlog-tracking.side-panel` - Sağ panel ana konteyner
+- `backlog-tracking.side-panel.title` - Panel başlığı
+- `backlog-tracking.side-panel.progress` - Döngü ilerleme bölümü
+- `backlog-tracking.side-panel.selected-game` - Seçili oyun detayları
+- `backlog-tracking.side-panel.selected-game.cover` - Seçili oyun kapağı
+- `backlog-tracking.side-panel.selected-game.actions` - Seçili oyun aksiyonları
+- `backlog-tracking.side-panel.selected-game.play-button` - Oynamaya başla butonu
+- `backlog-tracking.side-panel.selected-game.complete-button` - Tamamlandı butonu
+- `backlog-tracking.side-panel.selected-game.backlog-button` - Sıraya al butonu
+- `backlog-tracking.side-panel.no-selection` - Seçim yok mesajı
+- `backlog-tracking.side-panel.upcoming-cycles` - Sıradaki döngüler bölümü
+- `backlog-tracking.side-panel.upcoming-cycle.{n}` - Sıradaki döngü kartı (n: 0-9)
+- `backlog-tracking.side-panel.upcoming-cycle.{n}.activate-button` - Döngü aktif et butonu
+
+### Planlanmış Döngüler (Aktif Döngü Yoksa)
+- `backlog-tracking.planned-cycle.{n}` - Planlanmış döngü kartı (n: 0-9)
+- `backlog-tracking.planned-cycle.{n}.activate-button` - Aktif et butonu
+
+### ArkadeLibrary Backlog Sekmesi
+- `arkade-library.backlog-tab` - Backlog Takibi sekme butonu (data-registry: 2.1.B1.1.3.5)
 
 ## Settings Component'leri
 

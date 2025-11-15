@@ -766,6 +766,40 @@ class UserLibraryService {
       console.error("Kütüphane temizleme hatası:", error);
     }
   }
+
+  /**
+   * Oyun durumunu güncelle (backlog, playing, completed)
+   */
+  async updateGameStatus(gameId, status) {
+    try {
+      if (!this.currentUser) {
+        await this.initializeUser();
+      }
+
+      if (!['backlog', 'playing', 'completed'].includes(status)) {
+        throw new Error('Geçersiz durum değeri');
+      }
+
+      const token = localStorage.getItem('token');
+      const response = await fetch(`/api/library/${gameId}/status`, {
+        method: 'PATCH',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ status })
+      });
+
+      if (!response.ok) {
+        throw new Error('Oyun durumu güncellenemedi');
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error("Oyun durumu güncelleme hatası:", error);
+      throw error;
+    }
+  }
 }
 
 // Singleton instance

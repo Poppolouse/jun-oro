@@ -149,8 +149,8 @@ const ImageUpload = ({
           transition-all duration-200 relative overflow-hidden
           ${
             dragActive
-              ? "border-blue-500 bg-blue-50"
-              : "border-gray-300 hover:border-gray-400"
+              ? "border-blue-500 bg-blue-900/20"
+              : "border-slate-600 hover:border-slate-500"
           }
           ${disabled || isUploading ? "opacity-50 cursor-not-allowed" : ""}
         `}
@@ -185,7 +185,7 @@ const ImageUpload = ({
             )}
           </div>
         ) : (
-          <div className="flex flex-col items-center justify-center h-full text-gray-500">
+          <div className="flex flex-col items-center justify-center h-full text-slate-400">
             {isUploading ? (
               <Loader2 className="animate-spin mb-2" size={24} />
             ) : (
@@ -198,7 +198,7 @@ const ImageUpload = ({
         )}
       </div>
 
-      <div className="mt-2 text-xs text-gray-500 text-center">
+      <div className="mt-2 text-xs text-slate-400 text-center">
         Max {maxSize}MB • JPG, PNG, GIF, WebP
       </div>
     </div>

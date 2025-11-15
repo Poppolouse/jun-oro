@@ -132,25 +132,25 @@ export default function ChangelogSection() {
 
       {/* Changelog List */}
       {isLoadingChangelogs ? (
-        <div className="text-[#6B6661]">Changelog'lar yükleniyor...</div>
+        <div className="text-slate-400">Changelog'lar yükleniyor...</div>
       ) : changelogs.length === 0 ? (
-        <p className="text-[#6B6661]">Henüz changelog bulunmuyor.</p>
+        <p className="text-slate-400">Henüz changelog bulunmuyor.</p>
       ) : (
         <div className="space-y-4">
           {changelogs.map((changelog) => (
-            <div key={changelog.id} className="bg-[#EEEAE4] rounded-lg p-4 border border-[#DDD6CF]">
+            <div key={changelog.id} className="bg-gray-800/50 rounded-lg p-4 border border-slate-700">
               <div className="flex items-start justify-between">
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-2">
                     <span
                       className={`px-2 py-1 rounded text-xs font-medium ${
                         changelog.type === "feature"
-                          ? "bg-green-200 text-green-700"
+                          ? "bg-green-500/20 text-green-300"
                           : changelog.type === "bugfix"
-                            ? "bg-red-200 text-red-700"
+                            ? "bg-red-500/20 text-red-300"
                             : changelog.type === "improvement"
-                              ? "bg-blue-200 text-blue-700"
-                              : "bg-gray-200 text-gray-700"
+                              ? "bg-blue-500/20 text-blue-300"
+                              : "bg-gray-500/20 text-gray-300"
                       }`}
                     >
                       {changelog.type === "feature"
@@ -161,13 +161,13 @@ export default function ChangelogSection() {
                             ? "⚡ İyileştirme"
                             : "📝 Diğer"}
                     </span>
-                    <span className="text-sm text-[#6B6661]">v{changelog.version}</span>
-                    <span className="text-sm text-[#6B6661]">
+                    <span className="text-sm text-slate-400">v{changelog.version}</span>
+                    <span className="text-sm text-slate-400">
                       {new Date(changelog.releaseDate).toLocaleDateString("tr-TR")}
                     </span>
                   </div>
-                  <h5 className="text-[#2D2A26] font-medium mb-2">{changelog.title}</h5>
-                  <p className="text-[#6B6661] whitespace-pre-line">{changelog.content}</p>
+                  <h5 className="text-slate-100 font-medium mb-2">{changelog.title}</h5>
+                  <p className="text-slate-300 whitespace-pre-line">{changelog.content}</p>
                 </div>
                 <div className="flex items-center gap-2">
                   <Button size="sm" variant="primary" onClick={() => handleEditChangelog(changelog)} data-ers={`settings.changelog.edit-button.${changelog.id}`}>
@@ -185,10 +185,10 @@ export default function ChangelogSection() {
 
       {/* Changelog Modal */}
       {showChangelogModal && (
-        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-          <div className="bg-[#EEEAE4] rounded-xl w-full max-w-2xl p-6 shadow-lg">
+        <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
+          <div className="bg-slate-800 rounded-xl w-full max-w-2xl p-6 shadow-lg border border-slate-700">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-xl font-semibold text-[#2D2A26]">
+              <h3 className="text-xl font-semibold text-white">
                 {editingChangelog ? "Changelog Düzenle" : "Yeni Changelog"}
               </h3>
               <Button size="sm" variant="ghost" onClick={handleCloseChangelogModal} data-ers="settings.changelog.modal.close-button">✖</Button>
@@ -202,9 +202,9 @@ export default function ChangelogSection() {
               />
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-[#6B6661] mb-1">Tür</label>
+                  <label className="block text-sm font-medium text-slate-300 mb-1">Tür</label>
                   <select
-                    className="w-full rounded-lg border border-[#DDD6CF] bg-white p-2 text-[#2D2A26]"
+                    className="w-full rounded-lg border border-slate-600 bg-slate-700 p-2 text-white focus:ring-blue-500 focus:border-blue-500"
                     value={newChangelog.type}
                     onChange={(e) => setNewChangelog({ ...newChangelog, type: e.target.value })}
                   >

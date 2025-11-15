@@ -417,19 +417,30 @@ function LibraryContent({ showCampaignCards, setShowCampaignCards }) {
           alt={title}
           className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent pointer-events-none" />
+        <div 
+          className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"
+          style={{ pointerEvents: 'none' }}
+          data-ers={`arkade-library.game-card.${i}.gradient-overlay`}
+        />
         {/* Üst sol: toplu seçim kutusu */}
-        <label className="absolute top-2 left-2 inline-flex items-center gap-1 px-2 py-1 rounded-full bg-black/50 border border-white/20 text-white text-[10px] cursor-pointer select-none">
+        <label 
+          className="absolute top-2 left-2 inline-flex items-center gap-1 px-2 py-1 rounded-full bg-black/50 border border-white/20 text-white text-[10px] cursor-pointer select-none"
+          data-ers={`arkade-library.game-card.${i}.select-checkbox`}
+        >
           <input
             type="checkbox"
             checked={checked}
             onChange={(e) => toggleSelect(g.id, e.target.checked)}
             className="appearance-none w-3 h-3 rounded-sm border border-white/40 bg-black/30 checked:bg-emerald-500 checked:border-emerald-400"
+            data-ers={`arkade-library.game-card.${i}.select-checkbox.input`}
           />
-          <span>Seç</span>
+          <span data-ers={`arkade-library.game-card.${i}.select-checkbox.label`}>Seç</span>
         </label>
         {/* Üst sağ: düzenle & sil */}
-        <div className="absolute top-2 right-2 flex items-center gap-2 z-10">
+        <div 
+          className="absolute top-2 right-2 flex items-center gap-2 z-10"
+          data-ers={`arkade-library.game-card.${i}.action-buttons`}
+        >
           <button
             onClick={(e) => {
               e.stopPropagation();
@@ -437,6 +448,7 @@ function LibraryContent({ showCampaignCards, setShowCampaignCards }) {
             }}
             className="px-2 py-1 text-[10px] rounded-full bg-blue-500/30 border border-blue-400/40 text-blue-200 hover:bg-blue-500/40"
             title="Düzenle"
+            data-ers={`arkade-library.game-card.${i}.edit-button`}
           >
             ✏️
           </button>
@@ -447,13 +459,17 @@ function LibraryContent({ showCampaignCards, setShowCampaignCards }) {
             }}
             className="px-2 py-1 text-[10px] rounded-full bg-red-500/30 border border-red-400/40 text-red-200 hover:bg-red-500/40"
             title="Sil"
+            data-ers={`arkade-library.game-card.${i}.delete-button`}
           >
             🗑️
           </button>
         </div>
 
         {/* Ortada küçük play butonu */}
-        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+        <div 
+          className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+          data-ers={`arkade-library.game-card.${i}.play-button-container`}
+        >
           <button
             onClick={async (e) => {
               e.stopPropagation();
@@ -503,14 +519,21 @@ function LibraryContent({ showCampaignCards, setShowCampaignCards }) {
                   ? "Campaign seç ve başlat"
                   : "Oturumu başlat"
             }
+            data-ers={`arkade-library.game-card.${i}.play-button`}
           >
             {activeSession?.id === g.id ? (
-              <div className="text-sm">🎮</div>
+              <div 
+                className="text-sm"
+                data-ers={`arkade-library.game-card.${i}.play-button.active-icon`}
+              >
+                🎮
+              </div>
             ) : (
               <svg
                 className="w-4 h-4 ml-0.5"
                 fill="currentColor"
                 viewBox="0 0 24 24"
+                data-ers={`arkade-library.game-card.${i}.play-button.play-icon`}
               >
                 <path d="M8 5v14l11-7z" />
               </svg>
@@ -519,26 +542,50 @@ function LibraryContent({ showCampaignCards, setShowCampaignCards }) {
         </div>
 
         {/* Alt içerik */}
-        <div className="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black/65 to-transparent">
-          <div className="text-white text-sm font-semibold truncate">
+        <div 
+          className="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black/65 to-transparent"
+          data-ers={`arkade-library.game-card.${i}.info-container`}
+        >
+          <div 
+            className="text-white text-sm font-semibold truncate"
+            data-ers={`arkade-library.game-card.${i}.info-container.title`}
+          >
             {title}
           </div>
-          <div className="mt-1 flex items-center justify-between text-[11px]">
-            <span className="text-gray-300 truncate max-w-[50%]">
+          <div 
+            className="mt-1 flex items-center justify-between text-[11px]"
+            data-ers={`arkade-library.game-card.${i}.info-container.metadata-row`}
+          >
+            <span 
+              className="text-gray-300 truncate max-w-[50%]"
+              data-ers={`arkade-library.game-card.${i}.info-container.metadata-row.developer`}
+            >
               {developer || "—"}
             </span>
-            <span className="px-2 py-0.5 rounded-full bg-white/10 border border-white/20 text-white/90">
+            <span 
+              className="px-2 py-0.5 rounded-full bg-white/10 border border-white/20 text-white/90"
+              data-ers={`arkade-library.game-card.${i}.info-container.metadata-row.status-badge`}
+            >
               {statusLabel}
             </span>
           </div>
-          <div className="mt-1 flex items-center justify-between text-[10px]">
-            <span className="text-gray-300">
+          <div 
+            className="mt-1 flex items-center justify-between text-[10px]"
+            data-ers={`arkade-library.game-card.${i}.info-container.stats-row`}
+          >
+            <span 
+              className="text-gray-300"
+              data-ers={`arkade-library.game-card.${i}.info-container.stats-row.playtime`}
+            >
               {formatPlaytime(g.libraryInfo?.playtime)}
             </span>
             {g.campaigns && g.campaigns.length > 0 && (
-              <span className="text-[#00ff88] flex items-center gap-1">
-                <span>🎯</span>
-                <span>{g.campaigns.length} Campaign</span>
+              <span 
+                className="text-[#00ff88] flex items-center gap-1"
+                data-ers={`arkade-library.game-card.${i}.info-container.stats-row.campaign-badge`}
+              >
+                <span data-ers={`arkade-library.game-card.${i}.info-container.stats-row.campaign-badge.icon`}>🎯</span>
+                <span data-ers={`arkade-library.game-card.${i}.info-container.stats-row.campaign-badge.text`}>{g.campaigns.length} Campaign</span>
               </span>
             )}
           </div>

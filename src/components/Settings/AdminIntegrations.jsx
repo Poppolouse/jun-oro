@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { useAuth } from "../../contexts/AuthContext";
 import { apiKeyService } from "../../services/apiKeys";
+import { Button, InputField } from "../ui";
 
 function StatusBadge({ status }) {
   if (!status) return null;
@@ -26,26 +27,42 @@ StatusBadge.propTypes = {
 export default function AdminIntegrations() {
   const { user, isAdmin } = useAuth();
 
+  // Steam States
   const [steamApiKey, setSteamApiKey] = useState("");
   const [steamConnectionStatus, setSteamConnectionStatus] = useState(null);
   const [isTestingSteamConnection, setIsTestingSteamConnection] =
     useState(false);
 
+  // IGDB States
+  const [igdbApiKey, setIgdbApiKey] = useState("");
+  const [igdbConnectionStatus, setIgdbConnectionStatus] = useState(null);
+  const [isTestingIgdbConnection, setIsTestingIgdbConnection] =
+    useState(false);
+
   useEffect(() => {
     let mounted = true;
-    (async () => {
+    const fetchKeys = async () => {
       try {
-        const key = await apiKeyService.getSteamApiKey(user?.id);
-        if (mounted) setSteamApiKey(key || "");
+        const steamKey = await apiKeyService.getSteamApiKey(user?.id);
+        const igdbKey = await apiKeyService.getIgdbApiKey(user?.id);
+        if (mounted) {
+          setSteamApiKey(steamKey || "");
+          setIgdbApiKey(igdbKey || "");
+        }
       } catch (err) {
-        if (mounted) setSteamApiKey("");
+        if (mounted) {
+          setSteamApiKey("");
+          setIgdbApiKey("");
+        }
       }
-    })();
+    };
+    fetchKeys();
     return () => {
       mounted = false;
     };
   }, [user?.id]);
 
+  // Steam Handlers
   const handleSaveSteamApiKey = async () => {
     if (!steamApiKey.trim()) {
       alert("Lütfen Steam API anahtarını girin");
@@ -104,15 +121,7 @@ export default function AdminIntegrations() {
     )
       return;
     try {
-      const res = await apiKeyService.getServiceApiKey(
-        "steam",
-        user?.id,
-        false,
-      );
-      const keyId = res?.data?.id;
-      if (keyId) {
-        await apiKeyService.deleteApiKey(keyId);
-      }
+      await apiKeyService.deleteApiKeyForService("steam", user?.id);
       setSteamApiKey("");
       setSteamConnectionStatus({
         success: true,
@@ -127,21 +136,93 @@ export default function AdminIntegrations() {
     }
   };
 
-  return (
-    <div className="bg-gray-700/50 rounded-lg p-6">
-      <div className="flex items-center justify-between mb-4">
-        <h5 className="text-white font-medium flex items-center gap-2">
-          🎮 Steam API Yönetimi
-        </h5>
-        <StatusBadge status={steamConnectionStatus} />
-      </div>
+  // IGDB Handlers
+  const handleSaveIgdbApiKey = async () => {
+    if (!igdbApiKey.trim()) {
+      alert("Lütfen IGDB API anahtarını girin");
+      return;
+    }
+    try {
+      await apiKeyService.setIgdbApiKey(
+        igdbApiKey.trim(),
+        user?.id,
+        isAdmin,
+      );
+      setIgdbConnectionStatus({
+        success: true,
+        message: "IGDB API anahtarı kaydedildi",
+      });
+    } catch (error) {
+      console.error("Failed to save IGDB API key:", error);
+      setIgdbConnectionStatus({
+        success: false,
+        message: "IGDB API anahtarı kaydedilemedi: " + error.message,
+      });
+    }
+  };
 
-      <div className="space-y-4">
-        <div>
-          <label className="block text-gray-300 text-sm font-medium mb-2">
-            Steam API Key
-          </label>
-          <input
+  const handleTestIgdbConnection = async () => {
+    setIsTestingIgdbConnection(true);
+    setIgdbConnectionStatus(null);
+    try {
+      const key = await apiKeyService.getIgdbApiKey(user?.id);
+      if (key && key.length > 10) {
+        setIgdbConnectionStatus({
+          success: true,
+          message: "IGDB bağlantısı başarılı",
+        });
+      } else {
+        setIgdbConnectionStatus({
+          success: false,
+          message: "IGDB bağlantısı başarısız: Key bulunamadı",
+        });
+      }
+    } catch (error) {
+      setIgdbConnectionStatus({
+        success: false,
+        message: `Bağlantı hatası: ${error.message}`,
+      });
+    } finally {
+      setIsTestingIgdbConnection(false);
+    }
+  };
+
+  const handleClearIgdbCredentials = async () => {
+    if (
+      !window.confirm(
+        "IGDB API anahtarını silmek istediğinizden emin misiniz?",
+      )
+    )
+      return;
+    try {
+      await apiKeyService.deleteApiKeyForService("igdb", user?.id);
+      setIgdbApiKey("");
+      setIgdbConnectionStatus({
+        success: true,
+        message: "IGDB API anahtarı başarıyla silindi",
+      });
+    } catch (error) {
+      console.error("Failed to delete IGDB API key:", error);
+      setIgdbConnectionStatus({
+        success: false,
+        message: "IGDB API anahtarı silinemedi: " + error.message,
+      });
+    }
+  };
+
+  return (
+    <div className="space-y-6">
+      {/* Steam Section */}
+      <div className="bg-gray-700/50 rounded-lg p-6">
+        <div className="flex items-center justify-between mb-4">
+          <h5 className="text-white font-medium flex items-center gap-2">
+            🎮 Steam API Yönetimi
+          </h5>
+          <StatusBadge status={steamConnectionStatus} />
+        </div>
+        <div className="space-y-4">
+          <InputField
+            label="Steam API Key"
             type="password"
             value={steamApiKey}
             onChange={(e) => setSteamApiKey(e.target.value)}
@@ -150,41 +231,81 @@ export default function AdminIntegrations() {
                 ? "Steam API anahtarınızı girin"
                 : "🔍 Key bulunamadı - Steam API anahtarınızı girin"
             }
-            className="w-full px-3 py-2 bg-gray-600/50 border border-gray-600 rounded-lg text-white text-sm focus:border-blue-500 focus:outline-none"
           />
-        </div>
-
-        <div className="flex gap-3">
-          <button
-            onClick={handleSaveSteamApiKey}
-            className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg text-sm font-medium transition-colors"
-          >
-            💾 Kaydet
-          </button>
-          <button
-            onClick={handleTestSteamConnection}
-            disabled={isTestingSteamConnection}
-            className="px-4 py-2 bg-green-500 hover:bg-green-600 disabled:bg-gray-500 text-white rounded-lg text-sm font-medium transition-colors"
-          >
-            {isTestingSteamConnection
-              ? "⏳ Test Ediliyor..."
-              : "🔍 Bağlantıyı Test Et"}
-          </button>
-          <button
-            onClick={handleClearSteamCredentials}
-            className="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg text-sm font-medium transition-colors"
-          >
-            🗑️ Temizle
-          </button>
-        </div>
-
-        {steamConnectionStatus && (
-          <div
-            className={`p-3 rounded-lg text-sm ${steamConnectionStatus.success ? "bg-green-500/20 text-green-400" : "bg-red-500/20 text-red-400"}`}
-          >
-            {steamConnectionStatus.message}
+          <div className="flex gap-3">
+            <Button variant="primary" onClick={handleSaveSteamApiKey}>
+              💾 Kaydet
+            </Button>
+            <Button
+              variant="secondary"
+              onClick={handleTestSteamConnection}
+              loading={isTestingSteamConnection}
+              disabled={isTestingSteamConnection}
+            >
+              {isTestingSteamConnection
+                ? "⏳ Test Ediliyor..."
+                : "🔍 Bağlantıyı Test Et"}
+            </Button>
+            <Button variant="danger" onClick={handleClearSteamCredentials}>
+              🗑️ Temizle
+            </Button>
           </div>
-        )}
+          {steamConnectionStatus && (
+            <div
+              className={`p-3 rounded-lg text-sm ${steamConnectionStatus.success ? "bg-green-500/20 text-green-400" : "bg-red-500/20 text-red-400"}`}
+            >
+              {steamConnectionStatus.message}
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* IGDB Section */}
+      <div className="bg-gray-700/50 rounded-lg p-6">
+        <div className="flex items-center justify-between mb-4">
+          <h5 className="text-white font-medium flex items-center gap-2">
+            📚 IGDB API Yönetimi
+          </h5>
+          <StatusBadge status={igdbConnectionStatus} />
+        </div>
+        <div className="space-y-4">
+          <InputField
+            label="IGDB API Key"
+            type="password"
+            value={igdbApiKey}
+            onChange={(e) => setIgdbApiKey(e.target.value)}
+            placeholder={
+              igdbApiKey
+                ? "IGDB API anahtarınızı girin"
+                : "🔍 Key bulunamadı - IGDB API anahtarınızı girin"
+            }
+          />
+          <div className="flex gap-3">
+            <Button variant="primary" onClick={handleSaveIgdbApiKey}>
+              💾 Kaydet
+            </Button>
+            <Button
+              variant="secondary"
+              onClick={handleTestIgdbConnection}
+              loading={isTestingIgdbConnection}
+              disabled={isTestingIgdbConnection}
+            >
+              {isTestingIgdbConnection
+                ? "⏳ Test Ediliyor..."
+                : "🔍 Bağlantıyı Test Et"}
+            </Button>
+            <Button variant="danger" onClick={handleClearIgdbCredentials}>
+              🗑️ Temizle
+            </Button>
+          </div>
+          {igdbConnectionStatus && (
+            <div
+              className={`p-3 rounded-lg text-sm ${igdbConnectionStatus.success ? "bg-green-500/20 text-green-400" : "bg-red-500/20 text-red-400"}`}
+            >
+              {igdbConnectionStatus.message}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

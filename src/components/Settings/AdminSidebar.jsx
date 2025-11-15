@@ -57,7 +57,7 @@ export default function AdminSidebar({
                   <button
                     key={item.id}
                     onClick={() => setAdminActiveTab(item.id)}
-                    className={`w-full flex items-center gap-2 px-3 py-2 rounded-lg transition-colors text-left ${adminActiveTab === item.id ? "bg-blue-500 text-white" : "text-gray-400 hover:text-white hover:bg-gray-700/50"} ${!isAdminSidebarExpanded ? "justify-center" : ""}`}
+                    className={`w-full flex items-center gap-2 px-3 py-2 rounded-lg transition-colors text-left ${adminActiveTab === item.id ? "bg-blue-600 text-white" : "text-gray-400 hover:text-white hover:bg-gray-700/50"} ${!isAdminSidebarExpanded ? "justify-center" : ""}`}
                     id={`settings-admin-item-${item.id}`}
                     data-registry={`2.0.L.ADMIN_NAV.${group.id}.${item.id}`}
                     title={!isAdminSidebarExpanded ? item.name : ""}

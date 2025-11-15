@@ -1,5 +1,6 @@
 import React, { useState, useMemo, useEffect } from "react";
 import PropTypes from "prop-types";
+import { Button, InputField } from "../ui";
 import NotificationHistory from "./NotificationHistory";
 
 export default function AdminNotifications({
@@ -56,25 +57,19 @@ export default function AdminNotifications({
       <div className="bg-gray-700/50 rounded-lg p-6">
         <h5 className="text-white font-medium mb-4">✉️ Yeni Bildirim Gönder</h5>
         <div className="space-y-4">
-          <div>
-            <label className="block text-gray-300 text-sm mb-2">Başlık</label>
-            <input
-              type="text"
-              value={notificationTitle}
-              onChange={(e) => setNotificationTitle(e.target.value)}
-              className="w-full px-4 py-2 bg-gray-800 border border-gray-600 rounded-lg text-white"
-            />
-          </div>
+          <InputField
+            label="Başlık"
+            value={notificationTitle}
+            onChange={(e) => setNotificationTitle(e.target.value)}
+          />
 
-          <div>
-            <label className="block text-gray-300 text-sm mb-2">Mesaj</label>
-            <textarea
-              value={notificationMessage}
-              onChange={(e) => setNotificationMessage(e.target.value)}
-              rows={4}
-              className="w-full px-4 py-2 bg-gray-800 border border-gray-600 rounded-lg text-white resize-none"
-            />
-          </div>
+          <InputField
+            multiline
+            label="Mesaj"
+            value={notificationMessage}
+            onChange={(e) => setNotificationMessage(e.target.value)}
+            rows={4}
+          />
 
           <div>
             <label className="block text-gray-300 text-sm mb-2">
@@ -83,7 +78,7 @@ export default function AdminNotifications({
             <select
               value={notificationType}
               onChange={(e) => setNotificationType(e.target.value)}
-              className="w-full px-4 py-2 bg-gray-800 border border-gray-600 rounded-lg text-white"
+              className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white"
             >
               <option value="info">Bilgi</option>
               <option value="success">Başarı</option>
@@ -120,14 +115,15 @@ export default function AdminNotifications({
                   <span className="text-gray-300 text-sm">
                     Kullanıcı Seçimi
                   </span>
-                  <button
+                  <Button
+                    size="sm"
+                    variant="ghost"
                     onClick={onSelectAllUsers}
-                    className="text-blue-400 text-sm"
                   >
                     {selectedUsers.length === users.length
                       ? "Hiçbirini Seçme"
                       : "Tümünü Seç"}
-                  </button>
+                  </Button>
                 </div>
                 <div className="max-h-40 overflow-y-auto space-y-1">
                   {users.map((u) => (
@@ -148,17 +144,17 @@ export default function AdminNotifications({
           </div>
 
           <div className="flex justify-end">
-            <button
+            <Button
               onClick={onSendNotification}
               disabled={
                 isSendingNotification ||
                 !notificationTitle.trim() ||
                 !notificationMessage.trim()
               }
-              className="bg-blue-500 text-white px-4 py-2 rounded"
+              variant="primary"
             >
-              {isSendingNotification ? "Gönderiliyor..." : "📤 Bildirim Gönder"}
-            </button>
+              {isSendingNotification ? "Gönderiliyor..." : "Bildirim Gönder"}
+            </Button>
           </div>
         </div>
       </div>
@@ -175,25 +171,27 @@ export default function AdminNotifications({
               Toplam: {notificationHistory.length} bildirim
             </div>
             <div className="flex items-center gap-2">
-              <button
+              <Button
+                size="sm"
+                variant="secondary"
                 onClick={() => setPage((prev) => Math.max(prev - 1, 0))}
                 disabled={page === 0}
-                className="px-3 py-1 bg-gray-800 rounded text-white"
               >
                 Önceki
-              </button>
+              </Button>
               <span className="text-sm text-gray-300">
                 Sayfa {page + 1} / {totalPages}
               </span>
-              <button
+              <Button
+                size="sm"
+                variant="secondary"
                 onClick={() =>
                   setPage((prev) => Math.min(prev + 1, totalPages - 1))
                 }
                 disabled={page + 1 >= totalPages}
-                className="px-3 py-1 bg-gray-800 rounded text-white"
               >
                 Sonraki
-              </button>
+              </Button>
             </div>
           </div>
         </div>

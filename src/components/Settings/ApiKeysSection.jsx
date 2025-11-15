@@ -119,9 +119,9 @@ export default function ApiKeysSection({ apiKeys = [], loadApiKeys }) {
   };
 
   return (
-    <Card className="p-4">
+    <Card className="p-4 bg-gray-800/50 border border-gray-700/50">
       <div className="flex items-center justify-between mb-3">
-        <h2 className="text-lg font-semibold">🔑 API Anahtar Yönetimi</h2>
+        <h2 className="text-lg font-semibold text-white">🔑 API Anahtar Yönetimi</h2>
         <div className="flex items-center gap-2">
           <Button size="sm" variant="secondary" onClick={() => loadApiKeys && loadApiKeys()} disabled={!loadApiKeys} data-ers="settings.api-keys.refresh">
             Yenile
@@ -136,22 +136,22 @@ export default function ApiKeysSection({ apiKeys = [], loadApiKeys }) {
         <div
           className={`p-3 rounded-[12px] text-sm mb-3 ${
             operationStatus.success
-              ? "bg-green-500/20 text-green-700 border border-green-500/30"
-              : "bg-red-500/20 text-red-700 border border-red-500/30"
+              ? "bg-green-500/20 text-green-300 border border-green-500/30"
+              : "bg-red-500/20 text-red-300 border border-red-500/30"
           }`}
         >
           {operationStatus.message}
         </div>
       )}
 
-      <div className="bg-[#EEEAE4] rounded-[16px] p-4 text-[#2D2A26] shadow-[5px_5px_10px_rgba(0,0,0,0.1),_-5px_-5px_10px_rgba(255,255,255,0.7)]">
+      <div className="bg-gray-800/50 rounded-xl p-4 text-white border border-gray-700/50">
         <div className="flex items-center justify-between mb-3">
-          <h5 className="font-semibold">Kayıtlı API Anahtarları</h5>
-          {isWorking && <span className="text-[#6B6661] text-sm">İşlem yapılıyor...</span>}
+          <h5 className="font-semibold text-white">Kayıtlı API Anahtarları</h5>
+          {isWorking && <span className="text-gray-400 text-sm">İşlem yapılıyor...</span>}
         </div>
 
         {apiKeys.length === 0 ? (
-          <div className="text-center py-8 text-[#6B6661]">
+          <div className="text-center py-8 text-gray-400">
             <div className="text-4xl mb-2">🔑</div>
             <p>Henüz kayıtlı API anahtarı bulunmuyor.</p>
             <p className="text-sm mt-1">Yeni bir API anahtarı eklemek için yukarıdaki butonu kullanın.</p>
@@ -159,23 +159,23 @@ export default function ApiKeysSection({ apiKeys = [], loadApiKeys }) {
         ) : (
           <div className="space-y-3">
             {apiKeys.map((apiKey) => (
-              <div key={apiKey.id} className="bg-[#EEEAE4] rounded-[12px] p-3 border border-[#e2ddd7]">
+              <div key={apiKey.id} className="bg-gray-800/50 rounded-lg p-3 border border-gray-700/50">
                 <div className="flex items-center justify-between">
                   <div className="flex-1">
                     <div className="flex items-center gap-3 mb-1">
-                      <h6 className="font-semibold">{apiKey.serviceName}</h6>
-                      <span className="text-sm text-[#6B6661]">•</span>
-                      <span className="text-sm">{apiKey.keyName}</span>
+                      <h6 className="font-semibold text-white">{apiKey.serviceName}</h6>
+                      <span className="text-sm text-gray-500">•</span>
+                      <span className="text-sm text-gray-300">{apiKey.keyName}</span>
                       {apiKey.isGlobal && (
-                        <span className="px-2 py-1 bg-[#D97757]/20 text-[#D97757] text-xs rounded-full">Global</span>
+                        <span className="px-2 py-1 bg-blue-500/20 text-blue-300 text-xs rounded-full">Global</span>
                       )}
                     </div>
-                    <div className="text-sm text-[#6B6661]">
-                      <span className="font-mono bg-[#e7e3dd] px-2 py-1 rounded">
+                    <div className="text-sm text-gray-400">
+                      <span className="font-mono bg-gray-700/50 px-2 py-1 rounded text-gray-200">
                         {typeof apiKey.keyValue === "string" ? `${apiKey.keyValue.slice(0, 20)}...` : "—"}
                       </span>
                     </div>
-                    <div className="text-xs text-[#6B6661] mt-2">
+                    <div className="text-xs text-gray-500 mt-2">
                       Oluşturulma: {apiKey.createdAt ? new Date(apiKey.createdAt).toLocaleString("tr-TR") : "—"}
                       {apiKey.updatedAt && apiKey.updatedAt !== apiKey.createdAt && (
                         <span> • Güncelleme: {new Date(apiKey.updatedAt).toLocaleString("tr-TR")}</span>
@@ -195,9 +195,9 @@ export default function ApiKeysSection({ apiKeys = [], loadApiKeys }) {
 
       {showModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-[#EEEAE4] rounded-[16px] p-4 w-full max-w-md shadow-[5px_5px_10px_rgba(0,0,0,0.1),_-5px_-5px_10px_rgba(255,255,255,0.7)]">
+          <div className="bg-gray-800/60 backdrop-blur-md border border-gray-700/50 rounded-xl p-4 w-full max-w-md">
             <div className="flex items-center justify-between mb-3">
-              <h5 className="text-[#2D2A26] font-semibold">
+              <h5 className="text-white font-semibold">
                 {editingKey ? "API Anahtarını Düzenle" : "Yeni API Anahtarı Ekle"}
               </h5>
               <Button size="sm" variant="ghost" onClick={closeModal} data-ers="settings.api-keys.modal.close-button">✕</Button>
@@ -232,7 +232,7 @@ export default function ApiKeysSection({ apiKeys = [], loadApiKeys }) {
                   onChange={(e) => setNewKey({ ...newKey, isGlobal: e.target.checked })}
                   className="rounded"
                 />
-                <label htmlFor="isGlobal" className="text-sm text-[#2D2A26]">Global anahtar (tüm kullanıcılar için)</label>
+                <label htmlFor="isGlobal" className="text-sm text-gray-300">Global anahtar (tüm kullanıcılar için)</label>
               </div>
 
               <div className="flex gap-3 pt-2">

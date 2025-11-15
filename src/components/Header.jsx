@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { createPortal } from "react-dom";
 import { useAuth } from "../contexts/AuthContext";
+import { useDesignEditor } from "../contexts/DesignEditorContext";
 import { useTutorial } from "../hooks/useTutorial";
 
 // --- HELPER & UTILITY FUNCTIONS ---
@@ -153,6 +154,7 @@ const useNotifications = (userId) => {
 };
 
 // --- SUB-COMPONENTS ---
+
 
 const Logo = () => {
   const navigate = useNavigate();
@@ -378,25 +380,91 @@ const ProfileDropdown = ({ dropdownRef, position, user, onLogout, onClose }) => 
 };
 
 /**
+ * Admin Toggle Switch Component
+ * Design Editor için mod değiştirme butonu
+ */
+const AdminToggleSwitch = ({ mode, activeMode, onClick, label }) => {
+  const isActive = activeMode === mode;
+  
+  return (
+    <button
+      onClick={onClick}
+      data-design-editor-ignore="true"
+      className={`
+        px-4 py-2 rounded-lg font-medium text-sm transition-all
+        ${isActive
+          ? 'bg-gradient-to-r from-green-500 to-emerald-500 text-white shadow-lg shadow-green-500/50'
+          : 'bg-gray-800/50 text-gray-400 hover:bg-gray-700/50 hover:text-white'
+        }
+      `}
+    >
+      {label}
+    </button>
+  );
+};
+
+/**
  * Uygulamanın ana başlık (header) bileşeni.
  * Logo, navigasyon, bildirimler ve kullanıcı profili gibi temel aksiyonları içerir.
  *
  * @returns {JSX.Element} Render edilmiş Header bileşeni.
  */
 function Header() {
-  const { user, logout } = useAuth();
-  const {
-    notifications,
-    unreadCount,
-    markAsRead,
-  } = useNotifications(user?.id);
+  try {
+    const { user, logout } = useAuth();
+    const isAdmin = user?.role === "admin";
+    const { state, dispatch } = useDesignEditor();
+    
+    const {
+      notifications,
+      unreadCount,
+      markAsRead,
+    } = useNotifications(user?.id);
 
   const profileDropdown = useDropdown();
   const notificationDropdown = useDropdown();
 
+  // Design Editor mod değiştirme
+  const handleSelectMode = () => {
+    const newMode = state.mode === 'select' ? 'inactive' : 'select';
+    console.log('🔵 Seç modu:', newMode);
+    dispatch({ type: 'SET_MODE', payload: newMode });
+  };
+
+  const handleDesignMode = () => {
+    const newMode = state.mode === 'design' ? 'inactive' : 'design';
+    console.log('🟢 Tasarla modu:', newMode);
+    dispatch({ type: 'SET_MODE', payload: newMode });
+  };
+
   return (
     <header className="h-20 bg-gradient-to-r from-[#1a1a2e]/90 via-[#2d1b69]/90 to-[#1a1a2e]/90 backdrop-blur-xl border-b border-purple-500/20 flex items-center justify-between px-8">
-      <Logo />
+      <div className="flex items-center gap-3">
+        <Logo />
+        {/* Admin Design Editor Toggle'ları */}
+        {isAdmin && (
+          <div className="flex items-center gap-2 ml-6" data-design-editor-ignore="true">
+            <AdminToggleSwitch
+              mode="select"
+              activeMode={state.mode}
+              onClick={handleSelectMode}
+              label="Seç"
+            />
+            <AdminToggleSwitch
+              mode="design"
+              activeMode={state.mode}
+              onClick={handleDesignMode}
+              label="Tasarla"
+            />
+          </div>
+        )}
+        {/* Debug: Admin kontrolü */}
+        {!isAdmin && (
+          <div style={{ color: 'red', fontSize: '12px', marginLeft: '20px' }}>
+            ⚠️ Admin değilsin! user.role: {user?.role}
+          </div>
+        )}
+      </div>
       <div className="flex-1"></div> {/* Spacer */}
       <div className="flex items-center gap-4">
         <div className="relative z-[10000]">
@@ -440,6 +508,14 @@ function Header() {
       </div>
     </header>
   );
+  } catch (error) {
+    console.error('❌ Header render hatası:', error);
+    return (
+      <header className="h-20 bg-red-900 flex items-center justify-center">
+        <div className="text-white">Header Hatası: {error.message}</div>
+      </header>
+    );
+  }
 }
 
 export default Header;

@@ -45,7 +45,7 @@ export default function InputField({
   // Small elements radius: 8px (per design system)
   const radiusClass = "rounded-[8px]";
   const baseClasses =
-    "w-full bg-[#EEEAE4] text-[#2D2A26] placeholder-[#6B6661] border border-transparent focus:outline-none focus:ring-2 focus:ring-[#D97757]/50";
+    "w-full bg-slate-700 text-white placeholder-slate-400 border border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500/50";
   const stateClasses = disabled ? "opacity-60 cursor-not-allowed" : "";
   const iconPaddingLeft = leftIcon ? "pl-10" : "";
   const iconPaddingRight = rightIcon ? "pr-10" : "";
@@ -65,19 +65,19 @@ export default function InputField({
     .join(" ");
 
   const labelEl = label ? (
-    <label className="block mb-1 text-sm text-[#6B6661]">
-      {label} {required && <span className="text-[#B91C1C]">*</span>}
+    <label className="block mb-1 text-sm text-slate-300">
+      {label} {required && <span className="text-red-400">*</span>}
     </label>
   ) : null;
 
   const leftIconEl = leftIcon ? (
-    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[#6B6661]">
+    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">
       {leftIcon}
     </span>
   ) : null;
 
   const rightIconEl = rightIcon ? (
-    <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[#6B6661]">
+    <span className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400">
       {rightIcon}
     </span>
   ) : null;
@@ -113,10 +113,10 @@ export default function InputField({
         {fieldEl}
       </div>
       {hint && !error && (
-        <p className="mt-1 text-xs text-[#6B6661]">{hint}</p>
+        <p className="mt-1 text-xs text-slate-400">{hint}</p>
       )}
       {error && (
-        <p className="mt-1 text-xs text-[#B91C1C]">{error}</p>
+        <p className="mt-1 text-xs text-red-400">{error}</p>
       )}
     </div>
   );
