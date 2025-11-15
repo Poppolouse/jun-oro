@@ -6,7 +6,7 @@ services:
     region: oregon
     rootDir: backend
     buildCommand: npm install --production=false
-    preDeployCommand: ./node_modules/.bin/prisma generate && ./node_modules/.bin/prisma migrate deploy
+    preDeployCommand: npm run db:migrate:deploy
     startCommand: npm start
     autoDeploy: true
     healthCheckPath: /health
