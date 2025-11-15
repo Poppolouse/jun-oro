@@ -107,8 +107,7 @@ export async function jwtAuthMiddleware(req, res, next) {
       username: user.username,
       email: user.email,
       role: user.role,
-      status: user.status,
-      sessionId: session?.id || payload.sessionId,
+      sessionId: payload.sessionId,
     };
 
     next();
