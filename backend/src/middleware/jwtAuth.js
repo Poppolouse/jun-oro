@@ -89,9 +89,16 @@ export async function jwtAuthMiddleware(req, res, next) {
     let user = null;
     const session = await validateSessionInDB(payload.sessionId);
     
+    console.log('JWT Auth Debug:', {
+      hasSession: !!session,
+      userId: payload.userId,
+      sessionId: payload.sessionId
+    });
+    
     if (session) {
       // Session varsa user bilgisini session'dan al
       user = session.user;
+      console.log('User from session:', user?.id);
       
       // User status kontrolü
       if (!user.isActive) {
@@ -102,6 +109,7 @@ export async function jwtAuthMiddleware(req, res, next) {
       }
     } else {
       // Session yoksa direkt userId ile user'ı çek
+      console.log('Session not found, looking up user by userId:', payload.userId);
       try {
         user = await prisma.user.findUnique({
           where: { id: payload.userId },
@@ -115,10 +123,21 @@ export async function jwtAuthMiddleware(req, res, next) {
           },
         });
         
-        if (!user || !user.isActive) {
+        console.log('User lookup result:', user ? `Found: ${user.id}` : 'Not found');
+        
+        if (!user) {
+          console.error('User not found in database for userId:', payload.userId);
           return res.status(401).json({
             success: false,
-            message: "User not found or inactive",
+            message: "User not found",
+          });
+        }
+        
+        if (!user.isActive) {
+          console.error('User is inactive:', user.id);
+          return res.status(401).json({
+            success: false,
+            message: "User account is inactive",
           });
         }
       } catch (err) {
