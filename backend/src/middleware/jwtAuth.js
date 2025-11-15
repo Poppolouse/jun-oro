@@ -100,8 +100,8 @@ export async function jwtAuthMiddleware(req, res, next) {
       user = session.user;
       console.log('User from session:', user?.id);
       
-      // User status kontrolü
-      if (!user.isActive) {
+      // User status kontrolü (status field kullan, isActive yok)
+      if (user.status === 'banned' || user.status === 'deleted') {
         return res.status(401).json({
           success: false,
           message: "User account is inactive",
@@ -119,7 +119,7 @@ export async function jwtAuthMiddleware(req, res, next) {
             email: true,
             role: true,
             status: true,
-            isActive: true,
+            name: true,
           },
         });
         
@@ -133,8 +133,9 @@ export async function jwtAuthMiddleware(req, res, next) {
           });
         }
         
-        if (!user.isActive) {
-          console.error('User is inactive:', user.id);
+        // Status kontrolü (isActive field yok, status kullan)
+        if (user.status === 'banned' || user.status === 'deleted') {
+          console.error('User is inactive:', user.id, user.status);
           return res.status(401).json({
             success: false,
             message: "User account is inactive",
