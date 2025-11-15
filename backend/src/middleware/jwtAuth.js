@@ -85,13 +85,21 @@ export async function jwtAuthMiddleware(req, res, next) {
       });
     }
 
-    // JWT payload'dan user bilgisini al (basit ve güvenilir)
+    // JWT payload'dan user bilgisini al (sadece userId garanti, diğerleri optional)
     const user = {
       id: payload.userId,
-      username: payload.username,
-      email: payload.email,
-      role: payload.role,
+      username: payload.username || null,
+      email: payload.email || null,
+      role: payload.role || 'user',
     };
+    
+    // userId yoksa geçersiz token
+    if (!user.id) {
+      return res.status(401).json({
+        success: false,
+        message: "Invalid token: missing user ID",
+      });
+    }
 
     // Request'e user bilgisini ekle
     req.user = {
