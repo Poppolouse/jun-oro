@@ -114,14 +114,6 @@ app.use(compression());
 app.use(morgan("combined"));
 app.use(limiter);
 
-// Apply cache middleware to GET requests
-app.use((req, res, next) => {
-  if (req.method === "GET") {
-    return cacheMiddleware(req, res, next);
-  }
-  next();
-});
-
 // CORS configuration - Cloud-first architecture
 // Frontend always connects to Render backend (api.jun-oro.com)
 const corsOptions = {
@@ -170,6 +162,14 @@ app.options("*", cors(corsOptions));
 // Body parsing middleware
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true, limit: "10mb" }));
+
+// Apply cache middleware to GET requests (AFTER CORS)
+app.use((req, res, next) => {
+  if (req.method === "GET") {
+    return cacheMiddleware(req, res, next);
+  }
+  next();
+});
 
 // Health check endpoint
 app.get("/health", (req, res) => {
