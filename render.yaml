@@ -5,7 +5,7 @@ services:
     plan: free
     region: oregon
     rootDir: backend
-    buildCommand: npm install --production=false
+    buildCommand: npm install --production=false && npx prisma generate
     startCommand: npm start
     autoDeploy: true
     healthCheckPath: /health
