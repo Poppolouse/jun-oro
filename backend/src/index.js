@@ -141,7 +141,6 @@ const corsOptions = {
     if (!origin) return callback(null, true);
 
     if (allowedOrigins.includes(origin)) {
-      console.log(`✅ CORS allowed origin: ${origin}`);
       callback(null, true);
     } else {
       console.warn(`⚠️ CORS blocked origin: ${origin}`);
@@ -159,7 +158,8 @@ const corsOptions = {
   ],
   exposedHeaders: ['Content-Range', 'X-Content-Range', 'X-Total-Count'],
   maxAge: 600, // Cache preflight for 10 minutes
-  optionsSuccessStatus: 204, // Some legacy browsers choke on 204
+  optionsSuccessStatus: 200, // Return 200 for OPTIONS
+  preflightContinue: false, // End preflight here
 };
 
 app.use(cors(corsOptions));
