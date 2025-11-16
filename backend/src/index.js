@@ -126,18 +126,22 @@ app.use((req, res, next) => {
 // Frontend always connects to Render backend (api.jun-oro.com)
 const corsOptions = {
   origin: (origin, callback) => {
-    // Allowed origins
+    // Allowed origins - includes development localhost
     const allowedOrigins = [
-      'http://localhost:3000',  // Development frontend (local Vite dev server)
+      'http://localhost:3000',   // Development frontend (local Vite dev server)
+      'http://localhost:5173',   // Alternative Vite port
+      'http://127.0.0.1:3000',   // Alternative localhost notation
       'https://jun-oro.com',     // Production frontend
       'https://www.jun-oro.com', // Production frontend (www)
       'https://api.jun-oro.com', // Backend itself (for internal calls)
-    ];
+      process.env.FRONTEND_URL,  // Environment-specific frontend URL
+    ].filter(Boolean); // Remove undefined values
 
     // Allow requests with no origin (mobile apps, Postman, curl, etc.)
     if (!origin) return callback(null, true);
 
     if (allowedOrigins.includes(origin)) {
+      console.log(`✅ CORS allowed origin: ${origin}`);
       callback(null, true);
     } else {
       console.warn(`⚠️ CORS blocked origin: ${origin}`);
