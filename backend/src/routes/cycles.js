@@ -5,6 +5,17 @@ import { clearCacheByKey } from '../middleware/cacheMiddleware.js';
 
 const router = express.Router();
 
+const fetchUserCyclesSorted = (userId) => {
+  return prisma.cycle.findMany({
+    where: { userId },
+    orderBy: [
+      { status: 'asc' }, // active -> planned -> completed
+      { order: 'asc' },
+      { createdAt: 'asc' }
+    ]
+  });
+};
+
 // Tüm döngüleri getir
 router.get('/', jwtAuthMiddleware, async (req, res) => {
   console.log('📡 [GET /cycles] İstek alındı, userId:', req.user.id, 'username:', req.user.username);
@@ -16,13 +27,7 @@ router.get('/', jwtAuthMiddleware, async (req, res) => {
     
     console.log('🔍 [GET /cycles] DB toplam döngü sayısı:', allCycles.length);
     
-    const cycles = await prisma.cycle.findMany({
-      where: { userId: req.user.id },
-      orderBy: [
-        { status: 'asc' }, // active önce
-        { createdAt: 'desc' }
-      ]
-    });
+    const cycles = await fetchUserCyclesSorted(req.user.id);
 
     console.log('✅ [GET /cycles] Döngüler bulundu:', {
       count: cycles.length,
@@ -70,13 +75,24 @@ router.post('/', jwtAuthMiddleware, async (req, res) => {
       return res.status(400).json({ error: 'Döngü adı gereklidir' });
     }
 
+    const maxOrderForUser = await prisma.cycle.aggregate({
+      where: { userId: req.user.id },
+      _max: { order: true }
+    });
+
+    const previousOrder = maxOrderForUser._max?.order;
+    const nextOrder = typeof previousOrder === 'number'
+      ? previousOrder + 1
+      : 0;
+
     const cycle = await prisma.cycle.create({
       data: {
         userId: req.user.id,
         name: name.trim(),
         description: description?.trim() || null,
         gameIds: JSON.stringify(gameIds),
-        status: 'planned'
+        status: 'planned',
+        order: nextOrder
       }
     });
 
@@ -99,6 +115,65 @@ router.post('/', jwtAuthMiddleware, async (req, res) => {
     res.status(500).json({ 
       error: 'Döngü oluşturulurken bir hata oluştu',
       details: process.env.NODE_ENV === 'development' ? error.message : undefined 
+    });
+  }
+});
+
+// Döngü sıralamasını güncelle
+router.patch('/reorder', jwtAuthMiddleware, async (req, res) => {
+  console.log('🔁 [PATCH /cycles/reorder] İstek alındı:', {
+    userId: req.user.id,
+    orderedIds: req.body?.orderedIds?.length || 0
+  });
+
+  try {
+    const { orderedIds } = req.body;
+
+    if (!Array.isArray(orderedIds) || orderedIds.length === 0) {
+      return res.status(400).json({ error: 'orderedIds alanı zorunludur' });
+    }
+
+    const uniqueCount = new Set(orderedIds).size;
+    if (uniqueCount !== orderedIds.length) {
+      return res.status(400).json({ error: 'orderedIds içinde tekrar eden değerler var' });
+    }
+
+    const existingCycles = await prisma.cycle.findMany({
+      where: { userId: req.user.id },
+      select: { id: true }
+    });
+
+    if (existingCycles.length !== orderedIds.length) {
+      return res.status(400).json({ error: 'orderedIds tüm döngüleri içermelidir' });
+    }
+
+    const validIds = new Set(existingCycles.map(c => c.id));
+    const invalidIds = orderedIds.filter(id => !validIds.has(id));
+    if (invalidIds.length > 0) {
+      return res.status(400).json({
+        error: 'Geçersiz döngü ID değerleri gönderildi',
+        invalidIds
+      });
+    }
+
+    await prisma.$transaction(
+      orderedIds.map((cycleId, index) =>
+        prisma.cycle.update({
+          where: { id: cycleId },
+          data: { order: index }
+        })
+      )
+    );
+
+    const updatedCycles = await fetchUserCyclesSorted(req.user.id);
+    clearCacheByKey('GET:/api/cycles:');
+
+    res.json({ cycles: updatedCycles });
+  } catch (error) {
+    console.error('❌ [PATCH /cycles/reorder] Hata:', error.message);
+    res.status(500).json({
+      error: 'Döngü sıralaması güncellenirken bir hata oluştu',
+      details: process.env.NODE_ENV === 'development' ? error.message : undefined
     });
   }
 });

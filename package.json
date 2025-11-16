@@ -36,6 +36,10 @@
     ]
   },
   "dependencies": {
+    "@dnd-kit/core": "^6.1.0",
+    "@dnd-kit/modifiers": "^7.0.0",
+    "@dnd-kit/sortable": "^7.0.2",
+    "@dnd-kit/utilities": "^3.2.1",
     "howlongtobeat-api": "^1.0.3",
     "howlongtobeat-js": "github:toasttsunami/hltb-js",
     "lucide-react": "^0.552.0",

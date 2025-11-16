@@ -324,6 +324,7 @@ model Cycle {
   updatedAt   DateTime @default(now()) @updatedAt
   startedAt   DateTime?
   completedAt DateTime?
+  order       Int      @default(0)
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("cycles")

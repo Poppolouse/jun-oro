@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "lastUpdated": "2025-11-01",
+  "lastUpdated": "2025-11-16",
   "description": "Element Registry System (ERS) - Unique, persistent, meaningful IDs for all interactive elements",
   "format": "[Page].[SubPage].[Zone][Element]",
   "zones": {
@@ -65,6 +65,385 @@
         "component": "ArkadeHeader",
         "feature": "branding",
         "criticalPath": false
+      }
+      ,
+      {
+        "selector": "[data-ers=\"backlog-tracking.planned-container\"]",
+        "registryId": "B12",
+        "label": "Backlog Planned Cycles Container",
+        "page": 12,
+        "subpage": 0,
+        "zone": "B",
+        "metadata": {
+          "type": "container",
+          "component": "BacklogTrackingDashboard",
+          "feature": "cycle-planner",
+          "criticalPath": true
+        }
+      },
+      {
+        "selector": "[data-ers=\"backlog-tracking.planned-container.list\"]",
+        "registryId": "B12.1",
+        "label": "Backlog Planned Cycles List",
+        "page": 12,
+        "subpage": 0,
+        "zone": "B",
+        "metadata": {
+          "type": "list",
+          "component": "BacklogTrackingDashboard",
+          "feature": "cycle-planner",
+          "criticalPath": true
+        }
+      },
+      {
+        "selector": "[data-ers^=\"backlog-tracking.planned-container.item.\"]",
+        "registryId": "B12.1.1",
+        "label": "Backlog Planned Cycle Item",
+        "page": 12,
+        "subpage": 0,
+        "zone": "B",
+        "metadata": {
+          "type": "card",
+          "component": "BacklogTrackingDashboard",
+          "feature": "cycle-planner",
+          "criticalPath": true
+        }
+      },
+      {
+        "selector": "[data-ers^=\"backlog-tracking.planned-container.item.\"][data-ers$=\"drag-handle\"]",
+        "registryId": "B12.1.1.1",
+        "label": "Backlog Planned Drag Handle",
+        "page": 12,
+        "subpage": 0,
+        "zone": "B",
+        "metadata": {
+          "type": "button",
+          "component": "BacklogTrackingDashboard",
+          "feature": "cycle-planner",
+          "criticalPath": true
+        }
+      },
+      {
+        "selector": "[data-ers^=\"backlog-tracking.planned-container.item.\"][data-ers$=\"activate-button\"]",
+        "registryId": "B12.1.1.2",
+        "label": "Backlog Planned Activate Button",
+        "page": 12,
+        "subpage": 0,
+        "zone": "B",
+        "metadata": {
+          "type": "button",
+          "component": "BacklogTrackingDashboard",
+          "feature": "cycle-planner",
+          "criticalPath": true
+        }
+      },
+      {
+        "selector": "[data-ers^=\"backlog-tracking.planned-container.item.\"][data-ers$=\"edit-button\"]",
+        "registryId": "B12.1.1.3",
+        "label": "Backlog Planned Order Edit Button",
+        "page": 12,
+        "subpage": 0,
+        "zone": "B",
+        "metadata": {
+          "type": "button",
+          "component": "BacklogTrackingDashboard",
+          "feature": "cycle-planner",
+          "criticalPath": true
+        }
+      },
+      {
+        "selector": "[data-ers^=\"backlog-tracking.planned-container.item.\"][data-ers$=\"delete-button\"]",
+        "registryId": "B12.1.1.4",
+        "label": "Backlog Planned Delete Button",
+        "page": 12,
+        "subpage": 0,
+        "zone": "B",
+        "metadata": {
+          "type": "button",
+          "component": "BacklogTrackingDashboard",
+          "feature": "cycle-planner",
+          "criticalPath": true
+        }
+      },
+      {
+        "selector": "[data-ers=\"backlog-tracking.planned-container.status\"]",
+        "registryId": "B12.1.2",
+        "label": "Backlog Planned Status Message",
+        "page": 12,
+        "subpage": 0,
+        "zone": "B",
+        "metadata": {
+          "type": "status",
+          "component": "BacklogTrackingDashboard",
+          "feature": "cycle-planner",
+          "criticalPath": false
+        }
+      },
+      {
+        "selector": "[data-ers=\"backlog-tracking.planned-container.error\"]",
+        "registryId": "B12.1.3",
+        "label": "Backlog Planned Error Message",
+        "page": 12,
+        "subpage": 0,
+        "zone": "B",
+        "metadata": {
+          "type": "status",
+          "component": "BacklogTrackingDashboard",
+          "feature": "cycle-planner",
+          "criticalPath": false
+        }
+      },
+      {
+        "selector": "[data-ers=\"backlog-tracking.side-panel.upcoming-cycles\"]",
+        "registryId": "B12.2",
+        "label": "Backlog Upcoming Cycles Panel",
+        "page": 12,
+        "subpage": 0,
+        "zone": "B",
+        "metadata": {
+          "type": "container",
+          "component": "BacklogTrackingDashboard",
+          "feature": "cycle-planner",
+          "criticalPath": true
+        }
+      },
+      {
+        "selector": "[data-ers=\"backlog-tracking.side-panel.upcoming-cycles.list\"]",
+        "registryId": "B12.2.1",
+        "label": "Upcoming Cycles List",
+        "page": 12,
+        "subpage": 0,
+        "zone": "B",
+        "metadata": {
+          "type": "list",
+          "component": "BacklogTrackingDashboard",
+          "feature": "cycle-planner",
+          "criticalPath": true
+        }
+      },
+      {
+        "selector": "[data-ers^=\"backlog-tracking.side-panel.upcoming-cycles.item.\"]",
+        "registryId": "B12.2.1.1",
+        "label": "Upcoming Cycle Card",
+        "page": 12,
+        "subpage": 0,
+        "zone": "B",
+        "metadata": {
+          "type": "card",
+          "component": "BacklogTrackingDashboard",
+          "feature": "cycle-planner",
+          "criticalPath": true
+        }
+      },
+      {
+        "selector": "[data-ers^=\"backlog-tracking.side-panel.upcoming-cycles.item.\"][data-ers$=\"drag-handle\"]",
+        "registryId": "B12.2.1.1.1",
+        "label": "Upcoming Cycle Drag Handle",
+        "page": 12,
+        "subpage": 0,
+        "zone": "B",
+        "metadata": {
+          "type": "button",
+          "component": "BacklogTrackingDashboard",
+          "feature": "cycle-planner",
+          "criticalPath": true
+        }
+      },
+      {
+        "selector": "[data-ers^=\"backlog-tracking.side-panel.upcoming-cycles.item.\"][data-ers$=\"activate-button\"]",
+        "registryId": "B12.2.1.1.2",
+        "label": "Upcoming Cycle Activate Button",
+        "page": 12,
+        "subpage": 0,
+        "zone": "B",
+        "metadata": {
+          "type": "button",
+          "component": "BacklogTrackingDashboard",
+          "feature": "cycle-planner",
+          "criticalPath": true
+        }
+      },
+      {
+        "selector": "[data-ers^=\"backlog-tracking.side-panel.upcoming-cycles.item.\"][data-ers$=\"edit-button\"]",
+        "registryId": "B12.2.1.1.3",
+        "label": "Upcoming Cycle Edit Button",
+        "page": 12,
+        "subpage": 0,
+        "zone": "B",
+        "metadata": {
+          "type": "button",
+          "component": "BacklogTrackingDashboard",
+          "feature": "cycle-planner",
+          "criticalPath": true
+        }
+      },
+      {
+        "selector": "[data-ers^=\"backlog-tracking.side-panel.upcoming-cycles.item.\"][data-ers$=\"delete-button\"]",
+        "registryId": "B12.2.1.1.4",
+        "label": "Upcoming Cycle Delete Button",
+        "page": 12,
+        "subpage": 0,
+        "zone": "B",
+        "metadata": {
+          "type": "button",
+          "component": "BacklogTrackingDashboard",
+          "feature": "cycle-planner",
+          "criticalPath": true
+        }
+      },
+      {
+        "selector": "[data-ers=\"backlog-tracking.side-panel.upcoming-cycles.status\"]",
+        "registryId": "B12.2.2",
+        "label": "Upcoming Cycles Status",
+        "page": 12,
+        "subpage": 0,
+        "zone": "B",
+        "metadata": {
+          "type": "status",
+          "component": "BacklogTrackingDashboard",
+          "feature": "cycle-planner",
+          "criticalPath": false
+        }
+      },
+      {
+        "selector": "[data-ers=\"backlog-tracking.side-panel.upcoming-cycles.error\"]",
+        "registryId": "B12.2.3",
+        "label": "Upcoming Cycles Error",
+        "page": 12,
+        "subpage": 0,
+        "zone": "B",
+        "metadata": {
+          "type": "status",
+          "component": "BacklogTrackingDashboard",
+          "feature": "cycle-planner",
+          "criticalPath": false
+        }
+      },
+      {
+        "selector": "[data-ers=\"backlog-tracking.delete-modal.overlay\"]",
+        "registryId": "B12.3",
+        "label": "Cycle Delete Modal Overlay",
+        "page": 12,
+        "subpage": 0,
+        "zone": "B",
+        "metadata": {
+          "type": "overlay",
+          "component": "BacklogTrackingDashboard",
+          "feature": "cycle-planner",
+          "criticalPath": false
+        }
+      },
+      {
+        "selector": "[data-ers=\"backlog-tracking.delete-modal\"]",
+        "registryId": "B12.3.1",
+        "label": "Cycle Delete Modal",
+        "page": 12,
+        "subpage": 0,
+        "zone": "B",
+        "metadata": {
+          "type": "modal",
+          "component": "BacklogTrackingDashboard",
+          "feature": "cycle-planner",
+          "criticalPath": true
+        }
+      },
+      {
+        "selector": "[data-ers=\"backlog-tracking.delete-modal.cancel\"]",
+        "registryId": "B12.3.1.1",
+        "label": "Cycle Delete Cancel Button",
+        "page": 12,
+        "subpage": 0,
+        "zone": "B",
+        "metadata": {
+          "type": "button",
+          "component": "BacklogTrackingDashboard",
+          "feature": "cycle-planner",
+          "criticalPath": false
+        }
+      },
+      {
+        "selector": "[data-ers=\"backlog-tracking.delete-modal.confirm\"]",
+        "registryId": "B12.3.1.2",
+        "label": "Cycle Delete Confirm Button",
+        "page": 12,
+        "subpage": 0,
+        "zone": "B",
+        "metadata": {
+          "type": "button",
+          "component": "BacklogTrackingDashboard",
+          "feature": "cycle-planner",
+          "criticalPath": true
+        }
+      },
+      {
+        "selector": "[data-ers=\"backlog-tracking.order-modal.overlay\"]",
+        "registryId": "B12.4",
+        "label": "Cycle Order Modal Overlay",
+        "page": 12,
+        "subpage": 0,
+        "zone": "B",
+        "metadata": {
+          "type": "overlay",
+          "component": "BacklogTrackingDashboard",
+          "feature": "cycle-planner",
+          "criticalPath": false
+        }
+      },
+      {
+        "selector": "[data-ers=\"backlog-tracking.order-modal\"]",
+        "registryId": "B12.4.1",
+        "label": "Cycle Order Modal",
+        "page": 12,
+        "subpage": 0,
+        "zone": "B",
+        "metadata": {
+          "type": "modal",
+          "component": "BacklogTrackingDashboard",
+          "feature": "cycle-planner",
+          "criticalPath": true
+        }
+      },
+      {
+        "selector": "[data-ers=\"backlog-tracking.order-modal.input\"]",
+        "registryId": "B12.4.1.1",
+        "label": "Cycle Order Input",
+        "page": 12,
+        "subpage": 0,
+        "zone": "B",
+        "metadata": {
+          "type": "input",
+          "component": "BacklogTrackingDashboard",
+          "feature": "cycle-planner",
+          "criticalPath": true
+        }
+      },
+      {
+        "selector": "[data-ers=\"backlog-tracking.order-modal.cancel\"]",
+        "registryId": "B12.4.1.2",
+        "label": "Cycle Order Cancel Button",
+        "page": 12,
+        "subpage": 0,
+        "zone": "B",
+        "metadata": {
+          "type": "button",
+          "component": "BacklogTrackingDashboard",
+          "feature": "cycle-planner",
+          "criticalPath": false
+        }
+      },
+      {
+        "selector": "[data-ers=\"backlog-tracking.order-modal.save\"]",
+        "registryId": "B12.4.1.3",
+        "label": "Cycle Order Save Button",
+        "page": 12,
+        "subpage": 0,
+        "zone": "B",
+        "metadata": {
+          "type": "button",
+          "component": "BacklogTrackingDashboard",
+          "feature": "cycle-planner",
+          "criticalPath": true
+        }
       }
     },
     {
@@ -1876,17 +2255,19 @@
     }
   ],
   "statistics": {
-    "totalElements": 100,
+    "totalElements": 127,
     "byZone": {
       "H": 42,
       "L": 4,
-      "F": 49
+      "F": 49,
+      "B": 32
     },
     "byComponent": {
       "ArkadeHeader": 40,
       "BackButton": 3,
       "ArkadeSidebar": 4,
-      "SiteFooter": 48
+      "SiteFooter": 48,
+      "BacklogTrackingDashboard": 27
     },
     "byFeature": {
       "navigation": 25,
@@ -1903,8 +2284,9 @@
       "debug": 11,
       "decoration": 2,
       "layout": 1,
-      "actions": 1
+      "actions": 1,
+      "cycle-planner": 27
     },
-    "criticalPathElements": 32
+    "criticalPathElements": 51
   }
 }

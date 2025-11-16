@@ -255,6 +255,7 @@ Bu proje sürümünde canlı Tasarım Editörü bulunmamaktadır. İlgili ERS ka
 - `backlog-tracking.loading` - Yükleniyor durumu
 - `backlog-tracking.error` - Hata durumu
 - `backlog-tracking.no-active-cycle` - Aktif döngü yok mesajı
+- `backlog-tracking.create-cycle-button` - Aktif döngü yokken görünen yeni döngü butonu
 
 ### Sol Panel (Oyun Kartları)
 - `backlog-tracking.main-panel` - Sol panel ana konteyner
@@ -268,7 +269,7 @@ Bu proje sürümünde canlı Tasarım Editörü bulunmamaktadır. İlgili ERS ka
 - `backlog-tracking.game-card.{n}.start-button` - Oturumu başlat butonu
 - `backlog-tracking.game-card.{n}.info` - Oyun bilgileri
 
-### Sağ Panel (Döngü Yönetimi)
+-### Sağ Panel (Döngü Yönetimi)
 - `backlog-tracking.side-panel` - Sağ panel ana konteyner
 - `backlog-tracking.side-panel.title` - Panel başlığı
 - `backlog-tracking.side-panel.progress` - Döngü ilerleme bölümü
@@ -279,13 +280,47 @@ Bu proje sürümünde canlı Tasarım Editörü bulunmamaktadır. İlgili ERS ka
 - `backlog-tracking.side-panel.selected-game.complete-button` - Tamamlandı butonu
 - `backlog-tracking.side-panel.selected-game.backlog-button` - Sıraya al butonu
 - `backlog-tracking.side-panel.no-selection` - Seçim yok mesajı
-- `backlog-tracking.side-panel.upcoming-cycles` - Sıradaki döngüler bölümü
-- `backlog-tracking.side-panel.upcoming-cycle.{n}` - Sıradaki döngü kartı (n: 0-9)
-- `backlog-tracking.side-panel.upcoming-cycle.{n}.activate-button` - Döngü aktif et butonu
+- `backlog-tracking.side-panel.upcoming-cycles` - Sıradaki döngüler konteyner'i
+- `backlog-tracking.side-panel.upcoming-cycles.list` - Döngü kartları listesi
+- `backlog-tracking.side-panel.upcoming-cycles.item.{n}` - Sıradaki döngü kartı (n: 0-9)
+- `backlog-tracking.side-panel.upcoming-cycles.item.{n}.drag-handle` - Kart sürükleme noktası
+- `backlog-tracking.side-panel.upcoming-cycles.item.{n}.activate-button` - Döngü aktif et butonu
+- `backlog-tracking.side-panel.upcoming-cycles.item.{n}.edit-button` - Sıra düzenleme butonu
+- `backlog-tracking.side-panel.upcoming-cycles.item.{n}.delete-button` - Döngü silme butonu
+- `backlog-tracking.side-panel.upcoming-cycles.item.{n}.actions` - Kart içi aksiyon grubu
+- `backlog-tracking.side-panel.upcoming-cycles.status` - Sıra kaydediliyor uyarısı
+- `backlog-tracking.side-panel.upcoming-cycles.error` - Sıra kaydedilemedi uyarısı
+- `backlog-tracking.side-panel.upcoming-cycles.empty` - Planlanmış döngü yok mesajı
 
 ### Planlanmış Döngüler (Aktif Döngü Yoksa)
-- `backlog-tracking.planned-cycle.{n}` - Planlanmış döngü kartı (n: 0-9)
-- `backlog-tracking.planned-cycle.{n}.activate-button` - Aktif et butonu
+- `backlog-tracking.planned-container` - Planlanmış döngüler konteyner'i
+- `backlog-tracking.planned-container.list` - Döngü kartları listesi
+- `backlog-tracking.planned-container.item.{n}` - Planlanmış döngü kartı (n: 0-9)
+- `backlog-tracking.planned-container.item.{n}.drag-handle` - Kart sürükleme noktası
+- `backlog-tracking.planned-container.item.{n}.activate-button` - Döngü aktif et butonu
+- `backlog-tracking.planned-container.item.{n}.edit-button` - Sıra düzenleme butonu
+- `backlog-tracking.planned-container.item.{n}.delete-button` - Döngü silme butonu
+- `backlog-tracking.planned-container.item.{n}.actions` - Kart içi aksiyon grubu
+- `backlog-tracking.planned-container.status` - Sıra kaydediliyor uyarısı
+- `backlog-tracking.planned-container.error` - Sıra kaydedilemedi uyarısı
+- `backlog-tracking.planned-container.empty` - Boş durum mesajı
+
+### Modal Bileşenleri
+- `backlog-tracking.create-modal.overlay` - Yeni döngü modal overlay'i
+- `backlog-tracking.create-modal` - Yeni döngü modal konteyner'i
+- `backlog-tracking.create-modal.name-input` - Döngü adı input'u
+- `backlog-tracking.create-modal.description-input` - Döngü açıklaması textarea'sı
+- `backlog-tracking.create-modal.cancel-button` - Yeni döngü iptal butonu
+- `backlog-tracking.create-modal.submit-button` - Yeni döngü oluştur butonu
+- `backlog-tracking.delete-modal.overlay` - Döngü silme modal overlay'i
+- `backlog-tracking.delete-modal` - Döngü silme modal konteyner'i
+- `backlog-tracking.delete-modal.cancel` - Silme iptal butonu
+- `backlog-tracking.delete-modal.confirm` - Silme onay butonu
+- `backlog-tracking.order-modal.overlay` - Sıra güncelleme modal overlay'i
+- `backlog-tracking.order-modal` - Sıra güncelleme modal konteyner'i
+- `backlog-tracking.order-modal.input` - Sıra numarası input'u
+- `backlog-tracking.order-modal.cancel` - Sıra güncelleme iptal butonu
+- `backlog-tracking.order-modal.save` - Sıra güncelleme kaydet butonu
 
 ### ArkadeLibrary Backlog Sekmesi
 - `arkade-library.backlog-tab` - Backlog Takibi sekme butonu (data-registry: 2.1.B1.1.3.5)

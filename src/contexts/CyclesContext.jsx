@@ -18,6 +18,25 @@ export const CyclesProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const statusRank = {
+    active: 0,
+    planned: 1,
+    completed: 2
+  };
+
+  const sortCycles = (items = []) =>
+    [...items].sort((a, b) => {
+      const rankDiff = (statusRank[a.status] ?? 99) - (statusRank[b.status] ?? 99);
+      if (rankDiff !== 0) return rankDiff;
+
+      const orderDiff = (a.order ?? 0) - (b.order ?? 0);
+      if (orderDiff !== 0) return orderDiff;
+
+      const createdAtA = new Date(a.createdAt || 0).getTime();
+      const createdAtB = new Date(b.createdAt || 0).getTime();
+      return createdAtA - createdAtB;
+    });
+
   // Debug log helper - spam önlemek için throttle
   const logDebug = (() => {
     let lastLog = {};
@@ -90,7 +109,7 @@ export const CyclesProvider = ({ children }) => {
         cycles: data.cycles?.map(c => ({ id: c.id, name: c.name, status: c.status })) || []
       });
       
-      setCycles(data.cycles || []);
+      setCycles(sortCycles(data.cycles || []));
       setError(null);
     } catch (err) {
       console.error('🚨 [fetchCycles] Hata:', {
@@ -149,7 +168,7 @@ export const CyclesProvider = ({ children }) => {
       });
       
       setCycles(prev => {
-        const updated = [...prev, newCycle];
+        const updated = sortCycles([...prev, newCycle]);
         console.log('📝 [createCycle] State güncellendi, yeni toplam:', updated.length);
         return updated;
       });
@@ -165,7 +184,7 @@ export const CyclesProvider = ({ children }) => {
   const updateCycle = async (cycleId, updates) => {
     try {
       const response = await fetch(`${API_BASE_URL}/cycles/${cycleId}`, {
-        method: 'PUT',
+        method: 'PATCH',
         credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
@@ -179,9 +198,9 @@ export const CyclesProvider = ({ children }) => {
       }
 
       const updatedCycle = await response.json();
-      setCycles(prev => 
-        prev.map(c => c.id === cycleId ? updatedCycle : c)
-      );
+      setCycles(prev => sortCycles(
+        prev.map(c => (c.id === cycleId ? updatedCycle : c))
+      ));
       return updatedCycle;
     } catch (err) {
       console.error('Döngü güncelleme hatası:', err);
@@ -204,9 +223,36 @@ export const CyclesProvider = ({ children }) => {
         throw new Error('Döngü silinemedi');
       }
 
-      setCycles(prev => prev.filter(c => c.id !== cycleId));
+      setCycles(prev => sortCycles(prev.filter(c => c.id !== cycleId)));
     } catch (err) {
       console.error('Döngü silme hatası:', err);
+      throw err;
+    }
+  };
+
+  // Döngüleri yeniden sırala
+  const reorderCycles = async (orderedIds) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/cycles/reorder`, {
+        method: 'PATCH',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('arkade_token')}`
+        },
+        body: JSON.stringify({ orderedIds })
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error || 'Döngüler sıralanamadı');
+      }
+
+      const data = await response.json();
+      setCycles(sortCycles(data.cycles || []));
+      return data.cycles;
+    } catch (err) {
+      console.error('Döngü sıralama hatası:', err);
       throw err;
     }
   };
@@ -300,6 +346,7 @@ export const CyclesProvider = ({ children }) => {
     createCycle,
     updateCycle,
     deleteCycle,
+    reorderCycles,
     activateCycle,
     updateGameStatus
   };
