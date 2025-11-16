@@ -10,6 +10,7 @@ import SiteFooter from "../components/SiteFooter";
 import ElementSelector from "../components/Tutorial/ElementSelector";
 import { useActiveSession } from "../contexts/ActiveSessionContext";
 import { useAuth } from "../contexts/AuthContext";
+import { useCycles } from "../contexts/CyclesContext";
 
 function ArkadeLibrary() {
   // const navigate = useNavigate();
@@ -1223,19 +1224,37 @@ function LibraryRightSidebar() {
 
 function LibraryCyclePlanner({ games, onAdd, renderCard }) {
   // Hook'ları koşulsuz olarak en başta tanımla
-  const initialCycles = [
-    { name: "Cycle 1", status: "Planlandı", items: [] },
-    { name: "Cycle 2", status: "Planlandı", items: [] },
-    { name: "Cycle 3", status: "Aktif", items: [] },
-  ];
-
-  const [cycles, setCycles] = useState(initialCycles);
-  const [selectedIdx, setSelectedIdx] = useState(1);
+  const { cycles: apiCycles, loading, error, createCycle } = useCycles();
+  const [selectedIdx, setSelectedIdx] = useState(0);
   const [searchQuery, setSearchQuery] = useState("");
   const [isPickerOpen, setIsPickerOpen] = useState(false);
   const [pickerSelection, setPickerSelection] = useState(new Set());
+  const [showCreateModal, setShowCreateModal] = useState(false);
+  const [newCycleName, setNewCycleName] = useState("");
+  const [newCycleDescription, setNewCycleDescription] = useState("");
   const { isAdmin } = useAuth();
   // const { user, isAdmin } = useAuth();
+
+  // Loading state
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <div className="text-gray-400">Döngüler yükleniyor...</div>
+      </div>
+    );
+  }
+
+  // Error state (sadece kritik hatalar için, network hatalarını gösterme)
+  if (error && !error.includes('fetch')) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <div className="bg-red-500/10 border border-red-500/30 rounded-xl p-6 text-center max-w-md">
+          <div className="text-red-400 mb-2">Döngüler yüklenemedi</div>
+          <div className="text-sm text-gray-400">{error}</div>
+        </div>
+      </div>
+    );
+  }
 
   // Admin kontrolü - admin olmayan kullanıcılar için uyarı göster
   if (!isAdmin) {
@@ -1272,6 +1291,126 @@ function LibraryCyclePlanner({ games, onAdd, renderCard }) {
     );
   }
 
+  // Yeni döngü oluşturma handler
+  const handleCreateCycle = async (e) => {
+    e.preventDefault();
+    if (!newCycleName.trim()) {
+      return;
+    }
+
+    try {
+      await createCycle({
+        name: newCycleName.trim(),
+        description: newCycleDescription.trim() || null,
+        gameIds: []
+      });
+      
+      setNewCycleName('');
+      setNewCycleDescription('');
+      setShowCreateModal(false);
+    } catch (err) {
+      console.error('Döngü oluşturma hatası:', err);
+      alert('Döngü oluşturulamadı: ' + err.message);
+    }
+  };
+
+  // Döngü yoksa bilgilendirme göster
+  if (apiCycles.length === 0) {
+    return (
+      <>
+        <div className="flex items-center justify-center min-h-[400px]">
+          <div className="bg-white/5 backdrop-blur-md rounded-2xl p-8 border border-white/10 text-center max-w-md">
+            <div className="text-6xl mb-4">🎮</div>
+            <h3 className="text-xl font-semibold text-white mb-2">
+              Henüz Döngünüz Yok
+            </h3>
+            <p className="text-gray-400 mb-4">
+              Oyun backlog'unuzu organize etmek için döngü oluşturun.
+            </p>
+            <p className="text-sm text-gray-500 mb-6">
+              Döngüler, oyunlarınızı planlı bir şekilde bitirmenize yardımcı olur.
+            </p>
+            <button
+              onClick={() => setShowCreateModal(true)}
+              className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg transition-colors font-semibold"
+              data-ers="library-cycle-planner.create-button"
+            >
+              + Yeni Döngü Oluştur
+            </button>
+          </div>
+        </div>
+
+        {/* Yeni Döngü Oluşturma Modal */}
+        {showCreateModal && (
+          <div 
+            className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50"
+            onClick={() => setShowCreateModal(false)}
+            data-ers="library-cycle-planner.create-modal.overlay"
+          >
+            <div 
+              className="bg-gray-800 rounded-xl p-8 max-w-md w-full mx-4 shadow-2xl"
+              onClick={(e) => e.stopPropagation()}
+              data-ers="library-cycle-planner.create-modal"
+            >
+              <h2 className="text-2xl font-bold text-white mb-6">Yeni Döngü Oluştur</h2>
+              
+              <form onSubmit={handleCreateCycle}>
+                <div className="mb-4">
+                  <label className="block text-gray-400 text-sm mb-2" htmlFor="library-cycle-name">
+                    Döngü Adı *
+                  </label>
+                  <input
+                    id="library-cycle-name"
+                    type="text"
+                    value={newCycleName}
+                    onChange={(e) => setNewCycleName(e.target.value)}
+                    placeholder="Örn: Yaz 2024 Döngüsü"
+                    className="w-full bg-gray-700/50 border border-gray-600 rounded-lg px-4 py-2 text-white placeholder-gray-500 focus:outline-none focus:border-green-500"
+                    required
+                    data-ers="library-cycle-planner.create-modal.name-input"
+                  />
+                </div>
+                
+                <div className="mb-6">
+                  <label className="block text-gray-400 text-sm mb-2" htmlFor="library-cycle-description">
+                    Açıklama (Opsiyonel)
+                  </label>
+                  <textarea
+                    id="library-cycle-description"
+                    value={newCycleDescription}
+                    onChange={(e) => setNewCycleDescription(e.target.value)}
+                    placeholder="Bu döngü hakkında kısa bir açıklama..."
+                    rows="3"
+                    className="w-full bg-gray-700/50 border border-gray-600 rounded-lg px-4 py-2 text-white placeholder-gray-500 focus:outline-none focus:border-green-500 resize-none"
+                    data-ers="library-cycle-planner.create-modal.description-input"
+                  />
+                </div>
+                
+                <div className="flex gap-3">
+                  <button
+                    type="button"
+                    onClick={() => setShowCreateModal(false)}
+                    className="flex-1 bg-gray-700 hover:bg-gray-600 text-white py-2 rounded-lg transition-colors"
+                    data-ers="library-cycle-planner.create-modal.cancel-button"
+                  >
+                    İptal
+                  </button>
+                  <button
+                    type="submit"
+                    className="flex-1 bg-green-600 hover:bg-green-700 text-white py-2 rounded-lg transition-colors font-semibold"
+                    data-ers="library-cycle-planner.create-modal.submit-button"
+                  >
+                    Oluştur
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
+      </>
+    );
+  }
+
   const total = games?.length || 0;
   // const completed =
   //   games?.filter(
@@ -1282,58 +1421,24 @@ function LibraryCyclePlanner({ games, onAdd, renderCard }) {
     g.libraryInfo?.category || g.category || "wishlist";
 
   const addRandomToSelected = (count = 3) => {
-    if (!Array.isArray(games) || games.length === 0) return;
-    setCycles((prev) => {
-      const target = prev[selectedIdx];
-      const existing = new Set(target.items);
-      const candidates = games.map((_, i) => i).filter((i) => !existing.has(i));
-      const picked = [];
-      while (picked.length < count && candidates.length > 0) {
-        const r = Math.floor(Math.random() * candidates.length);
-        picked.push(candidates[r]);
-        candidates.splice(r, 1);
-      }
-      const next = [...prev];
-      next[selectedIdx] = { ...target, items: [...target.items, ...picked] };
-      return next;
-    });
+    console.warn('addRandomToSelected: Bu özellik backend entegrasyonu gerektirir');
+    // TODO: Backend API ile döngüye oyun ekleme
   };
 
   const addFromBacklogToSelected = (count = 3) => {
-    if (!Array.isArray(games) || games.length === 0) return;
-    setCycles((prev) => {
-      const target = prev[selectedIdx];
-      const existing = new Set(target.items);
-      const backlogIdxs = games
-        .map((g, i) => ({ g, i }))
-        .filter(
-          ({ g, i }) => getGameCategory(g) === "wishlist" && !existing.has(i),
-        )
-        .map(({ i }) => i);
-      const picked = backlogIdxs.slice(0, count);
-      const next = [...prev];
-      next[selectedIdx] = { ...target, items: [...target.items, ...picked] };
-      return next;
-    });
+    console.warn('addFromBacklogToSelected: Bu özellik backend entegrasyonu gerektirir');
+    // TODO: Backend API ile döngüye oyun ekleme
   };
 
   const renameSelectedCycle = () => {
-    const currentName = cycles[selectedIdx]?.name || "Cycle";
-    const nextName = window.prompt("Yeni cycle adı:", currentName);
-    if (!nextName) return;
-    setCycles((prev) => {
-      const next = [...prev];
-      next[selectedIdx] = { ...next[selectedIdx], name: nextName };
-      return next;
-    });
+    console.warn('renameSelectedCycle: Bu özellik backend entegrasyonu gerektirir');
+    // TODO: Backend API ile döngü güncelleme
   };
 
   const addNewCycle = () => {
-    setCycles((prev) => [
-      ...prev,
-      { name: `Cycle ${prev.length + 1}`, status: "Planlandı", items: [] },
-    ]);
+    setShowCreateModal(true);
   };
+  
   return (
     <div className="space-y-6">
       {/* Cycle cards */}
@@ -1351,58 +1456,41 @@ function LibraryCyclePlanner({ games, onAdd, renderCard }) {
           // Mouse kartların dışındaysa normal sayfa scroll'una izin ver
         }}
       >
-        {cycles.map((c, idx) => (
-          <React.Fragment key={c.name}>
-            <div
-              onClick={() => setSelectedIdx(idx)}
-              className={`cycle-card min-w-[240px] cursor-pointer snap-start bg-white/5 rounded-xl p-4 border ${idx === selectedIdx ? "border-emerald-500/40 ring-1 ring-emerald-500/30" : "border-white/10"}`}
-            >
-              <div className="flex items-center justify-between mb-2">
-                <div className="text-white font-semibold">{c.name}</div>
-                <span
-                  className={`text-xs ${c.status === "Aktif" ? "text-emerald-400" : "text-yellow-300"}`}
-                >
-                  {c.status}
-                </span>
+        {apiCycles.map((c, idx) => {
+          const gameIds = Array.isArray(c.gameIds) ? c.gameIds : (c.gameIds ? JSON.parse(c.gameIds) : []);
+          const gameCount = gameIds.length;
+          return (
+            <React.Fragment key={c.id}>
+              <div
+                onClick={() => setSelectedIdx(idx)}
+                className={`cycle-card min-w-[240px] cursor-pointer snap-start bg-white/5 rounded-xl p-4 border ${idx === selectedIdx ? "border-emerald-500/40 ring-1 ring-emerald-500/30" : "border-white/10"}`}
+              >
+                <div className="flex items-center justify-between mb-2">
+                  <div className="text-white font-semibold">{c.name}</div>
+                  <span
+                    className={`text-xs ${c.status === "active" ? "text-emerald-400" : c.status === "completed" ? "text-blue-400" : "text-yellow-300"}`}
+                  >
+                    {c.status === "active" ? "Aktif" : c.status === "completed" ? "Tamamlandı" : "Planlandı"}
+                  </span>
+                </div>
+                <div className="text-sm text-gray-300">
+                  {gameCount} oyun
+                </div>
+                <div className="flex justify-between text-xs text-gray-500 mt-1">
+                  <span>0% tamamlandı</span>
+                  <span>{gameCount} kaldı</span>
+                </div>
               </div>
-              <div className="text-sm text-gray-300">
-                {c.items.length} / {c.items.length} oyun
-              </div>
-              <div className="flex justify-between text-xs text-gray-500 mt-1">
-                <span>
-                  {(() => {
-                    const compInCycle = c.items.filter(
-                      (i) => getGameCategory(games[i]) === "completed",
-                    ).length;
-                    return total
-                      ? Math.round(
-                          (compInCycle / Math.max(1, c.items.length)) * 100,
-                        )
-                      : 0;
-                  })()}
-                  % tamamlandı
-                </span>
-                <span>
-                  {Math.max(
-                    0,
-                    c.items.length -
-                      c.items.filter(
-                        (i) => getGameCategory(games[i]) === "completed",
-                      ).length,
-                  )}{" "}
-                  kaldı
-                </span>
-              </div>
-            </div>
-            {idx < cycles.length - 1 && (
-              <div className="self-center flex items-center shrink-0">
-                <div className="h-px w-10 bg-white/20" />
-                <div className="mx-2 text-white/60">⛓️</div>
-                <div className="h-px w-10 bg-white/20" />
-              </div>
-            )}
-          </React.Fragment>
-        ))}
+              {idx < apiCycles.length - 1 && (
+                <div className="self-center flex items-center shrink-0">
+                  <div className="h-px w-10 bg-white/20" />
+                  <div className="mx-2 text-white/60">⛓️</div>
+                  <div className="h-px w-10 bg-white/20" />
+                </div>
+              )}
+            </React.Fragment>
+          );
+        })}
         {/* New cycle */}
         <div
           onClick={addNewCycle}
@@ -1422,13 +1510,16 @@ function LibraryCyclePlanner({ games, onAdd, renderCard }) {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="bg-white/5 rounded-xl p-6 border border-white/10">
           <div className="text-lg font-bold text-white mb-2">
-            {cycles[selectedIdx]?.name || "Cycle"}
+            {apiCycles[selectedIdx]?.name || "Cycle"}
           </div>
           <div className="text-emerald-400 font-bold text-2xl">
-            {cycles[selectedIdx]?.items.length || 0} /{" "}
-            {cycles[selectedIdx]?.items.length || 0}
+            {(() => {
+              const gameIds = apiCycles[selectedIdx]?.gameIds;
+              const count = Array.isArray(gameIds) ? gameIds.length : (gameIds ? JSON.parse(gameIds).length : 0);
+              return `${count} oyun`;
+            })()}
           </div>
-          <div className="text-gray-400 text-sm mt-1">oyun</div>
+          <div className="text-gray-400 text-sm mt-1">Durum: {apiCycles[selectedIdx]?.status === "active" ? "Aktif" : apiCycles[selectedIdx]?.status === "completed" ? "Tamamlandı" : "Planlandı"}</div>
           <button
             onClick={renameSelectedCycle}
             className="mt-4 px-3 py-2 bg-white/10 text-white rounded-lg text-sm"
@@ -1468,50 +1559,59 @@ function LibraryCyclePlanner({ games, onAdd, renderCard }) {
             {/* Selected cycle list */}
             <div className="flex flex-wrap gap-4">
               {(() => {
-                const indices = cycles[selectedIdx]?.items || [];
-                const items = indices
-                  .map((i) => ({ g: games[i], i }))
-                  .filter(({ g }) => !!g)
-                  .filter(({ g }) =>
-                    (g.name || g.title || "")
-                      .toLowerCase()
-                      .includes(searchQuery.toLowerCase()),
-                  );
-                if (items.length === 0) {
+                const gameIds = apiCycles[selectedIdx]?.gameIds;
+                const ids = Array.isArray(gameIds) ? gameIds : (gameIds ? JSON.parse(gameIds) : []);
+                
+                if (ids.length === 0) {
                   return (
                     <div className="text-gray-400 text-sm">
                       Bu cycle için henüz oyun eklenmedi.
                     </div>
                   );
                 }
-                return items.map(({ g, i }) =>
-                  renderCard ? (
-                    renderCard(g, i)
-                  ) : (
-                    <div
-                      key={g.id || i}
-                      className="group relative w-[160px] h-[240px] rounded-xl overflow-hidden bg-white/5 border border-white/10"
-                    >
-                      <img
-                        src={
-                          (g.cover && (g.cover.url || g.cover)) ||
-                          "/api/placeholder/160/240?text=Arkade"
-                        }
-                        alt={g.name || g.title}
-                        className="absolute inset-0 w-full h-full object-cover"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/40 to-transparent" />
-                      <div className="absolute bottom-0 left-0 right-0 p-3">
-                        <div className="text-white text-sm font-semibold truncate">
-                          {g.name || g.title}
-                        </div>
-                        <div className="text-[10px] text-gray-300">
-                          {g.libraryInfo?.category || g.category || "wishlist"}
-                        </div>
+                
+                // gameIds array'indeki ID'lere göre games array'inden oyunları filtrele
+                const items = ids
+                  .map(gameId => games.find(g => g.gameId === gameId || g.id === gameId))
+                  .filter(g => !!g)
+                  .filter(g =>
+                    (g.name || g.title || "")
+                      .toLowerCase()
+                      .includes(searchQuery.toLowerCase()),
+                  );
+                
+                if (items.length === 0) {
+                  return (
+                    <div className="text-gray-400 text-sm">
+                      Bu cycle'daki oyunlar kütüphanenizde bulunamadı.
+                    </div>
+                  );
+                }
+                
+                return items.map((g) => (
+                  <div
+                    key={g.id || g.gameId}
+                    className="group relative w-[160px] h-[240px] rounded-xl overflow-hidden bg-white/5 border border-white/10"
+                  >
+                    <img
+                      src={
+                        (g.cover && (g.cover.url || g.cover)) ||
+                        "/api/placeholder/160/240?text=Arkade"
+                      }
+                      alt={g.name || g.title}
+                      className="absolute inset-0 w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/40 to-transparent" />
+                    <div className="absolute bottom-0 left-0 right-0 p-3">
+                      <div className="text-white text-sm font-semibold truncate">
+                        {g.name || g.title}
+                      </div>
+                      <div className="text-[10px] text-gray-300">
+                        {g.libraryInfo?.category || g.category || "wishlist"}
                       </div>
                     </div>
-                  ),
-                );
+                  </div>
+                ));
               })()}
             </div>
           </div>
@@ -1540,20 +1640,8 @@ function LibraryCyclePlanner({ games, onAdd, renderCard }) {
               </button>
               <button
                 onClick={() => {
-                  if (pickerSelection.size === 0) return setIsPickerOpen(false);
-                  setCycles((prev) => {
-                    const next = [...prev];
-                    const target = next[selectedIdx];
-                    const existing = new Set(target.items);
-                    const added = Array.from(pickerSelection).filter(
-                      (i) => !existing.has(i),
-                    );
-                    next[selectedIdx] = {
-                      ...target,
-                      items: [...target.items, ...added],
-                    };
-                    return next;
-                  });
+                  console.warn('Oyun ekleme: Bu özellik backend entegrasyonu gerektirir');
+                  // TODO: Backend API ile döngüye oyun ekleme
                   setPickerSelection(new Set());
                   setIsPickerOpen(false);
                 }}
@@ -1614,6 +1702,74 @@ function LibraryCyclePlanner({ games, onAdd, renderCard }) {
                   );
                 })}
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Yeni Döngü Oluşturma Modal (döngüler varken de kullanılabilir) */}
+      {showCreateModal && (
+        <div 
+          className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-[1001]"
+          onClick={() => setShowCreateModal(false)}
+          data-ers="library-cycle-planner.create-modal.overlay"
+        >
+          <div 
+            className="bg-gray-800 rounded-xl p-8 max-w-md w-full mx-4 shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+            data-ers="library-cycle-planner.create-modal"
+          >
+            <h2 className="text-2xl font-bold text-white mb-6">Yeni Döngü Oluştur</h2>
+            
+            <form onSubmit={handleCreateCycle}>
+              <div className="mb-4">
+                <label className="block text-gray-400 text-sm mb-2" htmlFor="library-cycle-name-main">
+                  Döngü Adı *
+                </label>
+                <input
+                  id="library-cycle-name-main"
+                  type="text"
+                  value={newCycleName}
+                  onChange={(e) => setNewCycleName(e.target.value)}
+                  placeholder="Örn: Yaz 2024 Döngüsü"
+                  className="w-full bg-gray-700/50 border border-gray-600 rounded-lg px-4 py-2 text-white placeholder-gray-500 focus:outline-none focus:border-green-500"
+                  required
+                  data-ers="library-cycle-planner.create-modal.name-input"
+                />
+              </div>
+              
+              <div className="mb-6">
+                <label className="block text-gray-400 text-sm mb-2" htmlFor="library-cycle-description-main">
+                  Açıklama (Opsiyonel)
+                </label>
+                <textarea
+                  id="library-cycle-description-main"
+                  value={newCycleDescription}
+                  onChange={(e) => setNewCycleDescription(e.target.value)}
+                  placeholder="Bu döngü hakkında kısa bir açıklama..."
+                  rows="3"
+                  className="w-full bg-gray-700/50 border border-gray-600 rounded-lg px-4 py-2 text-white placeholder-gray-500 focus:outline-none focus:border-green-500 resize-none"
+                  data-ers="library-cycle-planner.create-modal.description-input"
+                />
+              </div>
+              
+              <div className="flex gap-3">
+                <button
+                  type="button"
+                  onClick={() => setShowCreateModal(false)}
+                  className="flex-1 bg-gray-700 hover:bg-gray-600 text-white py-2 rounded-lg transition-colors"
+                  data-ers="library-cycle-planner.create-modal.cancel-button"
+                >
+                  İptal
+                </button>
+                <button
+                  type="submit"
+                  className="flex-1 bg-green-600 hover:bg-green-700 text-white py-2 rounded-lg transition-colors font-semibold"
+                  data-ers="library-cycle-planner.create-modal.submit-button"
+                >
+                  Oluştur
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       )}
