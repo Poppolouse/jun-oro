@@ -24,12 +24,8 @@ export const swaggerDefinition = {
   },
   servers: [
     {
-      url: process.env.API_URL || "http://localhost:3001",
-      description: "Geliştirme sunucusu",
-    },
-    {
-      url: "https://api.jun-oro.com",
-      description: "Üretim sunucusu",
+      url: "https://api.jun-oro.com/api",
+      description: "Production API Server",
     },
   ],
   components: {

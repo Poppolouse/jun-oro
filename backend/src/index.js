@@ -256,8 +256,8 @@ app.use(errorHandler);
 app.listen(PORT, () => {
   console.log(`🚀 Arkade Backend API running on port ${PORT}`);
   console.log(`📊 Environment: ${process.env.NODE_ENV || "development"}`);
-  console.log(`🌐 CORS enabled for: localhost:3000, jun-oro.com`);
-  console.log(`📝 Health check: http://localhost:${PORT}/health`);
+  console.log(`🌐 CORS enabled for: jun-oro.com, www.jun-oro.com`);
+  console.log(`📝 Health check: https://api.jun-oro.com/health`);
 
   // Start cache cleanup timer
   startCacheCleanup();
