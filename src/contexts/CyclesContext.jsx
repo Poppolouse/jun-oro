@@ -1,7 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { API_BASE_URL } from '@/utils/apiBaseUrl';
 import { useAuth } from './AuthContext';
-
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://api.jun-oro.com/api';
 
 const CyclesContext = createContext();
 
@@ -32,7 +31,7 @@ export const CyclesProvider = ({ children }) => {
 
     try {
       setLoading(true);
-      console.log('Döngüler yükleniy or:', `${API_BASE_URL}/cycles`);
+      console.log('Döngüler yükleniyor:', `${API_BASE_URL}/cycles`);
       
       const response = await fetch(`${API_BASE_URL}/cycles`, {
         credentials: 'include',
@@ -83,8 +82,7 @@ export const CyclesProvider = ({ children }) => {
         credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('arkade_token')}`,
-          'Content-Type': 'application/json'
+          'Authorization': `Bearer ${localStorage.getItem('arkade_token')}`
         },
         body: JSON.stringify(cycleData)
       });
@@ -157,8 +155,9 @@ export const CyclesProvider = ({ children }) => {
     try {
       const response = await fetch(`${API_BASE_URL}/cycles/${cycleId}/activate`, {
         method: 'POST',
+        credentials: 'include',
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
+          'Authorization': `Bearer ${localStorage.getItem('arkade_token')}`
         }
       });
 
@@ -178,8 +177,9 @@ export const CyclesProvider = ({ children }) => {
     try {
       const response = await fetch(`${API_BASE_URL}/library/${gameId}/status`, {
         method: 'PATCH',
+        credentials: 'include',
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          'Authorization': `Bearer ${localStorage.getItem('arkade_token')}`,
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({ status })

@@ -1,3 +1,5 @@
+import { API_BASE_URL } from "@/utils/apiBaseUrl";
+
 // Kullanıcı Database'i
 export const users = [
   {
@@ -57,10 +59,6 @@ export const USER_STATUS = {
   GAMING: "gaming",
   AWAY: "away",
 };
-
-// API Base URL configuration
-const API_BASE_URL =
-  import.meta.env.VITE_API_URL || "https://api.jun-oro.com/api";
 
 // Kullanıcı işlemleri
 export const userService = {

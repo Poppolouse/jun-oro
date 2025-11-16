@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-const API_BASE_URL = import.meta.env.VITE_API_URL || "${API_BASE_URL}";
+import { API_BASE_URL } from "@/utils/apiBaseUrl";
 import { apiKeyService } from "../services/apiKeys";
 import igdbApi from "../services/igdbApi";
 

@@ -82,6 +82,11 @@ const API_TIMEOUT = 10000;
 - **No Magic Numbers**: Extract to named constants
 - **Comments**: JSDoc for all public functions, inline for complex logic
 
+### Cloud Backend Access
+- **Frontend & scripts**: Tüm HTTP istekleri `https://api.jun-oro.com/api` üzerinden yapılacak. `http://localhost:5000` veya benzeri local hostlara asla bağlanılmayacak.
+- **Env değişkenleri**: `VITE_API_URL` değerinde `localhost`, `127.0.0.1` gibi ibareler varsa görmezden gel ve production URL'ine düş.
+- **Yeni kod**: Base URL için mutlaka `src/utils/apiBaseUrl.js` içindeki yardımcıyı kullan; manuel string yazma.
+
 ### Error Handling Pattern
 ```javascript
 // Backend routes - always try-catch with detailed logs

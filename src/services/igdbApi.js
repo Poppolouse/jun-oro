@@ -1,11 +1,12 @@
 // IGDB API Service
 // IGDB API entegrasyonu için servis dosyası
 
+import { API_BASE_URL } from "@/utils/apiBaseUrl";
 import { apiKeyService } from "./apiKeys.js";
 
 class IGDBApiService {
   constructor() {
-    this.baseUrl = "/api/igdb";
+    this.baseUrl = `${API_BASE_URL}/igdb`;
     this.clientId = null;
     this.accessToken = null;
     this.isInitialized = false;

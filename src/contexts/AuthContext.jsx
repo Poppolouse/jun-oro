@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect, useMemo } from "react";
+import { API_BASE_URL } from "@/utils/apiBaseUrl";
 import { userService } from "../data/users";
 
 /**
@@ -76,16 +77,13 @@ export const AuthProvider = ({ children }) => {
         setUser(savedUser);
         // Immediately try to refresh user data from the backend for consistency.
         try {
-          const response = await fetch(
-            `${import.meta.env.VITE_API_URL}/users/${savedUser.id}`,
-            {
-              credentials: 'include',
-              headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem('arkade_token')}`
-              }
-            }
-          );
+          const response = await fetch(`${API_BASE_URL}/users/${savedUser.id}`, {
+            credentials: "include",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${localStorage.getItem("arkade_token")}`,
+            },
+          });
           
           // Handle CORS errors gracefully
           if (!response || response.type === 'opaque') {
@@ -179,7 +177,7 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
     try {
       localStorage.removeItem("arkade_user");
-      localStorage.removeItem("token"); // JWT token'ı da temizle
+      localStorage.removeItem("arkade_token");
       localStorage.removeItem("sessionId"); // Session ID'yi de temizle
     } catch (error) {
       console.error("Failed to remove user from localStorage:", error);
@@ -211,9 +209,13 @@ export const AuthProvider = ({ children }) => {
     }
 
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/users/${user.id}`,
-      );
+      const response = await fetch(`${API_BASE_URL}/users/${user.id}`, {
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("arkade_token")}`,
+        },
+      });
       const data = await response.json();
 
       if (response.ok && data.success) {
