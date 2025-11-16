@@ -39,11 +39,11 @@ const BacklogTrackingDashboard = () => {
 
       try {
         setLoadingGames(true);
-        const library = await userLibrary.getUserLibrary();
+        const libraryGames = await userLibrary.getLibraryGamesWithDetails();
         
         // Aktif döngüdeki oyunları filtrele
-        const gamesInCycle = library.filter(entry => 
-          activeCycle.gameIds.includes(entry.gameId)
+        const gamesInCycle = libraryGames.filter(entry => 
+          activeCycle.gameIds.includes(entry.id)
         );
         
         setCycleGames(gamesInCycle);

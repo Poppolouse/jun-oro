@@ -5,10 +5,15 @@ const cache = new Map();
  * @param {string} key - The cache key to clear.
  */
 export function clearCacheByKey(key) {
+  console.log(`[CACHE-DEBUG] Attempting to clear cache for key: "${key}"`);
+  console.log(`[CACHE-DEBUG] Cache size before clear: ${cache.size}`);
   if (cache.has(key)) {
     cache.delete(key);
-    console.log(`🧹 Cache cleared for key: ${key}`);
+    console.log(`[CACHE-SUCCESS] ✅ Cache cleared for key: "${key}"`);
+  } else {
+    console.log(`[CACHE-WARN] ⚠️ Cache key not found, nothing to clear: "${key}"`);
   }
+  console.log(`[CACHE-DEBUG] Cache size after clear: ${cache.size}`);
 }
 
 /**
@@ -18,7 +23,6 @@ export function clearCacheByKey(key) {
  * @returns {Function} - Express middleware function
  */
 function createCacheMiddleware(defaultTTL = 300, maxTTL = 3600) {
-
   /**
    * Generate cache key from request
    * @param {object} req - Express request object
@@ -77,6 +81,7 @@ function createCacheMiddleware(defaultTTL = 300, maxTTL = 3600) {
 
   return (req, res, next) => {
     const key = generateCacheKey(req);
+    console.log(`[CACHE-DEBUG] Request received. Generated cache key: "${key}"`);
 
     // Check cache first
     if (cache.has(key)) {
@@ -90,12 +95,15 @@ function createCacheMiddleware(defaultTTL = 300, maxTTL = 3600) {
           "X-Cache-Age",
           Math.floor((ttl * 1000 - (Date.now() - timestamp)) / 1000),
         );
+        console.log(`[CACHE-HIT] ⚡️ Serving from cache for key: "${key}"`);
         return res.json(data);
       } else {
+        console.log(`[CACHE-STALE]  stale data found for key: "${key}". Deleting.`);
         cache.delete(key);
       }
     }
 
+    console.log(`[CACHE-MISS] 🐢 No valid cache entry found for key: "${key}". Proceeding to route handler.`);
     // Continue to next middleware
     const originalJson = res.json;
     const originalSend = res.send;
@@ -112,6 +120,7 @@ function createCacheMiddleware(defaultTTL = 300, maxTTL = 3600) {
           timestamp: Date.now(),
           ttl,
         });
+        console.log(`[CACHE-SET] 💾 Storing response in cache for key: "${key}"`);
 
         // Set cache headers
         res.set("X-Cache", "MISS");
@@ -133,6 +142,7 @@ function createCacheMiddleware(defaultTTL = 300, maxTTL = 3600) {
           timestamp: Date.now(),
           ttl,
         });
+        console.log(`[CACHE-SET] 💾 Storing response in cache for key: "${key}" (from res.send)`);
 
         res.set("X-Cache", "MISS");
         res.set("X-Cache-Age", ttl);

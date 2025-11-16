@@ -10,7 +10,6 @@ router.get('/', jwtAuthMiddleware, async (req, res) => {
   console.log('📡 [GET /cycles] İstek alındı, userId:', req.user.id, 'username:', req.user.username);
   
   try {
-    // Önce bu kullanıcıya ait BÜTÜN döngüleri say (debug)
     const allCycles = await prisma.cycle.findMany({
       where: { userId: req.user.id }
     });
@@ -40,7 +39,6 @@ router.get('/', jwtAuthMiddleware, async (req, res) => {
   } catch (error) {
     console.error('❌ [GET /cycles] Hata:', error.message);
     
-    // Eğer tablo yoksa migration yapılması gerektiğini belirt
     if (error.code === 'P2021' || error.message.includes('does not exist')) {
       return res.status(503).json({ 
         error: 'Veritabanı migration yapılması gerekiyor',
@@ -88,17 +86,13 @@ router.post('/', jwtAuthMiddleware, async (req, res) => {
       status: cycle.status,
       userId: cycle.userId
     });
-
-    // Oluşturduktan sonra bu kullanıcının toplam döngü sayısını kontrol et
+    
     const totalCycles = await prisma.cycle.count({
       where: { userId: req.user.id }
     });
-    
     console.log('📊 [POST /cycles] Kullanıcının toplam döngü sayısı:', totalCycles);
 
-    // Cache'i temizle
     clearCacheByKey('GET:/api/cycles:');
-
     res.status(201).json(cycle);
   } catch (error) {
     console.error('❌ [POST /cycles] Hata:', error.message);
@@ -141,7 +135,6 @@ router.patch('/:cycleId', jwtAuthMiddleware, async (req, res) => {
     const { cycleId } = req.params;
     const { name, description, gameIds, status } = req.body;
 
-    // Döngünün kullanıcıya ait olduğunu kontrol et
     const existingCycle = await prisma.cycle.findFirst({
       where: { 
         id: cycleId,
@@ -175,9 +168,7 @@ router.patch('/:cycleId', jwtAuthMiddleware, async (req, res) => {
       data: updateData
     });
 
-    // Cache'i temizle
     clearCacheByKey('GET:/api/cycles:');
-
     res.json(cycle);
   } catch (error) {
     console.error('Döngü güncellenemedi:', error);
@@ -193,7 +184,6 @@ router.delete('/:cycleId', jwtAuthMiddleware, async (req, res) => {
   try {
     const { cycleId } = req.params;
 
-    // Döngünün kullanıcıya ait olduğunu kontrol et
     const existingCycle = await prisma.cycle.findFirst({
       where: { 
         id: cycleId,
@@ -209,9 +199,7 @@ router.delete('/:cycleId', jwtAuthMiddleware, async (req, res) => {
       where: { id: cycleId }
     });
 
-    // Cache'i temizle
     clearCacheByKey('GET:/api/cycles:');
-
     res.json({ message: 'Döngü silindi' });
   } catch (error) {
     console.error('Döngü silinemedi:', error);
@@ -233,7 +221,6 @@ router.post('/:cycleId/activate', jwtAuthMiddleware, async (req, res) => {
   try {
     const { cycleId } = req.params;
 
-    // Döngünün kullanıcıya ait olduğunu kontrol et
     const existingCycle = await prisma.cycle.findFirst({
       where: { 
         id: cycleId,
@@ -253,7 +240,6 @@ router.post('/:cycleId/activate', jwtAuthMiddleware, async (req, res) => {
       userId: existingCycle.userId
     });
 
-    // Önce tüm aktif döngüleri bul
     const currentlyActive = await prisma.cycle.findMany({
       where: {
         userId: req.user.id,
@@ -266,15 +252,12 @@ router.post('/:cycleId/activate', jwtAuthMiddleware, async (req, res) => {
       ids: currentlyActive.map(c => c.id)
     });
 
-    // İŞLEM ÖNCESİ TOPLAM DÖNGÜ SAYISI
     const countBefore = await prisma.cycle.count({
       where: { userId: req.user.id }
     });
     console.log('📊 [BEFORE] Kullanıcının toplam döngü sayısı:', countBefore);
 
-    // Transaction ile diğer aktif döngüleri planned yap
     const [deactivated, activated] = await prisma.$transaction([
-      // Tüm aktif döngüleri planned yap
       prisma.cycle.updateMany({
         where: {
           userId: req.user.id,
@@ -282,7 +265,6 @@ router.post('/:cycleId/activate', jwtAuthMiddleware, async (req, res) => {
         },
         data: { status: 'planned' }
       }),
-      // Bu döngüyü active yap
       prisma.cycle.update({
         where: { id: cycleId },
         data: { 
@@ -302,7 +284,6 @@ router.post('/:cycleId/activate', jwtAuthMiddleware, async (req, res) => {
       }
     });
 
-    // İŞLEM SONRASI TOPLAM DÖNGÜ SAYISI
     const countAfter = await prisma.cycle.count({
       where: { userId: req.user.id }
     });
@@ -316,7 +297,6 @@ router.post('/:cycleId/activate', jwtAuthMiddleware, async (req, res) => {
       });
     }
 
-    // Tüm döngüleri tekrar çek ve kontrol et
     const allCyclesAfter = await prisma.cycle.findMany({
       where: { userId: req.user.id }
     });
@@ -326,9 +306,7 @@ router.post('/:cycleId/activate', jwtAuthMiddleware, async (req, res) => {
       statuses: allCyclesAfter.map(c => ({ id: c.id, name: c.name, status: c.status, userId: c.userId }))
     });
 
-    // Cache'i temizle
     clearCacheByKey('GET:/api/cycles:');
-
     res.json(activated);
   } catch (error) {
     console.error('❌ [POST /cycles/:id/activate] Hata:', error.message);

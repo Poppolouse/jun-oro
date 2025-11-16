@@ -44,10 +44,11 @@ export const CyclesProvider = ({ children }) => {
 
   // Döngüleri yükle
   const fetchCycles = async () => {
-    console.log('🔄 [fetchCycles] Başlatıldı', { user: user?.username, hasUser: !!user });
+    const token = localStorage.getItem('arkade_token');
+    console.log('🔄 [fetchCycles] Başlatıldı', { user: user?.username, hasUser: !!user, hasToken: !!token });
     
-    if (!user) {
-      console.log('⚠️ [fetchCycles] User yok, cycles temizleniyor');
+    if (!user || !token) {
+      console.log('⚠️ [fetchCycles] User veya Token yok, cycles temizleniyor');
       setCycles([]);
       setLoading(false);
       return;
