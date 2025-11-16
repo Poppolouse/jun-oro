@@ -1,3 +1,16 @@
+const cache = new Map();
+
+/**
+ * Clears a specific entry from the cache by its key.
+ * @param {string} key - The cache key to clear.
+ */
+export function clearCacheByKey(key) {
+  if (cache.has(key)) {
+    cache.delete(key);
+    console.log(`🧹 Cache cleared for key: ${key}`);
+  }
+}
+
 /**
  * Cache middleware for API response caching
  * @param {number} defaultTTL - Default cache time in seconds (default: 300)
@@ -5,7 +18,6 @@
  * @returns {Function} - Express middleware function
  */
 function createCacheMiddleware(defaultTTL = 300, maxTTL = 3600) {
-  const cache = new Map();
 
   /**
    * Generate cache key from request

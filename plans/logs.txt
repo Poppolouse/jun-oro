@@ -1,0 +1,51 @@
+player-store-c16829fe.js:3506 Core: getEnv is returning INFO for LOG_LEVEL
+player-store-c16829fe.js:3506 Core: getEnv is returning https://core-server-mohegkboza-uc.a.run.app for SYNC_SERVER_HOST
+player-store-c16829fe.js:3506 Core: getEnv is returning https://srs-db-presigned-url-service-api.migaku.com for FORCE_SYNC_HOST
+react-dom.development.js:29895 Download the React DevTools for a better development experience: https://reactjs.org/link/react-devtools
+serviceWorker.js:34 ✅ Service Worker registered successfully: http://localhost:3000/
+main.jsx:22 🚀 Service Worker initialized successfully
+EventOverlay.jsx:177 👂 EventOverlay mode değişti: inactive
+EventOverlay.jsx:177 👂 EventOverlay mode değişti: inactive
+CyclesContext.jsx:27 [CyclesContext:state] Cycles state güncellendi: {count: 0, active: 'yok', statuses: ''}
+CyclesContext.jsx:47 🔄 [fetchCycles] Başlatıldı {user: undefined, hasUser: false}
+CyclesContext.jsx:50 ⚠️ [fetchCycles] User yok, cycles temizleniyor
+CyclesContext.jsx:47 🔄 [fetchCycles] Başlatıldı {user: undefined, hasUser: false}
+CyclesContext.jsx:50 ⚠️ [fetchCycles] User yok, cycles temizleniyor
+CyclesContext.jsx:27 [CyclesContext:state] Cycles state güncellendi: {count: 0, active: 'yok', statuses: ''}
+CyclesContext.jsx:47 🔄 [fetchCycles] Başlatıldı {user: 'poppolouse', hasUser: true}
+CyclesContext.jsx:59 📡 [fetchCycles] API isteği: https://api.jun-oro.com/api/cycles
+favicon.ico:1   GET http://localhost:3000/favicon.ico 404 (Not Found)
+[NEW] Explain Console errors by using Copilot in Edge: click
+         
+         to explain an error. 
+        Learn more
+        Don't show again
+CyclesContext.jsx:69 📥 [fetchCycles] API yanıtı: {status: 200, statusText: '', ok: true}
+CyclesContext.jsx:87 ✅ [fetchCycles] Döngüler alındı: {count: 0, cycles: Array(0)}
+CyclesContext.jsx:110 🏁 [fetchCycles] Tamamlandı
+CyclesContext.jsx:27 [CyclesContext:state] Cycles state güncellendi: {count: 0, active: 'yok', statuses: ''}
+CyclesContext.jsx:116 ➕ [createCycle] Başlatıldı: {name: 'xx25', description: null, gameIds: Array(0)}
+CyclesContext.jsx:120 📡 [createCycle] POST isteği: https://api.jun-oro.com/api/cycles
+CyclesContext.jsx:132 📥 [createCycle] API yanıtı: {status: 201, ok: true}
+CyclesContext.jsx:144 ✅ [createCycle] Yeni döngü oluşturuldu: {id: 'cmi1jj5dw000dk72gst2pqmid', name: 'xx25', status: 'planned'}
+CyclesContext.jsx:152 📝 [createCycle] State güncellendi, yeni toplam: 1
+CyclesContext.jsx:27 [CyclesContext:state] Cycles state güncellendi: {count: 1, active: 'yok', statuses: 'xx25:planned'}
+CyclesContext.jsx:116 ➕ [createCycle] Başlatıldı: {name: 'xx21', description: null, gameIds: Array(0)}
+CyclesContext.jsx:120 📡 [createCycle] POST isteği: https://api.jun-oro.com/api/cycles
+CyclesContext.jsx:132 📥 [createCycle] API yanıtı: {status: 201, ok: true}
+CyclesContext.jsx:144 ✅ [createCycle] Yeni döngü oluşturuldu: {id: 'cmi1jjcu6000fk72g21ynvpg0', name: 'xx21', status: 'planned'}
+CyclesContext.jsx:152 📝 [createCycle] State güncellendi, yeni toplam: 2
+CyclesContext.jsx:27 [CyclesContext:state] Cycles state güncellendi: {count: 2, active: 'yok', statuses: 'xx25:planned, xx21:planned'}
+CyclesContext.jsx:215 🎯 [activateCycle] Başlatıldı: {cycleId: 'cmi1jj5dw000dk72gst2pqmid'}
+CyclesContext.jsx:216 📊 [activateCycle] Mevcut state: {totalCycles: 2, currentActive: 'yok', allStatuses: Array(2)}
+CyclesContext.jsx:224 📡 [activateCycle] POST isteği: https://api.jun-oro.com/api/cycles/cmi1jj5dw000dk72gst2pqmid/activate
+CyclesContext.jsx:234 📥 [activateCycle] API yanıtı: {status: 200, ok: true}
+CyclesContext.jsx:246 ✅ [activateCycle] Backend yanıtı: {id: 'cmi1jj5dw000dk72gst2pqmid', userId: 'cmhxw3urz0000v8iwfmh57j8n', name: 'xx25', description: null, gameIds: '[]', …}
+CyclesContext.jsx:247 🔄 [activateCycle] fetchCycles çağrılıyor...
+CyclesContext.jsx:47 🔄 [fetchCycles] Başlatıldı {user: 'poppolouse', hasUser: true}
+CyclesContext.jsx:59 📡 [fetchCycles] API isteği: https://api.jun-oro.com/api/cycles
+CyclesContext.jsx:69 📥 [fetchCycles] API yanıtı: {status: 200, statusText: '', ok: true}
+CyclesContext.jsx:87 ✅ [fetchCycles] Döngüler alındı: {count: 0, cycles: Array(0)}
+CyclesContext.jsx:110 🏁 [fetchCycles] Tamamlandı
+CyclesContext.jsx:251 🏁 [activateCycle] Tamamlandı, yeni state: {totalCycles: 2, newActive: 'yok'}
+CyclesContext.jsx:27 [CyclesContext:state] Cycles state güncellendi: {count: 0, active: 'yok', statuses: ''}

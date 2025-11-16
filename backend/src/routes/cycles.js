@@ -1,9 +1,9 @@
 import express from 'express';
-import { PrismaClient } from '@prisma/client';
+import { prisma } from '../lib/prisma.js';
 import { jwtAuthMiddleware } from '../middleware/jwtAuth.js';
+import { clearCacheByKey } from '../middleware/cacheMiddleware.js';
 
 const router = express.Router();
-const prisma = new PrismaClient();
 
 // Tüm döngüleri getir
 router.get('/', jwtAuthMiddleware, async (req, res) => {
@@ -96,6 +96,9 @@ router.post('/', jwtAuthMiddleware, async (req, res) => {
     
     console.log('📊 [POST /cycles] Kullanıcının toplam döngü sayısı:', totalCycles);
 
+    // Cache'i temizle
+    clearCacheByKey('GET:/api/cycles:');
+
     res.status(201).json(cycle);
   } catch (error) {
     console.error('❌ [POST /cycles] Hata:', error.message);
@@ -172,6 +175,9 @@ router.patch('/:cycleId', jwtAuthMiddleware, async (req, res) => {
       data: updateData
     });
 
+    // Cache'i temizle
+    clearCacheByKey('GET:/api/cycles:');
+
     res.json(cycle);
   } catch (error) {
     console.error('Döngü güncellenemedi:', error);
@@ -202,6 +208,9 @@ router.delete('/:cycleId', jwtAuthMiddleware, async (req, res) => {
     await prisma.cycle.delete({
       where: { id: cycleId }
     });
+
+    // Cache'i temizle
+    clearCacheByKey('GET:/api/cycles:');
 
     res.json({ message: 'Döngü silindi' });
   } catch (error) {
@@ -316,6 +325,9 @@ router.post('/:cycleId/activate', jwtAuthMiddleware, async (req, res) => {
       count: allCyclesAfter.length,
       statuses: allCyclesAfter.map(c => ({ id: c.id, name: c.name, status: c.status, userId: c.userId }))
     });
+
+    // Cache'i temizle
+    clearCacheByKey('GET:/api/cycles:');
 
     res.json(activated);
   } catch (error) {

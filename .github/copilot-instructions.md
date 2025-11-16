@@ -330,3 +330,5 @@ await prisma.campaign.create({
 - **UI/UX**: Always Turkish (button labels, messages, placeholders)
 - **Logs**: Turkish for user-facing, English for technical errors
 - **Example**: `console.error('Oyun verisi alınamadı:', error)` → Turkish context, English error object
+
+bundan sonra instruction olarak tüm modlarda direkt olarak ben söylemedikçe veya apiyi direkt değiştiren bir şey olmadıkça push yapmak yasak!
