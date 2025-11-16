@@ -20,10 +20,15 @@ const ChangelogSidebar = () => {
       }
 
       const data = await response.json();
-      setChangelogs(data);
+      // Backend might return { changelogs: [...] } or { data: [...] } structure
+      const changelogArray = Array.isArray(data) 
+        ? data 
+        : data?.changelogs || data?.data || [];
+      setChangelogs(changelogArray);
     } catch (err) {
       console.error("Error fetching changelogs:", err);
       setError(err.message);
+      setChangelogs([]); // Set empty array on error
     } finally {
       setLoading(false);
     }

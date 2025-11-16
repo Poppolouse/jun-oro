@@ -106,63 +106,31 @@ class UserLibraryService {
    */
   async initializeUser() {
     try {
-      // LocalStorage'dan kullanıcıyı oku (öncelik yeni anahtar)
-      const modernData = localStorage.getItem(this.USER_KEY);
-      const legacyData = localStorage.getItem(this.LEGACY_KEY);
+      // AuthContext zaten localStorage'ı yönetiyor, direkt oku
+      const userData = localStorage.getItem(this.USER_KEY);
 
-      if (modernData) {
-        try {
-          const parsed = JSON.parse(modernData);
-          const id = parsed?.id || parsed?.data?.id || parsed?.user?.id;
-          if (id) {
-            // Backend'den kullanıcıyı yenile, bulunamazsa yereldeki veriyi koru
-            try {
-              const response = await userApi.getUser(id);
-              this.currentUser = response.data;
-              await userApi.updateActivity(id);
-            } catch (e) {
-              console.warn(
-                "Backend user not found or unreachable; using local user",
-                e,
-              );
-              this.currentUser = parsed;
-            }
-          } else {
-            // Tam kullanıcı objesi saklandıysa direkt kullan
-            this.currentUser = parsed;
-            if (parsed?.id) {
-              await userApi.updateActivity(parsed.id);
-            }
-          }
-        } catch (e) {
-          console.error("Kullanıcı bilgileri parse edilemedi:", e);
-          localStorage.removeItem(this.USER_KEY);
+      if (!userData) {
+        this.currentUser = null;
+        return;
+      }
+
+      try {
+        const parsed = JSON.parse(userData);
+        
+        // AuthContext format: { id, name, email, role, token, ... }
+        if (parsed?.id) {
+          this.currentUser = parsed;
+        } else {
+          console.error('User data has no ID');
+          this.currentUser = null;
         }
-      } else if (legacyData) {
-        const legacyParsed = JSON.parse(legacyData);
-        const id = legacyParsed?.id;
-        if (id) {
-          try {
-            const response = await userApi.getUser(id);
-            this.currentUser = response.data;
-            await userApi.updateActivity(id);
-            // Geçiş: modern anahtarı da güncelle
-            localStorage.setItem(
-              this.USER_KEY,
-              JSON.stringify(this.currentUser),
-            );
-          } catch (e) {
-            console.warn("Legacy user not found; not auto-creating", e);
-            this.currentUser = null;
-          }
-        }
-      } else {
-        // Otomatik kullanıcı oluşturma devre dışı: kullanıcıyı null bırak
+      } catch (e) {
+        console.error("Failed to parse user data:", e);
+        localStorage.removeItem(this.USER_KEY);
         this.currentUser = null;
       }
     } catch (error) {
-      console.error("Kullanıcı başlatma hatası:", error);
-      // Otomatik oluşturma yapma, kullanıcıyı null bırak
+      console.error("User initialization error:", error);
       this.currentUser = null;
     }
   }
@@ -601,6 +569,11 @@ class UserLibraryService {
       if (!this.currentUser) {
         await this.initializeUser();
       }
+      
+      if (!this.currentUser) {
+        throw new Error('Kullanıcı bilgisi alınamadı. Lütfen giriş yapın.');
+      }
+
       // Backend default limit=10; fetch all pages to avoid truncation
       const PAGE_LIMIT = 100;
       const allEntries = [];
@@ -629,16 +602,21 @@ class UserLibraryService {
       const rawEntries = allEntries;
 
       // Flatten entry + game into a single object expected by UI
-      const formatted = rawEntries.map((entry) => {
-        const g = entry.game || {};
-        const cover = (() => {
-          const c = g.cover;
-          if (!c) return null;
-          // Normalize string cover to object with url for UI expectations
-          if (typeof c === "string") return { url: c };
-          return c;
-        })();
-        const tags = entry.tags;
+      const formatted = rawEntries
+        .filter((entry) => {
+          // Skip entries without game data (orphaned library entries)
+          return !!entry.game;
+        })
+        .map((entry) => {
+          const g = entry.game;
+          const cover = (() => {
+            const c = g.cover;
+            if (!c) return null;
+            // Normalize string cover to object with url for UI expectations
+            if (typeof c === "string") return { url: c };
+            return c;
+          })();
+          const tags = entry.tags;
         const campaigns = Array.isArray(tags)
           ? []
           : tags?.selectedCampaigns || tags?.campaigns || [];
@@ -654,8 +632,8 @@ class UserLibraryService {
         return {
           // Game fields
           id: g.id || entry.gameId,
-          name: g.name,
-          title: g.name,
+          name: g.name || 'Bilinmeyen Oyun',
+          title: g.name || 'Bilinmeyen Oyun',
           cover,
           rating: g.rating,
           developer: g.developer,

@@ -7,7 +7,16 @@ const prisma = new PrismaClient();
 
 // Tüm döngüleri getir
 router.get('/', jwtAuthMiddleware, async (req, res) => {
+  console.log('📡 [GET /cycles] İstek alındı, userId:', req.user.id, 'username:', req.user.username);
+  
   try {
+    // Önce bu kullanıcıya ait BÜTÜN döngüleri say (debug)
+    const allCycles = await prisma.cycle.findMany({
+      where: { userId: req.user.id }
+    });
+    
+    console.log('🔍 [GET /cycles] DB toplam döngü sayısı:', allCycles.length);
+    
     const cycles = await prisma.cycle.findMany({
       where: { userId: req.user.id },
       orderBy: [
@@ -16,9 +25,20 @@ router.get('/', jwtAuthMiddleware, async (req, res) => {
       ]
     });
 
+    console.log('✅ [GET /cycles] Döngüler bulundu:', {
+      count: cycles.length,
+      cycles: cycles.map(c => ({ 
+        id: c.id, 
+        name: c.name, 
+        status: c.status, 
+        userId: c.userId,
+        gameIds: c.gameIds 
+      }))
+    });
+
     res.json({ cycles });
   } catch (error) {
-    console.error('Döngüler getirilemedi:', error);
+    console.error('❌ [GET /cycles] Hata:', error.message);
     
     // Eğer tablo yoksa migration yapılması gerektiğini belirt
     if (error.code === 'P2021' || error.message.includes('does not exist')) {
@@ -38,10 +58,17 @@ router.get('/', jwtAuthMiddleware, async (req, res) => {
 
 // Yeni döngü oluştur
 router.post('/', jwtAuthMiddleware, async (req, res) => {
+  console.log('📡 [POST /cycles] İstek alındı:', {
+    userId: req.user.id,
+    username: req.user.username,
+    body: req.body
+  });
+  
   try {
     const { name, description, gameIds = [] } = req.body;
 
     if (!name || name.trim().length === 0) {
+      console.log('⚠️ [POST /cycles] Döngü adı boş');
       return res.status(400).json({ error: 'Döngü adı gereklidir' });
     }
 
@@ -55,9 +82,23 @@ router.post('/', jwtAuthMiddleware, async (req, res) => {
       }
     });
 
+    console.log('✅ [POST /cycles] Döngü oluşturuldu:', {
+      id: cycle.id,
+      name: cycle.name,
+      status: cycle.status,
+      userId: cycle.userId
+    });
+
+    // Oluşturduktan sonra bu kullanıcının toplam döngü sayısını kontrol et
+    const totalCycles = await prisma.cycle.count({
+      where: { userId: req.user.id }
+    });
+    
+    console.log('📊 [POST /cycles] Kullanıcının toplam döngü sayısı:', totalCycles);
+
     res.status(201).json(cycle);
   } catch (error) {
-    console.error('Döngü oluşturulamadı:', error);
+    console.error('❌ [POST /cycles] Hata:', error.message);
     res.status(500).json({ 
       error: 'Döngü oluşturulurken bir hata oluştu',
       details: process.env.NODE_ENV === 'development' ? error.message : undefined 
@@ -174,6 +215,12 @@ router.delete('/:cycleId', jwtAuthMiddleware, async (req, res) => {
 
 // Döngüyü aktif et (diğer aktif döngüler planned olur)
 router.post('/:cycleId/activate', jwtAuthMiddleware, async (req, res) => {
+  console.log('🎯 [POST /cycles/:id/activate] İstek alındı:', {
+    cycleId: req.params.cycleId,
+    userId: req.user.id,
+    username: req.user.username
+  });
+  
   try {
     const { cycleId } = req.params;
 
@@ -186,11 +233,38 @@ router.post('/:cycleId/activate', jwtAuthMiddleware, async (req, res) => {
     });
 
     if (!existingCycle) {
+      console.log('⚠️ [POST /cycles/:id/activate] Döngü bulunamadı');
       return res.status(404).json({ error: 'Döngü bulunamadı' });
     }
 
+    console.log('📝 [POST /cycles/:id/activate] Mevcut döngü:', {
+      id: existingCycle.id,
+      name: existingCycle.name,
+      currentStatus: existingCycle.status,
+      userId: existingCycle.userId
+    });
+
+    // Önce tüm aktif döngüleri bul
+    const currentlyActive = await prisma.cycle.findMany({
+      where: {
+        userId: req.user.id,
+        status: 'active'
+      }
+    });
+
+    console.log('🔍 [POST /cycles/:id/activate] Şu an aktif döngüler:', {
+      count: currentlyActive.length,
+      ids: currentlyActive.map(c => c.id)
+    });
+
+    // İŞLEM ÖNCESİ TOPLAM DÖNGÜ SAYISI
+    const countBefore = await prisma.cycle.count({
+      where: { userId: req.user.id }
+    });
+    console.log('📊 [BEFORE] Kullanıcının toplam döngü sayısı:', countBefore);
+
     // Transaction ile diğer aktif döngüleri planned yap
-    await prisma.$transaction([
+    const [deactivated, activated] = await prisma.$transaction([
       // Tüm aktif döngüleri planned yap
       prisma.cycle.updateMany({
         where: {
@@ -209,13 +283,43 @@ router.post('/:cycleId/activate', jwtAuthMiddleware, async (req, res) => {
       })
     ]);
 
-    const updatedCycle = await prisma.cycle.findUnique({
-      where: { id: cycleId }
+    console.log('✅ [POST /cycles/:id/activate] Transaction tamamlandı:', {
+      deactivatedCount: deactivated.count,
+      activated: {
+        id: activated.id,
+        name: activated.name,
+        status: activated.status,
+        userId: activated.userId
+      }
     });
 
-    res.json(updatedCycle);
+    // İŞLEM SONRASI TOPLAM DÖNGÜ SAYISI
+    const countAfter = await prisma.cycle.count({
+      where: { userId: req.user.id }
+    });
+    console.log('📊 [AFTER] Kullanıcının toplam döngü sayısı:', countAfter);
+    
+    if (countBefore !== countAfter) {
+      console.error('🚨 [POST /cycles/:id/activate] UYARI: Döngü sayısı değişti!', {
+        before: countBefore,
+        after: countAfter,
+        diff: countAfter - countBefore
+      });
+    }
+
+    // Tüm döngüleri tekrar çek ve kontrol et
+    const allCyclesAfter = await prisma.cycle.findMany({
+      where: { userId: req.user.id }
+    });
+
+    console.log('🔍 [POST /cycles/:id/activate] İşlem sonrası tüm döngüler:', {
+      count: allCyclesAfter.length,
+      statuses: allCyclesAfter.map(c => ({ id: c.id, name: c.name, status: c.status, userId: c.userId }))
+    });
+
+    res.json(activated);
   } catch (error) {
-    console.error('Döngü aktifleştirilemedi:', error);
+    console.error('❌ [POST /cycles/:id/activate] Hata:', error.message);
     res.status(500).json({ 
       error: 'Döngü aktifleştirilirken bir hata oluştu',
       details: process.env.NODE_ENV === 'development' ? error.message : undefined 

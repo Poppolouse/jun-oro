@@ -18,12 +18,36 @@ export const CyclesProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  // Debug log helper - spam önlemek için throttle
+  const logDebug = (() => {
+    let lastLog = {};
+    return (key, message, data) => {
+      const now = Date.now();
+      if (!lastLog[key] || now - lastLog[key] > 2000) { // 2 saniye throttle
+        console.log(`[CyclesContext:${key}]`, message, data || '');
+        lastLog[key] = now;
+      }
+    };
+  })();
+
   // Aktif döngüyü bul
   const activeCycle = cycles.find(c => c.status === 'active') || null;
 
+  // Her cycles değişiminde log
+  useEffect(() => {
+    logDebug('state', 'Cycles state güncellendi:', {
+      count: cycles.length,
+      active: activeCycle?.id || 'yok',
+      statuses: cycles.map(c => `${c.name}:${c.status}`).join(', ')
+    });
+  }, [cycles]);
+
   // Döngüleri yükle
   const fetchCycles = async () => {
+    console.log('🔄 [fetchCycles] Başlatıldı', { user: user?.username, hasUser: !!user });
+    
     if (!user) {
+      console.log('⚠️ [fetchCycles] User yok, cycles temizleniyor');
       setCycles([]);
       setLoading(false);
       return;
@@ -31,9 +55,10 @@ export const CyclesProvider = ({ children }) => {
 
     try {
       setLoading(true);
-      console.log('Döngüler yükleniyor:', `${API_BASE_URL}/cycles`);
+      const url = `${API_BASE_URL}/cycles`;
+      console.log('📡 [fetchCycles] API isteği:', url);
       
-      const response = await fetch(`${API_BASE_URL}/cycles`, {
+      const response = await fetch(url, {
         credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
@@ -41,11 +66,15 @@ export const CyclesProvider = ({ children }) => {
         }
       });
 
-      console.log('API yanıtı:', response.status, response.statusText);
+      console.log('📥 [fetchCycles] API yanıtı:', {
+        status: response.status,
+        statusText: response.statusText,
+        ok: response.ok
+      });
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
-        console.error('API hata detayı:', errorData);
+        console.error('❌ [fetchCycles] API hata detayı:', errorData);
         
         if (errorData.migrationRequired) {
           throw new Error('Veritabanı güncellemesi gerekiyor. Render backend\'inde Cycle tablosu yok.');
@@ -55,15 +84,22 @@ export const CyclesProvider = ({ children }) => {
       }
 
       const data = await response.json();
-      console.log('Döngüler yüklendi:', data);
+      console.log('✅ [fetchCycles] Döngüler alındı:', {
+        count: data.cycles?.length || 0,
+        cycles: data.cycles?.map(c => ({ id: c.id, name: c.name, status: c.status })) || []
+      });
+      
       setCycles(data.cycles || []);
       setError(null);
     } catch (err) {
-      console.error('Döngüler yüklenirken hata:', err);
+      console.error('🚨 [fetchCycles] Hata:', {
+        message: err.message,
+        stack: err.stack?.split('\n')[0]
+      });
       
       // Network hatası vs. detaylı mesaj - silent fail, kullanıcıya gösterme
       if (err.message.includes('fetch') || err.message.includes('Failed to fetch')) {
-        // Backend erişilebilir değil, boş döngü listesiyle devam et
+        console.log('🔌 [fetchCycles] Network hatası - silent fail');
         setError(null); // Error state'i temizle
       } else {
         setError(err.message);
@@ -71,13 +107,19 @@ export const CyclesProvider = ({ children }) => {
       setCycles([]);
     } finally {
       setLoading(false);
+      console.log('🏁 [fetchCycles] Tamamlandı');
     }
   };
 
   // Yeni döngü oluştur
   const createCycle = async (cycleData) => {
+    console.log('➕ [createCycle] Başlatıldı:', cycleData);
+    
     try {
-      const response = await fetch(`${API_BASE_URL}/cycles`, {
+      const url = `${API_BASE_URL}/cycles`;
+      console.log('📡 [createCycle] POST isteği:', url);
+      
+      const response = await fetch(url, {
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -87,15 +129,33 @@ export const CyclesProvider = ({ children }) => {
         body: JSON.stringify(cycleData)
       });
 
+      console.log('📥 [createCycle] API yanıtı:', {
+        status: response.status,
+        ok: response.ok
+      });
+
       if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        console.error('❌ [createCycle] Hata:', errorData);
         throw new Error('Döngü oluşturulamadı');
       }
 
       const newCycle = await response.json();
-      setCycles(prev => [...prev, newCycle]);
+      console.log('✅ [createCycle] Yeni döngü oluşturuldu:', {
+        id: newCycle.id,
+        name: newCycle.name,
+        status: newCycle.status
+      });
+      
+      setCycles(prev => {
+        const updated = [...prev, newCycle];
+        console.log('📝 [createCycle] State güncellendi, yeni toplam:', updated.length);
+        return updated;
+      });
+      
       return newCycle;
     } catch (err) {
-      console.error('Döngü oluşturma hatası:', err);
+      console.error('🚨 [createCycle] Hata:', err.message);
       throw err;
     }
   };
@@ -152,8 +212,18 @@ export const CyclesProvider = ({ children }) => {
 
   // Döngüyü aktif et (diğerleri 'planned' olur)
   const activateCycle = async (cycleId) => {
+    console.log('🎯 [activateCycle] Başlatıldı:', { cycleId });
+    console.log('📊 [activateCycle] Mevcut state:', {
+      totalCycles: cycles.length,
+      currentActive: activeCycle?.id || 'yok',
+      allStatuses: cycles.map(c => `${c.id}:${c.status}`)
+    });
+    
     try {
-      const response = await fetch(`${API_BASE_URL}/cycles/${cycleId}/activate`, {
+      const url = `${API_BASE_URL}/cycles/${cycleId}/activate`;
+      console.log('📡 [activateCycle] POST isteği:', url);
+      
+      const response = await fetch(url, {
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -161,13 +231,32 @@ export const CyclesProvider = ({ children }) => {
         }
       });
 
+      console.log('📥 [activateCycle] API yanıtı:', {
+        status: response.status,
+        ok: response.ok
+      });
+
       if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        console.error('❌ [activateCycle] Hata:', errorData);
         throw new Error('Döngü aktifleştirilemedi');
       }
 
+      const responseData = await response.json();
+      console.log('✅ [activateCycle] Backend yanıtı:', responseData);
+      console.log('🔄 [activateCycle] fetchCycles çağrılıyor...');
+      
       await fetchCycles(); // Tüm döngüleri yeniden yükle
+      
+      console.log('🏁 [activateCycle] Tamamlandı, yeni state:', {
+        totalCycles: cycles.length,
+        newActive: cycles.find(c => c.status === 'active')?.id || 'yok'
+      });
     } catch (err) {
-      console.error('Döngü aktivasyon hatası:', err);
+      console.error('🚨 [activateCycle] Hata:', {
+        message: err.message,
+        stack: err.stack?.split('\n')[0]
+      });
       throw err;
     }
   };
